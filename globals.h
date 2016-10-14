@@ -1,0 +1,113 @@
+#ifndef GLOBALS_H
+#define GLOBALS_H
+#include <input.h>
+
+extern unsigned char btiles[];
+extern char *joynames[];
+#ifdef __SDCC
+extern uint16_t (*joyfunc1)(udk_t *);
+extern uint16_t (*joyfunc2)(udk_t *);
+#endif
+#ifdef __SCCZ80
+extern void *joyfunc1;
+extern void *joyfunc2;
+#endif
+extern udk_t k1;
+extern udk_t k2;
+extern unsigned char dirs;
+extern unsigned char tbuffer[6];
+extern unsigned char class[8];
+extern unsigned char state[8];
+extern unsigned char state_a[8];
+extern unsigned char tile[8];
+extern unsigned char lin[8];
+extern unsigned char col[8];
+extern unsigned char colint[8];
+extern unsigned char hit_lin[2];
+extern unsigned char hit_col[2];
+extern unsigned char jump_lin[8];
+extern unsigned int  spr_timer[8];
+extern unsigned int  spr_timer_c[8];
+extern unsigned char sliding[2];
+extern unsigned int  last_time[8];
+extern unsigned int  player_score[2];
+extern unsigned int  player_next_extra[2];
+
+extern unsigned char	sprite;
+extern unsigned char	sprite_other_player;
+extern unsigned char	index_player;
+extern unsigned char	tile_offset;
+extern unsigned char	tile_offset_other_player;
+extern unsigned char	hit_count;
+extern unsigned char	s_tile0;
+extern unsigned char	s_tile1;
+extern unsigned char	s_lin0;
+extern unsigned char	s_lin1;
+extern unsigned char	s_col0;
+extern unsigned char	s_col1;
+extern unsigned char	s_dir0;
+extern unsigned int		loop_count;
+extern unsigned int		index1;
+extern unsigned int		index2;
+extern unsigned int		index3;
+extern unsigned int		index4;
+extern unsigned int		index_d;
+extern unsigned char	tmp;
+extern unsigned char	tmp0;
+extern unsigned char	tmp1;
+extern unsigned char	tmp_uc;
+extern signed char		tmp_sc;
+extern unsigned int		tmp_ui;
+extern unsigned char	enemies;
+extern unsigned char	zx_val_asm;
+extern unsigned char	attrib[4];
+extern unsigned char	attrib_hl[4];
+extern unsigned char	s_state;
+extern unsigned int		score_top;
+extern unsigned int		curr_time;
+extern unsigned int		entry_time;
+extern unsigned int		frame_time;
+extern unsigned int		col_time;
+extern unsigned int		frame_loop_count;
+extern unsigned char	spr_count;
+extern unsigned char	game_pow;
+extern unsigned char 	game_brick_tile;
+extern unsigned char 	game_two_player;
+extern unsigned char	game_sound_48;
+extern unsigned char	game_over;
+extern unsigned char	game_show_fps;
+extern unsigned char	game_lives[2];
+extern unsigned char	game_lives_update;
+extern unsigned int		game_score_top;
+extern unsigned int		game_time_flipped;
+extern unsigned int		game_time_fireball_start;
+extern unsigned char	game_water_clear;
+extern unsigned int		game_water_time;
+extern unsigned char	game_bonus;
+extern unsigned char	game_type;
+extern unsigned char	game_menu_sel;
+
+
+extern unsigned char screen_paper, screen_ink;
+extern unsigned char sprite_speed[];
+extern unsigned char sprite_speed2[8];
+extern unsigned char lvl_1[];
+extern unsigned int  spr_idx[];
+extern unsigned char phases[];
+extern unsigned char phase_quota[3];
+extern unsigned char phase_left;
+extern unsigned char phase_curr;
+extern unsigned char phase_angry;
+extern unsigned char phase_bonus_total[2];
+extern unsigned char score_osd_lin[2];
+extern unsigned char score_osd_col[2];
+extern unsigned int  score_osd_time[2];
+extern unsigned int  score_osd_tile[2];
+
+extern unsigned int hall_scores[];
+extern unsigned char  * hall_names[];
+extern unsigned char *initals;
+extern unsigned char *hall_valids;
+extern unsigned char hall_flip;
+#endif
+
