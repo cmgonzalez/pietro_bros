@@ -6,7 +6,7 @@ PUBLIC pietro_loader
 PUBLIC l_ret
 
 EXTERN asm_dzx7_standard
-EXTERN ASMHEAD_CODE, ASMTAIL_CODE_END
+EXTERN __CODE_head, __CODE_END_tail
 EXTERN LEN_SCREEN, LEN_NIRVANAP, LEN_PIETRO
 
 pietro_loader:
@@ -48,7 +48,7 @@ pietro_loader:
    ld sp,56323                                   ; move stack underneath nirvana
    ld iy,128                                     ; move IY into ROM in case an im1 interrupt occurs
    
-   ld ix,ASMTAIL_CODE_END + 20 - LEN_PIETRO      ; load binary with really large & fixed 20 byte delta (see zx7 docs)
+   ld ix,__CODE_END_tail + 20 - LEN_PIETRO       ; load binary with really large & fixed 20 byte delta (see zx7 docs)
    ld de,LEN_PIETRO                              ; length of binary
 
    ld a,$ff
@@ -59,12 +59,12 @@ pietro_loader:
    di
    jp nc, 0                    ; nothing to do on error except reset
    
-   ld hl,ASMTAIL_CODE_END + 20 - LEN_PIETRO
-   ld de,ASMHEAD_CODE
+   ld hl,__CODE_END_tail + 20 - LEN_PIETRO
+   ld de,__CODE_head
    
    call asm_dzx7_standard      ; perform overlapped decompression
    
-   jp ASMHEAD_CODE             ; execute pietro bros
+   jp __CODE_head              ; execute pietro bros
 
 error:
 

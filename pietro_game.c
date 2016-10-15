@@ -5,6 +5,7 @@
 #include "pietro.h"
 #include "pietro_enemies.h"
 #include "pietro_game.h"
+#include "pietro_midi.h"
 #include "pietro_player.h"
 #include "pietro_sound.h"
 #include "pietro_sprite.h"
@@ -143,6 +144,7 @@ void game_draw_clear(void) {
 		}
 	}
 }
+
 void game_draw_back(void) {
 	for (s_lin1 = 16; s_lin1 < 182; s_lin1 = s_lin1 + 8) {
 		for (s_col1 = 0; s_col1 < 32; s_col1 = s_col1 + 2) {
@@ -206,12 +208,13 @@ void game_print_lives(void) {
 
 void game_tick(void) {
 	++curr_time;
+	midi_play_isr();
 	//TODO 128 MUSIC!
 	//Jump to code in low memory that banks in music and plays
 }
 
 void game_start_timer(void) {
-	NIRVANAP_isr[0] = 205;								  // call
+	NIRVANAP_isr[0] = 205;                                // call
 	z80_wpoke(&NIRVANAP_isr[1], (unsigned int)game_tick); // game_tick
 }
 
@@ -232,7 +235,6 @@ void game_phase_init(void) {
 	phase_angry = 0;
 	game_bonus = 0;
 	entry_time = 0;
-//	curr_time = 0;
 	intrinsic_store16(_curr_time,0);
 	frame_time = 0;
 	score_osd_col[0] = 0xFF;
@@ -289,8 +291,9 @@ void game_phase_print(unsigned char f_row) {
 	game_colour_message( f_row, 11, 21, 100 );
 }
 
-
 void game_loop(void) {
+        midi_play(0);
+        
 	//RESTORE POW ON MAP
 	lvl_1[495] = 17;
 	lvl_1[495 + 1] = 17;
@@ -311,12 +314,6 @@ void game_loop(void) {
 		game_time_flipped = TIME_FLIPPED_B;
 		game_time_fireball_start = TIME_FIREBALL_B;
 	}
-
-#ifdef __SDCC
-	intrinsic_store16(_curr_time,0);
-	frame_time = 0;
-	// sccz80 working on bugfix
-#endif
 
 	/* SCREEN INIT */
 	game_over = 0;
@@ -365,7 +362,7 @@ void game_loop(void) {
 				zx_print_int(20, 26, loop_count-frame_loop_count);
 				frame_loop_count = loop_count;
 			}
-
+			
 
 			/*ADD ENEMIES*/
 			if ( !game_bonus ) {
@@ -686,7 +683,6 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	return 0;
 }
 
-
 unsigned char game_enemy_add_get_index( unsigned char f_search) {
 	for (enemies = 0; enemies <= 5 ; ++enemies ) {
 		if ( class[enemies] == (unsigned char)f_search ) {
@@ -710,7 +706,6 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 		}
 	}
 }
-
 
 void game_print_score(void) {
 	zx_print_ink(INK_WHITE);
@@ -773,7 +768,6 @@ void game_menu_config(void) {
 			break;
 		}
 		
-
 		game_menu_sel = game_menu_handle(10, 2, 14, 18, 0);
 		switch ( game_menu_sel ) {
 		case 0: //SOUND 48
@@ -819,6 +813,9 @@ void game_menu(void) {
 		NIRVANAP_drawT(	 3, 128,  4 ); //PIETRO
 		NIRVANAP_drawT( 59, 128, 25 ); //TURTLE
 #endif
+		// start title music
+		midi_play(mb_midi_title);
+
 		//MENU
 		zx_print_str(14,10,"  1 PLAYER   ");
 		zx_print_str(16,10,"  2 PLAYER   ");
@@ -871,7 +868,6 @@ void game_menu_e(unsigned char f_col,unsigned char e_c0,unsigned char e_c1,unsig
 	NIRVANAP_drawT(e_start + 14 , f_col, e_c1 );
 #endif
 }
-
 
 unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsigned char f_start, unsigned char f_end, unsigned int timeout) {
 	entry_time = zx_clock();
@@ -1076,8 +1072,6 @@ void game_hall_of_fame(void) {
 #endif
 	game_menu();
 }
-
-
 
 void game_rotate_attrib( ) {
 #ifdef __SDCC

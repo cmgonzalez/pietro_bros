@@ -15,7 +15,7 @@ extern void *joyfunc2;
 extern udk_t k1;
 extern udk_t k2;
 extern unsigned char dirs;
-extern unsigned char tbuffer[6];
+extern unsigned char tbuffer[7];
 extern unsigned char class[8];
 extern unsigned char state[8];
 extern unsigned char state_a[8];
@@ -109,5 +109,5 @@ extern unsigned char  * hall_names[];
 extern unsigned char *initals;
 extern unsigned char *hall_valids;
 extern unsigned char hall_flip;
-#endif
 
+#endif

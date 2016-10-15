@@ -41,7 +41,7 @@ cd ..
 @rem there are three invocations of zcc below and all must use the same compiler
 
 @rem zcc +zx -vn -c -O3 -clib=new @zx7_zproject.lst -o pietro_bros
-zcc +zx -c -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zx7_zproject.lst -o pietro_bros
+zcc +zx -vn -c -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zx7_zproject.lst -o pietro_bros
 
 @rem COLLECT FILE SIZES
 @rem compressed file sizes are unknown in the first compile so supply a dummy file

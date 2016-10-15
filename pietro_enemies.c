@@ -285,9 +285,9 @@ void enemy_slipice(void){
 			 ( col[sprite] < 136 )
 			 ) {
 //				tmp0 = rand() % 10;
-				tmp0 = rand() & 0x7f;
 //				if (tmp0 < 4) {
-				if (tmp0 < 56) {
+				tmp_ui = rand();
+				if (tmp_ui < 13106) {
 					BIT_SET(s_state, STAT_ANGRY);
 					spr_timer[sprite] = zx_clock();
 					lin[sprite] -= 8;

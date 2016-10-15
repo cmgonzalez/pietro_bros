@@ -59,8 +59,6 @@ unsigned char player_collition(void) {
 	return 0;
 }
 
-
-
 unsigned char player_collition_check(void) {
 
 	if ( class[enemies] == 0 ) return 0;
@@ -105,7 +103,6 @@ void player_kill(void) {
 		spr_timer[sprite] = zx_clock();
 	}
 }
-
 
 void player_restart(unsigned char f_sprite){
 	if (f_sprite == SPR_P1) {
