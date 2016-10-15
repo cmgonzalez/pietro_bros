@@ -2,7 +2,7 @@ SECTION LOADER
 
 ;; Machine Code Loader
 
-EXTERN ASMHEAD_CODE, ASMTAIL_CODE_END
+EXTERN __CODE_head, __CODE_END_tail
 
 loader:
 
@@ -33,8 +33,8 @@ loader:
    ld sp,56323                                   ; move stack underneath nirvana
    ld iy,128                                     ; move IY into ROM in case an im1 interrupt occurs
    
-   ld ix,ASMHEAD_CODE                            ; start of binary
-   ld de,ASMTAIL_CODE_END - ASMHEAD_CODE         ; length of binary
+   ld ix,__CODE_head                             ; start of binary
+   ld de,__CODE_END_tail - __CODE_head           ; length of binary
 
    ld a,$ff
    scf
@@ -42,9 +42,7 @@ loader:
    call 0x0556
    
    di
-   jp nc, 0                    ; nothing to do on error except reset
-
-   jp ASMHEAD_CODE             ; execute pietro bros
+   jp c, __CODE_head           ; execute pietro bros
 
 error:
 

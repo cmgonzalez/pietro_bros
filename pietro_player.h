@@ -19,4 +19,5 @@ extern void          player_clear_hit_brick();
 extern void          player_push();
 unsigned char        player_push_check();
 extern void          player_move_horizontal();
+
 #endif

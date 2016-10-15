@@ -23,7 +23,7 @@ udk_t k1;
 udk_t k2;
 unsigned char dirs;
 
-unsigned char tbuffer[6];			// temporary buffer
+unsigned char tbuffer[7];			// temporary buffer
 
 //SPRITES GAME ARRAYS
 unsigned char class[8];					//CLASS OF SPRITE
@@ -258,4 +258,3 @@ unsigned char * hall_names[] = {
 unsigned char *initals = "A\0A\0A\0A\0A\0A\0";
 unsigned char *hall_valids = "ABCEDFGHIJKLMNOPQRSTUVWXYZ1234567890.~ {";
 unsigned char hall_flip;
-
