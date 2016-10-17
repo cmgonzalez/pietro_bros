@@ -1,6 +1,6 @@
 @echo off
 
-del pietro_release_sdcc.tap > nul 2>&1
+del bin\pietro_release_sdcc.tap > nul 2>&1
 
 @rem SET ENVIRONMENT VARIABLES FOR Z88DK
 SET ZCCCFG=C:\z88dk\lib\config
@@ -58,7 +58,7 @@ appmake +zx -b pietro_bros_BANK_06.bin -o pietro_ay.tap --org 49152 --noloader -
 
 @rem MAKE FINAL TAP
 
-copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap tap\pietro_release_sdcc.tap
+copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_sdcc.tap
 
 del loader.tap mcload.tap mcloader.tap nirvanap.tap nirvanap.bin nirvanap_final.bin > nul 2>&1
 del pietro.font pietro.tap pietro_bros pietro_bros_CODE.bin > nul 2>&1

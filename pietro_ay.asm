@@ -20,8 +20,6 @@ SECTION code_user
 
 PUBLIC _ay_reset
 
-EXTERN _ay_midi_play
-
 _ay_reset:
 
    ; uses : af, de, hl
@@ -33,7 +31,7 @@ _ay_reset:
 
 PUBLIC _ay_is_playing
 
-EXTERN _ay_fx_playing, _ay_midi_playing
+EXTERN _spec128, error_znc
 
 _ay_is_playing:
 
@@ -42,6 +40,10 @@ _ay_is_playing:
    ;          = 2 if midi playing
    ;
    ; uses : af, de, l
+   
+   ld a,(_spec128)
+   or a
+   jp z, error_znc             ; 48k is never playing ay
    
    ld l,2
    
@@ -69,7 +71,6 @@ SECTION BANK_06
 PUBLIC BANK06_ay_reset
 
 EXTERN error_znc
-EXTERN BANK_06_ay_reg, BANK06_ay_rout
 
 BANK06_ay_reset:
 
@@ -119,9 +120,7 @@ _ay_midi_hold    : defs 1
 
 SECTION code_user
 
-EXTERN _ay_reset_low
-EXTERN _ay_midi_playing, _ay_midi_hold
-EXTERN _ay_fx_playing
+PUBLIC _ay_midi_play
 
 _ay_midi_play:
 
@@ -153,8 +152,6 @@ _ay_midi_play:
 SECTION BANK_06
 
 PUBLIC BANK06_ay_midi_play_isr
-
-EXTERN BANK06_ay_reset
 
 BANK06_ay_midi_play_isr:
 
@@ -234,9 +231,6 @@ SECTION code_user
 
 PUBLIC _ay_fx_play
 
-EXTERN _ay_reset_low
-EXTERN _ay_midi_playing, _ay_fx_playing
-
 _ay_fx_play:
 
    ; enter : hl = void *effect
@@ -263,8 +257,6 @@ _ay_fx_play:
 
 SECTION BANK_06
 
-PUBLIC BANK06_ay_reg
-
 BANK06_ay_reg : defs 14
 
 ; Bank 06 functions
@@ -272,9 +264,6 @@ BANK06_ay_reg : defs 14
 SECTION BANK_06
 
 PUBLIC BANK06_ay_fx_play_isr
-
-EXTERN BANK06_ay_reg
-EXTERN BANK06_ay_reset, BANK06_ay_rout
 
 BANK06_ay_fx_play_isr:
 
@@ -346,12 +335,6 @@ logvol_loop:
    ret
 
 ;
-   
-SECTION BANK_06
-
-PUBLIC BANK06_ay_fx_play_isr
-
-EXTERN BANK06_ay_reg
    
 BANK06_ay_rout:
 
