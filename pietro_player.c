@@ -245,7 +245,7 @@ unsigned char player_move(void){
 	return 0;
 }
 
-void player_clear_hit_brick(){
+void player_clear_hit_brick(void){
 	
 	if ( hit_lin[index_player] > 0 ) {
 		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]); 
@@ -356,7 +356,7 @@ int player_handle_input(void) {
 	return 0;
 }
 
-void player_move_horizontal() {
+void player_move_horizontal(void) {
 	//PLAYER COLLITIONS
 	
 	if ( player_push_check() ) {
@@ -367,7 +367,7 @@ void player_move_horizontal() {
 	
 }
 
-unsigned char player_push_check() {
+unsigned char player_push_check(void) {
 	//TODO CHECK THIS WITH ENEMYES SEEMS BETTER
 	if (lin[sprite] != lin[sprite_other_player] ) return 0;
 	tmp_sc = col[sprite] - col[sprite_other_player];
@@ -377,7 +377,7 @@ unsigned char player_push_check() {
 	return 0;
 }
 
-void player_push( ){
+void player_push(void){
 	tmp = sprite; //HACK
 	tmp0 = s_col0;
 	s_lin0 = lin[sprite_other_player];

@@ -3,9 +3,9 @@
 #include <z80.h>
 #include "nirvana+.h"
 #include "pietro.h"
+#include "pietro_ay.h"
 #include "pietro_enemies.h"
 #include "pietro_game.h"
-#include "pietro_midi.h"
 #include "pietro_player.h"
 #include "pietro_sound.h"
 #include "pietro_sprite.h"
@@ -208,9 +208,7 @@ void game_print_lives(void) {
 
 void game_tick(void) {
 	++curr_time;
-	midi_play_isr();
-	//TODO 128 MUSIC!
-	//Jump to code in low memory that banks in music and plays
+	zx_isr();
 }
 
 void game_start_timer(void) {
@@ -292,8 +290,8 @@ void game_phase_print(unsigned char f_row) {
 }
 
 void game_loop(void) {
-        midi_play(0);
-        
+        ay_reset();
+
 	//RESTORE POW ON MAP
 	lvl_1[495] = 17;
 	lvl_1[495 + 1] = 17;
@@ -398,7 +396,8 @@ void game_loop(void) {
 	NIRVANAP_halt();
 	zx_print_str(8, 11, "GAME  OVER");
 	game_colour_message( 8, 11, 21, 200 );
-
+	
+	ay_reset();
 	game_cortina_pipes();
 }
 
@@ -542,7 +541,7 @@ void game_draw_water_splash( unsigned char f_col) {
 #endif
 }
 
-void game_clear_water_splash() {
+void game_clear_water_splash(void) {
 #ifdef __SDCC
 	if ( game_water_clear < 32 ) {
 		if ( game_check_time( game_water_time , GAME_TIME_WATER_SPLASH ) ) {
@@ -790,7 +789,10 @@ void game_menu_config(void) {
 void game_menu(void) {
 	
 	char mnu;
-	mnu = 1;
+
+        ay_midi_play(pb_midi_title);
+
+        mnu = 1;
 	while (mnu) {
 		game_paint_attrib(11);
 #ifdef __SDCC
@@ -813,8 +815,6 @@ void game_menu(void) {
 		NIRVANAP_drawT(	 3, 128,  4 ); //PIETRO
 		NIRVANAP_drawT( 59, 128, 25 ); //TURTLE
 #endif
-		// start title music
-		midi_play(mb_midi_title);
 
 		//MENU
 		zx_print_str(14,10,"  1 PLAYER   ");
@@ -887,7 +887,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 			game_paint_attrib_lin_h( f_col, 20 , (s_lin1*8)+8);
 			game_rotate_attrib();
 		}
-		if (timeout > 0 && game_check_time(entry_time, 500) ) {
+		if (timeout > 0 && game_check_time(entry_time, 500) && !ay_is_playing() ) {
 			game_hall_of_fame();
 		}
 		
@@ -1073,7 +1073,7 @@ void game_hall_of_fame(void) {
 	game_menu();
 }
 
-void game_rotate_attrib( ) {
+void game_rotate_attrib(void) {
 #ifdef __SDCC
 	//OUT OF MEMORY
 	// UP

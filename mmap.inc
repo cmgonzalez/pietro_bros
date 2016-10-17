@@ -28,18 +28,32 @@
 ;; sections defined by pietro bros
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-SECTION LOADER
-org 65377
+SECTION MCLOAD
+org 16384
 
-;; place zx7 into loader binary so that it's available
-;; throughout the load process
+SECTION LOADER
+org 23296
+
+;; place zx7 into loader binary and first thing in memory
+;; so that it's available throughout the load process
+;; and from 128k's extra memory banks
 
 section code_compress_zx7
+section LOADER_CODE
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+SECTION BANK_06
+org 0xc000
+
+;; 128k only, mainly ay audio
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 SECTION NIRVANA_HOLE
 org 56718+(328*19)
 
-defb 0    ;; control the name of the output file :-(
+defb 0    ;; control the name of the output file
 
 ;; ensure beeper code is not in contended memory
 
@@ -85,6 +99,8 @@ section bss_user
 
 SECTION BSS_END
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; main code in 48k
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 SECTION CODE

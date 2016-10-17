@@ -1,3 +1,107 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IM2 INTERRUPT SERVICE ROUTINE ;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+SECTION code_crt_common
+
+PUBLIC _zx_isr
+
+EXTERN _spec128
+EXTERN _zx_enable_bank_00, _zx_enable_bank_06
+
+EXTERN BANK06_ay_reset, _ay_reset_low
+EXTERN BANK06_ay_fx_play_isr, _ay_fx_playing
+EXTERN BANK06_ay_midi_play_isr, _ay_midi_playing, _ay_midi_hold
+
+_zx_isr:
+
+   ; check for 128k model
+
+   ld a,(_spec128)
+   or a
+   ret z
+   
+   ; gather ay variables from main bank
+   
+   ld hl,(_ay_fx_playing)
+   push hl
+   
+   ld hl,(_ay_midi_playing)
+   push hl
+   
+   ld a,(_ay_midi_hold)
+   push af
+   
+   ld a,(_ay_reset_low)
+   ld e,a
+   
+   ; enable bank 06
+   
+   call _zx_enable_bank_06
+   
+   ; perform ay reset if demanded
+   
+   ld a,e
+   or a
+   call z, BANK06_ay_reset
+   
+   ; call midi isr
+   
+   pop de                      ;  d = ay_midi_hold
+   pop hl                      ; hl = ay_midi_playing
+   
+   call BANK06_ay_midi_play_isr
+   
+   ; call effects isr
+   
+   ex (sp),hl                  ; hl = ay_fx_playing
+   push af
+   
+   call BANK06_ay_fx_play_isr
+   
+   ; restore bank 00
+   
+   call _zx_enable_bank_00
+   
+   ld (_ay_fx_playing),hl
+   
+   pop af
+   ld (_ay_midi_hold),a
+   
+   pop hl
+   ld (_ay_midi_playing),hl
+   
+   ld a,$ff
+   ld (_ay_reset_low),a
+   
+   ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; BANKSWITCHING ;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+SECTION code_crt_common
+
+PUBLIC _zx_enable_bank_00, _zx_enable_bank_06
+
+_zx_enable_bank_00:
+
+   ld a,$10
+   jr _zx_enable_bank_06 + 2
+
+_zx_enable_bank_06:
+
+   ld a,$16
+   
+   ld bc,$7ffd
+   out (c),a
+   
+   ret
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; PRINTING UTILITIES ;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 SECTION code_user
 
 ; void zx_print_str(unsigned char ui_row, unsigned char ui_col, unsigned char *s)

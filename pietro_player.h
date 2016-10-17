@@ -15,9 +15,9 @@ extern void          player_hit_pow(void);
 extern void          player_coin(unsigned char f_enemies,unsigned char f_score);
 extern void          player_score_add(unsigned int f_score);
 extern unsigned char player_lost_life(void);
-extern void          player_clear_hit_brick();
-extern void          player_push();
-unsigned char        player_push_check();
-extern void          player_move_horizontal();
+extern void          player_clear_hit_brick(void);
+extern void          player_push(void);
+unsigned char        player_push_check(void);
+extern void          player_move_horizontal(void);
 
 #endif
