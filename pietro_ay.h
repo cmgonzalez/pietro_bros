@@ -39,7 +39,7 @@ extern unsigned char pb_midi_phase_1[];               // phase 1 preamble
 
 extern unsigned char ay_effect_01[];
 extern unsigned char ay_effect_02[];
-extern unsigned char ay_effect_03[];
+extern unsigned char ay_effect_03[]; //JUMP
 extern unsigned char ay_effect_04[];
 extern unsigned char ay_effect_05[];
 extern unsigned char ay_effect_06[];
@@ -50,11 +50,11 @@ extern unsigned char ay_effect_10[];
 extern unsigned char ay_effect_11[];
 extern unsigned char ay_effect_12[];
 extern unsigned char ay_effect_13[];
-extern unsigned char ay_effect_14[];
+extern unsigned char ay_effect_14[]; //PAUSE NOT USED
 extern unsigned char ay_effect_15[];
 extern unsigned char ay_effect_16[];
 extern unsigned char ay_effect_17[];
 extern unsigned char ay_effect_18[];
-extern unsigned char ay_effect_19[];
+extern unsigned char ay_effect_19[]; //BONUS  TIMER??? CAN WE REPEAT IT IF STAGE = BONUS?
 
 #endif

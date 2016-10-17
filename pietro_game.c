@@ -230,6 +230,8 @@ unsigned char game_phase_calc(void) {
 
 void game_phase_init(void) {
 	/*PHASE INIT*/
+	ay_reset();
+	ay_midi_play(pb_midi_phase_1);
 	phase_angry = 0;
 	game_bonus = 0;
 	entry_time = 0;
@@ -290,7 +292,7 @@ void game_phase_print(unsigned char f_row) {
 }
 
 void game_loop(void) {
-        ay_reset();
+	ay_reset();
 
 	//RESTORE POW ON MAP
 	lvl_1[495] = 17;
@@ -787,42 +789,12 @@ void game_menu_config(void) {
 }
 
 void game_menu(void) {
-	
 	char mnu;
-
-        ay_midi_play(pb_midi_title);
-
-        mnu = 1;
+	/*PLAY MIDI TITLE*/
+	ay_midi_play(pb_midi_title);
+	mnu = 1;
+	game_menu_paint();
 	while (mnu) {
-		game_paint_attrib(11);
-#ifdef __SDCC
-		game_fill_row(0,32);
-		//DRAW MENU
-		//BLUE TOP
-		
-		game_menu_e(16, 0,30,156,1);
-		//PIETRO LOGO
-		tmp = 24;
-		for (tmp_uc =0; tmp_uc < 10 ; ++tmp_uc) {
-			NIRVANAP_drawT(192 +	   tmp_uc , tmp + 16 , 5 + (tmp_uc*2) );
-			NIRVANAP_drawT(192 + 12	 + tmp_uc , tmp + 32 , 5 + (tmp_uc*2) );
-			//NIRVANAP_drawT(180 + 24	 + tmp_uc , tmp + 48 , 5 + (tmp_uc*2) );
-		}
-		NIRVANAP_fillC(INK_RED | PAPER_RED , tmp + 40 , 26);//POINT
-		//GREEN BOTTOM
-		
-		game_menu_e(80, 0,30,159,255);//game_menu_e(159,-1);
-		NIRVANAP_drawT(	 3, 128,  4 ); //PIETRO
-		NIRVANAP_drawT( 59, 128, 25 ); //TURTLE
-#endif
-
-		//MENU
-		zx_print_str(14,10,"  1 PLAYER   ");
-		zx_print_str(16,10,"  2 PLAYER   ");
-		zx_print_str(18,10,"   CONFIG    ");
-		zx_print_ink(INK_BLUE);
-		zx_print_str(22,7,"CODED BY CGONZALEZ");
-
 		while ((joyfunc1)(&k1) != 0);
 		tmp_uc = game_menu_handle(12, 2, 14, 18, 1000);
 		switch ( tmp_uc ) {
@@ -841,6 +813,37 @@ void game_menu(void) {
 			break;
 		}
 	}
+}
+
+
+void game_menu_paint(void) {
+	game_paint_attrib(11);
+#ifdef __SDCC
+	game_fill_row(0,32);
+	//DRAW MENU
+	//BLUE TOP
+	
+	game_menu_e(16, 0,30,156,1);
+	//PIETRO LOGO
+	tmp = 24;
+	for (tmp_uc =0; tmp_uc < 10 ; ++tmp_uc) {
+		NIRVANAP_drawT(192 +	   tmp_uc , tmp + 16 , 5 + (tmp_uc*2) );
+		NIRVANAP_drawT(192 + 12	 + tmp_uc , tmp + 32 , 5 + (tmp_uc*2) );
+		//NIRVANAP_drawT(180 + 24	 + tmp_uc , tmp + 48 , 5 + (tmp_uc*2) );
+	}
+	NIRVANAP_fillC(INK_RED | PAPER_RED , tmp + 40 , 26);//POINT
+	//GREEN BOTTOM
+	
+	game_menu_e(80, 0,30,159,255);//game_menu_e(159,-1);
+	NIRVANAP_drawT(	 3, 128,  4 ); //PIETRO
+	NIRVANAP_drawT( 59, 128, 25 ); //TURTLE
+#endif
+	//MENU
+	zx_print_str(14,10,"  1 PLAYER   ");
+	zx_print_str(16,10,"  2 PLAYER   ");
+	zx_print_str(18,10,"   CONFIG    ");
+	zx_print_ink(INK_BLUE);
+	zx_print_str(22,7,"CODED BY CGONZALEZ");
 }
 
 void game_menu_e(unsigned char f_col,unsigned char e_c0,unsigned char e_c1,unsigned char e_start,unsigned char f_sign) {
@@ -889,6 +892,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 		}
 		if (timeout > 0 && game_check_time(entry_time, 500) && !ay_is_playing() ) {
 			game_hall_of_fame();
+			game_menu_paint();
 		}
 		
 	};
@@ -1070,7 +1074,7 @@ void game_hall_of_fame(void) {
 	game_colour_message( 4, 10,22, 500 );
 	game_draw_clear();
 #endif
-	game_menu();
+	//game_menu();
 }
 
 void game_rotate_attrib(void) {

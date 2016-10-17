@@ -4,6 +4,7 @@
 #include "nirvana+.h"
 #include "pietro.h"
 #include "pietro_player.h"
+#include "pietro_ay.h"
 #include "pietro_enemies.h"
 #include "pietro_game.h"
 #include "pietro_sprite.h"
@@ -309,6 +310,7 @@ int player_handle_input(void) {
 			
 			if ( !BIT_CHK(state_a[sprite], STAT_LOCK) && dirs & IN_STICK_FIRE ) {
 				//NEW JUMP
+				ay_fx_play(ay_effect_03);
 				colint[sprite]=0;
 				sound_jump();
 				BIT_SET(state_a[sprite], STAT_LOCK);
