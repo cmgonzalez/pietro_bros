@@ -46,67 +46,106 @@
 #include <stdlib.h>
 #include "nirvana+.h"
 #include "pietro.h"
+#include "pietro_ay.h"
 #include "pietro_game.h"
 #include "pietro_zx.h"
 #include "macros.h"
 
 int main(void) {
 	unsigned int counter;
-	// Interrupts are Disabled
+	
+	//INTERRUPTS ARE DISABLED
+	
+	//RESET AY CHIP
+	
+	ay_reset();
+	
 	//TEXT CHARS ATTRIBS TODO DECLARE 0X80 FLASH 0X40 BRIGHT
+	
 	//ATTRIB NORMAL
+	
 	attrib[0]= BRIGHT | PAPER_BLACK | INK_WHITE;
 	attrib[1]= BRIGHT | PAPER_BLACK | INK_YELLOW;
 	attrib[2]= PAPER_BLACK | INK_YELLOW;
 	attrib[3]= PAPER_BLACK | INK_WHITE;
+	
 	//ATTRIB HIGHLIGHT
+	
 	attrib_hl[0]= PAPER_BLACK | INK_RED;
 	attrib_hl[1]= PAPER_BLACK | INK_YELLOW;
 	attrib_hl[2]= PAPER_BLACK | INK_GREEN;
 	attrib_hl[3]= PAPER_BLACK | INK_CYAN;
+	
 	//GAME OPTIONS
+	
 	//48 SOUND ENABLED
+	
 	game_sound_48 = 1;
+	
 	//GAME TYPE A
+	
 	game_type = 0;
+	
 	//Keyboard Handling P1
+	
 	k1.fire	 = in_key_scancode('0');
 	k1.left	 = in_key_scancode('6');
 	k1.right = in_key_scancode('7');
+	
 #ifdef __SDCC
 	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
 #endif
+
 #ifdef __SCCZ80
 	joyfunc1 = in_stick_sinclair1;
 #endif
+
 	//Keyboard Handling P2
+
 	k2.fire	 = in_key_scancode('5');
 	k2.left	 = in_key_scancode('1');
 	k2.right = in_key_scancode('2');
+
 #ifdef __SDCC
 	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
 #endif
+
 #ifdef __SCCZ80
 	joyfunc2 = in_stick_sinclair2;
 #endif
+
 	//Delay (NO NIRVANA)
+
 	zx_border(INK_BLACK);
+	
 	//Wait for Keypress and Randomize
+
 	in_wait_nokey();
 	for (counter = 0x1234; !in_test_key(); ++counter) ;
 	srand(counter);
+
 	//Init	SCREEN
+
 	game_cortina_brick();
+
 	//INIT GAME
+
 	game_start_timer();
+
 	//INIT NIRVANA
+
 	NIRVANAP_tiles(btiles);
 	NIRVANAP_start();
+	
 	frame_time = zx_clock();
+
 	//GAME MENU
 	//game_hall_enter();
+
 	game_menu();
+
 	//GAME END
+
 	NIRVANAP_stop();
 	return 0;
 }

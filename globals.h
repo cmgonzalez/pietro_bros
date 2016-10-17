@@ -2,6 +2,8 @@
 #define GLOBALS_H
 #include <input.h>
 
+extern unsigned char spec128;
+
 extern unsigned char btiles[];
 extern char *joynames[];
 #ifdef __SDCC

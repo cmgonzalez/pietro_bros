@@ -2,6 +2,8 @@
 #include "pietro.h"
 #include "globals.h"
 
+unsigned char spec128;
+
 //###############################################################################################
 //#                                                                                             #
 //# CONTROL VARIABLES                                                                           #

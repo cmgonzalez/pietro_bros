@@ -1,12 +1,22 @@
 #ifndef PIETRO_GAME_H
 #define PIETRO_GAME_H
 
+#ifdef __LLVM
+
+extern void            game_fill_row(unsigned char f_row, unsigned char f_asc);
+
+#endif
+
 #ifdef __SDCC
+
 extern void            game_fill_row(unsigned char f_row, unsigned char f_asc) __z88dk_callee;
+
 #endif
 
 #ifdef __SCCZ80
+
 extern void __CALLEE__ game_fill_row(unsigned char f_row, unsigned char f_asc);
+
 #endif
 
 extern unsigned int	 game_calc_index(unsigned char l, unsigned char c);

@@ -6,7 +6,16 @@
 #include <z80.h>
 #include "globals.h"
 
-extern unsigned char pietro_font[];
+extern void            zx_isr(void);
+
+#ifdef __LLVM
+
+extern void            zx_print_bonus_time(unsigned char ui_row, unsigned char ui_col, unsigned int time);
+extern void            zx_print_chr(unsigned char ui_row, unsigned char ui_col, unsigned char val);
+extern void            zx_print_int(unsigned char ui_row, unsigned char ui_col, unsigned int val);
+extern void            zx_print_str(unsigned char ui_row, unsigned char ui_col, unsigned char *s);
+
+#endif
 
 #ifdef __SDCC
 
@@ -26,11 +35,11 @@ extern void __CALLEE__ zx_print_str(unsigned char ui_row, unsigned char ui_col, 
 
 #endif
 
-extern void          debug(int i);
-extern void          debug2(int i);
-extern void          debug3(int i);
+extern void            debug(int i);
+extern void            debug2(int i);
+extern void            debug3(int i);
 
-// INLINED
+// INLINE
 
 #define zx_clock()          intrinsic_load16(_curr_time)
 #define zx_paper_fill(a)    zx_cls(a)
