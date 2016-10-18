@@ -32,10 +32,10 @@
 	defb	000h, 003h, 001h, 000h, 004h, 07eh, 000h, 005h, 000h
 	defb	000h, 00ah, 000h, 000h, 000h, 077h, 000h, 002h, 08dh
 	defb	000h, 003h, 000h, 000h, 004h, 03dh, 000h, 005h, 001h
-    defb    000h, 00ah, 00fh, 000h, 004h, 0fbh, 008h, 000h, 07eh
-    defb    000h, 002h, 0fbh, 000h, 003h, 001h, 000h, 004h, 077h
+	defb	000h, 00ah, 00fh, 000h, 004h, 0fbh, 008h, 000h, 07eh
+	defb	000h, 002h, 0fbh, 000h, 003h, 001h, 000h, 004h, 077h
 	defb	000h, 005h, 000h, 000h, 00ah, 000h, 000h, 000h, 06ah
-    defb    000h, 002h, 07eh, 000h, 003h, 000h, 000h, 004h, 0fbh
+	defb	000h, 002h, 07eh, 000h, 003h, 000h, 000h, 004h, 0fbh
 	defb	000h, 005h, 001h, 000h, 00ah, 00fh, 008h, 002h, 09fh
 	defb	009h, 000h, 05eh, 000h, 002h, 077h, 009h, 002h, 0bdh
 	defb	009h, 002h, 07eh, 000h, 000h, 06ah, 008h, 000h, 05eh

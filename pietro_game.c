@@ -137,11 +137,13 @@ void game_cortina_pipes(void) {
 }
 
 void game_draw_clear(void) {
-	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
-		for (s_lin1 = 16; s_lin1 <= 162; s_lin1+= 16) {
+	zx_print_paper(PAPER_BLACK);
+	//TODO AN ASM ROUTINE TO CLEAR THE SCREEN FAST (NIRVANA)
+	for (s_lin1 = 16; s_lin1 <= 162; s_lin1+= 16) {
+		for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 			NIRVANAP_drawT(TILE_EMPTY, s_lin1, s_col1);
 		}
+		NIRVANAP_halt();
 	}
 }
 
@@ -230,8 +232,6 @@ unsigned char game_phase_calc(void) {
 
 void game_phase_init(void) {
 	/*PHASE INIT*/
-	ay_reset();
-	ay_midi_play(pb_midi_phase_1);
 	phase_angry = 0;
 	game_bonus = 0;
 	entry_time = 0;
@@ -252,6 +252,8 @@ void game_phase_init(void) {
 	/*PRINT SCORE*/
 	game_print_score();
 	/*PRINT PHASE MESSAGE*/
+	ay_reset();
+	ay_midi_play(pb_midi_phase_1);
 	game_phase_print(12);
 	//GAME TYPES/BONUS
 	if (game_type < 2) { //A-B
@@ -401,6 +403,8 @@ void game_loop(void) {
 	
 	ay_reset();
 	game_cortina_pipes();
+	game_menu_sel = 0;
+	game_menu_paint();
 }
 
 void game_score_osd(void) {
@@ -677,7 +681,14 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 		}
 		s_col0 = s_col1;
 	}
-
+	if ( !ay_is_playing() ) {
+		if (f_class != COIN_1) {
+			ay_fx_play(ay_effect_04);
+		} else {
+			ay_fx_play(ay_effect_07);
+		}
+		
+	}
 	entry_time = zx_clock();
 	enemy_init( tmp, s_lin0 + tmp_uc , s_col0, f_class	, s_dir0);
 
@@ -782,6 +793,7 @@ void game_menu_config(void) {
 			break;
 		case 2: //BACK
 			game_menu_sel = 0;
+			game_menu_paint();
 			cont = 0;
 			break;
 		}
@@ -789,12 +801,10 @@ void game_menu_config(void) {
 }
 
 void game_menu(void) {
-	char mnu;
 	/*PLAY MIDI TITLE*/
 	ay_midi_play(pb_midi_title);
-	mnu = 1;
 	game_menu_paint();
-	while (mnu) {
+	while (1) { //ETHERNAL LOOP
 		while ((joyfunc1)(&k1) != 0);
 		tmp_uc = game_menu_handle(12, 2, 14, 18, 1000);
 		switch ( tmp_uc ) {
@@ -817,6 +827,7 @@ void game_menu(void) {
 
 
 void game_menu_paint(void) {
+
 	game_paint_attrib(11);
 #ifdef __SDCC
 	game_fill_row(0,32);
@@ -844,6 +855,7 @@ void game_menu_paint(void) {
 	zx_print_str(18,10,"   CONFIG    ");
 	zx_print_ink(INK_BLUE);
 	zx_print_str(22,7,"CODED BY CGONZALEZ");
+	tmp_uc = 0; //FIX MENU RETURN
 }
 
 void game_menu_e(unsigned char f_col,unsigned char e_c0,unsigned char e_c1,unsigned char e_start,unsigned char f_sign) {
@@ -890,9 +902,12 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 			game_paint_attrib_lin_h( f_col, 20 , (s_lin1*8)+8);
 			game_rotate_attrib();
 		}
-		if (timeout > 0 && game_check_time(entry_time, 500) && !ay_is_playing() ) {
+		if (timeout > 0 && game_check_time(entry_time, timeout) && !ay_is_playing() ) {
 			game_hall_of_fame();
+			game_menu_sel = 0;
+			s_lin1 = f_start;
 			game_menu_paint();
+			entry_time = zx_clock(); 
 		}
 		
 	};
@@ -931,29 +946,33 @@ void game_hall_enter(void) {
 	game_paint_attrib(0);
 	
 	
-	if (p1) {
+	if (p1 == 1) {
 		game_menu_e( (f_row<<3)-48, f_col-4,f_col+6, 156,   1);
 		game_menu_e( (f_row<<3)+28, f_col-4,f_col+6, 159, 255);
 		zx_print_str(f_row-5, f_col-1, "HIGH");
 		zx_print_str(f_row-4, f_col-1, " SCORE");
 	}
-	 if (p2) {
+	if (p2 == 1) {
 		game_menu_e( (f_row<<3)-48, f_col-4+16,f_col+6+16, 156,   1);
 		game_menu_e( (f_row<<3)+28, f_col-4+16,f_col+6+16, 159, 255);
 		zx_print_str(f_row-5, f_col-1+16, "HIGH");
 		zx_print_str(f_row-4, f_col-1+16, " SCORE");
 	}
 	
-	if (p1 || p2) edit = 1;
+	if ( p1 == 1 || p2 == 1 ) {
+		edit = 1;
+	} else {
+		edit = 0;
+	}
 	
 	while (edit){
 		if ( game_check_time(frame_time,5) ) {
 			
 			
-			if (p1) {
+			if (p1 == 1) {
 				game_hall_print_p(p1_sel,f_row, f_col   , 3,0);
 			}
-			if (p2) {
+			if (p2 == 1) {
 				game_hall_print_p(p2_sel,f_row, f_col+16,39,6);
 			}
 			
@@ -962,7 +981,7 @@ void game_hall_enter(void) {
 			hall_flip = !hall_flip;
 		}
 		
-		if (p1) {
+		if (p1 == 1) {
 			dirs = 0;
 			dirs = (joyfunc1)(&k1);
 			if (!p1_lock && dirs) {
@@ -974,7 +993,7 @@ void game_hall_enter(void) {
 			
 		}
 		
-		if (p2) {
+		if (p2 == 1) {
 			dirs = 0;
 			dirs = (joyfunc2)(&k1);
 			if (!p2_lock && dirs) {
@@ -984,7 +1003,7 @@ void game_hall_enter(void) {
 				if (!dirs) p2_lock = 0;
 			}
 		}
-		if (!p1 && !p2) {
+		if (p1 == 0 && p2 == 0) {
 			edit = 0;
 			game_draw_clear();
 		}
@@ -1074,7 +1093,8 @@ void game_hall_of_fame(void) {
 	game_colour_message( 4, 10,22, 500 );
 	game_draw_clear();
 #endif
-	//game_menu();
+	game_menu_sel = 0;
+	ay_midi_play(pb_midi_title);
 }
 
 void game_rotate_attrib(void) {

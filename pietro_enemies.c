@@ -3,6 +3,7 @@
 #include "nirvana+.h"
 #include "pietro.h"
 #include "pietro_enemies.h"
+#include "pietro_ay.h"
 #include "pietro_game.h"
 #include "pietro_player.h"
 #include "pietro_sprite.h"
@@ -124,6 +125,7 @@ void enemy_hit(void){
 					player_coin(enemies,50);
 					break;
 				case COIN_1:
+					ay_fx_play(ay_effect_10);
 					player_coin(enemies,80);
 					break;
 				case FIREBALL_RED:
@@ -146,6 +148,7 @@ void enemy_flip(unsigned int f_tile){
 	
 	if (BIT_CHK(state[enemies], STAT_HIT)){
 		//Normal
+		ay_fx_play(ay_effect_02);
 		if ( ( BIT_CHK(state[sprite], STAT_DIRL) && BIT_CHK(state[enemies], STAT_DIRL) ) || ( BIT_CHK(state[sprite], STAT_DIRR) && BIT_CHK(state[enemies], STAT_DIRR) ) ) {
 			BIT_FLP(state[enemies], STAT_DIRL);
 			BIT_FLP(state[enemies], STAT_DIRR);
@@ -274,6 +277,7 @@ void enemy_slipice(void){
 			++colint[sprite];
 			if (colint[sprite] > 2) colint[sprite] = 0;
 			if ( game_check_time(spr_timer[sprite],40) ) {
+				ay_fx_play(ay_effect_16);
 				game_freeze(lin[sprite]+8+16, col[sprite] );
 				NIRVANAP_fillT(PAPER,lin[sprite]+8, col[sprite]);
 				spr_destroy(sprite);
@@ -376,6 +380,7 @@ void enemy_fighterfly(void){
 	
 	if ( spr_chktime(&sprite) ) {
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
+			if (!ay_is_playing() ) ay_fx_play(ay_effect_13);
 			BIT_SET(s_state, STAT_JUMP);
 			jump_lin[sprite] = lin[sprite];
 		}
@@ -407,6 +412,7 @@ void enemy_trip(void){
 			BIT_SET(s_state, STAT_DIRL);
 			BIT_CLR(s_state, STAT_DIRR);
 			sound_enter_enemy();
+			if (!ay_is_playing() ) ay_fx_play(ay_effect_04);
 		}
 		if ( col[sprite] == 3 ) {
 			tmp = 1;
@@ -416,6 +422,7 @@ void enemy_trip(void){
 			BIT_SET(s_state, STAT_DIRR);
 			BIT_CLR(s_state, STAT_DIRL);
 			sound_enter_enemy();
+			if (!ay_is_playing() ) ay_fx_play(ay_effect_04);
 		}
 		if (tmp && class[sprite] <= SHELLCREEPER_BLUE ) {
 				colint[sprite] =  0;
@@ -564,4 +571,9 @@ void enemy_kill(unsigned char f_sprite){
 	spr_timer[f_sprite] = zx_clock();
 	jump_lin[f_sprite] = lin[f_sprite];
 	if (class[f_sprite] <= FIGHTERFLY ) phase_left--;
+	if (phase_left > 0 ) {
+		ay_fx_play(ay_effect_11);
+	} else {
+		ay_fx_play(ay_effect_17);
+	}
 }
