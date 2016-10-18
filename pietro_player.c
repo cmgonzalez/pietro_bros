@@ -49,8 +49,10 @@ unsigned char player_collition(void) {
 				enemy_kill(enemies);
 			} else {
 				if (class[enemies] == COIN_1 || class[enemies] == COIN_2) {
+					ay_fx_play(ay_effect_10);
 					player_coin(enemies,80);
 				} else {
+					ay_fx_play(ay_effect_18);
 					player_kill();
 				}
 			}
@@ -106,6 +108,7 @@ void player_kill(void) {
 }
 
 void player_restart(unsigned char f_sprite){
+	ay_fx_play(ay_effect_15);
 	if (f_sprite == SPR_P1) {
 		player_init( SPR_P1,16,14,TILE_P1_STANR);
 		NIRVANAP_drawT(  TILE_BRICK_RESTART , 32, 14 );
@@ -341,6 +344,7 @@ int player_handle_input(void) {
 		BIT_CLR(state_a[sprite], STAT_LOCK);
 		if ( !BIT_CHK(s_state, STAT_HIT) && !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) && sliding[index_player] > 0 ) {
 			//	SLIDING
+			ay_fx_play(ay_effect_01);
 			sound_slide();
 			player_move_horizontal();
 			sliding[index_player]--;
