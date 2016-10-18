@@ -461,6 +461,7 @@ void game_bonus_clock(void) {
         game_paint_attrib_lin_h(14,14+6,2*8 + 8);
 
         if (tmp_ui == 0) phase_left = 0;              // end bonus!
+		ay_fx_play(ay_effect_19);
 }
 
 void game_bonus_summary(void) {
@@ -890,6 +891,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 	while ((dirs = (joyfunc1)(&k1)) != IN_STICK_FIRE) {
 		if ( game_check_time(frame_time,5) ) {
 			if (dirs != 0) {
+				ay_fx_play(ay_effect_19);
 				sound_slide();
 				game_paint_attrib_lin( f_col, 20 , (s_lin1*8)+8);
 				s_lin1 += f_inc;
