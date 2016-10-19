@@ -335,6 +335,9 @@ void game_loop(void) {
 		player_turn();
 		/*ENEMIES TURN*/
 		enemy_turn();
+		
+		if (game_bonus && !ay_is_playing()) ay_fx_play(ay_effect_19);
+		// if (!game_bonus && !ay_is_playing() && walking) ay_fx_play(walking);
 
 		/*EACH 30 MICROSECONDS APROX - UPDATE PLAYER COLLITION*/
 		if (game_check_time(col_time,15)) {
@@ -385,6 +388,7 @@ void game_loop(void) {
 			if (phase_left == 0 && game_type != 2) {
 				/* SPRITES INIT */
 				game_kill_all_sprites();
+				ay_reset();
 				if (game_bonus) {
 					game_bonus_summary();
 				}
@@ -461,7 +465,6 @@ void game_bonus_clock(void) {
         game_paint_attrib_lin_h(14,14+6,2*8 + 8);
 
         if (tmp_ui == 0) phase_left = 0;              // end bonus!
-		ay_fx_play(ay_effect_19);
 }
 
 void game_bonus_summary(void) {
@@ -763,7 +766,7 @@ void game_menu_config(void) {
 		zx_print_str(16,10,"GAME      ");
 		zx_print_str(18,10,"BACK      ");
 		
-		if (game_sound_48) {
+		if (game_sound & GAME_SOUND_48_FX_ON) {
 			zx_print_str(14,20,"ON ");
 		} else {
 			zx_print_str(14,20,"OFF");
@@ -785,7 +788,7 @@ void game_menu_config(void) {
 		switch ( game_menu_sel ) {
 		case 0: //SOUND 48
 			sound_coin();
-			game_sound_48 = !game_sound_48;
+			game_sound ^= GAME_SOUND_48_FX_ON;
 			break;
 		case 1: //GAME TYPE
 			sound_coin();
@@ -891,7 +894,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 	while ((dirs = (joyfunc1)(&k1)) != IN_STICK_FIRE) {
 		if ( game_check_time(frame_time,5) ) {
 			if (dirs != 0) {
-				ay_fx_play(ay_effect_19);
+				ay_fx_play(ay_effect_03);  // effect 19 now repeats
 				sound_slide();
 				game_paint_attrib_lin( f_col, 20 , (s_lin1*8)+8);
 				s_lin1 += f_inc;

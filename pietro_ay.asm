@@ -122,6 +122,8 @@ SECTION code_user
 
 PUBLIC _ay_midi_play
 
+EXTERN _game_sound
+
 _ay_midi_play:
 
    ; enter : hl = song address
@@ -130,15 +132,23 @@ _ay_midi_play:
    
    ex de,hl
 
-   ; stop all sound
+   ; stop midi
    
    ld hl,0
    ld (_ay_midi_playing),hl
-   ld (_ay_fx_playing),hl
+   
+   ; if midi is disabled return
+   
+   ld a,(_game_sound)
+   and $08
+   ret z
+   
+   ; stop other ay sound
 
+   ld (_ay_fx_playing),hl
    ld a,l
    ld (_ay_reset_low),a
-   
+      
    ; start midi
    
    ld a,(de)
@@ -231,6 +241,8 @@ SECTION code_user
 
 PUBLIC _ay_fx_play
 
+EXTERN _game_sound
+
 _ay_fx_play:
 
    ; enter : hl = void *effect
@@ -239,12 +251,20 @@ _ay_fx_play:
 
    ex de,hl
 
-   ; stop all sound
+   ; stop ay effects
    
    ld hl,0
-   ld (_ay_midi_playing),hl
    ld (_ay_fx_playing),hl
-
+   
+   ; if ay effects are disabled return
+   
+   ld a,(_game_sound)
+   and $04
+   ret z
+   
+   ; stop other ay sound
+   
+   ld (_ay_midi_playing),hl
    ld a,l
    ld (_ay_reset_low),a
    
