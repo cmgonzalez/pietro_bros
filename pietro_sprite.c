@@ -44,16 +44,14 @@ unsigned char spr_move_up( void ){
 					player_hit_pow();
 				};
 				//BETTER JUMP
-				if (BIT_CHK(state[sprite], STAT_DIRL) || BIT_CHK(state[sprite], STAT_DIRR)) {
-					if ( hit_col[index_player] != col[sprite]  ) {
-						spr_set_fall();
-					}
-				} else {
-					spr_set_fall();
+ 				if ( ( BIT_CHK(state[sprite], STAT_DIRL) || BIT_CHK(state[sprite], STAT_DIRR) ) && 
+					 ( hit_col[index_player] == col[sprite] ) && 
+					 ( col[sprite] > 0 ) 
+					) {
+					return 1;
 				}
-			} else {
-				spr_set_fall();
-			}
+ 			}
+			spr_set_fall();
 			return 0;
 		}
 	}

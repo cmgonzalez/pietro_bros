@@ -77,8 +77,11 @@ int main(void) {
 	//GAME OPTIONS
 	
 	//48 SOUND ENABLED
-	
-	if (!spec128) game_sound_48 = 1;
+	if (spec128){
+		game_sound_48 = 0;
+	} else {
+		game_sound_48 = 1;
+	}
 	
 	//GAME TYPE A
 	
