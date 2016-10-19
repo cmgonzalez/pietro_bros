@@ -422,7 +422,6 @@ void game_loop(void) {
 				}
 			}
 			if (phase_left == 0 && game_type != 2) {
-<<<<<<< HEAD
 				z80_delay_ms(800);
 				/* SPRITES INIT */
 				game_kill_all_sprites();
@@ -432,11 +431,8 @@ void game_loop(void) {
 				}
 // TODO
 // PLACE PLAYERS IN NEUTRAL START STATE (NOT MOVING) SO THAT PHASE SOUND ALWAYS PLAYS AT START OF LEVEL
-=======
 				if (ay_playing_background) ay_reset();	//SILENCE BACKGROUND SOUND
-				game_kill_all_sprites();		//SPRITES INIT
 				if (game_bonus) game_bonus_summary();
->>>>>>> origin/ay_sound
 				++phase_curr;
 				game_phase_init();
 			}
