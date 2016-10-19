@@ -49,7 +49,6 @@ unsigned char player_collition(void) {
 				enemy_kill(enemies);
 			} else {
 				if (class[enemies] == COIN_1 || class[enemies] == COIN_2) {
-					ay_fx_play(ay_effect_10);
 					player_coin(enemies,80);
 				} else {
 					ay_fx_play(ay_effect_18);
@@ -311,9 +310,9 @@ int player_handle_input(void) {
 			
 			if ( !BIT_CHK(state_a[sprite], STAT_LOCK) && dirs & IN_STICK_FIRE ) {
 				//NEW JUMP
-				ay_fx_play(ay_effect_03);
-				colint[sprite]=0;
+				if ( ay_is_playing() != AY_PLATING_MUSIC ) ay_fx_play(ay_effect_03);
 				sound_jump();
+				colint[sprite]=0;
 				BIT_SET(state_a[sprite], STAT_LOCK);
 				BIT_SET(s_state, STAT_JUMP);
 				BIT_CLR(s_state, STAT_FALL);
@@ -342,7 +341,7 @@ int player_handle_input(void) {
 		BIT_CLR(state_a[sprite], STAT_LOCK);
 		if ( !BIT_CHK(s_state, STAT_HIT) && !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) && sliding[index_player] > 0 ) {
 			//	SLIDING
-			ay_fx_play(ay_effect_01);
+			if ( ay_is_playing() != AY_PLATING_MUSIC ) ay_fx_play(ay_effect_01);
 			sound_slide();
 			player_move_horizontal();
 			sliding[index_player]--;
@@ -480,7 +479,7 @@ void player_hit_pow(void){
 
 
 void player_coin(unsigned char f_enemies, unsigned char f_score) {
-	
+	ay_fx_play(ay_effect_10);
 	sound_coin();
 	BIT_SET(state[f_enemies], STAT_KILL);
 	spr_timer[f_enemies] = zx_clock();
@@ -511,7 +510,6 @@ void player_score_add(unsigned int f_score){
 		hit_count = 8; //IMPOSIBLE WE HAVE 6 ENEMIES
 	}
 	game_print_score();
-	//tmp = player_score_next_index();
 }
 
 void player_set1(void){

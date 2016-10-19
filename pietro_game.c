@@ -252,8 +252,6 @@ void game_phase_init(void) {
 	/*PRINT SCORE*/
 	game_print_score();
 	/*PRINT PHASE MESSAGE*/
-	ay_reset();
-	ay_midi_play(pb_midi_phase_1);
 	game_phase_print(12);
 	//INIT AY STATE
 	ay_background_sound = 0;
@@ -281,6 +279,9 @@ void game_phase_init(void) {
 		game_brick_tile = TILE_BRICK_RESTART;
 		spr_idx[18] = TILE_BRICK_RESTART;
 	}
+	/*PHASE TUNE*/
+	ay_reset();
+	if (game_bonus == 0) ay_midi_play(pb_midi_phase_1);
 	/* PLAYER INIT */
 	player_init(SPR_P1,152,10,TILE_P1_STANR);
 	if (game_two_player) player_init(SPR_P2,152,20,TILE_P1_STANR +24+12);
@@ -297,8 +298,10 @@ void game_phase_print(unsigned char f_row) {
 }
 
 void game_loop(void) {
+	ay_fx_play(ay_effect_10);
+	sound_coin();
+	z80_delay_ms(200);
 	ay_reset();
-
 	//RESTORE POW ON MAP
 	lvl_1[495] = 17;
 	lvl_1[495 + 1] = 17;
@@ -418,6 +421,7 @@ void game_loop(void) {
 			}
 			if (phase_left == 0 && game_type != 2) {
 				if (ay_playing_background) ay_reset();	//SILENCE BACKGROUND SOUND
+				z80_delay_ms(800);
 				game_kill_all_sprites();		//SPRITES INIT
 				if (game_bonus) game_bonus_summary();
 				++phase_curr;
@@ -555,6 +559,7 @@ void game_bonus_summary_player(unsigned char f_index)  {
 		NIRVANAP_drawT( TILE_COIN2+2 , s_lin0 , 14 + 2*(tmp_uc % 3) );
 		player_score_add(80);
 		++tmp_uc;
+		ay_fx_play(ay_effect_10);
 		sound_coin();
 		z80_delay_ms(50);
 	}
@@ -568,9 +573,9 @@ void game_draw_water_splash( unsigned char f_col) {
 		/* WATER SPLASH EFFECT */
 		zx_print_paper(PAPER_BLACK);
 		zx_print_ink(INK_CYAN);
-		zx_print_str(20, f_col, "()");
+		zx_print_str(20, f_col, "()");//UDG SPLASH
 		zx_print_ink(INK_WHITE);
-		zx_print_str(21, f_col, "*+");
+		zx_print_str(21, f_col, "*+");//UDG SPLASH
 		game_water_clear = f_col;
 		game_water_time = zx_clock();
 		zx_print_paper(PAPER_BLACK);
@@ -814,10 +819,12 @@ void game_menu_config(void) {
 		game_menu_sel = game_menu_handle(10, 2, 14, 18, 0);
 		switch ( game_menu_sel ) {
 		case 0: //SOUND 48
+			ay_fx_play(ay_effect_10);
 			sound_coin();
 			game_sound ^= GAME_SOUND_48_FX_ON;
 			break;
 		case 1: //GAME TYPE
+			ay_fx_play(ay_effect_10);
 			sound_coin();
 			++game_type;
 			if (game_type > 2) game_type = 0;
@@ -840,12 +847,10 @@ void game_menu(void) {
 		tmp_uc = game_menu_handle(12, 2, 14, 18, 1000);
 		switch ( tmp_uc ) {
 		case 0: //1 PLAYER
-			sound_coin();
 			game_two_player = 0;
 			game_loop();
 			break;
 		case 1: //2 PLAYER
-			sound_coin();
 			game_two_player = 1;
 			game_loop();
 			break;
@@ -947,6 +952,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 }
 
 void game_hall_enter(void) {
+	/*
 	unsigned char edit, f_col, f_row;
 	unsigned char p1;
 	unsigned char p2;
@@ -1032,7 +1038,7 @@ void game_hall_enter(void) {
 			game_draw_clear();
 		}
 	}
-	
+	 */
 }
 
 void game_hall_enter_phs(unsigned char f_row,unsigned char f_col) {

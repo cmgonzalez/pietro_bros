@@ -39,7 +39,7 @@ cd ..
 @rem COMPILE PROGRAM
 @rem zorg overrides org set in zpragma.inc
 
-zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
+zcc +zx -no-cleanup -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
 @rem zcc +zx -vn -zorg=%PADDR% -startup=31 -O3 -clib=new @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
 
 @rem INJECT SOME CODE AND RAM VARIABLES INTO NIRVANA HOLE
