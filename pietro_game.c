@@ -137,7 +137,7 @@ void game_cortina_pipes(void) {
 }
 
 void game_draw_clear(void) {
-	zx_print_paper(PAPER_BLACK);
+	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	//TODO AN ASM ROUTINE TO CLEAR THE SCREEN FAST (NIRVANA)
 	for (s_lin1 = 16; s_lin1 <= 162; s_lin1+= 16) {
 		for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
@@ -145,6 +145,7 @@ void game_draw_clear(void) {
 		}
 		NIRVANAP_halt();
 	}
+	NIRVANAP_halt();
 }
 
 void game_draw_back(void) {
@@ -536,7 +537,7 @@ void game_bonus_summary_player(unsigned char f_index)  {
 		NIRVANAP_drawT( TILE_COIN2+2 , s_lin0 , 14 + 2*(tmp_uc % 3) );
 		player_score_add(80);
 		++tmp_uc;
-		ay_fx_play(ay_effect_10);
+		ay_fx_play(ay_effect_09);
 		sound_coin();
 		z80_delay_ms(50);
 	}
