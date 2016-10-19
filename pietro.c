@@ -85,11 +85,6 @@ int main(void) {
 		game_sound_48 = 1;
 	}
 	
-<<<<<<< HEAD
-=======
-	if (!spec128) game_sound_48 = 1;
->>>>>>> origin/ay_sound
-	
 	//GAME TYPE A
 	
 	game_type = 0;

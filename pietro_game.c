@@ -949,16 +949,10 @@ void game_hall_enter(void) {
 	
 	
 	if (p1 == 1) {
-		game_menu_e( (f_row<<3)-48, f_col-4,f_col+6, 156,   1);
-		game_menu_e( (f_row<<3)+28, f_col-4,f_col+6, 159, 255);
-		zx_print_str(f_row-5, f_col-1, "HIGH");
-		zx_print_str(f_row-4, f_col-1, " SCORE");
+		game_hall_enter_phs(f_row,f_col);
 	}
 	if (p2 == 1) {
-		game_menu_e( (f_row<<3)-48, f_col-4+16,f_col+6+16, 156,   1);
-		game_menu_e( (f_row<<3)+28, f_col-4+16,f_col+6+16, 159, 255);
-		zx_print_str(f_row-5, f_col-1+16, "HIGH");
-		zx_print_str(f_row-4, f_col-1+16, " SCORE");
+		game_hall_enter_phs(f_row,f_col+16);
 	}
 	
 	if ( p1 == 1 || p2 == 1 ) {
@@ -982,9 +976,8 @@ void game_hall_enter(void) {
 			game_rotate_attrib();
 			hall_flip = !hall_flip;
 		}
-		
+		dirs = 0;
 		if (p1 == 1) {
-			dirs = 0;
 			dirs = (joyfunc1)(&k1);
 			if (!p1_lock && dirs) {
 				game_hall_edit_p(&p1, &p1_sel,&p1_cnt,f_col,f_row,0);
@@ -996,7 +989,6 @@ void game_hall_enter(void) {
 		}
 		
 		if (p2 == 1) {
-			dirs = 0;
 			dirs = (joyfunc2)(&k1);
 			if (!p2_lock && dirs) {
 				game_hall_edit_p(&p2, &p2_sel,&p2_cnt,f_col+16,f_row,6);
@@ -1011,6 +1003,13 @@ void game_hall_enter(void) {
 		}
 	}
 	
+}
+
+void game_hall_enter_phs(unsigned char f_row,unsigned char f_col) {
+	game_menu_e( (f_row<<3)-48, f_col-4,f_col+6, 156,   1);
+	game_menu_e( (f_row<<3)+28, f_col-4,f_col+6, 159, 255);
+	zx_print_str(f_row-5, f_col-1, "HIGH");
+	zx_print_str(f_row-4, f_col-1, " SCORE");
 }
 
 void game_hall_print_p( unsigned char selected, unsigned char f_row,unsigned char f_col, unsigned char f_tile, unsigned char f_inc) {

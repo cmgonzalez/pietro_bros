@@ -166,8 +166,6 @@ unsigned char player_move(void){
 		}
 	}
 	
-
-	
 	// READ PLAYER INPUT
 	player_handle_input(); 
 	sprite_speed2[sprite] = 0;
