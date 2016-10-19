@@ -84,8 +84,14 @@ extern unsigned char 	game_two_player;
 #define GAME_SOUND_AY_FX_OFF      0xfb
 #define GAME_SOUND_AY_MUS_ON      0x08
 #define GAME_SOUND_AY_MUS_OFF     0xf7
-
 extern unsigned char	game_sound;
+
+#define AY_BACKGROUND_WALKING     1
+#define AY_BACKGROUND_TIMER       2
+extern unsigned char	ay_background_sound;
+extern unsigned char	ay_background_sound_old;
+extern unsigned char	ay_playing_background;
+extern unsigned char	*ay_background_effect;
 
 extern unsigned char	game_over;
 extern unsigned char	game_show_fps;

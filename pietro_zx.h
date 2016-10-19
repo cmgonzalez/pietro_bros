@@ -42,6 +42,7 @@ extern void            debug3(int i);
 // INLINE
 
 #define zx_clock()          intrinsic_load16(_curr_time)
+#define zx_set_clock(a)     intrinsic_store16(_curr_time,a)
 #define zx_paper_fill(a)    zx_cls(a)
 #define zx_print_ink(a)     (screen_ink = (a))
 #define zx_print_paper(a)   (screen_paper = (a))

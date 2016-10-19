@@ -135,3 +135,10 @@ _ay_effect_19:
 
    include "res_ayfx/ay_effect_19.asm"
    defw $feff, _ay_effect_19
+
+PUBLIC _ay_effect_20
+
+_ay_effect_20:
+
+   include "res_ayfx/ay_effect_20.asm"
+   defw $feff, _ay_effect_20

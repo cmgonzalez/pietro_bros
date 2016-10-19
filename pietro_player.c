@@ -289,7 +289,7 @@ int player_handle_input(void) {
 	if (dirs != 0) {
 		
 		if (BIT_CHK(s_state, STAT_HIT)) {
-			//PLAYER MOVES AWAY FROM SAFE PLATAFORM
+			//PLAYER MOVES AWAY FROM SAFE PLATFORM
 			BIT_CLR(s_state, STAT_HIT);
 			tile[sprite] = spr_tile_dir( TILE_P1_RIGHT + tile_offset,sprite, 12 );
 			NIRVANAP_drawT(  TILE_EMPTY, 16, s_col0 ); //CLEAR TEMPORARY TILE
@@ -320,7 +320,7 @@ int player_handle_input(void) {
 				tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset,sprite,12);
 				return 0;
 			}
-			//sound_walk();
+			ay_background_sound = AY_BACKGROUND_WALKING;
 			player_move_horizontal();
 			
 			if ( dirs & IN_STICK_RIGHT ) {
@@ -371,7 +371,7 @@ void player_move_horizontal(void) {
 }
 
 unsigned char player_push_check(void) {
-	//TODO CHECK THIS WITH ENEMYES SEEMS BETTER
+	//TODO CHECK THIS WITH ENEMIES SEEMS BETTER
 	if (lin[sprite] != lin[sprite_other_player] ) return 0;
 	tmp_sc = col[sprite] - col[sprite_other_player];
 

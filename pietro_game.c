@@ -236,7 +236,7 @@ void game_phase_init(void) {
 	phase_angry = 0;
 	game_bonus = 0;
 	entry_time = 0;
-	intrinsic_store16(_curr_time,0);
+	zx_set_clock(0);
 	frame_time = 0;
 	score_osd_col[0] = 0xFF;
 	score_osd_col[1] = 0xFF;
@@ -255,6 +255,9 @@ void game_phase_init(void) {
 	/*PRINT PHASE MESSAGE*/
 
 	game_phase_print(12);
+	//INIT AY STATE
+	ay_background_sound = 0;
+	ay_background_effect = 0;
 	//GAME TYPES/BONUS
 	if (game_type < 2) { //A-B
 		phase_left = game_phase_calc();
@@ -332,16 +335,45 @@ void game_loop(void) {
 	loop_count=0;
 	dirs = 0x00;
 	while (!game_over) {
+		/*TRACK CHANGES TO BACKGROUND SOUND*/
+		ay_background_sound_old = ay_background_sound;
+		ay_background_sound = 0;
+		
 		/*PLAYER 1 TURN*/
 		player_set1();
 		player_turn();
+		
 		/*PLAYER 2 TURN*/
 		player_set2();
 		player_turn();
+		
 		/*ENEMIES TURN*/
 		enemy_turn();
 		
-		// if (!game_bonus && !ay_is_playing() && walking) ay_fx_play(walking);
+		/*BACKGROUND SOUND*/
+		if (game_bonus) ay_background_sound = AY_BACKGROUND_TIMER;
+		
+		if (ay_background_sound != ay_background_sound_old) {
+			//SILENCE ANY CURRENTLY PLAYING BACKGROUND EFFECT	
+			if (ay_playing_background) ay_reset();
+			//DETERMINE NEW BACKGROUND EFFECT
+			switch (ay_background_sound)
+			{
+				case AY_BACKGROUND_TIMER:
+					ay_background_effect = ay_effect_19;
+					break;
+				case AY_BACKGROUND_WALKING:
+					ay_background_effect = ay_effect_20;
+					break;
+				default:
+					ay_background_effect = 0;
+			}
+		}
+
+		if (spec128 && !ay_is_playing() && ay_background_effect) {
+			ay_fx_play(ay_background_effect);
+			ay_playing_background = 1;
+		}
 
 		/*EACH 30 MICROSECONDS APROX - UPDATE PLAYER COLLITION*/
 		if (game_check_time(col_time,15)) {
@@ -357,11 +389,8 @@ void game_loop(void) {
 			if (game_bonus) game_rotate_attrib();
 		}
 		
-		if (game_bonus) {
-			game_bonus_clock();
-			if (!ay_is_playing()) ay_fx_play(ay_effect_19);
-		}
-		
+		if (game_bonus) game_bonus_clock();
+
 		/*EACH SECOND APROX - UPDATE FPS/SCORE/PHASE LEFT/PHASE ADVANCE*/
 		if (game_check_time(frame_time,100)) {
 
@@ -393,6 +422,7 @@ void game_loop(void) {
 				}
 			}
 			if (phase_left == 0 && game_type != 2) {
+<<<<<<< HEAD
 				z80_delay_ms(800);
 				/* SPRITES INIT */
 				game_kill_all_sprites();
@@ -402,6 +432,11 @@ void game_loop(void) {
 				}
 // TODO
 // PLACE PLAYERS IN NEUTRAL START STATE (NOT MOVING) SO THAT PHASE SOUND ALWAYS PLAYS AT START OF LEVEL
+=======
+				if (ay_playing_background) ay_reset();	//SILENCE BACKGROUND SOUND
+				game_kill_all_sprites();		//SPRITES INIT
+				if (game_bonus) game_bonus_summary();
+>>>>>>> origin/ay_sound
 				++phase_curr;
 				game_phase_init();
 			}

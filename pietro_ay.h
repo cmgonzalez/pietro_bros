@@ -56,5 +56,6 @@ extern unsigned char ay_effect_16[]; //PLATFORM FREZE
 extern unsigned char ay_effect_17[]; //LAST ENEMY KILL
 extern unsigned char ay_effect_18[]; //PLAYER HIT
 extern unsigned char ay_effect_19[]; //BONUS  TIMER? TICK?? CAN WE REPEAT IT, IF STAGE = BONUS? AND CUT TO A SINGLE TICK SOUND, MAYBE PUT IN THE TIMER
+extern unsigned char ay_effect_20[]; //WALKING
 
 #endif
