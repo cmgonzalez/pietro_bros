@@ -42,13 +42,13 @@ extern unsigned char ay_effect_02[]; //FLIP ENEMY
 extern unsigned char ay_effect_03[]; //JUMP
 extern unsigned char ay_effect_04[]; //ENEMY ENTER
 extern unsigned char ay_effect_05[];
-extern unsigned char ay_effect_06[];
+extern unsigned char ay_effect_06[]; //HIT POW
 extern unsigned char ay_effect_07[]; //COIN ENTER
 extern unsigned char ay_effect_08[];
-extern unsigned char ay_effect_09[];
+extern unsigned char ay_effect_09[]; //COIN ON BONUS
 extern unsigned char ay_effect_10[]; //HIT COIN
 extern unsigned char ay_effect_11[]; //ENEMY KILL
-extern unsigned char ay_effect_12[];
+extern unsigned char ay_effect_12[]; //HIT SLIPICE
 extern unsigned char ay_effect_13[]; //FIGHTER FLY JUMP
 extern unsigned char ay_effect_14[]; //PAUSE NOT USED YET, SHOULD WE IMPLEMENT PAUSE?
 extern unsigned char ay_effect_15[]; //PLAYER RESTART

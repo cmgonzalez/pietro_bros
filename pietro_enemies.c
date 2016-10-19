@@ -277,7 +277,6 @@ void enemy_slipice(void){
 			++colint[sprite];
 			if (colint[sprite] > 2) colint[sprite] = 0;
 			if ( game_check_time(spr_timer[sprite],40) ) {
-				ay_fx_play(ay_effect_16);
 				game_freeze(lin[sprite]+8+16, col[sprite] );
 				NIRVANAP_fillT(PAPER,lin[sprite]+8, col[sprite]);
 				spr_destroy(sprite);
@@ -292,6 +291,7 @@ void enemy_slipice(void){
 //				if (tmp0 < 4) {
 				tmp_ui = rand();
 				if (tmp_ui < 13106) {
+					ay_fx_play(ay_effect_16);
 					BIT_SET(s_state, STAT_ANGRY);
 					spr_timer[sprite] = zx_clock();
 					lin[sprite] -= 8;

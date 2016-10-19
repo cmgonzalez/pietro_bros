@@ -464,6 +464,7 @@ void player_hit_pow(void){
 				enemy_hit();
 			}
 		}
+		ay_fx_play(ay_effect_06);
 		sound_hit_pow();
 		game_draw_pow();
 		if (game_pow == 0) {
@@ -479,7 +480,11 @@ void player_hit_pow(void){
 
 
 void player_coin(unsigned char f_enemies, unsigned char f_score) {
-	ay_fx_play(ay_effect_10);
+	if (class[f_enemies] == SLIPICE) {
+		ay_fx_play(ay_effect_12); //SLIPICE
+	} else {
+		ay_fx_play(ay_effect_10); //COIN SOUND
+	}
 	sound_coin();
 	BIT_SET(state[f_enemies], STAT_KILL);
 	spr_timer[f_enemies] = zx_clock();
