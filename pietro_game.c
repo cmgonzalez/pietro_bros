@@ -336,7 +336,6 @@ void game_loop(void) {
 		/*ENEMIES TURN*/
 		enemy_turn();
 		
-		if (game_bonus && !ay_is_playing()) ay_fx_play(ay_effect_19);
 		// if (!game_bonus && !ay_is_playing() && walking) ay_fx_play(walking);
 
 		/*EACH 30 MICROSECONDS APROX - UPDATE PLAYER COLLITION*/
@@ -349,14 +348,14 @@ void game_loop(void) {
 			player_collition();
 			/* WATER SPLASH EFFECT CLEAR */
 			game_clear_water_splash();
-
-//			if (game_bonus) {
-//				game_bonus_clock();
-//			}
-
+			
+			if (game_bonus) game_rotate_attrib();
 		}
 		
-		if (game_bonus) game_bonus_clock();
+		if (game_bonus) {
+			game_bonus_clock();
+			if (!ay_is_playing()) ay_fx_play(ay_effect_19);
+		}
 		
 		/*EACH SECOND APROX - UPDATE FPS/SCORE/PHASE LEFT/PHASE ADVANCE*/
 		if (game_check_time(frame_time,100)) {
@@ -391,8 +390,8 @@ void game_loop(void) {
 			if (phase_left == 0 && game_type != 2) {
 				/* SPRITES INIT */
 				game_kill_all_sprites();
-				ay_reset();
 				if (game_bonus) {
+					ay_reset();
 					game_bonus_summary();
 				}
 // TODO
@@ -466,8 +465,7 @@ void game_bonus_clock(void) {
         if (tmp_ui > TIME_BONUS) tmp_ui = 0;          // if time remaining goes negative
         
         zx_print_bonus_time(2,14,tmp_ui);
-        game_rotate_attrib();
-        game_paint_attrib_lin_h(14,14+6,2*8 + 8);
+	game_paint_attrib_lin_h(14,14+6,2*8 + 8);
 
         if (tmp_ui == 0) phase_left = 0;              // end bonus!
 }
