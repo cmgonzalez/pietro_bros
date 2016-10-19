@@ -134,4 +134,4 @@ PUBLIC _ay_effect_19
 _ay_effect_19:
 
    include "res_ayfx/ay_effect_19.asm"
-   defw -1
+   defw $feff, _ay_effect_19

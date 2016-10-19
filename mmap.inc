@@ -34,9 +34,9 @@ org 16384
 SECTION LOADER
 org 23296
 
-;; place zx7 into loader binary and first thing in memory
-;; so that it's available throughout the load process
-;; and from 128k's extra memory banks
+;; place zx7 into the loader binary and first thing in memory
+;; so that it's available throughout the load process and
+;; from the 128k's extra memory banks
 
 section code_compress_zx7
 section LOADER_CODE
