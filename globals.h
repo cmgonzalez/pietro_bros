@@ -75,7 +75,18 @@ extern unsigned char	spr_count;
 extern unsigned char	game_pow;
 extern unsigned char 	game_brick_tile;
 extern unsigned char 	game_two_player;
-extern unsigned char	game_sound_48;
+
+#define GAME_SOUND_48_FX_ON       0x01
+#define GAME_SOUND_48_FX_OFF      0xfe
+#define GAME_SOUND_48_MUS_ON      0x02
+#define GAME_SOUND_48_MUS_OFF     0xfd
+#define GAME_SOUND_AY_FX_ON       0x04
+#define GAME_SOUND_AY_FX_OFF      0xfb
+#define GAME_SOUND_AY_MUS_ON      0x08
+#define GAME_SOUND_AY_MUS_OFF     0xf7
+
+extern unsigned char	game_sound;
+
 extern unsigned char	game_over;
 extern unsigned char	game_show_fps;
 extern unsigned char	game_lives[2];

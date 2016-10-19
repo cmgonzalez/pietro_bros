@@ -76,12 +76,9 @@ int main(void) {
 	
 	//GAME OPTIONS
 	
-	//48 SOUND ENABLED
-	if (spec128){
-		game_sound_48 = 0;
-	} else {
-		game_sound_48 = 1;
-	}
+	//ENABLE SOUND BASED ON DETECTED MODEL
+	
+	game_sound = spec128 ? (GAME_SOUND_AY_FX_ON | GAME_SOUND_AY_MUS_ON) : (GAME_SOUND_48_FX_ON | GAME_SOUND_48_MUS_ON);
 	
 	//GAME TYPE A
 	

@@ -94,7 +94,7 @@ unsigned char	spr_count;
 unsigned char	game_pow;					//LEVEL OF POW ON THE SCREEN 0 = NONE
 unsigned char 	game_brick_tile;
 unsigned char 	game_two_player;
-unsigned char	game_sound_48;
+unsigned char	game_sound;
 unsigned char	game_over;
 unsigned char	game_show_fps;
 unsigned char	game_lives[2];

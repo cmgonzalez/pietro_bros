@@ -3,7 +3,7 @@
 
 SECTION code_user
 
-EXTERN _game_sound_48, asm_bit_beep_raw
+EXTERN _game_sound, asm_bit_beep_raw
 
 ;; NOTE:
 ;;
@@ -19,9 +19,9 @@ EXTERN _game_sound_48, asm_bit_beep_raw
 
 _sound_nirvana_halt:
 
-   ld a,(_game_sound_48)
+   ld a,(_game_sound)
    
-   or a
+   and $01
    ret z
    
    halt
