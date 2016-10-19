@@ -350,11 +350,14 @@ void game_loop(void) {
 			/* WATER SPLASH EFFECT CLEAR */
 			game_clear_water_splash();
 
-			if (game_bonus) {
-				game_bonus_clock();
-			}
+//			if (game_bonus) {
+//				game_bonus_clock();
+//			}
 
 		}
+		
+		if (game_bonus) game_bonus_clock();
+		
 		/*EACH SECOND APROX - UPDATE FPS/SCORE/PHASE LEFT/PHASE ADVANCE*/
 		if (game_check_time(frame_time,100)) {
 
@@ -392,6 +395,8 @@ void game_loop(void) {
 				if (game_bonus) {
 					game_bonus_summary();
 				}
+// TODO
+// PLACE PLAYERS IN NEUTRAL START STATE (NOT MOVING) SO THAT PHASE SOUND ALWAYS PLAYS AT START OF LEVEL
 				++phase_curr;
 				game_phase_init();
 			}

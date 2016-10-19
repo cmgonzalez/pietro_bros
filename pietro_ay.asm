@@ -24,8 +24,8 @@ _ay_reset:
 
    ; uses : af, de, hl
 
-   ld hl,0
-   jp _ay_midi_play
+   ld de,0
+   jp midi_play
 
 ;
 
@@ -132,20 +132,20 @@ _ay_midi_play:
    
    ex de,hl
 
-   ; stop midi
-   
-   ld hl,0
-   ld (_ay_midi_playing),hl
-   
-   ; if midi is disabled return
+   ; has midi been disabled?
    
    ld a,(_game_sound)
    and $08
-   ret z
+   jr z, midi_disable
    
-   ; stop other ay sound
+midi_play:
 
+   ; stop ay sound
+
+   ld hl,0
    ld (_ay_fx_playing),hl
+   ld (_ay_midi_playing),hl
+   
    ld a,l
    ld (_ay_reset_low),a
       
@@ -153,9 +153,20 @@ _ay_midi_play:
    
    ld a,(de)
    ld (_ay_midi_hold),a
-   
    ld (_ay_midi_playing),de
+   
    ret
+
+midi_disable:
+
+   ld hl,(_ay_midi_playing)
+   
+   ld a,h
+   or l
+   ret z                       ; do not disturb ay if midi not playing
+   
+   ld de,0                     ; next midi = none
+   jr midi_play
 
 ; Bank 06 functions
 
@@ -251,20 +262,20 @@ _ay_fx_play:
 
    ex de,hl
 
-   ; stop ay effects
-   
-   ld hl,0
-   ld (_ay_fx_playing),hl
-   
-   ; if ay effects are disabled return
+   ; have effects been disabled?
    
    ld a,(_game_sound)
    and $04
-   ret z
+   jr z, ay_disable
    
-   ; stop other ay sound
+ay_play:
+
+   ; stop ay sound
    
+   ld hl,0
+   ld (_ay_fx_playing),hl
    ld (_ay_midi_playing),hl
+   
    ld a,l
    ld (_ay_reset_low),a
    
@@ -272,6 +283,17 @@ _ay_fx_play:
    
    ld (_ay_fx_playing),de
    ret
+
+ay_disable:
+
+   ld hl,(_ay_fx_playing)
+   
+   ld a,h
+   or l
+   ret z                       ; do not disturb ay if effect not playing
+   
+   ld de,0                     ; next effect = none
+   jr ay_play
 
 ; Bank 06 variables
 
