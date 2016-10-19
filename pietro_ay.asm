@@ -39,7 +39,7 @@ _ay_is_playing:
    ;          = 1 if effect playing
    ;          = 2 if midi playing
    ;
-   ; uses : af, de, l
+   ; uses : af, de, hl
    
    ld a,(_spec128)
    or a

@@ -15,7 +15,7 @@ extern void              ay_fx_play(void *effect);    // stop all ay sound and s
 #ifdef __SDCC
 
 extern void              ay_reset(void) __preserves_regs(b,c);
-extern unsigned char     ay_is_playing(void) __preserves_regs(b,c,h);
+extern unsigned char     ay_is_playing(void) __preserves_regs(b,c);
 extern void              ay_midi_play(void *song) __preserves_regs(b,c) __z88dk_fastcall;
 extern void              ay_fx_play(void *effect) __preserves_regs(b,c) __z88dk_fastcall;
 
