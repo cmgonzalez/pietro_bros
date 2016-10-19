@@ -277,6 +277,8 @@ BANK06_ay_fx_play_isr:
    or l
    ret z
 
+fx_repeat_loop:
+   
    ld a,(hl)
 
    cp $ff
@@ -286,6 +288,11 @@ BANK06_ay_fx_play_isr:
    
    cp (hl)
    jp z, BANK06_ay_reset
+   
+   dec a
+   
+   cp (hl)
+   jr z, fx_repeat
    
    dec hl
    
@@ -334,6 +341,17 @@ logvol_loop:
    pop hl
    ret
 
+fx_repeat:
+
+   inc hl
+   
+   ld a,(hl)
+   inc hl
+   ld h,(hl)
+   ld l,a
+   
+   jr fx_repeat_loop
+   
 ;
    
 BANK06_ay_rout:
