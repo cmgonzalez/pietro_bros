@@ -252,8 +252,7 @@ void game_phase_init(void) {
 	if (game_two_player) zx_print_int(0,25 , 0);
 	/*PRINT SCORE*/
 	game_print_score();
-	/*PRINT PHASE MESSAGE*/
-	game_phase_print(12);
+
 	//GAME TYPES/BONUS
 	if (game_type < 2) { //A-B
 		phase_left = game_phase_calc();
@@ -280,6 +279,8 @@ void game_phase_init(void) {
 	/*PHASE TUNE*/
 	ay_reset();
 	if (game_bonus == 0) ay_midi_play(pb_midi_phase_1);
+	/*PRINT PHASE MESSAGE*/
+	game_phase_print(12);
 	/* PLAYER INIT */
 	player_init(SPR_P1,152,10,TILE_P1_STANR);
 	if (game_two_player) player_init(SPR_P2,152,20,TILE_P1_STANR +24+12);
@@ -292,7 +293,7 @@ void game_phase_init(void) {
 void game_phase_print(unsigned char f_row) {
 	zx_print_str(f_row, 11, "PHASE");
 	zx_print_chr(f_row, 18, phase_curr+1);
-	game_colour_message( f_row, 11, 21, 100 );
+	game_colour_message( f_row, 11, 21, 300 );
 }
 
 void game_loop(void) {
@@ -582,15 +583,13 @@ unsigned char game_check_maze(int f_index) {
 }
 
 unsigned char game_enemy_add(void) {
-	if (spr_count < ENEMIES_MAX && game_check_time(entry_time ,100) && ( phase_left > 0 || game_type == 2)) {
+	if (spr_count < ENEMIES_MAX && game_check_time(entry_time ,100) && ( phase_left > 0 || game_type == 2) && (phase_left > 0) ) {
 		/* PHASE QUOTA */
 		if (game_type == 2) {
 			game_enemy_rnd();
 		} else {
 			game_enemy_quota();
 		}
-
-
 	}
 	return 0;
 }

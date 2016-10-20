@@ -210,7 +210,8 @@ unsigned char player_move(void){
 				//MAX JUMP
 				sprite_speed2[sprite] = 4;
 				player_move_horizontal();
-				if (colint[sprite] == 0 ) spr_set_fall();
+				//if (colint[sprite] == 0 ) spr_set_fall();
+				if ( game_check_time( spr_timer[sprite] , 8) )  spr_set_fall();
 			} else {
 				if ( jump_lin[sprite] - lin[sprite] >= 16) {
 					sprite_speed2[sprite] = 2;
@@ -271,7 +272,7 @@ void player_clear_hit_brick(void){
 
 void player_turn(void) {
 	
-	if ( spr_chktime(&sprite) ) {
+	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 		if ( class[sprite] == PLAYER) {
 			dirs = 0;
 			if (sprite == SPR_P1) {

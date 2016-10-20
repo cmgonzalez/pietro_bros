@@ -14,7 +14,7 @@
 
 void enemy_coin1(void){
 	//COINS N SLIPICE
-	if ( spr_chktime(&sprite) ) {
+	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 		enemy_walk();
 		if ( (lin[sprite] == 152)  && ( col[sprite] == 3 || col[sprite] == 27) ) {
 			spr_destroy(sprite);
@@ -25,7 +25,7 @@ void enemy_coin1(void){
 void enemy_coin2(void){
 	//FIXED COINS
 	if ( spr_chktime(&sprite) ) {
-		++colint[sprite];
+		++colint[sprite]; //ONLY ROTATE SPRITE
 		if (colint[sprite] == SPR_COLINT) {
 			colint[sprite] = 0;
 		}
@@ -270,7 +270,7 @@ void enemy_standard(void){
 
 void enemy_slipice(void){
 	//COINS N SLIPICE
-	if ( spr_chktime(&sprite) ) {
+	if ( spr_chktime(&sprite) && phase_left > 0 ) {
 		if (BIT_CHK(state[sprite], STAT_ANGRY) ) {
 			//ANGRY OR FREEZING
 			NIRVANAP_drawT(TILE_SLIPICE + 18 + colint[sprite],lin[sprite]+8, col[sprite]);
@@ -313,7 +313,7 @@ void enemy_slipice(void){
 void enemy_fireball_red(void){
 	
 	//BOUNCE EVERYWHERE
-	if ( spr_chktime(&sprite) ) {
+	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 
 		if ( game_check_time( spr_timer[sprite], TIME_FIREBALL_RED) ) {
 			spr_timer[sprite] = zx_clock();
@@ -352,7 +352,7 @@ void enemy_fireball_red(void){
 
 void enemy_fireball_green(void){
 	// FIREBALL_GREEN
-	if ( spr_chktime(&sprite) ) {
+	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 		index1 = abs(jump_lin[sprite] - lin[sprite]);
 		if (index1 > 8) {
 			BIT_FLP(s_state, STAT_JUMP);
@@ -574,6 +574,7 @@ void enemy_kill(unsigned char f_sprite){
 	if (phase_left > 0 ) {
 		ay_fx_play(ay_effect_11);
 	} else {
+		ay_reset(); //FORCE PLAY
 		ay_fx_play(ay_effect_17);
 	}
 }
