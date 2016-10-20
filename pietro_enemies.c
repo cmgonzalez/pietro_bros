@@ -380,7 +380,7 @@ void enemy_fighterfly(void){
 	
 	if ( spr_chktime(&sprite) ) {
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
-			if (!ay_is_playing() ) ay_fx_play(ay_effect_13);
+			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_13);
 			BIT_SET(s_state, STAT_JUMP);
 			jump_lin[sprite] = lin[sprite];
 		}
@@ -412,7 +412,7 @@ void enemy_trip(void){
 			BIT_SET(s_state, STAT_DIRL);
 			BIT_CLR(s_state, STAT_DIRR);
 			sound_enter_enemy();
-			if (!ay_is_playing() ) ay_fx_play(ay_effect_04);
+			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_04);
 		}
 		if ( col[sprite] == 3 ) {
 			tmp = 1;
@@ -422,7 +422,7 @@ void enemy_trip(void){
 			BIT_SET(s_state, STAT_DIRR);
 			BIT_CLR(s_state, STAT_DIRL);
 			sound_enter_enemy();
-			if (!ay_is_playing() ) ay_fx_play(ay_effect_04);
+			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_04);
 		}
 		if (tmp && class[sprite] <= SHELLCREEPER_BLUE ) {
 				colint[sprite] =  0;

@@ -358,7 +358,7 @@ void game_loop(void) {
 		
 		if (game_bonus) {
 			game_bonus_clock();
-			if (!ay_is_playing() && spec128) ay_fx_play(ay_effect_19);
+			if (!ay_is_playing()) ay_fx_play(ay_effect_19);
 		}
 
 		/*EACH SECOND APROX - UPDATE FPS/SCORE/PHASE LEFT/PHASE ADVANCE*/
@@ -392,9 +392,9 @@ void game_loop(void) {
 				}
 			}
 			if (phase_left == 0 && game_type != 2) {
-				if (game_bonus) ay_reset();		//SILENCE BACKGROUND SOUND
+				if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_reset();	//SILENCE BACKGROUND SOUND
 				z80_delay_ms(800);
-				game_kill_all_sprites();		//SPRITES INIT
+				game_kill_all_sprites();					//SPRITES INIT
 				if (game_bonus) game_bonus_summary();
 				++phase_curr;
 				game_phase_init();
@@ -689,7 +689,7 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 		}
 		s_col0 = s_col1;
 	}
-	if ( !ay_is_playing() ) {
+	if ( ay_is_playing() < AY_PLAYING_FOREGROUND ) {
 		if (f_class != COIN_1) {
 			ay_fx_play(ay_effect_04);
 		} else {

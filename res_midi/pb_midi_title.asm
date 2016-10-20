@@ -54,4 +54,5 @@
 	defb	000h, 001h, 000h, 009h, 000h, 03dh, 000h, 001h, 001h
 	defb	000h, 004h, 0fch, 000h, 005h, 000h, 000h, 002h, 03dh
 	defb	000h, 009h, 000h, 000h, 004h, 0a8h, 000h, 005h, 001h
-	defb	055h, 008h, 000h, 000h, 0ffh, 000h
+;	defb	055h, 008h, 000h, 000h, 0ffh, 000h
+	defb	022h, 008h, 000h, 000h, 0ffh, 000h

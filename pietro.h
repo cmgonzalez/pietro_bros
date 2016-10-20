@@ -176,9 +176,6 @@
 #define GAME_EXTRA_LIFE								2000
 #define GAME_TIME_WATER_SPLASH						15
 
-#define AY_PLATING_FX								1
-#define AY_PLATING_MUSIC							2
-
 #endif
 
 #include "globals.h"
