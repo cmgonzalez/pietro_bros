@@ -73,7 +73,7 @@ FOR %%A IN ("nirvanap_final.bin.zx7") DO set LEN_NIRVANAP=%%~zA
 FOR %%A IN ("pietro_bros_CODE.bin.zx7") DO set LEN_PIETRO=%%~zA
 FOR %%A IN ("pietro_bros_BANK_06.bin.zx7") DO set LEN_BANK_06=%%~zA
 
-echo PUBLIC LEN_SCREEN, LEN_NIRVANAP, LEN_PIETRO > zx7_pietro_sizes.asm
+echo PUBLIC LEN_SCREEN, LEN_NIRVANAP, LEN_PIETRO, LEN_BANK_06 > zx7_pietro_sizes.asm
 echo defc LEN_SCREEN = %LEN_SCREEN% >> zx7_pietro_sizes.asm
 echo defc LEN_NIRVANAP = %LEN_NIRVANAP% >> zx7_pietro_sizes.asm
 echo defc LEN_PIETRO = %LEN_PIETRO% >> zx7_pietro_sizes.asm

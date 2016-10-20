@@ -320,7 +320,7 @@ int player_handle_input(void) {
 				tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset,sprite,12);
 				return 0;
 			}
-			ay_background_sound = AY_BACKGROUND_WALKING;
+			if (ay_is_playing() == 0 && game_bonus == 0) ay_fx_play(ay_effect_20);
 			player_move_horizontal();
 			
 			if ( dirs & IN_STICK_RIGHT ) {
