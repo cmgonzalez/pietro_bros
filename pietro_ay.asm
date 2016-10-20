@@ -122,7 +122,7 @@ SECTION code_user
 
 PUBLIC _ay_midi_play
 
-EXTERN _game_sound, _ay_playing_background
+EXTERN _game_sound
 
 _ay_midi_play:
 
@@ -147,7 +147,6 @@ midi_play:
    ld (_ay_midi_playing),hl
    
    ld a,l
-   ld (_ay_playing_background),a
    ld (_ay_reset_low),a
       
    ; start midi
@@ -253,7 +252,7 @@ SECTION code_user
 
 PUBLIC _ay_fx_play
 
-EXTERN _game_sound, _ay_playing_background
+EXTERN _game_sound
 
 _ay_fx_play:
 
@@ -278,7 +277,6 @@ ay_play:
    ld (_ay_midi_playing),hl
    
    ld a,l
-   ld (_ay_playing_background),a
    ld (_ay_reset_low),a
    
    ; start ay wav effect

@@ -88,15 +88,6 @@ unsigned int	frame_loop_count;
 unsigned char	spr_count;
 //###############################################################################################
 //#                                                                                             #
-//# AY SOUND VARIABLES                                                                          #
-//#                                                                                             #
-//###############################################################################################
-unsigned char	ay_background_sound;		//PROGRAM LOGIC DETERMINES BACKGROUND EFFECT
-unsigned char	ay_background_sound_old;
-unsigned char	ay_playing_background;		//FLAG INDICATES IF CURRENT SOUND IS A BACKGROUND
-unsigned char	*ay_background_effect;		//CURRENT BACKGROUND EFFECT
-//###############################################################################################
-//#                                                                                             #
 //# GAME VARIABLES                                                                              #
 //#                                                                                             #
 //###############################################################################################
