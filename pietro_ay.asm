@@ -31,35 +31,46 @@ _ay_reset:
 
 PUBLIC _ay_is_playing
 
-EXTERN _spec128, error_znc
+EXTERN _spec128, _ay_effect_background, error_znc
 
 _ay_is_playing:
 
    ; exit : l = 0 if none
-   ;          = 1 if effect playing
-   ;          = 2 if midi playing
+   ;          = 1 if background effect playing
+   ;          = 2 if effect playing
+   ;          = 3 if midi playing
    ;
-   ; uses : af, de, hl
+   ; uses : af, hl
    
    ld a,(_spec128)
    or a
    jp z, error_znc             ; 48k is never playing ay
    
+   ld hl,(_ay_midi_playing)
+   
+   ld a,h
+   or l
+   
+   ld l,3
+   ret nz                      ; l = 3 if midi playing
+   
+   ld hl,(_ay_fx_playing)
+   
+   ld a,h
+   or l
+   ret z                       ; l = 0 if nothing playing
+   
+   ld a,h
+   cp _ay_effect_background / 256
+   jr nz, answer_known
+   
+   ld a,l
+   cp _ay_effect_background & 0xff
+
+answer_known:
+
    ld l,2
-   
-   ld de,(_ay_midi_playing)
-   
-   ld a,d
-   or e
-   ret nz
-   
-   dec l
-   
-   ld de,(_ay_fx_playing)
-   
-   ld a,d
-   or e
-   ret nz
+   ret c
    
    dec l
    ret

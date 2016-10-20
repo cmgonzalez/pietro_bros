@@ -129,6 +129,12 @@ _ay_effect_18:
    include "res_ayfx/ay_effect_18.asm"
    defw -1
 
+; background effects only below this point
+
+PUBLIC _ay_effect_background
+
+defc _ay_effect_background = _ay_effect_19
+
 PUBLIC _ay_effect_19
 
 _ay_effect_19:

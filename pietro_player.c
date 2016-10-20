@@ -310,7 +310,7 @@ int player_handle_input(void) {
 			
 			if ( !BIT_CHK(state_a[sprite], STAT_LOCK) && dirs & IN_STICK_FIRE ) {
 				//NEW JUMP
-				if ( ay_is_playing() != AY_PLATING_MUSIC ) ay_fx_play(ay_effect_03);
+				if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_03);
 				sound_jump();
 				colint[sprite]=0;
 				BIT_SET(state_a[sprite], STAT_LOCK);
@@ -320,7 +320,7 @@ int player_handle_input(void) {
 				tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset,sprite,12);
 				return 0;
 			}
-			if (ay_is_playing() == 0 && game_bonus == 0) ay_fx_play(ay_effect_20);
+			if (!ay_is_playing() && !game_bonus) ay_fx_play(ay_effect_20);
 			player_move_horizontal();
 			
 			if ( dirs & IN_STICK_RIGHT ) {
@@ -341,7 +341,7 @@ int player_handle_input(void) {
 		BIT_CLR(state_a[sprite], STAT_LOCK);
 		if ( !BIT_CHK(s_state, STAT_HIT) && !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) && sliding[index_player] > 0 ) {
 			//	SLIDING
-			if ( ay_is_playing() != AY_PLATING_MUSIC ) ay_fx_play(ay_effect_01);
+			if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
 			sound_slide();
 			player_move_horizontal();
 			sliding[index_player]--;
