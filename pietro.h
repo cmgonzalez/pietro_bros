@@ -65,7 +65,6 @@
 #define TILE_BRICK_FILL								135
 
 
-
 #define TILE_PIPE1									101
 #define TILE_PIPE2									179
 #define TILE_PIPE3									167
@@ -118,8 +117,7 @@
 
 #define PAPER										000
 #define LIN_INC										4
-#define LIN_INC										4
-#define JUMP_HEIGHT									48
+#define GAME_LIN_FLOOR								152
 #define ST_STAND_R									0
 #define ST_STAND_L									1
 #define ST_TURN_R									10
@@ -172,9 +170,15 @@
 #define PLAYER_SLIDE_NORMAL							4
 #define PLAYER_SLIDE_ICE							16
 #define PLAYER_MAX_JUMP								48
+#define PLAYER_HIT_BRICK_TIME						8
+
+
 #define ENEMIES_MAX									6   //MAX QUANTITY OF ENEMIES ON SCREEN (0->6)
 #define GAME_EXTRA_LIFE								2000
 #define GAME_TIME_WATER_SPLASH						15
+
+#define MAZE_BRICK									18
+#define MAZE_BRICK_FREEZE							20
 
 #endif
 

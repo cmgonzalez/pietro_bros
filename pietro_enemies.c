@@ -1,4 +1,3 @@
-
 #include <stdlib.h>
 #include "nirvana+.h"
 #include "pietro.h"
@@ -16,7 +15,7 @@ void enemy_coin1(void){
 	//COINS N SLIPICE
 	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 		enemy_walk();
-		if ( (lin[sprite] == 152)  && ( col[sprite] == 3 || col[sprite] == 27) ) {
+		if ( ( lin[sprite] == GAME_LIN_FLOOR )  && ( col[sprite] == 3 || col[sprite] == 27) ) {
 			spr_destroy(sprite);
 		}
 	}
@@ -247,13 +246,13 @@ void enemy_standard(void){
 			sprite_speed2[sprite] = 0;
 			enemy_walk();
 	/* 		//JUMP BEFORE ENTER PIPES
-			if ( lin[sprite] == 152 && ( col[sprite] < 5 || col[sprite] > 25) ) {
+			if ( lin[sprite] == GAME_LIN_FLOOR && ( col[sprite] < 5 || col[sprite] > 25) ) {
 				BIT_SET(s_state, STAT_JUMP);
 			}
 	*/
 		} else {
 			//JUMPING
-			sprite_speed2[sprite] = 2;
+			sprite_speed2[sprite] = 1;
 			spr_move_horizontal();
 			spr_move_up();
 			if ( BIT_CHK(s_state, STAT_JUMP) ){
@@ -303,7 +302,7 @@ void enemy_slipice(void){
 			} else {
 				enemy_walk();
 			}
-			if ( (lin[sprite] == 152)  && ( col[sprite] == 3 || col[sprite] == 27) ) {
+			if ( (lin[sprite] == GAME_LIN_FLOOR)  && ( col[sprite] == 3 || col[sprite] == 27) ) {
 				spr_destroy(sprite);
 			}
 		}
@@ -342,7 +341,7 @@ void enemy_fireball_red(void){
 			}
 			index1 = game_calc_index(lin[sprite]+tmp, s_col1);
 			
-			if (lin[sprite] < 152 && lvl_1[index1] > VAL_COL || col[sprite] < 2 || col[sprite] > 29) {
+			if (lin[sprite] < GAME_LIN_FLOOR && lvl_1[index1] > VAL_COL || col[sprite] < 2 || col[sprite] > 29) {
 				BIT_FLP(s_state, STAT_DIRR);
 				BIT_FLP(s_state, STAT_DIRL);
 			}

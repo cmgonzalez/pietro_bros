@@ -37,29 +37,22 @@ unsigned char spr_move_up( void ){
 	if ((lin[sprite] & 7) == 0) {
 		index1 = game_calc_index( lin[sprite] - LIN_INC , col[sprite]);
 		if ( !game_check_maze( index1 ) ) {
-			
 			if (sprite >= SPR_P2 ) {
 				index2 = index1 + 1;
 				if(!player_hit_brick()) {
 					player_hit_pow();
 				};
-				//BETTER JUMP
- 				if ( ( BIT_CHK(state[sprite], STAT_DIRL) || BIT_CHK(state[sprite], STAT_DIRR) ) && 
-					 ( hit_col[index_player] == col[sprite] ) && 
-					 ( col[sprite] > 0 ) 
-					) {
-					return 1;
-				}
- 			}
+				return 1;
+			}
 			spr_set_fall();
 			return 0;
 		}
 	}
 	
+	
 	lin[sprite] = lin[sprite] - LIN_INC; 
-	if (lin[sprite] > 200) { //TODO REVIEW WHEN THE P2 ON SAFE PLAT CAN KICK A ENEMY UP THE SCREEN!!!
+	if (lin[sprite] == 0) { 
 		spr_set_fall();
-		lin[sprite] = 0;
 		NIRVANAP_fillT(18, s_lin0,s_col0);
 	}
 	return 0;
@@ -78,9 +71,9 @@ unsigned char spr_move_down( void ){
 		}
 	}
 	lin[sprite] = lin[sprite] + LIN_INC;
-	if (lin[sprite] > 152) {
+	if (lin[sprite] > GAME_LIN_FLOOR) {
 		BIT_CLR(s_state, STAT_FALL);
-		lin[sprite] = 152;
+		lin[sprite] = GAME_LIN_FLOOR;
 	}
 	return 0;
 }
@@ -172,7 +165,7 @@ unsigned char spr_killed( unsigned char f_sprite) {
 }
 
 void spr_anim_fall( unsigned char f_sprite) {
-	if ( lin[f_sprite] > 48 && lin[f_sprite] < 152 && (lin[f_sprite] & 5) == 0) {
+	if ( lin[f_sprite] > 48 && lin[f_sprite] < GAME_LIN_FLOOR && (lin[f_sprite] & 5) == 0) {
 		index1 = game_calc_index ( lin[f_sprite]-16 , col[f_sprite]);
 		tmp  = lvl_1[index1] == 18 || lvl_1[index1] == 20;
 		tmp0 = lvl_1[index1+1] == 18 || lvl_1[index1+1] == 20;
@@ -245,10 +238,11 @@ unsigned char spr_collition_check(unsigned char f_dir) {
 	//fi_lin = lin[sprite];
 	index1 = game_calc_index( lin[sprite] , col[sprite] );
 	if (f_dir == DIR_RIGHT) {
-		index1   += 2;
+		if (col[sprite]==31) return 0;
+		index1 += 2;
 	} else {
-		index1   -= 1;
-		
+		if (col[sprite]==0) return 0;
+		index1 -= 1;
 	}
 	if ( lvl_1[ index1] > VAL_COL  ) return 1;
 	index2   = index1 + 32;

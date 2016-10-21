@@ -49,20 +49,20 @@ void game_back_fix2(void) {
 
 void game_back_fix3(void) {
 	NIRVANAP_drawT(TILE_PIPE1A, 136, 0);
-	NIRVANAP_drawT(TILE_PIPE1B, 152, 0);
+	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 0);
 	NIRVANAP_drawT(TILE_PIPE2A, 136, 2);
-	NIRVANAP_drawT(TILE_PIPE2B, 152, 2);
+	NIRVANAP_drawT(TILE_PIPE2B, GAME_LIN_FLOOR, 2);
 	NIRVANAP_fillT(PAPER, 136, 4);
-	NIRVANAP_fillT(PAPER, 152, 4);
+	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 4);
 }
 
 void game_back_fix4(void) {
 	NIRVANAP_drawT(TILE_PIPE1A, 136, 30);
-	NIRVANAP_drawT(TILE_PIPE1B, 152, 30);
+	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 30);
 	NIRVANAP_drawT(TILE_PIPE3A, 136, 28);
-	NIRVANAP_drawT(TILE_PIPE3B, 152, 28);
+	NIRVANAP_drawT(TILE_PIPE3B, GAME_LIN_FLOOR, 28);
 	NIRVANAP_fillT(PAPER, 136, 26);
-	NIRVANAP_fillT(PAPER, 152, 26);
+	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 26);
 }
 
 void game_back_fix5(void) {
@@ -282,8 +282,8 @@ void game_phase_init(void) {
 	/*PRINT PHASE MESSAGE*/
 	game_phase_print(12);
 	/* PLAYER INIT */
-	player_init(SPR_P1,152,10,TILE_P1_STANR);
-	if (game_two_player) player_init(SPR_P2,152,20,TILE_P1_STANR +24+12);
+	player_init(SPR_P1,GAME_LIN_FLOOR,10,TILE_P1_STANR);
+	if (game_two_player) player_init(SPR_P2,GAME_LIN_FLOOR,20,TILE_P1_STANR +24+12);
 	/*DRAW MAZE*/
 	game_draw_back();
 	zx_print_str(23, 11, "PHASE");
@@ -1091,7 +1091,7 @@ void game_hall_of_fame(void) {
 	
 	game_menu_e(16 ,6, 24,156,1);
 	
-	game_menu_e(152,6, 24,159,255);//game_menu_e(159,-1);
+	game_menu_e(GAME_LIN_FLOOR,6, 24,159,255);//game_menu_e(159,-1);
 	//MENU
 	for(s_lin1=0; s_lin1 < 10; ++s_lin1){
 		zx_print_ink(INK_CYAN);
