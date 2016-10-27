@@ -101,7 +101,7 @@ BANK06_ay_reset:
    ld (hl),a
    ldir
    
-   ld a,%10111000
+   ld a,$b8
    ld (BANK06_ay_reg + 7),a
    
    ld a,31
