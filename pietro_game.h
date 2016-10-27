@@ -68,6 +68,7 @@ extern void			 game_score_osd(void);
 extern void			 game_hall_of_fame(void);
 extern void			 game_hall_enter(void);
 extern void			 game_hall_enter_phs(unsigned char f_row,unsigned char f_col);
+extern unsigned char game_hall_check(unsigned char p_index);
 extern void			 game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned char *cnt, unsigned char f_col, unsigned char f_row, unsigned char f_inc);
 extern void			 game_hall_print_p(unsigned char selected, unsigned char f_row,unsigned char f_col, unsigned char f_tile, unsigned char f_inc);
 

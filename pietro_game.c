@@ -301,7 +301,7 @@ void game_loop(void) {
 	sound_coin();
 	z80_delay_ms(200);
 	ay_reset();
-	//RESTORE POW ON MAP
+	/*RESTORE POW ON MAP*/
 	lvl_1[495] = 17;
 	lvl_1[495 + 1] = 17;
 	lvl_1[495 + 32] = 17;
@@ -409,12 +409,12 @@ void game_loop(void) {
 	NIRVANAP_halt();
 	zx_print_str(8, 11, "GAME  OVER");
 	game_colour_message( 8, 11, 21, 200 );
-	
+	game_hall_enter();
 	ay_reset();
 	game_cortina_pipes();
 	game_menu_sel = 0;
 	game_menu_paint();
-}
+ }
 
 void game_score_osd(void) {
 	if (score_osd_col[index_player] == 255 ) {
@@ -923,10 +923,6 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 }
 
 void game_hall_enter(void) {
-	//TEMPORARY - EMPTY FUNCTION IS PRUNED BY SDCC AND CAUSES BUILD PROBLEMS
-	ay_fx_play(ay_effect_10);
-	sound_coin();
-/*
 	unsigned char edit, f_col, f_row;
 	unsigned char p1;
 	unsigned char p2;
@@ -937,10 +933,12 @@ void game_hall_enter(void) {
 	unsigned char p1_cnt;
 	unsigned char p2_cnt;
 	
+	p1 = 0;
+	p2 = 0;
+	//TODO ROTATE DOWN
+	p1 = game_hall_check(0);
+	p2 = game_hall_check(1);
 	
-	
-	p1 = 1;
-	p2 = 1;
 	p1_lock = 0;
 	p2_lock = 0;
 	
@@ -958,14 +956,14 @@ void game_hall_enter(void) {
 	game_paint_attrib(0);
 	
 	
-	if (p1 == 1) {
+	if (p1 > 0) {
 		game_hall_enter_phs(f_row,f_col);
 	}
-	if (p2 == 1) {
+	if (p2 > 0) {
 		game_hall_enter_phs(f_row,f_col+16);
 	}
 	
-	if ( p1 == 1 || p2 == 1 ) {
+	if ( p1 > 0 || p2 > 0 ) {
 		edit = 1;
 	} else {
 		edit = 0;
@@ -975,10 +973,10 @@ void game_hall_enter(void) {
 		if ( game_check_time(frame_time,5) ) {
 			
 			
-			if (p1 == 1) {
+			if (p1 > 0) {
 				game_hall_print_p(p1_sel,f_row, f_col   , 3,0);
 			}
-			if (p2 == 1) {
+			if (p2 > 0) {
 				game_hall_print_p(p2_sel,f_row, f_col+16,39,6);
 			}
 			
@@ -987,7 +985,7 @@ void game_hall_enter(void) {
 			hall_flip = !hall_flip;
 		}
 		dirs = 0;
-		if (p1 == 1) {
+		if (p1 > 0) {
 			dirs = (joyfunc1)(&k1);
 			if (!p1_lock && dirs) {
 				game_hall_edit_p(&p1, &p1_sel,&p1_cnt,f_col,f_row,0);
@@ -998,7 +996,7 @@ void game_hall_enter(void) {
 			
 		}
 		
-		if (p2 == 1) {
+		if (p2 > 0) {
 			dirs = (joyfunc2)(&k1);
 			if (!p2_lock && dirs) {
 				game_hall_edit_p(&p2, &p2_sel,&p2_cnt,f_col+16,f_row,6);
@@ -1012,7 +1010,26 @@ void game_hall_enter(void) {
 			game_draw_clear();
 		}
 	}
-*/
+
+}
+
+
+unsigned char game_hall_check(unsigned char p_index) {
+	unsigned char *f_name;
+
+	for (tmp=0;tmp<10;++tmp){
+		if ( player_score[p_index] > hall_scores[tmp] ) {
+				for (tmp0 = 9; tmp0 > tmp; --tmp0 ) {
+					hall_scores[tmp0] = hall_scores[tmp0-1];
+					f_name = (unsigned char *) hall_names[tmp];
+					*f_name = (unsigned char) hall_names[tmp-1];
+				}
+				hall_scores[tmp] = player_score[p_index];
+				return tmp+1;
+		}
+
+	}
+	return 0;
 }
 
 void game_hall_enter_phs(unsigned char f_row,unsigned char f_col) {
@@ -1043,7 +1060,12 @@ void game_hall_print_p( unsigned char selected, unsigned char f_row,unsigned cha
 
 void game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned char *cnt, unsigned char f_col, unsigned char f_row, unsigned char f_inc) {
 	
-	unsigned char *out_str = "A";
+	
+	unsigned char *p;
+	unsigned char *out_str;
+	unsigned char f_tmp;
+	
+	out_str = &f_tmp;
 
 	if ( dirs & IN_STICK_FIRE ) {
 		++f_row;
@@ -1059,9 +1081,12 @@ void game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned c
 		}
 		
 		if (*selected == 3) {
-			//*selected = 0
+			tmp = *player - 1;
+			p = (unsigned char *) hall_names[tmp];
+			*p++ = initals[f_inc];
+			*p++ = initals[f_inc+2];
+			*p++ = initals[f_inc+4];
 			*player = 0;
-			//TODO INSERT HALL OF FAME!
 		}
 		*cnt = 0;
 		while( hall_valids[*cnt] != initals[f_inc + ( *selected<<1 )]) ++*cnt;
