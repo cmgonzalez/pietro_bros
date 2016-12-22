@@ -114,18 +114,38 @@ unsigned int	game_score_top;
 //###############################################################################################
 unsigned char phases[] = {
 	//SHELLCREPPER,SIDESTEPPER,FIGHTERFLY,BRICK TILE
-	  3,0,0,TILE_BRICK1,		//Phase  1: Turtle x3
-	  5,0,0,TILE_BRICK1,		//Phase  2: Turtle x5
-	  0,0,0,TILE_BRICK2,		//Phase  3: Bonus
-	  0,4,0,TILE_BRICK3,		//Phase  4: Crab x4
-	  2,4,0,TILE_BRICK3,		//Phase  5: Turtle x2, Crab x4
-	  0,0,4,TILE_BRICK4,		//Phase  6: Fly x4
-	  0,2,3,TILE_BRICK4,		//Phase  7: Crab x2, Fly x3
-	  0,0,0,TILE_BRICK_FREEZE,	//Phase  8: Bonus Freeze
-	  4,0,1,TILE_BRICK2,		//Phase  9: Turtle x4, Fly x1, Slipice
-	  0,4,1,TILE_BRICK2,		//Phase 10: Crab x4, Fly x1, Slipice
-	  0,4,2,TILE_BRICK2,		//Phase 11: Crab x4, Fly x2, Slipice
-	  0,2,3,TILE_BRICK2			//Phase 12+ random 8,10,11
+	  3, 0, 0, TILE_BRICK1, 		//Phase  1: Turtle x3
+	  5, 0, 0, TILE_BRICK1, 		//Phase  2: Turtle x5
+	  0, 0, 0, TILE_BRICK2, 		//Phase  3: Bonus
+	  0, 4, 0, TILE_BRICK3, 		//Phase  4: Crab x4
+	  2, 4, 0, TILE_BRICK3, 		//Phase  5: Turtle x2,  Crab x4
+	  0, 0, 4, TILE_BRICK4, 		//Phase  6: Fly x4
+	  0, 2, 3, TILE_BRICK4, 		//Phase  7: Crab x2,  Fly x3
+	  0, 0, 0, TILE_BRICK_FREEZE, 	//Phase  8: Bonus Freeze
+	  4, 0, 1, TILE_BRICK2, 		//Phase  9: Turtle x4,  Fly x1,  Slipice
+	  0, 4, 1, TILE_BRICK1, 		//Phase 10: Crab x4,  Fly x1,  Slipice
+	  0, 4, 2, TILE_BRICK2, 		//Phase 11: Crab x4,  Fly x2,  Slipice
+	  0, 2, 3, TILE_BRICK3,			//Phase 12+ random 8, 10, 11 <- NORMAL MODE!
+	  0, 0, 0, TILE_BRICK1,			//Phase 13: Bonus
+	  8, 0, 0, TILE_BRICK2,			//Phase 14: Fly x 8
+	  0, 8, 0, TILE_BRICK3,			//Phase 15: 
+	  0, 0, 8, TILE_BRICK1,			//Phase 16
+	  4, 4, 2, TILE_BRICK2,			//Phase 17
+	  0, 0, 0, TILE_BRICK_FREEZE,	//Phase 18: Bonus
+	  8, 2, 0, TILE_BRICK1,			//Phase 19
+	  0, 6, 3, TILE_BRICK2,			//Phase 20
+	  0, 2, 4, TILE_BRICK3,			//Phase 21
+	  2, 2, 6, TILE_BRICK1,			//Phase 22
+	  0, 0, 0, TILE_BRICK2,			//Phase 23: Bonus
+	  6, 4, 0, TILE_BRICK3,			//Phase 24
+	  6, 4, 2, TILE_BRICK_FREEZE,	//Phase 25
+	  6, 4, 4, TILE_BRICK_FREEZE,	//Phase 26
+	  6, 4, 6, TILE_BRICK_FREEZE,	//Phase 27
+	  0, 0, 0, TILE_BRICK_FREEZE,	//Phase 28: Bonus
+	  4, 4, 4, TILE_BRICK_FREEZE,	//Phase 29
+	  8, 8, 8, TILE_BRICK_FREEZE,	//Phase 30
+	 16,16,16, TILE_BRICK_FREEZE,	//Phase 31
+	 32,32,32, TILE_BRICK_FREEZE	//Phase 32: HELL
 };
 
 //PHASE RELATED VARIABLES

@@ -68,7 +68,7 @@ unsigned char player_collition_check(void) {
 	if ( BIT_CHK(state[enemies], STAT_KILL) ) return 0;
 	
 	tmp_ui = abs( lin[enemies] - lin[sprite] );
-	if ( tmp_ui >= 12 ) return 0; //BETTER 16
+	if ( tmp_ui >= 14 ) return 0; //BETTER 16
 	
 	/* COL DIFF TO SPEED UP */
 	tmp_ui = abs( col[enemies] - col[sprite] );

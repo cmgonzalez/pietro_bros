@@ -150,9 +150,11 @@ int main(void) {
 	NIRVANAP_tiles(btiles);
 	NIRVANAP_start();
 	frame_time = zx_clock();
+	game_lives[0] = 3;
+	game_lives[1] = 3;
 	//GAME MENU
 	game_menu();
-	//GAME END
+	//GAME EXIT
 	NIRVANAP_stop();
 	return 0;
 }

@@ -1,5 +1,5 @@
 @echo off
-
+echo Start Time %TIME%
 del bin\pietro_release_sdcc_low.tap > nul 2>&1
 
 @rem SET ENVIRONMENT VARIABLES FOR Z88DK
@@ -13,33 +13,33 @@ set "PADDR=23552"   %= ORG of Pietro binary =%
 set "NADDR=56323"   %= ORG of Nirvana+ binary (fixed) =%
 
 @rem MAKE BASIC LOADER
-
+echo Compiling Bas Loader.
 cd src_tap
-bas2tap -sPietro -a10 loader.bas loader_bas.tap
-copy /b loader_bas.tap ..\loader.tap
+bas2tap -sPietro -a10 loader.bas loader_bas.tap 1>nul
+copy /b loader_bas.tap ..\loader.tap 1>nul
 
 @rem COPY SCREEN$
-
-copy /b pietro_scr.bin ..\pietro_scr.bin
+echo Compiling Screen.
+copy /b pietro_scr.bin ..\pietro_scr.bin 1>nul
 cd ..
 
 @rem COPY FONT
-
+echo Compiling Fonts.
 cd src_font
-copy /b pietro.font ..\pietro.font
+copy /b pietro.font ..\pietro.font 1>nul
 cd ..
 
 @rem ASSEMBLE NIRVANA
-
+echo Compiling Nirvana+.
 cd src_nirvana
 pasmo nirvana+.asm nirvanap.bin
-copy /b nirvanap.bin ..\nirvanap.bin
+copy /b nirvanap.bin ..\nirvanap.bin 1>nul
 cd ..
-
-@rem COMPILE PROGRAM
+echo Compiling Pietro Bros.
+@rem COMPILE PROGRAM FASTER
 @rem zorg overrides org set in zpragma.inc
 
-zcc +zx -vn -zorg=%PADDR% -startup=31 -SO2 -clib=sdcc_iy --max-allocs-per-node6000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
+zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node500 --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
 @rem zcc +zx -vn -zorg=%PADDR% -startup=31 -O3 -clib=new @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
 
 @rem INJECT SOME CODE AND RAM VARIABLES INTO NIRVANA HOLE
@@ -58,11 +58,11 @@ appmake +zx -b pietro_bros_BANK_06.bin -o pietro_ay.tap --org 49152 --noloader -
 
 @rem MAKE FINAL TAP
 
-copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_sdcc_low.tap
+copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_sdcc_low.tap  1>nul
 
 del loader.tap mcload.tap mcloader.tap nirvanap.tap nirvanap.bin nirvanap_final.bin > nul 2>&1
 del pietro.font pietro.tap pietro_bros pietro_bros_CODE.bin > nul 2>&1
 del pietro_bros_MCLOAD.bin pietro_bros_LOADER.bin pietro_bros_NIRVANA_HOLE.bin > nul 2>&1
 del pietro_scr.bin pietro_scr.tap pietro_bros_BANK_06.bin pietro_ay.tap > nul 2>&1
-
+echo End Time %TIME%
 @rem LAUNCH

@@ -53,6 +53,7 @@
 
 #define TILE_PRINCESS								202
 #define TILE_CASTLE									214
+#define TILE_GRASS									140
 
 /*				SCREEN TILES						*/
 #define TILE_BRICK0									132
@@ -179,6 +180,8 @@
 
 #define MAZE_BRICK									18
 #define MAZE_BRICK_FREEZE							20
+/*LOW MEMORY USAGE FOR FASTER COMPILATION*/
+#define GAME_LOW_MEM								0
 
 #endif
 

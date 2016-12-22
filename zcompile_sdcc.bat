@@ -1,6 +1,6 @@
 @echo off
-
-del bin\pietro_release_sdcc.tap > nul 2>&1
+echo Start Time %TIME%
+del bin\pietro_release_sdcc_low.tap > nul 2>&1
 
 @rem SET ENVIRONMENT VARIABLES FOR Z88DK
 SET ZCCCFG=C:\z88dk\lib\config
@@ -13,29 +13,29 @@ set "PADDR=23552"   %= ORG of Pietro binary =%
 set "NADDR=56323"   %= ORG of Nirvana+ binary (fixed) =%
 
 @rem MAKE BASIC LOADER
-
+echo Compiling Bas Loader.
 cd src_tap
-bas2tap -sPietro -a10 loader.bas loader_bas.tap
-copy /b loader_bas.tap ..\loader.tap
+bas2tap -sPietro -a10 loader.bas loader_bas.tap 1>nul
+copy /b loader_bas.tap ..\loader.tap 1>nul
 
 @rem COPY SCREEN$
-
-copy /b pietro_scr.bin ..\pietro_scr.bin
+echo Compiling Screen.
+copy /b pietro_scr.bin ..\pietro_scr.bin 1>nul
 cd ..
 
 @rem COPY FONT
-
+echo Compiling Fonts.
 cd src_font
-copy /b pietro.font ..\pietro.font
+copy /b pietro.font ..\pietro.font 1>nul
 cd ..
 
 @rem ASSEMBLE NIRVANA
-
+echo Compiling Nirvana+.
 cd src_nirvana
 pasmo nirvana+.asm nirvanap.bin
-copy /b nirvanap.bin ..\nirvanap.bin
+copy /b nirvanap.bin ..\nirvanap.bin 1>nul
 cd ..
-
+echo Compiling Pietro Bros.
 @rem COMPILE PROGRAM
 @rem zorg overrides org set in zpragma.inc
 
@@ -58,7 +58,7 @@ appmake +zx -b pietro_bros_BANK_06.bin -o pietro_ay.tap --org 49152 --noloader -
 
 @rem MAKE FINAL TAP
 
-copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_sdcc.tap
+copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_sdcc.tap  1>nul
 
 del loader.tap mcload.tap mcloader.tap nirvanap.tap nirvanap.bin nirvanap_final.bin > nul 2>&1
 del pietro.font pietro.tap pietro_bros pietro_bros_CODE.bin > nul 2>&1
