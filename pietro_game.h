@@ -46,6 +46,8 @@ extern unsigned char game_enemy_quota(void);
 extern unsigned char game_enemy_add1(unsigned char f_class);
 extern unsigned char game_enemy_add_get_index(unsigned char f_search);
 extern void			 game_freeze(unsigned char f_lin, unsigned char f_col);
+extern void			 game_freeze_all();
+extern void			 game_unfreeze_all();
 extern void			 game_print_score(void);
 extern void			 game_menu_e(unsigned char f_col, unsigned char e_c0,unsigned char e_c1,unsigned char e_start,unsigned char f_sign);
 extern unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsigned char f_start, unsigned char f_end, unsigned int timeout);

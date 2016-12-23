@@ -135,25 +135,24 @@ void game_cortina_pipes(void) {
 }
 
 void game_draw_clear(void) {
+	NIRVANAP_stop();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	//TODO AN ASM ROUTINE TO CLEAR THE SCREEN FAST (NIRVANA)
 	for (s_lin1 = 16; s_lin1 <= 162; s_lin1+= 16) {
 		for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 			NIRVANAP_drawT(TILE_EMPTY, s_lin1, s_col1);
 		}
-		NIRVANAP_halt();
+		//NIRVANAP_halt();
 	}
-	NIRVANAP_halt();
+	//NIRVANAP_halt();
+	NIRVANAP_start();
 }
 
 void game_draw_back(void) {
 	for (s_lin1 = 16; s_lin1 < 182; s_lin1 = s_lin1 + 8) {
 		for (s_col1 = 0; s_col1 < 32; s_col1 = s_col1 + 2) {
 			tmp_ui = game_calc_index(s_lin1,s_col1);
-			if (lvl_1[tmp_ui] == 20 ) {
-				lvl_1[tmp_ui] = 18;
-			}
-			if (lvl_1[tmp_ui] == 18 ) {
+			if (lvl_1[tmp_ui] >= GAME_MAP_PLATFORM ) {
 				NIRVANAP_drawT(game_brick_tile, s_lin1, s_col1);
 			}
 		}
@@ -227,7 +226,12 @@ unsigned char game_phase_calc(void) {
 	phase_quota[0]	= phases[tmp_uc+0];
 	phase_quota[1]	= phases[tmp_uc+1];
 	phase_quota[2]	= phases[tmp_uc+2];
-	game_brick_tile = phases[tmp_uc+3]; //PHASE TILE IS ON 4
+
+	game_brick_tile = phases[tmp_uc+3]; //PHASE TILE IS ON 4 ELEMENT
+	game_unfreeze_all();
+	if ( game_brick_tile == TILE_BRICK_FREEZE ) {
+		game_freeze_all();
+	}
 	spr_idx[18]		= game_brick_tile; //HACK
 	return phase_quota[0] + phase_quota[1] + phase_quota[2];
 }
@@ -295,16 +299,23 @@ void game_phase_init(void) {
 void game_phase_print(unsigned char f_row) {
 #ifdef __SDCC
 	zx_print_str(f_row, 11, "PHASE");
-	zx_print_chr(f_row, 18, phase_curr+1);
-	game_colour_message( f_row, 11, 21, 300 );
+	if (phase_curr < 31) {
+		zx_print_chr(f_row, 18, phase_curr+1);
+	} else {
+		zx_print_str(f_row, 18, "HELL");
+	}
+	
+	game_colour_message( f_row, 11, 22, 300 );
 #endif
 }
 
 void game_loop(void) {
+	zx_print_str(22,7,"   THANKS ALVIN   ");
 	ay_fx_play(ay_effect_10);
 #ifdef __SDCC
 	sound_coin();
 	z80_delay_ms(200);
+	zx_print_str(22,7,"                  ");
 	ay_reset();
 	/*RESTORE POW ON MAP*/
 	lvl_1[495] = 17;
@@ -329,7 +340,7 @@ void game_loop(void) {
 	game_over = 0;
 	game_pow = 3;
 	/* PHASE INIT */
-	phase_curr = 0;
+	phase_curr = 31; //TODO 0
 	game_phase_init();
 	/* GAME LOOP START */
 	loop_count=0;
@@ -697,10 +708,18 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 	}
 }
 
-void game_unfreeze() {
-	for (index1=0; index1 <= GAME_MAP_TOTAL_POS; index1++ ) {
+void game_unfreeze_all() {
+	for (index1 = 192; index1 < 512; index1++ ) {
 		if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE ) {
 			lvl_1[index1] = GAME_MAP_PLATFORM;
+		}
+	}
+}
+
+void game_freeze_all() {
+	for (index1 = 192; index1 < 512; index1++ ) {
+		if (lvl_1[index1] == GAME_MAP_PLATFORM ) {
+			lvl_1[index1] = GAME_MAP_PLATFORM_FREEZE;
 		}
 	}
 }

@@ -33,7 +33,8 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	}
 	hit_col[index_player] = 0;
 	hit_lin[index_player] = 0;
-	sliding[index_player] = 0;
+	//sliding[index_player] = 0;
+	sliding[index_player] = PLAYER_SLIDE_NORMAL;
 	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
 }
 
@@ -217,7 +218,7 @@ unsigned char player_move(void){
 				spr_move_down();
 				player_move_horizontal();
 				index1 = game_calc_index( lin[sprite] + 16 , col[sprite] );
-				if ( lvl_1[index1] == MAZE_BRICK_FREEZE ) {
+				if ( lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE ) {
 					sliding[index_player] = PLAYER_SLIDE_ICE;
 				} else {
 					sliding[index_player] = PLAYER_SLIDE_NORMAL;
@@ -228,7 +229,6 @@ unsigned char player_move(void){
 			}
 		}
 	}
-	
 	player_hit_brick_clear();
 	spr_redraw();
 	state[sprite] = s_state;
@@ -292,10 +292,10 @@ int player_move_read_input(void) {
 		}
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
 			index1 = game_calc_index(s_lin0+16 , s_col0);
-			if (lvl_1[index1] == 20) {
-				sliding[index_player] = PLAYER_SLIDE_ICE;
-			} else {
+			if (lvl_1[index1] == GAME_MAP_PLATFORM) {
 				sliding[index_player] = PLAYER_SLIDE_NORMAL;
+			} else {
+				sliding[index_player] = PLAYER_SLIDE_ICE;
 			}
 			
 			if ( !BIT_CHK(state_a[sprite], STAT_LOCK) && dirs & IN_STICK_FIRE ) {
