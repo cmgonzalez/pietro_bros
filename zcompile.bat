@@ -43,10 +43,10 @@ cd ..
 
 if "%~1"=="fast" (
   echo Compiling Pietro Bros - Fast Mode.
-  zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node50000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
+  zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node10000 --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
 ) else (
   echo Compiling Pietro Bros - Release Mode.
-  zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
+  zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
 )
 
 @rem zcc +zx -vn -zorg=%PADDR% -startup=31 -O3 -clib=new @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
