@@ -87,7 +87,6 @@ extern unsigned char 	game_two_player;
 extern unsigned char	game_sound;
 
 extern unsigned char	game_over;
-extern unsigned char	game_show_fps;
 extern unsigned char	game_lives[2];
 extern unsigned char	game_lives_update;
 extern unsigned int		game_score_top;

@@ -344,7 +344,7 @@ void game_loop(void) {
 		/*ENEMIES TURN*/
 		enemy_turn();
 		/*EACH 30 MICROSECONDS APROX - UPDATE PLAYER COLLITION*/
-		if (game_check_time(col_time,10)) {
+		if (game_check_time(col_time, PLAYER_TCOL_CHECK)) {
 			col_time = zx_clock();
 			player_set1();
 			player_collition();
@@ -363,13 +363,6 @@ void game_loop(void) {
 		/*EACH SECOND APROX - UPDATE FPS/SCORE/PHASE LEFT/PHASE ADVANCE*/
 		if (game_check_time(frame_time,100)) {
 			frame_time = zx_clock();
-			/*FPS DISPLAY*/
-			if (game_show_fps) {
-				zx_print_ink(INK_WHITE);
-				zx_print_str(20, 22, "LPS:");
-				zx_print_int(20, 26, loop_count-frame_loop_count);
-				frame_loop_count = loop_count;
-			}
 			/*ADD ENEMIES*/
 			if ( !game_bonus ) {
 				game_enemy_add();
@@ -694,12 +687,20 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 		tmp = 1;
 		index1 = game_calc_index ( f_lin, f_col );
 
-		if (lvl_1[index1] == 18 ) {
-			lvl_1[index1] = 20; //TODO DEFINES!
+		if (lvl_1[index1] == GAME_MAP_PLATFORM ) {
+			lvl_1[index1] = GAME_MAP_PLATFORM_FREEZE;
 			NIRVANAP_drawT( TILE_BRICK_FREEZE , f_lin , f_col );
-			if (lvl_1[index1+1]==0) NIRVANAP_fillT(PAPER,f_lin,f_col+1);
+			if (lvl_1[index1+1] == 0) NIRVANAP_fillT(PAPER,f_lin,f_col+1);
 			game_freeze(f_lin, f_col + 1);
 			game_freeze(f_lin, f_col - 1);
+		}
+	}
+}
+
+void game_unfreeze() {
+	for (index1=0; index1 <= GAME_MAP_TOTAL_POS; index1++ ) {
+		if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE ) {
+			lvl_1[index1] = GAME_MAP_PLATFORM;
 		}
 	}
 }
