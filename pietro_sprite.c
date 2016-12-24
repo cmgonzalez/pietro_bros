@@ -292,7 +292,7 @@ void spr_destroy(unsigned char f_sprite) {
 	state[f_sprite] = 0;
 	NIRVANAP_spriteT(f_sprite, TILE_EMPTY, 0,0);
 	NIRVANAP_fillT(PAPER, s_lin0, s_col0);
-	spr_check_over();
+	if (!game_over)	spr_check_over();
 }
 
 void spr_set_fall( void ) {

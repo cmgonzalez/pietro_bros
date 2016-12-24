@@ -144,7 +144,7 @@ unsigned char phases[] = {
 	  4, 4, 4, TILE_BRICK_FREEZE,	//Phase 29
 	  8, 8, 8, TILE_BRICK_FREEZE,	//Phase 30
 	 12,12,12, TILE_BRICK_FREEZE,	//Phase 31
-	 1,1,1, TILE_BRICK_FREEZE	//Phase 32: HELL
+	 1,0,0, TILE_BRICK_FREEZE	//Phase 32: HELL
 };
 
 //PHASE RELATED VARIABLES

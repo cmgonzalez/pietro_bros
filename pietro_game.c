@@ -142,9 +142,7 @@ void game_draw_clear(void) {
 		for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 			NIRVANAP_drawT(TILE_EMPTY, s_lin1, s_col1);
 		}
-		//NIRVANAP_halt();
 	}
-	//NIRVANAP_halt();
 	NIRVANAP_start();
 }
 
@@ -247,6 +245,7 @@ void game_phase_init(void) {
 	score_osd_col[0] = 0xFF;
 	score_osd_col[1] = 0xFF;
 	/* PHASE OSD START */
+	game_draw_clear();
 	game_cortina_pipes();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	spr_count = 0;
@@ -394,10 +393,12 @@ void game_loop(void) {
 				game_kill_all_sprites();					//SPRITES INIT
 				if (game_bonus) game_bonus_summary();
 				++phase_curr;
-				game_phase_init();
+				
 				if (phase_curr > 31) {
 					game_end();								//GAME END
-					game_over = 0;
+					game_over = 1;
+				} else {
+					game_phase_init();
 				}
 			}
 		}
@@ -405,6 +406,7 @@ void game_loop(void) {
 	}
 	game_kill_all_sprites();
 	NIRVANAP_halt();
+	game_draw_clear();
 	zx_print_str(8, 11, "GAME  OVER");
 	game_colour_message( 8, 11, 21, 200 );
 	game_hall_enter();
@@ -709,7 +711,7 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 }
 
 void game_unfreeze_all() {
-	for (index1 = 192; index1 < 512; index1++ ) {
+	for (index1 = 192; index1 <= 512+32; index1++ ) {
 		if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE ) {
 			lvl_1[index1] = GAME_MAP_PLATFORM;
 		}
@@ -717,7 +719,7 @@ void game_unfreeze_all() {
 }
 
 void game_freeze_all() {
-	for (index1 = 192; index1 < 512; index1++ ) {
+	for (index1 = 192; index1 <= 512+32; index1++ ) {
 		if (lvl_1[index1] == GAME_MAP_PLATFORM ) {
 			lvl_1[index1] = GAME_MAP_PLATFORM_FREEZE;
 		}
@@ -924,7 +926,9 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 
 void game_end() {
 	unsigned char f_col, f_row;
-	game_cortina_pipes();
+	game_kill_all_sprites();
+	game_draw_clear();
+	//game_cortina_pipes();
 	ay_midi_play(pb_midi_title);
 	f_row = 4;
 	f_col = 0;
@@ -967,7 +971,8 @@ void game_end() {
 	game_colour_message( 19, 1, 31, 200 );
 	zx_print_str(19, 1, "SEE YOU!              ");
 	game_colour_message( 19, 1, 31, 200 );
-	game_cortina_pipes();
+	game_draw_clear();
+	//game_cortina_pipes();
 }
 
 void game_hall_enter(void) {

@@ -218,11 +218,12 @@ unsigned char player_move(void){
 				spr_move_down();
 				player_move_horizontal();
 				index1 = game_calc_index( lin[sprite] + 16 , col[sprite] );
-				if ( lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE ) {
+				if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE) {
 					sliding[index_player] = PLAYER_SLIDE_ICE;
 				} else {
 					sliding[index_player] = PLAYER_SLIDE_NORMAL;
 				}
+				
 				if ( BIT_CHK(s_state, STAT_DIRL) == BIT_CHK(s_state, STAT_DIRR) ) {
 					sliding[index_player] = 0;
 				}
@@ -292,10 +293,10 @@ int player_move_read_input(void) {
 		}
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
 			index1 = game_calc_index(s_lin0+16 , s_col0);
-			if (lvl_1[index1] == GAME_MAP_PLATFORM) {
-				sliding[index_player] = PLAYER_SLIDE_NORMAL;
-			} else {
+			if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE) {
 				sliding[index_player] = PLAYER_SLIDE_ICE;
+			} else {
+				sliding[index_player] = PLAYER_SLIDE_NORMAL;
 			}
 			
 			if ( !BIT_CHK(state_a[sprite], STAT_LOCK) && dirs & IN_STICK_FIRE ) {
