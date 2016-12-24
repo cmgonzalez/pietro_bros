@@ -1,5 +1,7 @@
 #include <arch/zx.h>
+#include <intrinsic.h>
 #include <stdlib.h>
+#include <string.h>
 #include <z80.h>
 #include "nirvana+.h"
 #include "pietro.h"
@@ -135,17 +137,17 @@ void game_cortina_pipes(void) {
 }
 
 void game_draw_clear(void) {
-	NIRVANAP_stop();
+   intrinsic_di();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	//TODO AN ASM ROUTINE TO CLEAR THE SCREEN FAST (NIRVANA)
 	for (s_lin1 = 16; s_lin1 <= 162; s_lin1+= 16) {
 		for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
-			NIRVANAP_drawT(TILE_EMPTY, s_lin1, s_col1);
+			NIRVANAP_drawT_raw(TILE_EMPTY, s_lin1, s_col1);
 		}
 		//NIRVANAP_halt();
 	}
 	//NIRVANAP_halt();
-	NIRVANAP_start();
+   intrinsic_ei();
 }
 
 void game_draw_back(void) {
@@ -340,7 +342,7 @@ void game_loop(void) {
 	game_over = 0;
 	game_pow = 3;
 	/* PHASE INIT */
-	phase_curr = 31; //TODO 0
+	phase_curr = 0; //TESTING 31
 	game_phase_init();
 	/* GAME LOOP START */
 	loop_count=0;
@@ -982,11 +984,16 @@ void game_hall_enter(void) {
 	unsigned char p1_cnt;
 	unsigned char p2_cnt;
 	
-	p1 = 0;
-	p2 = 0;
 	//TODO ROTATE DOWN
-	p1 = game_hall_check(0);
-	p2 = game_hall_check(1);
+   if (player_score[0] > player_score[1]) {
+      p1 = game_hall_check(0);
+      p2 = game_hall_check(1);
+   }
+   else
+   {
+      p2 = game_hall_check(1);
+      p1 = game_hall_check(0);
+   }
 	
 	p1_lock = 0;
 	p2_lock = 0;
@@ -1065,19 +1072,15 @@ void game_hall_enter(void) {
 
 unsigned char game_hall_check(unsigned char p_index) {
 #ifdef __SDCC
-	unsigned char *f_name;
-
 	for (tmp=0;tmp<10;++tmp){
 		if ( player_score[p_index] > hall_scores[tmp] ) {
 				for (tmp0 = 9; tmp0 > tmp; --tmp0 ) {
 					hall_scores[tmp0] = hall_scores[tmp0-1];
-					f_name = (unsigned char *) hall_names[tmp];
-					*f_name = (unsigned char) hall_names[tmp-1];
+               strcpy(hall_names[tmp0], hall_names[tmp0-1]);
 				}
 				hall_scores[tmp] = player_score[p_index];
 				return tmp+1;
 		}
-
 	}
 #endif
 	return 0;
@@ -1136,10 +1139,10 @@ void game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned c
 		
 		if (*selected == 3) {
 			tmp = *player - 1;
-			p = (unsigned char *) hall_names[tmp];
+			p = hall_names[tmp];
 			*p++ = initals[f_inc];
 			*p++ = initals[f_inc+2];
-			*p++ = initals[f_inc+4];
+			*p = initals[f_inc+4];
 			*player = 0;
 		}
 		*cnt = 0;
