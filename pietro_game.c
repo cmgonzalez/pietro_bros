@@ -137,7 +137,7 @@ void game_cortina_pipes(void) {
 }
 
 void game_draw_clear(void) {
-   intrinsic_di();
+	intrinsic_di();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	//TODO AN ASM ROUTINE TO CLEAR THE SCREEN FAST (NIRVANA)
 	for (s_lin1 = 16; s_lin1 <= 162; s_lin1+= 16) {
@@ -145,12 +145,9 @@ void game_draw_clear(void) {
 			NIRVANAP_drawT_raw(TILE_EMPTY, s_lin1, s_col1);
 		}
 	}
-<<<<<<< HEAD
 	NIRVANAP_start();
-=======
-	//NIRVANAP_halt();
-   intrinsic_ei();
->>>>>>> 00497591f7df8beb4cef568e960c7a7ff7b48771
+	intrinsic_ei();
+
 }
 
 void game_draw_back(void) {
