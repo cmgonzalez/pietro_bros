@@ -33,6 +33,7 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	}
 	hit_col[index_player] = 0;
 	hit_lin[index_player] = 0;
+	player_lock[index_player] = 1;
 	//sliding[index_player] = 0;
 	sliding[index_player] = PLAYER_SLIDE_NORMAL;
 	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
@@ -167,6 +168,8 @@ unsigned char player_move(void){
 	
 	// READ PLAYER INPUT
 	player_move_read_input(); 
+	
+	
 	sprite_speed2[sprite] = 0;
 	
 	if (BIT_CHK(s_state, STAT_HIT)) {
@@ -183,10 +186,12 @@ unsigned char player_move(void){
 			BIT_CLR(s_state, STAT_HIT);
 			BIT_SET(s_state, STAT_JUMP);
 			state[sprite] = s_state;
+			player_lock[index_player] = 0;
 		}
 		
 		return 0;
 	}
+	if (player_lock[index_player]) return 0;
 	
 	if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL)) {
 		//CHECK IF THE PLAYER HAVE FLOOR, AND SET FALL IF NOT
@@ -278,7 +283,7 @@ void player_turn(void) {
 
 int player_move_read_input(void) {
 	if (dirs != 0) {
-		
+		player_lock[index_player] = 0;
 		if (BIT_CHK(s_state, STAT_HIT)) {
 			//PLAYER MOVES AWAY FROM SAFE PLATFORM
 			BIT_CLR(s_state, STAT_HIT);

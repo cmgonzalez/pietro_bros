@@ -44,6 +44,7 @@ unsigned char jump_lin[8];				//START JUMP LINE
 unsigned char hit_lin[2];				//HIT BRICK LINE
 unsigned char hit_col[2];				//HIT BRICK COL
 unsigned char sliding[2];				//SLIDING COUNTER
+unsigned char player_lock[2];			//LOCK MOVEMENT ON START FIX
 unsigned int  player_score[2];			//SCORE ARRAYS
 unsigned int  player_next_extra[2];		//SCORE ARRAYS
 
@@ -144,7 +145,7 @@ unsigned char phases[] = {
 	  4, 4, 4, TILE_BRICK_FREEZE,	//Phase 29
 	  8, 8, 8, TILE_BRICK_FREEZE,	//Phase 30
 	 12,12,12, TILE_BRICK_FREEZE,	//Phase 31
-	 1,0,0, TILE_BRICK_FREEZE	//Phase 32: HELL
+	 16,16,16, TILE_BRICK_FREEZE	//Phase 32: HELL
 };
 
 //PHASE RELATED VARIABLES

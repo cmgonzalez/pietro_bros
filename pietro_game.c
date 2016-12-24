@@ -248,6 +248,8 @@ void game_phase_init(void) {
 	frame_time = 0;
 	score_osd_col[0] = 0xFF;
 	score_osd_col[1] = 0xFF;
+	player_lock[0] = 1;
+	player_lock[1] = 1;
 	/* PHASE OSD START */
 	game_draw_clear();
 	game_cortina_pipes();
@@ -314,6 +316,7 @@ void game_phase_print(unsigned char f_row) {
 
 void game_loop(void) {
 	zx_print_str(22,7,"   THANKS ALVIN   ");
+	zx_print_str(23,7,"    AND  EINAR    ");
 	ay_fx_play(ay_effect_10);
 #ifdef __SDCC
 	sound_coin();
@@ -326,7 +329,12 @@ void game_loop(void) {
 	lvl_1[495 + 32] = 17;
 	lvl_1[495 + 33] = 17;
 	game_lives[0] = 3;
-	game_lives[1] = 3;
+	if (game_two_player) {
+		game_lives[1] = 3;
+	} else {
+		game_lives[1] = 0;
+	}
+	
 	player_score[0] = 0;
 	player_score[1] = 0;
 	player_next_extra[0] = GAME_EXTRA_LIFE;
@@ -863,11 +871,12 @@ void game_menu_paint(void) {
 	NIRVANAP_drawT( 59, 128, 25 ); //TURTLE
 #endif
 	//MENU
-	zx_print_str(14,10,"  1 PLAYER   ");
-	zx_print_str(16,10,"  2 PLAYER   ");
-	zx_print_str(18,10,"   CONFIG    ");
+	zx_print_str(14,10, "  1 PLAYER   ");
+	zx_print_str(16,10, "  2 PLAYER   ");
+	zx_print_str(18,10, "   CONFIG    ");
 	zx_print_ink(INK_BLUE);
-	zx_print_str(22,7,"CODED BY CGONZALEZ");
+	zx_print_str(22,7, "CODED BY CGONZALEZ");
+	zx_print_str(23,7, "   VERSION  1.0   ");
 	tmp_uc = 0; //FIX MENU RETURN
 }
 
@@ -929,41 +938,68 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 }
 
 void game_end() {
-	unsigned char f_col, f_row;
+	unsigned char f_p1, f_p2;
 	game_kill_all_sprites();
 	game_draw_clear();
 	//game_cortina_pipes();
 	ay_midi_play(pb_midi_title);
-	f_row = 4;
-	f_col = 0;
+
+	//BACKGROUND
+	
+	for (tmp0 = 4 ; tmp0 < 28 ; tmp0 = tmp0 + 2) NIRVANAP_drawT(TILE_GRASS,  80, tmp0);
+	for (tmp0 = 4 ; tmp0 < 28 ; tmp0 = tmp0 + 2) NIRVANAP_drawT(TILE_GRASS,  96, tmp0);
+	for (tmp0 = 4 ; tmp0 < 28 ; tmp0 = tmp0 + 2) NIRVANAP_drawT(TILE_GRASS, 112, tmp0);
+	NIRVANAP_drawT(TILE_CASTLE      , 80, 24);
+	
 	game_menu_e(  32, 1, 29, 156,   1);
 	game_menu_e( 128, 1, 29, 159, 255);
+	f_p1 = 0;
+	f_p2 = 0;
 	
-	if ( game_lives[0] > 0 && game_lives[1] == 0 ) {
+	if (game_two_player) {
+		if (game_lives[0] < 255) f_p1 = 1;
+		if (game_lives[1] < 255) f_p2 = 1;
+	} else {
+		f_p1 = 1;
+	}
+
+	//PIETRO
+	if ( f_p1 == 1 && f_p2 == 0 ) {
 		zx_print_str(19, 1, "PIETRO...");
 		NIRVANAP_drawT(TILE_P1_STANR    , 80, 12);
 	}
-	if ( game_lives[1] > 0 && game_lives[0] == 0 ) {
+	//LUIZO
+	if ( f_p1 == 0 && f_p2 == 1 ) {
 		zx_print_str(19, 1, "LUIZO...");
 		NIRVANAP_drawT(TILE_P1_STANR+24 , 96, 14);
 	}
-	if ( game_lives[0] > 0 && game_lives[1] > 0 ) {
+	//PIETRO AND LUIZO
+	if ( f_p1 == 1 && f_p2 == 1) {
 		zx_print_str(19, 1, "PIETRO AND LUIZO...");
 		NIRVANAP_drawT(TILE_P1_STANR    , 80, 12);
 		NIRVANAP_drawT(TILE_P1_STANR+24 , 96, 14);
 	}
-	NIRVANAP_drawT(TILE_GRASS       , 64, 22);
-	NIRVANAP_drawT(TILE_CASTLE      , 64, 24);
-	NIRVANAP_drawT(TILE_GRASS       , 64, 26);
 	game_colour_message( 19, 1, 31, 200 );
-
-	if ( ( game_lives[0] > 0 && game_lives[1] == 0 ) || ( game_lives[1] > 0 && game_lives[0] == 0 ) ) {
-		zx_print_str(19, 1, "THE PRINCESS!");
+	//PIETRO
+	if ( f_p1 == 1 && f_p2 == 0 ) {
+		NIRVANAP_drawT(TILE_EXTRA      , 64, 18);
+		NIRVANAP_drawT(TILE_PRINCESS   , 80, 18);
+		zx_print_str(19, 1, "FOUND THE PRINCESS!");
+		NIRVANAP_drawT(TILE_EXTRA      , 64, 12);
 	}
-	if ( game_lives[0] > 0 && game_lives[1] > 0 ) {
+	//LUIZO
+	if ( f_p1 == 0 && f_p2 == 1 ) {
+		NIRVANAP_drawT(TILE_EXTRA      , 80, 18);
+		NIRVANAP_drawT(TILE_PRINCESS   , 96, 18);
+		zx_print_str(19, 1, "FOUND THE PRINCESS!");
+		NIRVANAP_drawT(TILE_EXTRA      , 80, 14);
+	}	
+	//PIETRO AND LUIZO
+	if ( f_p1 == 1 && f_p2 == 1 ) {
 		zx_print_str(19, 1, "FOUND THE PRINCESSES!");
 		NIRVANAP_drawT(TILE_EXTRA      , 64, 18);
 		NIRVANAP_drawT(TILE_PRINCESS   , 80, 18);
+		
 		NIRVANAP_drawT(TILE_EXTRA      , 80, 16);
 		NIRVANAP_drawT(TILE_PRINCESS   , 96, 16);
 		

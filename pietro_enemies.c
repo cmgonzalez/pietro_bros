@@ -286,10 +286,10 @@ void enemy_slipice(void){
 		     ( col[sprite] == 7 || col[sprite] == 15 || col[sprite] == 24 ) &&
 			 ( col[sprite] < 136 )
 			 ) {
-//				tmp0 = rand() % 10;
-//				if (tmp0 < 4) {
+
 				tmp_ui = rand();
-				if (tmp_ui < 13106) {
+				index1 = game_calc_index ( lin[sprite]+16, col[sprite]  );
+				if (lvl_1[index1] == GAME_MAP_PLATFORM && tmp_ui < 13106) {
 					ay_fx_play(ay_effect_16);
 					BIT_SET(s_state, STAT_ANGRY);
 					spr_timer[sprite] = zx_clock();
