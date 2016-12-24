@@ -116,7 +116,7 @@ extern unsigned int  score_osd_time[2];
 extern unsigned int  score_osd_tile[2];
 
 extern unsigned int hall_scores[];
-extern unsigned char  * hall_names[];
+extern unsigned char hall_names[][4];
 extern unsigned char *initals;
 extern unsigned char *hall_valids;
 extern unsigned char hall_flip;

@@ -262,7 +262,7 @@ unsigned int hall_scores[] = {
 	 1000,
 };
 
-unsigned char * hall_names[] = {
+unsigned char hall_names[][4] = {
 	"CRI",
 	"GON",
 	"ALV",
