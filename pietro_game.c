@@ -1,3 +1,19 @@
+/*
+	This file is part of Pietro Bros.
+
+	Pietro Bros is free software: you can redistribute it and/or modify
+	it under the terms of the GNU General Public License as published by
+	the Free Software Foundation, either version 3 of the License, or
+	(at your option) any later version.
+
+	Pietro Bros is distributed in the hope that it will be useful,
+	but WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with Pietro Bros.  If not, see <http://www.gnu.org/licenses/>.
+*/
 #include <arch/zx.h>
 #include <intrinsic.h>
 #include <stdlib.h>
@@ -563,6 +579,8 @@ void game_clear_water_splash(void) {
 			zx_print_ink(INK_WHITE);
 			zx_print_paper(PAPER_BLACK);
 			game_water_clear = 255;
+			game_back_fix3(); //TESTING
+			game_back_fix4(); //TESTING
 		}
 	}
 #endif
@@ -876,7 +894,7 @@ void game_menu_paint(void) {
 	zx_print_str(18,10, "   CONFIG    ");
 	zx_print_ink(INK_BLUE);
 	zx_print_str(22,7, "CODED BY CGONZALEZ");
-	zx_print_str(23,7, "   VERSION  1.0   ");
+	zx_print_str(23,7, "   VERSION  1.1   ");
 	tmp_uc = 0; //FIX MENU RETURN
 }
 

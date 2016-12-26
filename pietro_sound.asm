@@ -1,4 +1,3 @@
-
 ; various sound effects
 
 SECTION code_user
