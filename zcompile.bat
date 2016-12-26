@@ -34,7 +34,12 @@ cd ..
 @rem ASSEMBLE NIRVANA
 echo Compiling Nirvana+.
 cd src_nirvana
-pasmo nirvana+.asm nirvanap.bin
+if "%~1"=="pentagon" (
+  echo Nirvana+ targets the pentagon.
+  pasmo nirvana+PG.asm nirvanap.bin
+) else (
+  pasmo nirvana+.asm nirvanap.bin
+)
 copy /b nirvanap.bin ..\nirvanap.bin 1>nul
 cd ..
 
@@ -70,7 +75,11 @@ echo Merging   Taps.
 if "%~1"=="fast" (
   copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_debug.tap  1>nul
 ) else (
-  copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release.tap  1>nul
+  if "%~1"=="pentagon" (
+    copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_pentagon.tap  1>nul
+  ) else (
+    copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release.tap  1>nul
+  )
 )
 echo Cleaning
 del loader.tap mcload.tap mcloader.tap nirvanap.tap nirvanap.bin nirvanap_final.bin > nul 2>&1
