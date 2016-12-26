@@ -32,7 +32,12 @@ cd ..
 @rem ASSEMBLE NIRVANA
 
 cd src_nirvana
-pasmo nirvana+.asm nirvanap.bin
+if "%~1"=="pentagon" (
+  echo Nirvana+ targets the pentagon.
+  pasmo nirvana+PG.asm nirvanap.bin
+) else (
+  pasmo nirvana+.asm nirvanap.bin
+)
 copy /b nirvanap.bin ..\nirvanap.bin
 cd ..
 
@@ -41,7 +46,7 @@ cd ..
 @rem there are three invocations of zcc below and all must use the same compiler
 
 @rem zcc +zx -vn -c -Ca"-DPCOMPRESS" -O3 -clib=new @zx7_zproject.lst -o pietro_bros
-zcc +zx -vn -c -Ca"-DPCOMPRESS" -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros
+zcc +zx -v -c -Ca"-DPCOMPRESS" -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros
 
 @rem COLLECT FILE SIZES
 @rem compressed file sizes are unknown in the first compile so supply a dummy file
@@ -52,7 +57,7 @@ copy /Y zx7_pietro_sizes.bak zx7_pietro_sizes.asm
 @rem zorg overrides org set in zpragma.inc
 
 @rem zcc +zx -vn -zorg=%PADDR% -Ca"-DPCOMPRESS" -startup=31 -O3 -clib=new zx7_pietro_sizes.asm pietro_bros.o -o pietro_bros -pragma-include:zpragma.inc
-zcc +zx -vn -zorg=%PADDR% -Ca"-DPCOMPRESS" -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char zx7_pietro_sizes.asm pietro_bros.o -o pietro_bros -pragma-include:zpragma.inc
+zcc +zx -v -zorg=%PADDR% -Ca"-DPCOMPRESS" -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char zx7_pietro_sizes.asm pietro_bros.o -o pietro_bros -pragma-include:zpragma.inc
 
 @rem INJECT SOME CODE AND RAM VARIABLES INTO NIRVANA HOLE
 @rem hole offset = 56718+328*TOTAL_ROWS-56323
@@ -86,7 +91,7 @@ echo defc NEED_LOADER = pietro_loader >> zx7_pietro_sizes.asm
 @rem only the loader section changes in this compile and that's the only section that will be used from this compile
 
 @rem zcc +zx -vn -zorg=%PADDR% -Ca"-DPCOMPRESS" -startup=31 -O3 -clib=new zx7_pietro_sizes.asm pietro_bros.o -o pietro_bros -pragma-include:zpragma.inc
-zcc +zx -vn -zorg=%PADDR% -Ca"-DPCOMPRESS" -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char zx7_pietro_sizes.asm pietro_bros.o -o pietro_bros -pragma-include:zpragma.inc
+zcc +zx -v -zorg=%PADDR% -Ca"-DPCOMPRESS" -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char zx7_pietro_sizes.asm pietro_bros.o -o pietro_bros -pragma-include:zpragma.inc
 
 @rem CREATE TAPS OUT OF EACH BINARY
 
@@ -99,7 +104,11 @@ appmake +zx -b pietro_bros_BANK_06.bin.zx7 -o pietro_ay.tap --org 49152 --noload
 
 @rem MAKE FINAL TAP
 
-copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_zx7.tap
+if "%~1"=="pentagon" (
+  copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_pentagon_zx7.tap
+) else (
+  copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_zx7.tap
+)
 
 del loader.tap mcload.tap mcloader.tap nirvanap.tap nirvanap.bin nirvanap_final.bin nirvanap_final.bin.zx7 > nul 2>&1
 del pietro_bros_CODE.bin pietro_bros_CODE.bin.zx7 pietro.font pietro.tap pietro_bros > nul 2>&1
