@@ -80,6 +80,7 @@ unsigned char	s_col1;
 unsigned char	s_dir0;
 
 unsigned int	loop_count;
+unsigned int	loop_count_old;
 unsigned int	index1;
 unsigned int	index2;
 unsigned int	index3;

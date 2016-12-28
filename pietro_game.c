@@ -161,7 +161,7 @@ void game_draw_clear(void) {
 			NIRVANAP_drawT_raw(TILE_EMPTY, s_lin1, s_col1);
 		}
 	}
-	NIRVANAP_start();
+	//NIRVANAP_start();
 	intrinsic_ei();
 
 }
@@ -181,7 +181,7 @@ void game_draw_back(void) {
 	game_back_fix3();
 	game_back_fix4();
 	game_draw_pow();
-
+NIRVANAP_halt();//TESTING
 	zx_print_ink(INK_YELLOW);
 	zx_print_paper(PAPER_RED);
 	game_fill_row(20,35);//BRICK ROW
@@ -371,6 +371,7 @@ void game_loop(void) {
 	game_phase_init();
 	/* GAME LOOP START */
 	loop_count=0;
+	loop_count_old=0;
 	dirs = 0x00;
 	while (!game_over) {
 		/*PLAYER 1 TURN*/
@@ -391,7 +392,8 @@ void game_loop(void) {
 			player_collition();
 			/* WATER SPLASH EFFECT CLEAR */
 			game_clear_water_splash();
-			
+			intrinsic_ei();//TESTING
+			/*ROTATE ATTRIB ON THE CLOCK ON BONUS SCREEN*/
 			if (game_bonus) game_rotate_attrib();
 		}
 		if (game_bonus) {
@@ -399,7 +401,11 @@ void game_loop(void) {
 			if (!ay_is_playing()) ay_fx_play(ay_effect_19);
 		}
 		/*EACH SECOND APROX - UPDATE FPS/SCORE/PHASE LEFT/PHASE ADVANCE*/
-		if (game_check_time(frame_time,100)) {
+		if (game_check_time(frame_time, GAME_TIME_EVENT)) { 
+			/*LOOP CNT - TO CHECK SPEED*/
+			tmp = loop_count - loop_count_old;
+			loop_count_old = loop_count;
+			zx_print_int(21, 24, tmp);
 			frame_time = zx_clock();
 			/*ADD ENEMIES*/
 			if ( !game_bonus ) {
@@ -415,7 +421,7 @@ void game_loop(void) {
 					}
 				}
 			}
-			if (phase_left == 0 && game_type != 2) {
+			if (phase_left == 0 && game_type != 2) { //TODO CALCULATE THIS EVENT, BASED ON THE SPRITE DEAD!
 				if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_reset();	//SILENCE BACKGROUND SOUND
 				z80_delay_ms(800);
 				game_kill_all_sprites();					//SPRITES INIT
@@ -431,6 +437,7 @@ void game_loop(void) {
 			}
 		}
 		++loop_count;
+		
 	}
 	game_kill_all_sprites();
 	NIRVANAP_halt();
@@ -570,7 +577,7 @@ void game_draw_water_splash( unsigned char f_col) {
 
 void game_clear_water_splash(void) {
 #ifdef __SDCC
-	if ( game_water_clear < 32 ) {
+	if ( game_water_clear < SCR_COLS ) {
 		if ( game_check_time( game_water_time , GAME_TIME_WATER_SPLASH ) ) {
 			zx_print_ink(INK_YELLOW);
 			zx_print_paper(PAPER_RED);
@@ -579,8 +586,6 @@ void game_clear_water_splash(void) {
 			zx_print_ink(INK_WHITE);
 			zx_print_paper(PAPER_BLACK);
 			game_water_clear = 255;
-			game_back_fix3(); //TESTING
-			game_back_fix4(); //TESTING
 		}
 	}
 #endif

@@ -66,6 +66,7 @@ extern unsigned char	s_col0;
 extern unsigned char	s_col1;
 extern unsigned char	s_dir0;
 extern unsigned int		loop_count;
+extern unsigned int		loop_count_old;
 extern unsigned int		index1;
 extern unsigned int		index2;
 extern unsigned int		index3;

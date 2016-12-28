@@ -53,7 +53,7 @@
 #define TILE_SHELLCREEPER_BLUE						72
 #define TILE_SIDESTEPPER_RED						84
 #define TILE_SIDESTEPPER_GREEN						96
-#define TILE_SIDESTEPPER_MAGENTA						108
+#define TILE_SIDESTEPPER_MAGENTA					108
 #define TILE_SLIPICE								123
 #define TILE_FIGHTERFLY								120
 #define TILE_FIREBALL_RED							144
@@ -143,10 +143,9 @@
 #define IDX_BRICK									18
 #define IDX_POW										17
 
-/*DEBUG*/
-
-
+/*DEBUG
 #define FULL_SPEED									0
+*/
 
 /*STARTING POSITIONS*/
 
@@ -196,6 +195,7 @@
 #define ENEMIES_MAX									6   //MAX QUANTITY OF ENEMIES ON SCREEN (0->6)
 #define GAME_EXTRA_LIFE								2000
 #define GAME_TIME_WATER_SPLASH						15
+#define GAME_TIME_EVENT								100
 
 #define MAZE_BRICK									18
 #define MAZE_BRICK_FREEZE							20

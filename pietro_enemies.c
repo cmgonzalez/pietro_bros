@@ -345,6 +345,7 @@ void enemy_fireball_red(void){
 					BIT_SET(s_state, STAT_JUMP);
 				}
 			}
+			NIRVANAP_halt(); // TESTING
 			spr_move_horizontal();
 			
 			
