@@ -134,18 +134,18 @@ void game_cortina_pipes(void) {
 	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
+			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*3=6 draws
 			if ( s_col1 < 30 ) NIRVANAP_drawT(179, s_lin1, s_col1 + 2); //PIPE END RIGHT
 			NIRVANAP_drawT(TILE_EMPTY, s_lin1+16,s_col1);
 			NIRVANAP_drawT(172, s_lin1,s_col1);		 //PIPE CENTER
 		}
-		z80_delay_ms(20);
 	}
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
+			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*2=4 draws
 			NIRVANAP_drawT(TILE_EMPTY, s_lin1,s_col1);		//CLEAR
 			if ( s_col1 < 30 ) NIRVANAP_drawT(167, s_lin1, s_col1 + 2); //PIPE END LEFT
 		}
-		z80_delay_ms(20);
 	}
 	NIRVANAP_halt();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
