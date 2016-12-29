@@ -210,12 +210,12 @@ void game_draw_back(void) {
 void game_phase_print_score_back(void) {
 #ifdef GAME_LOW_MEM
 	zx_print_ink(INK_RED);
-	zx_print_str(0, 11, "$%|"); //TOP
+	zx_print_str(0, 11, "$%*"); //TOP
 	zx_print_ink(INK_BLUE);
-	zx_print_str(0, 1, "[|"); //I
+	zx_print_str(0, 1, "[*"); //I
 	if (game_two_player) {
 		zx_print_ink(INK_GREEN);
-		zx_print_str(0, 22, "]|"); //II
+		zx_print_str(0, 22, "]*"); //II
 	}
 #endif
 }
