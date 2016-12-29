@@ -194,6 +194,7 @@ void spr_anim_fall( unsigned char f_sprite) {
 				s_col1 = col[f_sprite] - 1;
 				s_tile1 = spr_idx[lvl_1[index1]];
 			}
+			NIRVANAP_halt(); // synchronize with interrupts
 			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
 		}
 	}
@@ -267,24 +268,20 @@ unsigned char spr_collition_check(unsigned char f_dir) {
 unsigned char spr_check_over( void ){
 	if (s_lin0 >= 136) {
 		if( s_col0 < 4) {
-			NIRVANAP_halt();
 			game_back_fix3();
 			return 1;
 		}
 		if( s_col0 > 26) {
-			NIRVANAP_halt();
 			game_back_fix4();
 			return 1;
 		}
 	} else {
 		if (s_lin0 <= 40) {
 			if( s_col0 < 4) {
-				NIRVANAP_halt();
 				game_back_fix1();
 				return 1;
 			}
 			if( s_col0 > 26) {
-				NIRVANAP_halt();
 				game_back_fix2();
 				return 1;
 			}

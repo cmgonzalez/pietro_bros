@@ -49,6 +49,7 @@ void game_draw_pow(void) {
 
 void game_back_fix1(void) {
 	#ifdef __SDCC
+	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE5, 16, 0);
 	NIRVANAP_drawT(TILE_PIPE4, 32, 0);
 	NIRVANAP_drawT(TILE_PIPE2, 16, 2);
@@ -60,6 +61,7 @@ void game_back_fix1(void) {
 
 void game_back_fix2(void) {
 	#ifdef __SDCC
+	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE3, 16, 28);
 	NIRVANAP_drawT(TILE_PIPE7, 16, 30);
 	NIRVANAP_fillT(PAPER, 32, 28);
@@ -71,6 +73,7 @@ void game_back_fix2(void) {
 
 void game_back_fix3(void) {
 	#ifdef __SDCC
+	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE1A, 136, 0);
 	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 0);
 	NIRVANAP_drawT(TILE_PIPE2A, 136, 2);
@@ -82,6 +85,7 @@ void game_back_fix3(void) {
 
 void game_back_fix4(void) {
 	#ifdef __SDCC
+	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE1A, 136, 30);
 	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 30);
 	NIRVANAP_drawT(TILE_PIPE3A, 136, 28);
@@ -104,6 +108,7 @@ void game_back_fix5(void) {
 		tmp_uc = hit_col[index_player] - 1;
 	}
 	if (tmp_uc != 0) {
+		NIRVANAP_halt(); // synchronize with interrupts
 		NIRVANAP_fillT(PAPER, hit_lin[index_player] - 10, tmp_uc);
 	}
 #endif
@@ -350,7 +355,7 @@ void game_loop(void) {
 	} else {
 		game_lives[1] = 0;
 	}
-	
+
 	player_score[0] = 0;
 	player_score[1] = 0;
 	player_next_extra[0] = GAME_EXTRA_LIFE;
@@ -391,7 +396,7 @@ void game_loop(void) {
 			player_collition();
 			/* WATER SPLASH EFFECT CLEAR */
 			game_clear_water_splash();
-			
+
 			if (game_bonus) game_rotate_attrib();
 		}
 		if (game_bonus) {
@@ -463,6 +468,7 @@ void game_score_osd(void) {
 			}
 		}
 	} else {
+		NIRVANAP_halt(); // synchronize with interrupts
 		NIRVANAP_drawT( score_osd_tile[index_player], score_osd_lin[index_player], score_osd_col[index_player] );
 		score_osd_lin[index_player] -=2;
 		if ( game_check_time( score_osd_time[index_player] , 50 ) ) {
@@ -519,6 +525,7 @@ void game_bonus_summary(void) {
 
 void game_bonus_summary_player(unsigned char f_index)  {
 #ifdef __SDCC
+	NIRVANAP_halt(); // synchronize with interrupts
 	if (f_index==0) {
 		s_lin1 = 6;
 		zx_print_str(s_lin1, 7, "PIETRO");
@@ -541,6 +548,7 @@ void game_bonus_summary_player(unsigned char f_index)  {
 			s_lin0 = (s_lin1*8)+8;
 		}
 
+		NIRVANAP_halt(); // synchronize with interrupts
 		NIRVANAP_drawT( TILE_COIN2+2 , s_lin0 , 14 + 2*(tmp_uc % 3) );
 		player_score_add(80);
 		++tmp_uc;
@@ -732,6 +740,7 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 
 		if (lvl_1[index1] == GAME_MAP_PLATFORM ) {
 			lvl_1[index1] = GAME_MAP_PLATFORM_FREEZE;
+			NIRVANAP_halt(); // synchronize with interrupts
 			NIRVANAP_drawT( TILE_BRICK_FREEZE , f_lin , f_col );
 			if (lvl_1[index1+1] == 0) NIRVANAP_fillT(PAPER,f_lin,f_col+1);
 			game_freeze(f_lin, f_col + 1);
@@ -1167,6 +1176,7 @@ void game_hall_print_p( unsigned char selected, unsigned char f_row,unsigned cha
 
 	f_row = (f_row<<3)-16;
 	if (f_inc > 0) f_col = f_col + 1;
+	NIRVANAP_halt(); // synchronize with interrupts
 	if (hall_flip) {
 		NIRVANAP_drawT( TILE_EMPTY    , f_row-2, f_col );
 		NIRVANAP_drawT( f_tile        , f_row  , f_col );
@@ -1182,7 +1192,7 @@ void game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned c
 	unsigned char *p;
 	unsigned char *out_str;
 	unsigned char f_tmp;
-	
+
 	out_str = &f_tmp;
 
 	if ( dirs & IN_STICK_FIRE ) {

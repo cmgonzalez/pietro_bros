@@ -194,8 +194,9 @@ unsigned char player_move(void){
 		tmp = 0;
 		if (tmp_ui > 50) tmp = 1;
 		if (tmp_ui > 100) tmp = 2;
+		NIRVANAP_halt(); // synchronize with interrupts
 		NIRVANAP_drawT(  TILE_BRICK_RESTART + tmp, 32, s_col0 );
-		
+
 		if (tmp_ui > 150) {
 			NIRVANAP_drawT(  TILE_EMPTY, 16, s_col0 );
 			NIRVANAP_drawT(  TILE_EMPTY, 32, s_col0 );
@@ -263,15 +264,16 @@ void player_hit_brick_clear(void){
 		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
 		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
 		index2 = index1 + 1;
-		
+
+		NIRVANAP_halt(); // synchronize with interrupts
 		NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
-		
+
 		if (lvl_1[ index1 ] == MAZE_BRICK_FREEZE || lvl_1[ index2 ] == MAZE_BRICK_FREEZE) {
 			NIRVANAP_drawT( TILE_BRICK_FREEZE , hit_lin[index_player] - 8, hit_col[index_player] );
 		}
 		if (lvl_1[ index1 ] == MAZE_BRICK || lvl_1[ index2 ] == MAZE_BRICK) {
 			NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
-		} 
+		}
 		game_back_fix5();
 		hit_lin[index_player] = 0;
 		hit_col[index_player] = 0;
@@ -304,6 +306,7 @@ int player_move_read_input(void) {
 			//PLAYER MOVES AWAY FROM SAFE PLATFORM
 			BIT_CLR(s_state, STAT_HIT);
 			tile[sprite] = spr_tile_dir( TILE_P1_RIGHT + tile_offset,sprite, 12 );
+			NIRVANAP_halt(); // synchronize with interrupts
 			NIRVANAP_drawT(  TILE_EMPTY, 16, s_col0 ); //CLEAR TEMPORARY TILE
 			NIRVANAP_drawT(  TILE_EMPTY, 32, s_col0 ); //CLEAR PLAYER
 		}
