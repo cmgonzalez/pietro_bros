@@ -61,17 +61,6 @@
   #																								#
   ###############################################################################################*/
 
-  
-  
-//BIG TODO!
-// KEMPSTONE/KEYBOARD  QWZ/OPM SUPPORT ON OPTION P1 INPUT S1/OPM/KEM | P2 INPUT S2/QWZ/KEM
-// GAME END
-// FIX JUMP ON LOW PLATFORMS
-// SAVE HIGH SCORE
-// MENU MUSIC AFTER GAME OVER
-// FAST ASM CLR FUNCION FOR game_draw_clear
-// QUESTION TO ALVIN??? CHECK IF BIT_CHK/SET CAN BE BETTER BUILD ON FASTER ON ASM
-// QUESTION TO ALVIN??? USE POINTERS INSTEAD OF ARRAYS ( S_VARIABLES ) FOR PERFORMANCE
 
 #include <arch/zx.h>
 #include <input.h>

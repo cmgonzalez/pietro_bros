@@ -1,5 +1,4 @@
-Pietro Bros
-
+README - Pietro Bros v1.2
 
 Pietro and Luizo were transported to pipe world after eating some rancid 
 mushrooms on his pizza.
@@ -22,7 +21,7 @@ NIRVANA+ Multicolour.
 48 Sounds.
 AY Music and Effects
 Sinclair Joystick Only.
-Spectrum 48kb and 128kb.
+Spectrum 48kb, 128kb and Pentagon Compatible.
 More than a year of work.
 
 

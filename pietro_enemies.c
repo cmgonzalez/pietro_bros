@@ -110,7 +110,6 @@ void enemy_hit(void){
 	NIRVANAP_fillT(PAPER, lin[enemies], col[enemies]);
 	lin[enemies] = lin[enemies]-4;
 	NIRVANAP_spriteT(enemies, tile[enemies], lin[enemies], col[enemies]);
-	NIRVANAP_halt();
 	BIT_CLR(state_a[enemies], STAT_TURN);
 	
 	spr_timer[enemies] = zx_clock();
@@ -571,6 +570,7 @@ void enemy_init(unsigned char f_sprite,unsigned  char f_lin,unsigned  char f_col
 }
 
 void enemy_kill(unsigned char f_sprite){
+	NIRVANAP_halt();
 	sound_kill();
 	if ( BIT_CHK(state[sprite], STAT_DIRL) ) {
 		BIT_SET(state[f_sprite], STAT_DIRL);

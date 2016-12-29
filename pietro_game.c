@@ -39,11 +39,12 @@ unsigned int game_calc_index( unsigned char f_lin , unsigned char f_col ) {
 }
 
 void game_draw_pow(void) {
-	NIRVANAP_halt();
+	if (game_pow == 3) s_tile1 = TILE_POW1;
+	if (game_pow == 2) s_tile1 = TILE_POW1 + 12;
+	if (game_pow == 1) s_tile1 = TILE_POW1 + 24;
+	NIRVANAP_halt(); // synchronize with interrupts  CG
 	NIRVANAP_fillT(PAPER, 120,15);
-	if (game_pow == 3) NIRVANAP_drawT( TILE_POW1	  , 120, 15 );
-	if (game_pow == 2) NIRVANAP_drawT( TILE_POW1 + 12 , 120, 15 );
-	if (game_pow == 1) NIRVANAP_drawT( TILE_POW1 + 24 , 120, 15 );
+	NIRVANAP_drawT( s_tile1 , 120, 15 );
 }
 
 
@@ -166,7 +167,7 @@ void game_draw_clear(void) {
 			NIRVANAP_drawT_raw(TILE_EMPTY, s_lin1, s_col1);
 		}
 	}
-	NIRVANAP_start();
+	//NIRVANAP_start();
 	intrinsic_ei();
 
 }
@@ -186,7 +187,7 @@ void game_draw_back(void) {
 	game_back_fix3();
 	game_back_fix4();
 	game_draw_pow();
-
+	NIRVANAP_halt();
 	zx_print_ink(INK_YELLOW);
 	zx_print_paper(PAPER_RED);
 	game_fill_row(20,35);//BRICK ROW
@@ -262,6 +263,7 @@ unsigned char game_phase_calc(void) {
 
 void game_phase_init(void) {
 	/*PHASE INIT*/
+	phase_end = 0;
 	phase_angry = 0;
 	game_bonus = 0;
 	entry_time = 0;
@@ -344,7 +346,7 @@ void game_loop(void) {
 	z80_delay_ms(200);
 	zx_print_str(22,7,"                  ");
 	ay_reset();
-	/*RESTORE POW ON MAP*/
+	/*restore pow on map*/
 	lvl_1[495] = 17;
 	lvl_1[495 + 1] = 17;
 	lvl_1[495 + 32] = 17;
@@ -360,7 +362,7 @@ void game_loop(void) {
 	player_score[1] = 0;
 	player_next_extra[0] = GAME_EXTRA_LIFE;
 	player_next_extra[1] = GAME_EXTRA_LIFE;
-	game_water_clear = 255; //255 = NO NEED TO CLEAR THE BRICK UDG ROW
+	game_water_clear = 255; //255 = no need to clear the brick udg row
 	if (game_type ==0) {
 		game_time_flipped = TIME_FLIPPED_A;
 		game_time_fireball_start = TIME_FIREBALL_A;
@@ -368,74 +370,92 @@ void game_loop(void) {
 		game_time_flipped = TIME_FLIPPED_B;
 		game_time_fireball_start = TIME_FIREBALL_B;
 	}
-	/* SCREEN INIT */
+	/* screen init */
 	game_over = 0;
 	game_pow = 3;
-	/* PHASE INIT */
+	/* phase init */
 	phase_curr = 0; //TESTING 31
 	game_phase_init();
-	/* GAME LOOP START */
+	/* game loop start */
 	loop_count=0;
+	loop_count_old=0;
 	dirs = 0x00;
 	while (!game_over) {
-		/*PLAYER 1 TURN*/
+		/*player 1 turn*/
 		player_set1();
 		player_turn();
-		/*PLAYER 2 TURN*/
+		/*player 2 turn*/
 		player_set2();
 		player_turn();
-		/*ENEMIES TURN*/
+		/*enemies turn*/
 		enemy_turn();
-		/*EACH 30 MICROSECONDS APROX - UPDATE PLAYER COLLITION*/
+		/*each 30 microseconds aprox - update player collition*/
 		if (game_check_time(col_time, PLAYER_TCOL_CHECK)) {
 			col_time = zx_clock();
 			player_set1();
 			player_collition();
-			/*PLAYER 2*/
+			/*player 2*/
 			player_set2();
 			player_collition();
-			/* WATER SPLASH EFFECT CLEAR */
+			/* water splash effect clear */
 			game_clear_water_splash();
-
+			/*rotate attrib on the clock on bonus screen*/
 			if (game_bonus) game_rotate_attrib();
 		}
+		/*bonus tick tack sound*/
 		if (game_bonus) {
 			game_bonus_clock();
 			if (!ay_is_playing()) ay_fx_play(ay_effect_19);
 		}
-		/*EACH SECOND APROX - UPDATE FPS/SCORE/PHASE LEFT/PHASE ADVANCE*/
-		if (game_check_time(frame_time,100)) {
+		/*each second aprox - update fps/score/phase left/phase advance*/
+		if (game_check_time(frame_time, GAME_TIME_EVENT)) { 
+			/*LOOP CNT - TO CHECK SPEED*/
+			/* LPS DISPLAY 
+			tmp = loop_count - loop_count_old;
+			loop_count_old = loop_count;
+			zx_print_int(21, 24, tmp);
+			*/
 			frame_time = zx_clock();
-			/*ADD ENEMIES*/
+			/*add enemies*/
 			if ( !game_bonus ) {
 				game_enemy_add();
 			}
+			/* angry last enemy on the screen */
 			if (phase_left == 1 && phase_angry == 0) {
 				for (sprite = 0; sprite < SPR_P2 ; ++sprite ) {
 					if ( class[sprite] > 0 && class[sprite] <= FIGHTERFLY && !BIT_CHK(state[sprite],STAT_KILL) ) {
 						phase_angry = 1;
+						/*evolve twice to get them blue!*/
 						enemy_evolve();
-						enemy_evolve(); //TWICE TO GET THEM BLUE!
+						enemy_evolve(); 
 						tile[sprite] = spr_tile(sprite);
 					}
 				}
 			}
-			if (phase_left == 0 && game_type != 2) {
-				if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_reset();	//SILENCE BACKGROUND SOUND
-				z80_delay_ms(800);
-				game_kill_all_sprites();					//SPRITES INIT
+			
+			/* end of phase */
+			if (phase_end == 1 && game_type != 2) {
+				/*silence background sound*/
+				z80_delay_ms(400);
+				if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_reset();
+				/*sprites init*/
+				game_kill_all_sprites();					
+				/*bonus summary*/
 				if (game_bonus) game_bonus_summary();
+				/*increment phase*/
 				++phase_curr;
-				
 				if (phase_curr > 31) {
-					game_end();								//GAME END
+					/*game end*/
+					game_end();								
 					game_over = 1;
 				} else {
+					/*next phase*/
 					game_phase_init();
 				}
 			}
 		}
 		++loop_count;
+		
 	}
 	game_kill_all_sprites();
 	NIRVANAP_halt();
@@ -485,7 +505,11 @@ void game_bonus_clock(void) {
 	if (tmp_ui > TIME_BONUS) tmp_ui = 0;          // if time remaining goes negative
 	zx_print_bonus_time(2,14,tmp_ui);
 	game_paint_attrib_lin_h(14,14+6,2*8 + 8);
-	if (tmp_ui == 0) phase_left = 0;              // end bonus!
+	/* end bonus! */
+	if (tmp_ui == 0) {
+		phase_left = 0;
+		phase_end = 1;
+	}               
 #endif
 }
 
@@ -563,12 +587,12 @@ void game_bonus_summary_player(unsigned char f_index)  {
 void game_draw_water_splash( unsigned char f_col) {
 #ifdef __SDCC
 	if (game_water_clear == 255) {
-		/* WATER SPLASH EFFECT */
+		/* water splash effect */
 		zx_print_paper(PAPER_BLACK);
 		zx_print_ink(INK_CYAN);
-		zx_print_str(20, f_col, "()");//UDG SPLASH
+		zx_print_str(20, f_col, "()");//udg splash
 		zx_print_ink(INK_WHITE);
-		zx_print_str(21, f_col, "*+");//UDG SPLASH
+		zx_print_str(21, f_col, "*+");//udg splash
 		game_water_clear = f_col;
 		game_water_time = zx_clock();
 		zx_print_paper(PAPER_BLACK);
@@ -578,17 +602,15 @@ void game_draw_water_splash( unsigned char f_col) {
 
 void game_clear_water_splash(void) {
 #ifdef __SDCC
-	if ( game_water_clear < 32 ) {
+	if ( game_water_clear < SCR_COLS ) {
 		if ( game_check_time( game_water_time , GAME_TIME_WATER_SPLASH ) ) {
 			zx_print_ink(INK_YELLOW);
 			zx_print_paper(PAPER_RED);
-			zx_print_str(20, game_water_clear, "##"); //UDG BRICK
-			zx_print_str(21, game_water_clear, "##"); //UDG BRICK
+			zx_print_str(20, game_water_clear, "##"); //udg brick
+			zx_print_str(21, game_water_clear, "##"); //udg brick
 			zx_print_ink(INK_WHITE);
 			zx_print_paper(PAPER_BLACK);
 			game_water_clear = 255;
-			game_back_fix3(); //TESTING
-			game_back_fix4(); //TESTING
 		}
 	}
 #endif
@@ -606,7 +628,7 @@ unsigned char game_check_maze(int f_index) {
 
 unsigned char game_enemy_add(void) {
 	if (spr_count < ENEMIES_MAX && game_check_time(entry_time ,100) && ( phase_left > 0 || game_type == 2) && (phase_left > 0) ) {
-		/* PHASE QUOTA */
+		/* phase quota */
 		if (game_type == 2) {
 			game_enemy_rnd();
 		} else {
@@ -634,7 +656,7 @@ unsigned char game_enemy_quota(void) {
 			return 0;
 		}
 	}
-	/* RANDOM ENEMIES*/
+	/* random enemies*/
 	switch (rand() & 0x7) {	 //0->7
 	case 0:
 		game_enemy_add1(COIN_1);
@@ -658,7 +680,7 @@ unsigned char game_enemy_quota(void) {
 unsigned char game_enemy_rnd(void) {
 	if (spr_count < ENEMIES_MAX && game_check_time( entry_time , 100 ) ) {
 		entry_time = zx_clock();
-		//Agrego enemigo
+		/* adds an enemy */
 		game_enemy_add1(rand() % 11 + 1); //TODO OPTIMIZE
 	}
 	return 0;
@@ -676,7 +698,7 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	) {
 		return 0;
 	}
-	//FORCE FOR TEST
+	//force for test an enemy
 	//f_class = SIDESTEPPER_MAGENTA;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
@@ -1091,6 +1113,9 @@ void game_hall_enter(void) {
 	
 	if ( p1 > 0 || p2 > 0 ) {
 		edit = 1;
+		zx_print_str(2, 14, "HALL OF FAME");
+		zx_print_str(18, 4, "   CONGRATULATIONS!  ");
+		zx_print_str(19, 4, "ENTER YOUR INITIALS");
 	} else {
 		edit = 0;
 	}

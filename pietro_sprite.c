@@ -198,21 +198,22 @@ void spr_anim_fall( unsigned char f_sprite) {
 			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
 		}
 	}
-
+	NIRVANAP_halt();
 	NIRVANAP_fillT(PAPER, lin[f_sprite] - 8, col[f_sprite]);
 	NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], col[f_sprite]);
 	//FIX POW
 	if ( lin[f_sprite] == 140 || lin[f_sprite] == 148 ) game_draw_pow();
 	//FIX PIPES 
 	if (lin[f_sprite] > 144) {
-		game_draw_water_splash(col[f_sprite]);
-		//NIRVANAP_spriteT(  f_sprite, TILE_EMPTY, lin[f_sprite], col[f_sprite]);
-		//NIRVANAP_halt();
-		if (col[f_sprite] <= 4  ) game_back_fix3();
-		if (col[f_sprite] >= 26 ) game_back_fix4();
+		s_col1 = col[f_sprite];
+		game_draw_water_splash(s_col1);
+		/*SET END OF PHASE TO BE READED ON GAME_LOOP*/
+		if (phase_left <= 0) phase_end = 1;
+		
 		if (f_sprite >= SPR_P2)  {
 			//PLAYERS
 			if ( player_lost_life() ) {
+				NIRVANAP_halt();
 				NIRVANAP_fillT(PAPER, lin[f_sprite], col[f_sprite]);
 				player_restart(f_sprite);
 			} else {
@@ -222,6 +223,8 @@ void spr_anim_fall( unsigned char f_sprite) {
 			//ENEMIES
 			spr_destroy(f_sprite);
 		}
+		if (s_col1 <= 4  ) game_back_fix3();
+		if (s_col1 >= 26 ) game_back_fix4();
 	} else {
 		lin[f_sprite] = lin[f_sprite] + 4;
 	}
@@ -247,8 +250,6 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 }
 
 unsigned char spr_collition_check(unsigned char f_dir) {
-	//fi_col = col[sprite];
-	//fi_lin = lin[sprite];
 	index1 = game_calc_index( lin[sprite] , col[sprite] );
 	if (f_dir == DIR_RIGHT) {
 		if (col[sprite]==31) return 0;
@@ -257,10 +258,10 @@ unsigned char spr_collition_check(unsigned char f_dir) {
 		if (col[sprite]==0) return 0;
 		index1 -= 1;
 	}
-	if ( lvl_1[ index1] > VAL_COL  ) return 1;
-	index2   = index1 + 32;
+	if ( lvl_1[ index1] > VAL_COL ) return 1;
+	index2   = index1 + SCR_COLS;
 	if ( lvl_1[ index2] > VAL_COL ) return 1;
-	index3   = index1 + 64;
+	index3   = index1 + 2*SCR_COLS;
 	if ( lvl_1[ index3] > VAL_COL ) return 1;
 	return 0;
 }

@@ -80,6 +80,7 @@ unsigned char	s_col1;
 unsigned char	s_dir0;
 
 unsigned int	loop_count;
+unsigned int	loop_count_old;
 unsigned int	index1;
 unsigned int	index2;
 unsigned int	index3;
@@ -167,6 +168,7 @@ unsigned char phases[] = {
 //PHASE RELATED VARIABLES
 unsigned char phase_quota[3];
 unsigned char phase_left;
+unsigned char phase_end;
 unsigned char phase_curr;
 unsigned char phase_angry;
 unsigned char phase_bonus_total[2];

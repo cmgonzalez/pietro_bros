@@ -275,6 +275,7 @@ void player_hit_brick_clear(void){
 			NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
 		}
 		game_back_fix5();
+		NIRVANAP_halt(); //TESTING
 		hit_lin[index_player] = 0;
 		hit_col[index_player] = 0;
 		lin[sprite] = lin[sprite] + LIN_INC;
@@ -288,9 +289,12 @@ void player_turn(void) {
 	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 		if ( class[sprite] == PLAYER) {
 			dirs = 0;
+			
 			if (sprite == SPR_P1) {
+				NIRVANAP_halt(); // TESTING
 				dirs = (joyfunc1) (&k1);
 			} else {
+				NIRVANAP_halt(); // TESTING
 				dirs = (joyfunc2) (&k1);
 			}
 			player_move();
@@ -465,6 +469,7 @@ unsigned char player_hit_brick(void){
 			NIRVANAP_drawT( TILE_BRICK_FREEZE , lin[sprite] - 10, col[sprite]);
 		}
 		game_back_fix5();
+		NIRVANAP_halt(); //TESTING
 		return 1;
 	}
 	return 0;
@@ -506,8 +511,9 @@ void player_coin(unsigned char f_enemies, unsigned char f_score) {
 	BIT_SET(state[f_enemies], STAT_KILL);
 	spr_timer[f_enemies] = zx_clock();
 	if (game_bonus){
-		--phase_left;
 		++phase_bonus_total[index_player];
+		--phase_left;
+		if(phase_left <= 0) phase_end = 1;
 	} else {
 		player_score_add(f_score);
 	}
