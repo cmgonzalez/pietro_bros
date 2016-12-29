@@ -140,19 +140,16 @@ unsigned char spr_move_left( void ){
 }
 
 void spr_redraw( void ){
+	s_tile1 = tile[sprite] + colint[sprite];
 	if ( (lin[sprite] !=  s_lin0) || (col[sprite] != s_col0) ) { //MOVIMIENTO DE CARACTER
-		s_tile1 = tile[sprite] + colint[sprite];
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
 		if ( !spr_check_over() ) {
 			NIRVANAP_fillT(PAPER, s_lin0, s_col0);
 		}
-	} else {
-		s_tile1 = tile[sprite] + colint[sprite];
-		if (  s_tile1 != s_tile0 ) { //MOVIMIENTO INTERNO
-			NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
-		}
+	} else if (  s_tile1 != s_tile0 ) { //MOVIMIENTO INTERNO
+		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
 	}
-	
+
 }
 
 unsigned char spr_killed( unsigned char f_sprite) {
