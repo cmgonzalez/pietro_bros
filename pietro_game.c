@@ -96,11 +96,15 @@ void game_back_fix4(void) {
 	#endif
 }
 
-void game_back_fix5(void) {
-#ifdef __SDCC
+void game_brick_anim( unsigned char f_tile , unsigned char f_hit) {
+
 	index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
 	index2 = index1 + 1;
-
+	if (f_hit) {
+		tmp = hit_lin[index_player]-10;
+	} else {
+		tmp = hit_lin[index_player]-8;	
+	}
 	tmp_uc = 0;
 	if (lvl_1[index1] >= IDX_BRICK && lvl_1[index2] == 0) {
 		tmp_uc = hit_col[index_player] + 1;
@@ -108,11 +112,13 @@ void game_back_fix5(void) {
 	if (lvl_1[index1] == 0 && lvl_1[index2] >= IDX_BRICK) {
 		tmp_uc = hit_col[index_player] - 1;
 	}
+	/* Draw Plaform */
+	NIRVANAP_halt();
+	NIRVANAP_drawT( f_tile , tmp, hit_col[index_player] );
 	if (tmp_uc != 0) {
-		NIRVANAP_halt();
-		NIRVANAP_fillT(PAPER, hit_lin[index_player] - 10, tmp_uc); 
+		/* Clear end row Plaform */
+		NIRVANAP_fillC(PAPER, tmp, tmp_uc); 
 	}
-#endif
 }
 
 /* Clear Screen With Bricks UDG */

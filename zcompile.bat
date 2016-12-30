@@ -53,14 +53,11 @@ if "%~1"=="fast" (
   echo Compiling Pietro Bros - Release Mode.
   zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
 )
-
 @rem zcc +zx -vn -zorg=%PADDR% -startup=31 -O3 -clib=new @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
-
 @rem INJECT SOME CODE AND RAM VARIABLES INTO NIRVANA HOLE
 @rem hole offset = 56718+328*TOTAL_ROWS-56323
-
+echo Injecting Taps.
 appmake +inject -b nirvanap.bin -o nirvanap_final.bin -i pietro_bros_NIRVANA_HOLE.bin --offset 6627
-
 @rem CREATE TAPS OUT OF EACH BINARY
 echo Compiling Taps.
 appmake +zx -b pietro_bros_MCLOAD.bin -o mcload.tap --blockname mcload --org 16384 --noloader

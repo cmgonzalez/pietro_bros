@@ -258,33 +258,6 @@ unsigned char player_move(void){
 	return 0;
 }
 
-void player_hit_brick_clear(void){
-	//CLEAR HITTED BRICKS N MAKES THE PLAYER FALL
-	if ( hit_lin[index_player] > 0 && game_check_time( spr_timer[sprite], PLAYER_HIT_BRICK_TIME ) ) {
-		NIRVANAP_halt();
-		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
-		
-		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
-		index2 = index1 + 1;
-
-		NIRVANAP_halt(); // synchronize with interrupts
-		NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
-		
-		if (lvl_1[ index1 ] == MAZE_BRICK_FREEZE || lvl_1[ index2 ] == MAZE_BRICK_FREEZE) {
-			NIRVANAP_halt();
-			NIRVANAP_drawT( TILE_BRICK_FREEZE , hit_lin[index_player] - 8, hit_col[index_player] );
-		}
-		if (lvl_1[ index1 ] == MAZE_BRICK || lvl_1[ index2 ] == MAZE_BRICK) {
-			NIRVANAP_halt();
-			NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
-		}
-		game_back_fix5();
-		hit_lin[index_player] = 0;
-		hit_col[index_player] = 0;
-		lin[sprite] = lin[sprite] + LIN_INC;
-		spr_set_fall();
-	}
-}
 
 
 void player_turn(void) {
@@ -464,21 +437,48 @@ unsigned char player_hit_brick(void){
 		spr_timer[sprite] = zx_clock();
 		hit_lin[index_player] = lin[sprite];
 		hit_col[index_player] = col[sprite];
-		sound_hit_brick();
+		
 		if (lvl_1[ index1 ] == 18 || lvl_1[ index2 ] == 18) {
-			NIRVANAP_halt();
-			NIRVANAP_drawT( game_brick_tile , lin[sprite] - 10, col[sprite]);
+			//NIRVANAP_drawT( game_brick_tile , lin[sprite] - 10, col[sprite]);
+			game_brick_anim(game_brick_tile, 1);
 		}
 		if (lvl_1[ index1 ] == 20 || lvl_1[ index2 ] == 20 ) {
-			NIRVANAP_halt();
-			NIRVANAP_drawT( TILE_BRICK_FREEZE , lin[sprite] - 10, col[sprite]);
+			//NIRVANAP_drawT( TILE_BRICK_FREEZE , lin[sprite] - 10, col[sprite]);
+			game_brick_anim(TILE_BRICK_FREEZE, 1);
 		}
-		game_back_fix5();
+		sound_hit_brick();
 		return 1;
 	}
 	return 0;
 }
 
+void player_hit_brick_clear(void){
+	//CLEAR HITTED BRICKS N MAKES THE PLAYER FALL
+	if ( hit_lin[index_player] > 0 && game_check_time( spr_timer[sprite], PLAYER_HIT_BRICK_TIME ) ) {
+		NIRVANAP_halt();
+		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
+		
+		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
+		index2 = index1 + 1;
+
+		//NIRVANAP_halt(); // synchronize with interrupts
+		//NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
+		
+		if (lvl_1[ index1 ] == MAZE_BRICK_FREEZE || lvl_1[ index2 ] == MAZE_BRICK_FREEZE) {
+			//NIRVANAP_drawT( TILE_BRICK_FREEZE , hit_lin[index_player] - 8, hit_col[index_player] );
+			game_brick_anim(TILE_BRICK_FREEZE, 0);
+		}
+		if (lvl_1[ index1 ] == MAZE_BRICK || lvl_1[ index2 ] == MAZE_BRICK) {
+			//NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
+			game_brick_anim(game_brick_tile, 0);
+		}
+		
+		hit_lin[index_player] = 0;
+		hit_col[index_player] = 0;
+		lin[sprite] = lin[sprite] + LIN_INC;
+		spr_set_fall();
+	}
+}
 
 void player_hit_pow(void){
 	if ( lvl_1[ index1 ] == IDX_POW || lvl_1[ index2 ] == IDX_POW && game_pow != 0) {

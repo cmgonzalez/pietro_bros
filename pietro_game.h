@@ -41,7 +41,7 @@ extern void			 game_back_fix1(void);
 extern void			 game_back_fix2(void);
 extern void			 game_back_fix3(void);
 extern void			 game_back_fix4(void);
-extern void			 game_back_fix5(void);
+extern void			 game_brick_anim(unsigned char f_tile,unsigned char f_hit);
 extern void			 game_cortina_brick(void);
 extern void			 game_cortina_pipes(void);
 extern void			 game_draw_back(void);
