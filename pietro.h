@@ -33,6 +33,7 @@
 #define COIN_2										12
 #define PLAYER										16
 
+
 /*				PLAYER 1 TILES						*/
 
 #define TILE_P1_STANR								3
@@ -104,6 +105,7 @@
 
 #define SPR_P1										7
 #define SPR_P2										6
+#define SPR_TMP										7
 
 /*				SCREEN VARIABLES					*/
 

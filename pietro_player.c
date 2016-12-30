@@ -262,20 +262,22 @@ void player_hit_brick_clear(void){
 	//CLEAR HITTED BRICKS N MAKES THE PLAYER FALL
 	if ( hit_lin[index_player] > 0 && game_check_time( spr_timer[sprite], PLAYER_HIT_BRICK_TIME ) ) {
 		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
+		
 		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
 		index2 = index1 + 1;
 
 		NIRVANAP_halt(); // synchronize with interrupts
 		NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
-
+		
 		if (lvl_1[ index1 ] == MAZE_BRICK_FREEZE || lvl_1[ index2 ] == MAZE_BRICK_FREEZE) {
+			NIRVANAP_halt();
 			NIRVANAP_drawT( TILE_BRICK_FREEZE , hit_lin[index_player] - 8, hit_col[index_player] );
 		}
 		if (lvl_1[ index1 ] == MAZE_BRICK || lvl_1[ index2 ] == MAZE_BRICK) {
+			NIRVANAP_halt();
 			NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
 		}
 		game_back_fix5();
-		NIRVANAP_halt(); //TESTING
 		hit_lin[index_player] = 0;
 		hit_col[index_player] = 0;
 		lin[sprite] = lin[sprite] + LIN_INC;
@@ -291,10 +293,10 @@ void player_turn(void) {
 			dirs = 0;
 			
 			if (sprite == SPR_P1) {
-				NIRVANAP_halt(); // TESTING
+				//NIRVANAP_halt(); // TESTING
 				dirs = (joyfunc1) (&k1);
 			} else {
-				NIRVANAP_halt(); // TESTING
+				//NIRVANAP_halt(); // TESTING
 				dirs = (joyfunc2) (&k1);
 			}
 			player_move();
@@ -463,13 +465,14 @@ unsigned char player_hit_brick(void){
 		hit_col[index_player] = col[sprite];
 		sound_hit_brick();
 		if (lvl_1[ index1 ] == 18 || lvl_1[ index2 ] == 18) {
+			NIRVANAP_halt();
 			NIRVANAP_drawT( game_brick_tile , lin[sprite] - 10, col[sprite]);
 		}
 		if (lvl_1[ index1 ] == 20 || lvl_1[ index2 ] == 20 ) {
+			NIRVANAP_halt();
 			NIRVANAP_drawT( TILE_BRICK_FREEZE , lin[sprite] - 10, col[sprite]);
 		}
 		game_back_fix5();
-		NIRVANAP_halt(); //TESTING
 		return 1;
 	}
 	return 0;
@@ -530,7 +533,7 @@ void player_score_add(unsigned int f_score){
 	if ( player_score[index_player] > player_next_extra[index_player] ) {
 		player_next_extra[index_player] += GAME_EXTRA_LIFE;
 		++game_lives[index_player];
-		game_print_lives();
+		if(!game_bonus) game_print_lives();
 		sound_coin();
 		sound_coin();
 		sound_coin();

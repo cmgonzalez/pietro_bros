@@ -106,7 +106,8 @@ unsigned char enemy_collition_check(void) {
 }
 
 void enemy_hit(void){
-	
+
+	NIRVANAP_halt();
 	NIRVANAP_fillT(PAPER, lin[enemies], col[enemies]);
 	lin[enemies] = lin[enemies]-4;
 	NIRVANAP_spriteT(enemies, tile[enemies], lin[enemies], col[enemies]);
