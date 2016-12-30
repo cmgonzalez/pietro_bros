@@ -261,6 +261,7 @@ unsigned char player_move(void){
 void player_hit_brick_clear(void){
 	//CLEAR HITTED BRICKS N MAKES THE PLAYER FALL
 	if ( hit_lin[index_player] > 0 && game_check_time( spr_timer[sprite], PLAYER_HIT_BRICK_TIME ) ) {
+		NIRVANAP_halt();
 		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
 		
 		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
