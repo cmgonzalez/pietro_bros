@@ -83,7 +83,6 @@ extern unsigned char	zx_val_asm;
 extern unsigned char	attrib[4];
 extern unsigned char	attrib_hl[4];
 extern unsigned char	s_state;
-extern unsigned int		score_top;
 extern unsigned int		curr_time;
 extern unsigned int		entry_time;
 extern unsigned int		frame_time;

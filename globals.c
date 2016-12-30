@@ -97,7 +97,6 @@ unsigned char	zx_val_asm;
 unsigned char	attrib[4];
 unsigned char	attrib_hl[4];
 unsigned char	s_state;
-unsigned int	score_top;
 unsigned int	curr_time;
 unsigned int	entry_time;
 unsigned int	frame_time;
