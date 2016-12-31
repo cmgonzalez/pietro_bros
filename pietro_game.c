@@ -39,12 +39,15 @@ unsigned int game_calc_index( unsigned char f_lin , unsigned char f_col ) {
 }
 
 void game_draw_pow(void) {
-	if (game_pow == 3) s_tile1 = TILE_POW1;
-	if (game_pow == 2) s_tile1 = TILE_POW1 + 12;
-	if (game_pow == 1) s_tile1 = TILE_POW1 + 24;
-	NIRVANAP_halt(); // synchronize with interrupts  CG
-	NIRVANAP_fillT(PAPER, 120,15);
-	NIRVANAP_drawT( s_tile1 , 120, 15 );
+	if (game_pow > 0) {
+		if (game_pow == 3) s_tile1 = TILE_POW1;
+		if (game_pow == 2) s_tile1 = TILE_POW1 + 12;
+		if (game_pow == 1) s_tile1 = TILE_POW1 + 24;
+		
+		NIRVANAP_halt(); // synchronize with interrupts  CG
+		NIRVANAP_fillT(PAPER, 120,15);
+		NIRVANAP_drawT( s_tile1 , 120, 15 );	
+	}
 }
 
 
@@ -110,7 +113,7 @@ void game_brick_anim( unsigned char f_tile , unsigned char f_hit) {
 		tmp_uc = hit_col[index_player] + 1;
 	}
 	if (lvl_1[index1] == 0 && lvl_1[index2] >= IDX_BRICK) {
-		tmp_uc = hit_col[index_player] - 1;
+		tmp_uc = hit_col[index_player];
 	}
 	/* Draw Plaform */
 	NIRVANAP_halt();

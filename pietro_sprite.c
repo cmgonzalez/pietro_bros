@@ -141,20 +141,21 @@ unsigned char spr_move_left( void ){
 
 void spr_redraw( void ){
 	s_tile1 = tile[sprite] + colint[sprite];
+
 	if ( (lin[sprite] !=  s_lin0) || (col[sprite] != s_col0) ) { 
 		/* Column Movement */
+		if ( (lin[sprite] <= 16) ) {
+			NIRVANAP_fillT(PAPER, 8, s_col0);
+		}
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
 		if ( !spr_check_over() ) {
-			//NIRVANAP_halt();
-			//NIRVANAP_fillT(PAPER, s_lin0, s_col0);// <--- THIS ONE CAUSES FLICKERING! but sync slowdowns
+
 			
 			NIRVANAP_fillC(PAPER, s_lin0, s_col0);
 			NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);
-			
+		
 			NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
 			NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
-			
-			//NIRVANAP_spriteT(0, TILE_EMPTY, s_lin0, s_col0);
 		}
 		
 	} else if (  s_tile1 != s_tile0 ) { 
