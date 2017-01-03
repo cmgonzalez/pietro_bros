@@ -475,12 +475,12 @@ void game_score_osd(void) {
 			}
 		}
 	} else {
-		
-		index1 = game_calc_index( score_osd_lin[index_player] , score_osd_col[index_player]  );
+		tmp = score_osd_lin[index_player] - 2;
+		index1 = game_calc_index( tmp , score_osd_col[index_player]  );
 		if ( index1 > 0 && lvl_1[index1] == 0 && lvl_1[index1+1] == 0   ) {
 			NIRVANAP_halt(); // synchronize with interrupts
 			NIRVANAP_drawT( score_osd_tile[index_player], score_osd_lin[index_player], score_osd_col[index_player] );
-			score_osd_lin[index_player] -=2;
+			score_osd_lin[index_player] = tmp;
 		}
 		
 		if ( game_check_time( score_osd_time[index_player] , 50 ) ) {
