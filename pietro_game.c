@@ -179,14 +179,16 @@ void game_draw_clear(void) {
 }
 
 void game_draw_back(void) {
+	intrinsic_di();
 	for (s_lin1 = 16; s_lin1 < 182; s_lin1 = s_lin1 + 8) {
 		for (s_col1 = 0; s_col1 < 32; s_col1 = s_col1 + 2) {
 			tmp_ui = game_calc_index(s_lin1,s_col1);
 			if (lvl_1[tmp_ui] >= GAME_MAP_PLATFORM ) {
-				NIRVANAP_drawT(game_brick_tile, s_lin1, s_col1);
+				NIRVANAP_drawT_raw(game_brick_tile, s_lin1, s_col1);
 			}
 		}
 	}
+	intrinsic_ei();
 #ifdef GAME_LOW_MEM
 	game_back_fix1();
 	game_back_fix2();
@@ -902,7 +904,6 @@ void game_menu(void) {
 void game_menu_paint(void) {
 
 	game_paint_attrib(11);
-#ifdef __SDCC
 	game_fill_row(0,32);
 	//draw menu
 	//blue top
@@ -920,7 +921,6 @@ void game_menu_paint(void) {
 	game_menu_e(80, 0,30,159,255);//game_menu_e(159,-1);
 	NIRVANAP_drawT(	 3, 128,  4 ); //pietro
 	NIRVANAP_drawT( 59, 128, 25 ); //turtle
-#endif
 	//menu
 	zx_print_str(14,10, "  1 PLAYER   ");
 	zx_print_str(16,10, "  2 PLAYER   ");
@@ -932,28 +932,29 @@ void game_menu_paint(void) {
 }
 
 void game_menu_e(unsigned char f_col,unsigned char e_c0,unsigned char e_c1,unsigned char e_start,unsigned char f_sign) {
-
+	intrinsic_di();
 	for (tmp_uc =e_c0; tmp_uc <= e_c1 ; tmp_uc = tmp_uc + 2) {
 		if (tmp_uc == e_c0) {
-			NIRVANAP_drawT(e_start , f_col, tmp_uc );
+			NIRVANAP_drawT_raw(e_start , f_col, tmp_uc );
 			continue;
 		}
 		if (tmp_uc == e_c1) {
-			NIRVANAP_drawT(e_start + 2 , f_col, tmp_uc );
+			NIRVANAP_drawT_raw(e_start + 2 , f_col, tmp_uc );
 			continue;
 		}
 		if (tmp_uc == 14 || tmp_uc == 16) {
 			continue;
 		}
-		NIRVANAP_drawT(e_start + 1 , f_col, tmp_uc );
+		NIRVANAP_drawT_raw(e_start + 1 , f_col, tmp_uc );
 	}
 	if ( f_sign == 255 ) {
 		f_col = f_col-16;
 	} else {
 		f_col = f_col+16;
 	}
-	NIRVANAP_drawT(e_start + 12 , f_col, e_c0 );
-	NIRVANAP_drawT(e_start + 14 , f_col, e_c1 );
+	NIRVANAP_drawT_raw(e_start + 12 , f_col, e_c0 );
+	NIRVANAP_drawT_raw(e_start + 14 , f_col, e_c1 );
+	intrinsic_ei();
 
 }
 
