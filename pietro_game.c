@@ -293,7 +293,7 @@ void game_phase_init(void) {
 	game_print_score();
 
 	//GAME TYPES/BONUS
-	if (game_type < 2) { //A-B
+	if (game_type < GAME_RANDOM_TYPE) { //A-B
 		phase_left = game_phase_calc();
 		if (phase_left == 0) {
 			//INIT A BONUS STAGE
@@ -394,19 +394,6 @@ void game_loop(void) {
 		player_turn();
 		/*enemies turn*/
 		enemy_turn();
-		/*each 30 microseconds aprox - update player collition*/
-		if (game_check_time(col_time, PLAYER_TCOL_CHECK)) {
-			col_time = zx_clock();
-			player_set1();
-			player_collition();
-			/*player 2*/
-			player_set2();
-			player_collition();
-			/* water splash effect clear */
-			game_clear_water_splash();
-			/*rotate attrib on the clock on bonus screen*/
-			if (game_bonus) game_rotate_attrib();
-		}
 		/*bonus tick tack sound*/
 		if (game_bonus) {
 			game_bonus_clock();
@@ -414,17 +401,13 @@ void game_loop(void) {
 		}
 		/*each second aprox - update fps/score/phase left/phase advance*/
 		if (game_check_time(frame_time, GAME_TIME_EVENT)) { 
-			/*LOOP CNT - TO CHECK SPEED*/
-			/* LPS DISPLAY 
-			tmp = loop_count - loop_count_old;
-			loop_count_old = loop_count;
-			zx_print_int(21, 24, tmp);
-			*/
 			frame_time = zx_clock();
 			/*add enemies*/
 			if ( !game_bonus ) {
 				game_enemy_add();
 			}
+			game_clear_water_splash();
+			
 			/* angry last enemy on the screen */
 			if (phase_left == 1 && phase_angry == 0) {
 				for (sprite = 0; sprite < SPR_P2 ; ++sprite ) {
@@ -439,7 +422,7 @@ void game_loop(void) {
 			}
 			
 			/* end of phase */
-			if (phase_end == 1 && game_type != 2) {
+			if (phase_end == 1 && game_type != GAME_RANDOM_TYPE) {
 				/*silence background sound*/
 				z80_delay_ms(400);
 				if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_reset();
@@ -492,9 +475,14 @@ void game_score_osd(void) {
 			}
 		}
 	} else {
-		NIRVANAP_halt(); // synchronize with interrupts
-		NIRVANAP_drawT( score_osd_tile[index_player], score_osd_lin[index_player], score_osd_col[index_player] );
-		score_osd_lin[index_player] -=2;
+		
+		index1 = game_calc_index( score_osd_lin[index_player] , score_osd_col[index_player]  );
+		if ( index_d > 0 && lvl_1[index_d] < VAL_COL  ) {
+			NIRVANAP_halt(); // synchronize with interrupts
+			NIRVANAP_drawT( score_osd_tile[index_player], score_osd_lin[index_player], score_osd_col[index_player] );
+			score_osd_lin[index_player] -=2;
+		}
+		
 		if ( game_check_time( score_osd_time[index_player] , 50 ) ) {
 			NIRVANAP_fillT( PAPER, score_osd_lin[index_player], score_osd_col[index_player] );
 			score_osd_col[index_player] = 255;
@@ -513,6 +501,7 @@ void game_bonus_clock(void) {
 	} else {
 		zx_print_bonus_time(2,14,tmp_ui);
 		game_paint_attrib_lin_h(14,14+6,2*8 + 8);
+		game_rotate_attrib();
 		/* end bonus! */
 	}
 #endif
@@ -632,9 +621,9 @@ unsigned char game_check_maze(int f_index) {
 }
 
 unsigned char game_enemy_add(void) {
-	if (spr_count < ENEMIES_MAX && game_check_time(entry_time ,100) && ( phase_left > 0 || game_type == 2) && (phase_left > 0) ) {
+	if (spr_count < ENEMIES_MAX && game_check_time(entry_time ,100) && ( phase_left > 0 || game_type == GAME_RANDOM_TYPE) && (phase_left > 0) ) {
 		/* phase quota */
-		if (game_type == 2) {
+		if (game_type == GAME_RANDOM_TYPE) {
 			game_enemy_rnd();
 		} else {
 			game_enemy_quota();
@@ -683,6 +672,7 @@ unsigned char game_enemy_quota(void) {
 }
 
 unsigned char game_enemy_rnd(void) {
+	zx_print_chr(21,1,'R');
 	if (spr_count < ENEMIES_MAX && game_check_time( entry_time , 100 ) ) {
 		entry_time = zx_clock();
 		/* adds an enemy */
@@ -861,7 +851,7 @@ void game_menu_config(void) {
 			ay_fx_play(ay_effect_10);
 			sound_coin();
 			++game_type;
-			if (game_type > 2) game_type = 0;
+			if (game_type > GAME_RANDOM_TYPE) game_type = 0;
 			break;
 		case 2: //BACK
 			game_menu_sel = 0;

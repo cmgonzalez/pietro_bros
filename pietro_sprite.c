@@ -144,7 +144,7 @@ void spr_redraw( void ){
 
 	if ( (lin[sprite] !=  s_lin0) || (col[sprite] != s_col0) ) { 
 		/* Column Movement */
-		if ( (lin[sprite] <= 16) ) {
+		if ( s_lin0 <= 16 ) {
 			NIRVANAP_fillT(PAPER, 8, s_col0);
 		}
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);

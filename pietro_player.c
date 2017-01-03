@@ -88,13 +88,13 @@ unsigned char player_collition_check(void) {
 	
 	if ( BIT_CHK(state[enemies], STAT_KILL) ) return 0;
 	
+	tmp_ui = abs( lin[enemies] - lin[sprite] );
 	if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL) ) {
-		tmp_ui = abs( lin[enemies] - lin[sprite] );
-		if ( tmp_ui >= PLAYER_VCOL_MARGIN + 2 ) return 0; //Jumping || Falling
+		if ( tmp_ui > PLAYER_VCOL_MARGIN + 2 ) return 0; //Jumping || Falling
 	} else {
-		tmp_ui = abs( lin[enemies] - lin[sprite] );
-		if ( tmp_ui >= PLAYER_VCOL_MARGIN ) return 0; //Walking
+		if ( tmp_ui > PLAYER_VCOL_MARGIN ) return 0; //Walking
 	}
+	
 	/* COL DIFF TO SPEED UP */
 	tmp_ui = abs( col[enemies] - col[sprite] );
 	tmp0 = 3*col[enemies];
@@ -277,13 +277,12 @@ void player_turn(void) {
 			dirs = 0;
 			
 			if (sprite == SPR_P1) {
-				//NIRVANAP_halt(); // TESTING
 				dirs = (joyfunc1) (&k1);
 			} else {
-				//NIRVANAP_halt(); // TESTING
 				dirs = (joyfunc2) (&k1);
 			}
 			player_move();
+			player_collition();
 		}
 	}
 }
@@ -300,7 +299,6 @@ int player_move_read_input(void) {
 			NIRVANAP_drawT(  TILE_EMPTY, 16, s_col0 ); //CLEAR TEMPORARY TILE
 			NIRVANAP_drawT(  TILE_EMPTY, 32, s_col0 ); //CLEAR PLAYER
 		}
-		
 		
 		if (!(dirs & IN_STICK_FIRE)) {
 			BIT_CLR(state_a[sprite], STAT_LOCK);
