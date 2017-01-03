@@ -336,16 +336,16 @@ void game_phase_print(unsigned char f_row) {
 	zx_print_str(f_row, 11, "PHASE");
 	if (phase_curr < 31) {
 		if (!game_bonus) {
-			zx_print_chr(f_row, 18, phase_curr+1);	
+			zx_print_chr(f_row, 17, phase_curr+1);	
 		} else {
-			zx_print_str(f_row, 18, "BONUS");	
+			zx_print_str(f_row, 17, "BONUS");	
 		}
 		
 	} else {
 		if (game_type != GAME_RANDOM_TYPE) {
-			zx_print_str(f_row, 18, "HELL");
+			zx_print_str(f_row, 17, "HELL");
 		} else {
-			zx_print_str(f_row, 18, "INFITY");
+			zx_print_str(f_row, 17, "INFITY");
 		}
 	}
 	game_colour_message( f_row, 11, 24, 300 );
@@ -453,6 +453,7 @@ void game_loop(void) {
 		++loop_count;
 		
 	}
+	z80_delay_ms(800);
 	game_kill_all_sprites();
 	NIRVANAP_halt();
 	game_draw_clear();
@@ -705,6 +706,7 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	}
 	//force for test an enemy
 	//f_class = SIDESTEPPER_MAGENTA;
+	f_class = FIREBALL_RED;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
 	tmp0 = rand() & 0x1;

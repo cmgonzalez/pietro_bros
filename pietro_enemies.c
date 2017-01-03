@@ -88,6 +88,7 @@ void enemy_collition(void) {
 unsigned char enemy_collition_check(void) {
 	//TODO CHECK IF PERF IS AFFECTED; AFTER WE RETURN AT FIRST FALSE
 	if ( class[enemies] == 0 ) return 0;
+	if ( class[enemies] > FIGHTERFLY ) return 0;
 	if ( enemies == sprite ) return 0;
 	//TEST if ( class[enemies] > FIGHTERFLY ) return 0;
 	if ( BIT_CHK(state[sprite], STAT_HIT)  ) return 0;
@@ -356,9 +357,11 @@ void enemy_fireball_red(void){
 				//tmp0 = -1;
 				s_col1 = col[sprite]-1;
 			}
-			index1 = game_calc_index(lin[sprite]+tmp, s_col1);
+			index1 = game_calc_index(lin[sprite], s_col1);
 			
-			if (lin[sprite] < GAME_LIN_FLOOR && lvl_1[index1] > VAL_COL || col[sprite] < 2 || col[sprite] > 29) {
+			//if ( lin[sprite] < GAME_LIN_FLOOR && lvl_1[index1] != 0 || col[sprite] < 2 || col[sprite] > 29) {
+			
+			if ( lvl_1[index1] >= TILE_POW1 || col[sprite] < 2 || col[sprite] > 29) {
 				BIT_FLP(s_state, STAT_DIRR);
 				BIT_FLP(s_state, STAT_DIRL);
 			}
