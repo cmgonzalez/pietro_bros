@@ -592,6 +592,6 @@ void enemy_kill(unsigned char f_sprite){
 		ay_fx_play(ay_effect_11);
 	} else {
 		ay_reset(); //FORCE PLAY
-		ay_fx_play(ay_effect_17);
+		if (!game_bonus) ay_fx_play(ay_effect_17);
 	}
 }

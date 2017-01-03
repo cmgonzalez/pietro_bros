@@ -333,10 +333,14 @@ void game_phase_init(void) {
 }
 
 void game_phase_print(unsigned char f_row) {
-#ifdef __SDCC
 	zx_print_str(f_row, 11, "PHASE");
 	if (phase_curr < 31) {
-		zx_print_chr(f_row, 18, phase_curr+1);
+		if (!game_bonus) {
+			zx_print_chr(f_row, 18, phase_curr+1);	
+		} else {
+			zx_print_str(f_row, 18, "BONUS");	
+		}
+		
 	} else {
 		if (game_type != GAME_RANDOM_TYPE) {
 			zx_print_str(f_row, 18, "HELL");
@@ -345,14 +349,12 @@ void game_phase_print(unsigned char f_row) {
 		}
 	}
 	game_colour_message( f_row, 11, 24, 300 );
-#endif
 }
 
 void game_loop(void) {
 	zx_print_str(22,7,"   THANKS ALVIN   ");
 	zx_print_str(23,7,"    AND  EINAR    ");
 	ay_fx_play(ay_effect_10);
-#ifdef __SDCC
 	sound_coin();
 	z80_delay_ms(200);
 	zx_print_str(22,7,"                  ");
@@ -403,7 +405,7 @@ void game_loop(void) {
 		/*bonus tick tack sound*/
 		if (game_bonus) {
 			game_bonus_clock();
-			if (!ay_is_playing()) ay_fx_play(ay_effect_19);
+			if (phase_left > 0 && !ay_is_playing()) ay_fx_play(ay_effect_19);
 		}
 		/*each second aprox - update fps/score/phase left/phase advance*/
 		if (game_check_time(frame_time, GAME_TIME_EVENT)) { 
@@ -460,11 +462,9 @@ void game_loop(void) {
 	ay_reset();
 	game_menu_sel = 0;
 	game_menu_paint();
-#endif
 }
 
 void game_score_osd(void) {
-#ifdef __SDCC
 	if (score_osd_col[index_player] == 255 ) {
 		if ( hit_count > 0 ) {
 
@@ -494,29 +494,32 @@ void game_score_osd(void) {
 			score_osd_col[index_player] = 255;
 		}
 	}
-#endif
 }
 
 void game_bonus_clock(void) {
-#ifdef __SDCC
 	tmp_ui = TIME_BONUS - zx_clock()*2;           // one frame is 0.02 seconds
 	if (tmp_ui > TIME_BONUS) {
 		tmp_ui = 0;          // if time remaining goes negative
 		phase_left = 0;
 		phase_end = 1;
+		ay_reset();
 	} else {
-		zx_print_bonus_time(2,14,tmp_ui);
-		game_paint_attrib_lin_h(14,14+6,2*8 + 8);
-		game_rotate_attrib();
+		if (phase_left > 0) {
+			zx_print_bonus_time(2,14,tmp_ui);
+			if ( game_check_time(frame_time,5) ) {
+				/* rotate attrib array */
+				frame_time = zx_clock();
+				game_paint_attrib_lin_h(14,14+6,2*8 + 8);
+				game_rotate_attrib();
+			}
+		}
 		/* end bonus! */
 	}
-#endif
 }
 
 void game_bonus_summary(void) {
 	game_kill_all_sprites();
 	game_draw_clear();
-#ifdef __SDCC
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 //	game_phase_print_score_back(1);
 	game_phase_print_score_back();
@@ -544,7 +547,6 @@ void game_bonus_summary(void) {
 		zx_print_str(18, 12, "NO BONUS");
 		z80_delay_ms(200);
 	}
-#endif
 }
 
 void game_bonus_summary_player(unsigned char f_index)  {
