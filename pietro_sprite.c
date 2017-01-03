@@ -334,7 +334,6 @@ int spr_tile(unsigned char f_sprite){
 		tmp = 9;
 	}
 	
-	
 	switch(class[f_sprite]) {
 		case SHELLCREEPER_GREEN:
 			return spr_tile_dir(TILE_SHELLCREEPER_GREEN, f_sprite,3);
