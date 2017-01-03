@@ -236,8 +236,12 @@ void game_phase_print_score_back(void) {
 
 void game_print_lives(void) {
 	zx_print_ink(INK_WHITE);
-	zx_print_chr(23, 3, game_lives[0]); //LIVE P1
-	if (game_two_player) zx_print_chr(23, 26,game_lives[1]); //LIVE P2
+	tmp = game_lives[0] - 1;
+	zx_print_chr(23, 3, tmp ); //LIVE P1
+	if (game_two_player) {
+		tmp = game_lives[1] - 1;
+		zx_print_chr(23, 26, tmp ); //LIVE P2
+	}
 }
 
 
@@ -364,9 +368,9 @@ void game_loop(void) {
 	lvl_1[495 + 1] = 17;
 	lvl_1[495 + 32] = 17;
 	lvl_1[495 + 33] = 17;
-	game_lives[0] = 3;
+	game_lives[0] = 4;
 	if (game_two_player) {
-		game_lives[1] = 3;
+		game_lives[1] = 4;
 	} else {
 		game_lives[1] = 0;
 	}
@@ -706,7 +710,6 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	}
 	//force for test an enemy
 	//f_class = SIDESTEPPER_MAGENTA;
-	f_class = FIREBALL_RED;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
 	tmp0 = rand() & 0x1;
@@ -1007,8 +1010,8 @@ void game_end() {
 	f_p2 = 0;
 	
 	if (game_two_player) {
-		if (game_lives[0] < 255) f_p1 = 1;
-		if (game_lives[1] < 255) f_p2 = 1;
+		if (game_lives[0] > 0) f_p1 = 1;
+		if (game_lives[1] > 0) f_p2 = 1;
 	} else {
 		f_p1 = 1;
 	}

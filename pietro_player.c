@@ -150,16 +150,21 @@ void player_restart(unsigned char f_sprite){
 unsigned char player_lost_life(void){
 	sound_hit_enemy();
 	--game_lives[index_player];
-	if (game_lives[index_player] == 255) {
-		//PLAYER RUN OUT OF LIVES
-		if ( !game_two_player ) {
-			game_over = 1;
-		} else {
-			if ( game_lives[!index_player] == 255 ) {
+	if (game_lives[index_player] == 0) {
+		/* Player dies */
+		if ( game_two_player ) {
+			if ( index_player == 0) {
+				tmp = game_lives[1];
+			} else {
+				tmp = game_lives[0];
+			}
+			if ( tmp == 0 ) {
 				game_over = 1;
 			}
+		} else {
+			game_over = 1;
 		}
-		//DO NOT RESTART PLAYER
+		/* Do not restart player */
 		return 0;
 	}
 	spr_check_over();

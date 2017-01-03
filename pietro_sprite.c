@@ -226,10 +226,12 @@ void spr_anim_fall( unsigned char f_sprite) {
 		if (f_sprite >= SPR_P2)  {
 			//PLAYERS
 			if ( player_lost_life() ) {
+				/* Player Lost a Life */
 				NIRVANAP_halt();
 				NIRVANAP_fillT(PAPER, lin[f_sprite], col[f_sprite]);
 				player_restart(f_sprite);
 			} else {
+				/* Player Dies */
 				spr_destroy(sprite); //TWO PLAYER GAMES
 			}
 		} else {
