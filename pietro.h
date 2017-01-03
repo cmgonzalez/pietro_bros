@@ -197,6 +197,8 @@
 #define GAME_EXTRA_LIFE								2000
 #define GAME_TIME_WATER_SPLASH						15
 #define GAME_TIME_EVENT								100
+#define GAME_COIN_COUNT_MAX							3
+
 
 #define MAZE_BRICK									18
 #define MAZE_BRICK_FREEZE							20

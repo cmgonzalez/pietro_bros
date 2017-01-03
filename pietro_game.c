@@ -271,6 +271,7 @@ void game_phase_init(void) {
 	phase_end = 0;
 	phase_angry = 0;
 	game_bonus = 0;
+	game_coin_count = 0;
 	entry_time = 0;
 	zx_set_clock(0);
 	frame_time = 0;
@@ -293,7 +294,7 @@ void game_phase_init(void) {
 	game_print_score();
 
 	//GAME TYPES/BONUS
-	if (game_type < GAME_RANDOM_TYPE) { //A-B
+	if (game_type != GAME_RANDOM_TYPE) { //A-B
 		phase_left = game_phase_calc();
 		if (phase_left == 0) {
 			//INIT A BONUS STAGE
@@ -310,7 +311,7 @@ void game_phase_init(void) {
 			enemy_init( 5,	16 , 25, COIN_2	, 0);
 		}
 	} else {
-		phase_left = 0;
+		phase_left = 255;
 		phase_curr = 255;
 		game_brick_tile = TILE_BRICK_RESTART;
 		spr_idx[18] = TILE_BRICK_RESTART;
@@ -335,10 +336,13 @@ void game_phase_print(unsigned char f_row) {
 	if (phase_curr < 31) {
 		zx_print_chr(f_row, 18, phase_curr+1);
 	} else {
-		zx_print_str(f_row, 18, "HELL");
+		if (game_type != GAME_RANDOM_TYPE) {
+			zx_print_str(f_row, 18, "HELL");
+		} else {
+			zx_print_str(f_row, 18, "INFITY");
+		}
 	}
-	
-	game_colour_message( f_row, 11, 22, 300 );
+	game_colour_message( f_row, 11, 24, 300 );
 #endif
 }
 
@@ -621,14 +625,19 @@ unsigned char game_check_maze(int f_index) {
 }
 
 unsigned char game_enemy_add(void) {
-	if (spr_count < ENEMIES_MAX && game_check_time(entry_time ,100) && ( phase_left > 0 || game_type == GAME_RANDOM_TYPE) && (phase_left > 0) ) {
-		/* phase quota */
-		if (game_type == GAME_RANDOM_TYPE) {
-			game_enemy_rnd();
-		} else {
+	
+	if (game_type == GAME_RANDOM_TYPE) {
+		game_enemy_rnd();
+	} else {
+		if ( spr_count < ENEMIES_MAX && 
+			 game_check_time(entry_time ,100) && 
+			 phase_left > 0 ) 
+		{
+			/* phase quota */
 			game_enemy_quota();
-		}
+		}	
 	}
+	
 	return 0;
 }
 
@@ -651,20 +660,18 @@ unsigned char game_enemy_quota(void) {
 		}
 	}
 	/* random enemies*/
-	switch (rand() & 0x7) {	 //0->7
+	switch (rand() & 0x5) {	 //0->7
 	case 0:
-		game_enemy_add1(COIN_1);
-		break;
 	case 1:
-		game_enemy_add1(COIN_1);
+		if (game_coin_count < GAME_COIN_COUNT_MAX) game_enemy_add1(COIN_1);
 		break;
 	case 2:
 		if ( phase_curr > 8) game_enemy_add1(SLIPICE);
 		break;
-	case 4:
+	case 3:
 		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_GREEN);
 		break;
-	case 5:
+	case 4:
 		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_RED);
 		break;
 	};
@@ -672,7 +679,6 @@ unsigned char game_enemy_quota(void) {
 }
 
 unsigned char game_enemy_rnd(void) {
-	zx_print_chr(21,1,'R');
 	if (spr_count < ENEMIES_MAX && game_check_time( entry_time , 100 ) ) {
 		entry_time = zx_clock();
 		/* adds an enemy */
@@ -713,6 +719,11 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 		s_dir0 = DIR_LEFT;
 	}
 
+	if (f_class == COIN_1) {
+		++game_coin_count;
+	} else {
+		game_coin_count = 0;
+	}
 	tmp_uc = 0;
 	if (f_class == FIREBALL_GREEN || f_class == FIREBALL_RED) {
 		tmp_uc = rand() % 3;

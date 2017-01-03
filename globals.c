@@ -120,6 +120,7 @@ unsigned int	game_time_fireball_start;
 unsigned char	game_water_clear;
 unsigned int	game_water_time;
 unsigned char	game_bonus;
+unsigned char	game_coin_count;
 unsigned char	game_type;
 unsigned char	game_menu_sel;
 unsigned int	game_score_top;
@@ -255,8 +256,8 @@ unsigned char sprite_speed[] = {
 	 4, //07 SLIPICE 
 	 3, //08 COIN_1 
 	 4, //09 FIGHTERFLY 
-	 4, //10 FIREBALL_RED 
-	 3, //11 FIREBALL_GREEN 
+	 3, //10 FIREBALL_RED 
+	 2, //11 FIREBALL_GREEN 
 	 3, //12  COIN_2 
 	 0, //13  
 	 0, //14  

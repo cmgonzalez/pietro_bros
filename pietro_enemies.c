@@ -587,7 +587,7 @@ void enemy_kill(unsigned char f_sprite){
 	++hit_count;
 	spr_timer[f_sprite] = zx_clock();
 	jump_lin[f_sprite] = lin[f_sprite];
-	if (class[f_sprite] <= FIGHTERFLY ) phase_left--;
+	if ( class[f_sprite] <= FIGHTERFLY && game_type != GAME_RANDOM_TYPE ) --phase_left;
 	if (phase_left > 0 ) {
 		ay_fx_play(ay_effect_11);
 	} else {
