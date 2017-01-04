@@ -233,7 +233,7 @@ void spr_anim_fall( unsigned char f_sprite) {
 			} else {
 				/* Player Dies */
 				//spr_destroy(f_sprite); //TWO PLAYER GAMES
-				
+				game_print_footer();
 				NIRVANAP_fillT(PAPER, lin[f_sprite], col[f_sprite]);
 				col[f_sprite] = 0;
 				lin[f_sprite] = 0;

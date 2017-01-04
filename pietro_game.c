@@ -52,7 +52,6 @@ void game_draw_pow(void) {
 
 
 void game_back_fix1(void) {
-	#ifdef __SDCC
 	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE5, 16, 0);
 	NIRVANAP_drawT(TILE_PIPE4, 32, 0);
@@ -60,11 +59,9 @@ void game_back_fix1(void) {
 	NIRVANAP_fillT(PAPER, 32, 2);
 	NIRVANAP_fillT(PAPER, 16, 4);
 	NIRVANAP_fillT(PAPER, 32, 4);	
-	#endif
 }
 
 void game_back_fix2(void) {
-	#ifdef __SDCC
 	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE3, 16, 28);
 	NIRVANAP_drawT(TILE_PIPE7, 16, 30);
@@ -72,11 +69,9 @@ void game_back_fix2(void) {
 	NIRVANAP_fillT(PAPER, 32, 28);
 	NIRVANAP_fillT(PAPER, 16, 26);
 	NIRVANAP_fillT(PAPER, 32, 26);
-	#endif
 }
 
 void game_back_fix3(void) {
-	#ifdef __SDCC
 	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE1A, 136, 0);
 	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 0);
@@ -84,11 +79,9 @@ void game_back_fix3(void) {
 	NIRVANAP_drawT(TILE_PIPE2B, GAME_LIN_FLOOR, 2);
 	NIRVANAP_fillT(PAPER, 136, 4);
 	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 4);
-	#endif
 }
 
 void game_back_fix4(void) {
-	#ifdef __SDCC
 	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE1A, 136, 30);
 	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 30);
@@ -96,11 +89,9 @@ void game_back_fix4(void) {
 	NIRVANAP_drawT(TILE_PIPE3B, GAME_LIN_FLOOR, 28);
 	NIRVANAP_fillT(PAPER, 136, 26);
 	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 26);
-	#endif
 }
 
 void game_brick_anim( unsigned char f_tile , unsigned char f_hit) {
-
 	index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
 	index2 = index1 + 1;
 	if (f_hit) {
@@ -126,7 +117,6 @@ void game_brick_anim( unsigned char f_tile , unsigned char f_hit) {
 
 /* Clear Screen With Bricks UDG */
 void game_cortina_brick(void) {
-#ifdef __SDCC
 	zx_print_ink(INK_YELLOW);
 	zx_print_paper(PAPER_RED);
 	tmp = 0;
@@ -140,11 +130,9 @@ void game_cortina_brick(void) {
 	}
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	zx_print_paper(PAPER_BLACK);
-#endif
 }
 /* Clear Screen With Pipes */
 void game_cortina_pipes(void) {
-
 	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
@@ -163,7 +151,6 @@ void game_cortina_pipes(void) {
 	}
 	NIRVANAP_halt();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-
 }
 
 void game_draw_clear(void) {
@@ -189,7 +176,6 @@ void game_draw_back(void) {
 		}
 	}
 	intrinsic_ei();
-#ifdef GAME_LOW_MEM
 	game_back_fix1();
 	game_back_fix2();
 	game_back_fix3();
@@ -203,25 +189,31 @@ void game_draw_back(void) {
 	zx_print_paper(PAPER_BLACK);
 	zx_print_ink(INK_BLACK);
 	game_fill_row(12,32);//clear row
-	game_fill_row(22,32);//clear row
-	game_fill_row(23,32);//clear row
-	zx_print_ink(INK_RED);
-	zx_print_str(22, 1, "<"); //live p1 hut
-	zx_print_ink(INK_YELLOW);
-	zx_print_str(23, 1, "\\"); //live p1 face
-	if (game_two_player) {
-		zx_print_str(23, 30, "^"); //live p2 face
+	game_print_footer();
+}
+
+void game_print_footer(void) {
+	zx_print_str(22, 1, " "); 
+	zx_print_str(22,30, " "); 
+	zx_print_str(23, 1, "     ");
+	zx_print_str(23,30, "     ");
+	if (game_lives[0] > 0) {
+		zx_print_ink(INK_RED);
+		zx_print_str(22, 1, "<"); //live p1 hut	
+		zx_print_ink(INK_YELLOW);
+		zx_print_str(23, 1, "\\"); //live p1 face
+	}
+	if (game_lives[1] > 0) {
 		zx_print_ink(INK_WHITE);
 		zx_print_str(22, 30, ">"); //live p2 hut
+		zx_print_ink(INK_YELLOW);
+		zx_print_str(23, 30, "^"); //live p2 face
 	}
 	/* phase osd bottom*/
-	zx_print_ink(INK_WHITE);
-	game_print_lives();
-#endif
+	game_print_lives();	
 }
 
 void game_phase_print_score_back(void) {
-#ifdef GAME_LOW_MEM
 	zx_print_ink(INK_RED);
 	zx_print_str(0, 11, "$%|"); //top
 	zx_print_ink(INK_BLUE);
@@ -230,19 +222,15 @@ void game_phase_print_score_back(void) {
 		zx_print_ink(INK_GREEN);
 		zx_print_str(0, 22, "]|"); //II
 	}
-#endif
 }
 
 
 void game_print_lives(void) {
 	zx_print_ink(INK_WHITE);
-	
-	
 	tmp = game_lives[0] - 1;
 	if (tmp < 255) {
 		zx_print_chr(23, 3, tmp ); //LIVE P1	
 	}
-	
 	tmp = game_lives[1] - 1;
 	if (tmp < 255) {
 		zx_print_chr(23, 26, tmp ); //LIVE P2
@@ -563,7 +551,6 @@ void game_bonus_summary(void) {
 }
 
 void game_bonus_summary_player(unsigned char f_index)  {
-#ifdef __SDCC
 	NIRVANAP_halt(); // synchronize with interrupts
 	if (f_index==0) {
 		s_lin1 = 6;
@@ -596,7 +583,6 @@ void game_bonus_summary_player(unsigned char f_index)  {
 		z80_delay_ms(50);
 	}
 	zx_print_str(s_lin1, 22, "X 800");
-#endif
 }
 
 void game_draw_water_splash( unsigned char f_col) {
@@ -887,7 +873,6 @@ void game_menu_config(void) {
 }
 
 void game_menu(void) {
-#ifdef __SDCC
 	/*PLAY MIDI TITLE*/
 	ay_midi_play(pb_midi_title);
 	game_menu_paint();
@@ -908,18 +893,18 @@ void game_menu(void) {
 			break;
 		}
 	}
-#endif
 }
 
 
 void game_menu_paint(void) {
-
+	//Draws menu
 	game_paint_attrib(11);
 	game_fill_row(0,32);
-	//draw menu
-	//blue top
+	//Blue frame top
 	game_menu_e(16, 0,30,156,1);
-	//pietro logo
+	//Green frame bottom
+	game_menu_e(80, 0,30,159,255); //game_menu_e(159,-1);
+	//Pietro logo
 	tmp = 24;
 	intrinsic_di();
 	for (tmp_uc =0; tmp_uc < 10 ; ++tmp_uc) {
@@ -927,14 +912,13 @@ void game_menu_paint(void) {
 		NIRVANAP_drawT_raw(192 + 12	 + tmp_uc , tmp + 32 , 5 + (tmp_uc*2) );
 		//NIRVANAP_drawT(180 + 24	 + tmp_uc , tmp + 48 , 5 + (tmp_uc*2) );
 	}
-	intrinsic_ei();
-	NIRVANAP_fillC(INK_RED | PAPER_RED , tmp + 40 , 26);//POINT
-	//green bottom
+	NIRVANAP_drawT_raw(	 3, 128,  4 ); //pietro
+	NIRVANAP_drawT_raw( 59, 128, 25 ); //turtle
 	
-	game_menu_e(80, 0,30,159,255);//game_menu_e(159,-1);
-	NIRVANAP_drawT(	 3, 128,  4 ); //pietro
-	NIRVANAP_drawT( 59, 128, 25 ); //turtle
-	//menu
+	intrinsic_ei();
+	NIRVANAP_halt();
+	NIRVANAP_fillC(INK_RED | PAPER_RED , tmp + 40 , 26);//POINT
+	//Menu
 	zx_print_str(14,10, "  1 PLAYER   ");
 	zx_print_str(16,10, "  2 PLAYER   ");
 	zx_print_str(18,10, "   CONFIG    ");
@@ -1074,7 +1058,6 @@ void game_end() {
 }
 
 void game_hall_enter(void) {
-#ifdef __SDCC
 	unsigned char edit, f_col, f_row;
 	unsigned char p1;
 	unsigned char p2;
@@ -1168,8 +1151,6 @@ void game_hall_enter(void) {
 	}
 	game_hall_of_fame();
 	game_menu_back(0);
-
-#endif
 }
 
 void game_menu_back(unsigned char f_start) {
@@ -1181,7 +1162,6 @@ void game_menu_back(unsigned char f_start) {
 
 
 unsigned char game_hall_check(unsigned char p_index) {
-#ifdef __SDCC
 	for (tmp=0;tmp<10;++tmp){
 		if ( player_score[p_index] > hall_scores[tmp] ) {
 				for (tmp0 = 9; tmp0 > tmp; --tmp0 ) {
@@ -1192,21 +1172,17 @@ unsigned char game_hall_check(unsigned char p_index) {
 				return tmp+1;
 		}
 	}
-#endif
 	return 0;
 }
 
 void game_hall_enter_phs(unsigned char f_row,unsigned char f_col) {
-#ifdef GAME_LOW_MEM
 	game_menu_e( (f_row<<3)-48, f_col-4,f_col+6, 156,   1);
 	game_menu_e( (f_row<<3)+28, f_col-4,f_col+6, 159, 255);
 	zx_print_str(f_row-5, f_col-1, "HIGH");
 	zx_print_str(f_row-4, f_col-1, " SCORE");
-#endif
 }
 
 void game_hall_print_p( unsigned char selected, unsigned char f_row,unsigned char f_col, unsigned char f_tile, unsigned char f_inc) {
-#ifdef GAME_LOW_MEM
 	++f_row;
 	zx_print_str( f_row, f_col  , &initals[f_inc    ] );
 	zx_print_str( f_row, f_col+1, &initals[f_inc + 2] );
@@ -1224,11 +1200,9 @@ void game_hall_print_p( unsigned char selected, unsigned char f_row,unsigned cha
 		NIRVANAP_drawT( TILE_EMPTY    , f_row , f_col );
 		NIRVANAP_drawT( 22+(f_inc<<2) , f_row-2 , f_col );
 	}
-#endif
 }
 
 void game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned char *cnt, unsigned char f_col, unsigned char f_row, unsigned char f_inc) {
-#ifdef GAME_LOW_MEM
 	unsigned char *p;
 	unsigned char *out_str;
 	unsigned char f_tmp;
@@ -1272,13 +1246,10 @@ void game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned c
 
 	out_str = hall_valids + *cnt;
 	initals[f_inc + ( *selected<<1 )] = *out_str;
-#endif
 }
 
 void game_hall_of_fame(void) {
-#ifdef __SDCC
 	//OUT OF MEMORY
-
 	game_draw_clear();
 	game_paint_attrib(0);
 	
@@ -1296,13 +1267,11 @@ void game_hall_of_fame(void) {
 	zx_print_str( 4, 10, "HALL OF FAME");
 	game_colour_message( 4, 10,22, 500 );
 	game_draw_clear();
-#endif
 	game_menu_sel = 0;
 	ay_midi_play(pb_midi_title);
 }
 
 void game_rotate_attrib(void) {
-#ifdef __SDCC
 	//OUT OF MEMORY
 	// UP
 	// tmp_uc = attrib_hl[0];
@@ -1316,7 +1285,6 @@ void game_rotate_attrib(void) {
 	attrib_hl[2] = attrib_hl[1];
 	attrib_hl[1] = attrib_hl[0];
 	attrib_hl[0] = tmp_uc;
-#endif
 }
 
 void game_colour_message( unsigned char f_row, unsigned char f_col, unsigned char f_col2, unsigned int f_microsecs  ) {

@@ -45,6 +45,7 @@ extern void			 game_brick_anim(unsigned char f_tile,unsigned char f_hit);
 extern void			 game_cortina_brick(void);
 extern void			 game_cortina_pipes(void);
 extern void			 game_draw_back(void);
+extern void          game_print_footer(void);
 extern void			 game_print_lives(void);
 extern void			 game_tick(void);
 extern void			 game_start_timer(void);
