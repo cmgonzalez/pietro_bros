@@ -401,8 +401,11 @@ void enemy_fighterfly(void){
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
 			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_13);
 			//TODO TIMER ...
-			BIT_SET(s_state, STAT_JUMP);
-			jump_lin[sprite] = lin[sprite];
+			if ( game_check_time( spr_timer[sprite], 26 ) ) {
+				BIT_SET(s_state, STAT_JUMP);
+				jump_lin[sprite] = lin[sprite];
+				spr_timer[sprite]=0;
+			}
 		}
 		if ( BIT_CHK(s_state, STAT_JUMP) ) {
 			//FIREFLY MAX JUMP
@@ -413,8 +416,13 @@ void enemy_fighterfly(void){
 			spr_move_horizontal();
 			spr_move_up();
 		} else {
-			enemy_walk();
-			spr_move_horizontal();
+			if (spr_timer[sprite]==0) {
+				spr_timer[sprite] = zx_clock();
+			}
+			if (BIT_CHK(s_state, STAT_FALL)) {
+				enemy_walk();
+				spr_move_horizontal();
+			}
 		}
 		enemy_trip();
 	}

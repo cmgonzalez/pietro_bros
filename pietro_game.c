@@ -525,8 +525,8 @@ void game_bonus_summary(void) {
 //	game_phase_print_score_back(1);
 	game_phase_print_score_back();
 	game_print_score();
-	game_bonus_summary_player(0);
-	if (game_two_player) game_bonus_summary_player(1);
+	if (game_lives[0] > 0) game_bonus_summary_player(0);
+	if (game_lives[1] > 0) game_bonus_summary_player(1);
 	game_paint_attrib_lin( 0, 31, 18*8 + 8 );
 	if ( phase_bonus_total[0] == 6 && phase_bonus_total[1] == 0) {
 		sound_jump();
@@ -700,6 +700,7 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	}
 	//force for test an enemy
 	//f_class = SIDESTEPPER_MAGENTA;
+	f_class = FIGHTERFLY;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
 	tmp0 = rand() & 0x1;
