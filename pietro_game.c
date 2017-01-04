@@ -236,9 +236,13 @@ void game_phase_print_score_back(void) {
 
 void game_print_lives(void) {
 	zx_print_ink(INK_WHITE);
-	tmp = game_lives[0] - 1;
-	zx_print_chr(23, 3, tmp ); //LIVE P1
-	if (game_two_player) {
+	
+	if (game_lives[0] > 0) {
+		tmp = game_lives[0] - 1;
+		zx_print_chr(23, 3, tmp ); //LIVE P1	
+	}
+	
+	if (game_lives[1] > 0) {
 		tmp = game_lives[1] - 1;
 		zx_print_chr(23, 26, tmp ); //LIVE P2
 	}
@@ -309,8 +313,8 @@ void game_phase_init(void) {
 			phase_left = 6;
 			game_bonus = 1;
 			/* FIXED COINS - WE CAN HAVE ONLY 6! (8-2PLAYERS)*/
-			enemy_init( 0, 144 , 13, COIN_2	, 0);
-			enemy_init( 1, 144 , 17, COIN_2	, 0);
+			enemy_init( 0, 144 ,  8, COIN_2	, 0);
+			enemy_init( 1, 144 , 22, COIN_2	, 0);
 			enemy_init( 2,	80 ,  6, COIN_2	, 0);
 			enemy_init( 3,	80 , 24, COIN_2	, 0);
 			enemy_init( 4,	16 ,  5, COIN_2	, 0);
@@ -328,8 +332,8 @@ void game_phase_init(void) {
 	/*PRINT PHASE MESSAGE*/
 	game_phase_print(12);
 	/* PLAYER INIT */
-	player_init(SPR_P1,GAME_LIN_FLOOR,10,TILE_P1_STANR);
-	if (game_two_player) player_init(SPR_P2,GAME_LIN_FLOOR,20,TILE_P1_STANR +24+12);
+	if (game_lives[0]) player_init(SPR_P1,GAME_LIN_FLOOR,10,TILE_P1_STANR);
+	if (game_lives[1]) player_init(SPR_P2,GAME_LIN_FLOOR,20,TILE_P1_STANR +24+12);
 	/*DRAW MAZE*/
 	game_draw_back();
 	zx_print_str(23, 11, "PHASE");
@@ -397,6 +401,7 @@ void game_loop(void) {
 	loop_count=0;
 	loop_count_old=0;
 	dirs = 0x00;
+	game_unfreeze_all();
 	while (!game_over) {
 		/*player 1 turn*/
 		player_set1();
@@ -411,14 +416,16 @@ void game_loop(void) {
 			game_bonus_clock();
 			if (phase_left > 0 && !ay_is_playing()) ay_fx_play(ay_effect_19);
 		}
+		/* clear water effect */
+		game_clear_water_splash();
+		
 		/*each second aprox - update fps/score/phase left/phase advance*/
-		if (game_check_time(frame_time, GAME_TIME_EVENT)) { 
+		if (game_check_time(frame_time, GAME_TIME_EVENT)) {
 			frame_time = zx_clock();
 			/*add enemies*/
 			if ( !game_bonus ) {
 				game_enemy_add();
 			}
-			game_clear_water_splash();
 			
 			/* angry last enemy on the screen */
 			if (phase_left == 1 && phase_angry == 0) {
@@ -461,7 +468,7 @@ void game_loop(void) {
 	game_kill_all_sprites();
 	NIRVANAP_halt();
 	game_draw_clear();
-	zx_print_str(8, 11, "GAME  OVER");
+	zx_print_str(8, 11, "GAME OVER");
 	game_colour_message( 8, 11, 21, 200 );
 	game_hall_enter();
 	ay_reset();
@@ -488,7 +495,7 @@ void game_score_osd(void) {
 	} else {
 		tmp = score_osd_lin[index_player] - 2;
 		index1 = game_calc_index( tmp , score_osd_col[index_player]  );
-		if ( index1 > 0 && lvl_1[index1] == 0 && lvl_1[index1+1] == 0   ) {
+		if ( tmp > 8 && index1 > 0 && lvl_1[index1] == 0 && lvl_1[index1+1] == 0   ) {
 			NIRVANAP_halt(); // synchronize with interrupts
 			NIRVANAP_drawT( score_osd_tile[index_player], score_osd_lin[index_player], score_osd_col[index_player] );
 			score_osd_lin[index_player] = tmp;
@@ -592,10 +599,9 @@ void game_bonus_summary_player(unsigned char f_index)  {
 }
 
 void game_draw_water_splash( unsigned char f_col) {
-#ifdef __SDCC
 	if (game_water_clear == 255) {
 		/* water splash effect */
-		zx_print_paper(PAPER_BLACK);
+		zx_print_paper(PAPER_RED);
 		zx_print_ink(INK_CYAN);
 		zx_print_str(20, f_col, "()");//udg splash
 		zx_print_ink(INK_WHITE);
@@ -604,11 +610,9 @@ void game_draw_water_splash( unsigned char f_col) {
 		game_water_time = zx_clock();
 		zx_print_paper(PAPER_BLACK);
 	}
-#endif
 }
 
 void game_clear_water_splash(void) {
-#ifdef __SDCC
 	if ( game_water_clear < SCR_COLS ) {
 		if ( game_check_time( game_water_time , GAME_TIME_WATER_SPLASH ) ) {
 			zx_print_ink(INK_YELLOW);
@@ -620,7 +624,6 @@ void game_clear_water_splash(void) {
 			game_water_clear = 255;
 		}
 	}
-#endif
 }
 
 void game_kill_all_sprites(void) { //TODO MOVE TO PIETRO_SPRITE.C
@@ -917,11 +920,13 @@ void game_menu_paint(void) {
 	game_menu_e(16, 0,30,156,1);
 	//pietro logo
 	tmp = 24;
+	intrinsic_di();
 	for (tmp_uc =0; tmp_uc < 10 ; ++tmp_uc) {
-		NIRVANAP_drawT(192 +	   tmp_uc , tmp + 16 , 5 + (tmp_uc*2) );
-		NIRVANAP_drawT(192 + 12	 + tmp_uc , tmp + 32 , 5 + (tmp_uc*2) );
+		NIRVANAP_drawT_raw(192 +	   tmp_uc , tmp + 16 , 5 + (tmp_uc*2) );
+		NIRVANAP_drawT_raw(192 + 12	 + tmp_uc , tmp + 32 , 5 + (tmp_uc*2) );
 		//NIRVANAP_drawT(180 + 24	 + tmp_uc , tmp + 48 , 5 + (tmp_uc*2) );
 	}
+	intrinsic_ei();
 	NIRVANAP_fillC(INK_RED | PAPER_RED , tmp + 40 , 26);//POINT
 	//green bottom
 	

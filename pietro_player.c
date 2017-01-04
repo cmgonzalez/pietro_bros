@@ -115,6 +115,7 @@ unsigned char player_collition_check(void) {
 		tmp1 = 3*col[sprite] - colint[sprite];
 	}		
 	tmp_ui = abs(tmp0 - tmp1);
+
 	if ( tmp_ui > PLAYER_HCOL_MARGIN_INT ) return 0;
 	return 1;
 }
@@ -152,16 +153,7 @@ unsigned char player_lost_life(void){
 	--game_lives[index_player];
 	if (game_lives[index_player] == 0) {
 		/* Player dies */
-		if ( game_two_player ) {
-			if ( index_player == 0) {
-				tmp = game_lives[1];
-			} else {
-				tmp = game_lives[0];
-			}
-			if ( tmp == 0 ) {
-				game_over = 1;
-			}
-		} else {
+		if ( game_lives[0] == 0 && game_lives[1] == 0 ) {
 			game_over = 1;
 		}
 		/* Do not restart player */
@@ -277,8 +269,8 @@ unsigned char player_move(void){
 
 void player_turn(void) {
 	
-	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
-		if ( class[sprite] == PLAYER) {
+	if ( class[sprite] == PLAYER && phase_left > 0 && game_lives[index_player] > 0) {
+		if ( spr_chktime(&sprite)  ) {
 			dirs = 0;
 			
 			if (sprite == SPR_P1) {
@@ -294,7 +286,7 @@ void player_turn(void) {
 
 
 int player_move_read_input(void) {
-	if (dirs != 0) {
+	if ( dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT) {
 		player_lock[index_player] = 0;
 		if (BIT_CHK(s_state, STAT_HIT)) {
 			//PLAYER MOVES AWAY FROM SAFE PLATFORM

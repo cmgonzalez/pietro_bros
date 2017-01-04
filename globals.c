@@ -249,16 +249,16 @@ unsigned char sprite_speed[] = {
 	 0, // 0 NOT USED 
 	 4, // 1 SHELLCREEPER_GREEN 
 	 3, // 2 SHELLCREEPER_RED 
-	 2, // 3 SHELLCREEPER_BLUE 
+	 1, // 3 SHELLCREEPER_BLUE 
 	 4, //04 SIDESTEPPER_RED 
 	 3, //05 SIDESTEPPER_GREEN 
-	 2, //06 SIDESTEPPER_MAGENTA 
+	 1, //06 SIDESTEPPER_MAGENTA 
 	 4, //07 SLIPICE 
 	 3, //08 COIN_1 
 	 4, //09 FIGHTERFLY 
 	 3, //10 FIREBALL_RED 
 	 2, //11 FIREBALL_GREEN 
-	 3, //12  COIN_2 
+	 3, //12 COIN_2 
 	 0, //13  
 	 0, //14  
 	 0, //15  

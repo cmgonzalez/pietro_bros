@@ -232,7 +232,7 @@ void spr_anim_fall( unsigned char f_sprite) {
 				player_restart(f_sprite);
 			} else {
 				/* Player Dies */
-				spr_destroy(sprite); //TWO PLAYER GAMES
+				spr_destroy(f_sprite); //TWO PLAYER GAMES
 			}
 		} else {
 			//ENEMIES
@@ -310,9 +310,9 @@ void spr_destroy(unsigned char f_sprite) {
 	spr_count--;
 	s_lin0 = lin[f_sprite];
 	s_col0 = col[f_sprite];
-	tile[sprite] = TILE_EMPTY;
-	col[sprite] = 0;
-	lin[sprite] = 0;
+	tile[f_sprite] = TILE_EMPTY;
+	col[f_sprite] = 0;
+	lin[f_sprite] = 0;
 	class[f_sprite] = 0;
 	state[f_sprite] = 0;
 	NIRVANAP_spriteT(f_sprite, TILE_EMPTY, 0,0);
