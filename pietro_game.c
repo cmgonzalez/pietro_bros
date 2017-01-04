@@ -237,13 +237,14 @@ void game_phase_print_score_back(void) {
 void game_print_lives(void) {
 	zx_print_ink(INK_WHITE);
 	
-	if (game_lives[0] > 0) {
-		tmp = game_lives[0] - 1;
+	
+	tmp = game_lives[0] - 1;
+	if (tmp < 255) {
 		zx_print_chr(23, 3, tmp ); //LIVE P1	
 	}
 	
-	if (game_lives[1] > 0) {
-		tmp = game_lives[1] - 1;
+	tmp = game_lives[1] - 1;
+	if (tmp < 255) {
 		zx_print_chr(23, 26, tmp ); //LIVE P2
 	}
 }

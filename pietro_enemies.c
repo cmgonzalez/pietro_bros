@@ -400,6 +400,7 @@ void enemy_fighterfly(void){
 	if ( spr_chktime(&sprite) ) {
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
 			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_13);
+			//TODO TIMER ...
 			BIT_SET(s_state, STAT_JUMP);
 			jump_lin[sprite] = lin[sprite];
 		}

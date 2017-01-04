@@ -268,11 +268,9 @@ unsigned char player_move(void){
 
 
 void player_turn(void) {
-	
 	if ( class[sprite] == PLAYER && phase_left > 0 && game_lives[index_player] > 0) {
 		if ( spr_chktime(&sprite)  ) {
 			dirs = 0;
-			
 			if (sprite == SPR_P1) {
 				dirs = (joyfunc1) (&k1);
 			} else {
@@ -372,11 +370,11 @@ void player_move_horizontal(void) {
 
 unsigned char player_push_check(void) {
 	//TODO CHECK THIS WITH ENEMIES SEEMS BETTER
-	if (lin[sprite] != lin[sprite_other_player] ) return 0;
+	if ( lin[sprite_other_player] == 0 ) return 0;
+	if ( lin[sprite] != lin[sprite_other_player] ) return 0;
 	tmp_sc = col[sprite] - col[sprite_other_player];
-
-	if (tmp_sc == -2 && BIT_CHK( state[sprite], STAT_DIRR ) ) return 1;
-	if (tmp_sc ==  2 && BIT_CHK( state[sprite], STAT_DIRL ) ) return 1;
+	if ( tmp_sc == -2 && BIT_CHK( state[sprite], STAT_DIRR ) ) return 1;
+	if ( tmp_sc ==  2 && BIT_CHK( state[sprite], STAT_DIRL ) ) return 1;
 	return 0;
 }
 
@@ -427,7 +425,10 @@ unsigned char player_hit_brick(void){
 				} 
 		}
 		
-		if ( lin[sprite] - lin[sprite_other_player] == 24 && abs(col[sprite] - col[sprite_other_player]) <= 2 ) {
+		if ( lin[sprite_other_player] > 0 &&
+			 lin[sprite] - lin[sprite_other_player] == 24 && 
+		     abs(col[sprite] - col[sprite_other_player]) <= 2 ) 
+		{
 			//MAKE OTHER PLAYER JUMP
 			NIRVANAP_fillT(PAPER, lin[sprite_other_player], col[sprite_other_player]);
 			lin[sprite_other_player] = lin[sprite_other_player]-4;
