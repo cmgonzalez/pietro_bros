@@ -91,24 +91,32 @@ void game_back_fix4(void) {
 	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 26);
 }
 
-void game_brick_anim( unsigned char f_tile , unsigned char f_hit) {
-	index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
-	index2 = index1 + 1;
+void game_brick_anim(unsigned char f_hit) {
+	
+	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM || lvl_1[ index2 ] == GAME_MAP_PLATFORM) {
+		tmp0 = game_brick_tile;
+	}
+	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM_FREEZE || lvl_1[ index2 ] == GAME_MAP_PLATFORM_FREEZE ) {
+		tmp0 = TILE_BRICK_FREEZE;
+	}
+
+	//index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
+	//index2 = index1 + 1;
 	if (f_hit) {
 		tmp = hit_lin[index_player]-10;
 	} else {
 		tmp = hit_lin[index_player]-8;	
 	}
 	tmp_uc = 0;
-	if (lvl_1[index1] >= IDX_BRICK && lvl_1[index2] == 0) {
+	if (lvl_1[index1] >= GAME_MAP_PLATFORM && lvl_1[index2] == 0) {
 		tmp_uc = hit_col[index_player] + 1;
 	}
-	if (lvl_1[index1] == 0 && lvl_1[index2] >= IDX_BRICK) {
+	if (lvl_1[index1] == 0 && lvl_1[index2] >= GAME_MAP_PLATFORM) {
 		tmp_uc = hit_col[index_player];
 	}
 	/* Draw Plaform */
 	NIRVANAP_halt();
-	NIRVANAP_drawT( f_tile , tmp, hit_col[index_player] );
+	NIRVANAP_drawT( tmp0 , tmp, hit_col[index_player] );
 	if (tmp_uc != 0) {
 		/* Clear end row Plaform */
 		NIRVANAP_fillC(PAPER, tmp, tmp_uc); 
@@ -133,7 +141,7 @@ void game_cortina_brick(void) {
 }
 /* Clear Screen With Pipes */
 void game_cortina_pipes(void) {
-	unsigned char s_col1,s_lin1;
+ 	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
 			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*3=6 draws
@@ -388,7 +396,6 @@ void game_loop(void) {
 	game_phase_init();
 	/* game loop start */
 	loop_count=0;
-	loop_count_old=0;
 	dirs = 0x00;
 	game_unfreeze_all();
 	while (!game_over) {
@@ -409,7 +416,7 @@ void game_loop(void) {
 		game_clear_water_splash();
 		
 		/*each second aprox - update fps/score/phase left/phase advance*/
-		if (game_check_time(frame_time, GAME_TIME_EVENT)) {
+		if (game_check_time(frame_time, TIME_EVENT)) {
 			frame_time = zx_clock();
 			/*add enemies*/
 			if ( !game_bonus ) {
@@ -601,7 +608,7 @@ void game_draw_water_splash( unsigned char f_col) {
 
 void game_clear_water_splash(void) {
 	if ( game_water_clear < SCR_COLS ) {
-		if ( game_check_time( game_water_time , GAME_TIME_WATER_SPLASH ) ) {
+		if ( game_check_time( game_water_time , TIME_WATER_SPLASH ) ) {
 			zx_print_ink(INK_YELLOW);
 			zx_print_paper(PAPER_RED);
 			zx_print_str(20, game_water_clear, "##"); //udg brick
@@ -700,7 +707,6 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	}
 	//force for test an enemy
 	//f_class = SIDESTEPPER_MAGENTA;
-	f_class = FIGHTERFLY;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
 	tmp0 = rand() & 0x1;
@@ -710,13 +716,13 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 		s_col0 = ENEMY_SCOL_L;
 		s_col1 = 2;
 		if (f_class == FIREBALL_RED ) s_col1 = 3;
-		s_dir0 = DIR_RIGHT;
+		tmp1 = DIR_RIGHT;
 	} else {
 		s_lin0 = ENEMY_SLIN_R;
 		s_col0 = ENEMY_SCOL_R;
 		s_col1 = 30;
 		if (f_class == FIREBALL_RED ) s_col1 = 28;
-		s_dir0 = DIR_LEFT;
+		tmp1 = DIR_LEFT;
 	}
 
 	if (f_class == COIN_1) {
@@ -747,7 +753,7 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 		
 	}
 	entry_time = zx_clock();
-	enemy_init( tmp, s_lin0 + tmp_uc , s_col0, f_class	, s_dir0);
+	enemy_init( tmp, s_lin0 + tmp_uc , s_col0, f_class	, tmp1);
 
 	return 0;
 }

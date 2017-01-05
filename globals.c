@@ -77,14 +77,10 @@ unsigned char	s_lin0;
 unsigned char	s_lin1;
 unsigned char	s_col0;
 unsigned char	s_col1;
-unsigned char	s_dir0;
-
 unsigned int	loop_count;
-unsigned int	loop_count_old;
 unsigned int	index1;
 unsigned int	index2;
 unsigned int	index3;
-unsigned int	index4;
 unsigned int	index_d;
 unsigned char	tmp;
 unsigned char	tmp0;
@@ -262,10 +258,10 @@ unsigned char sprite_speed[] = {
 	 0, //13  
 	 0, //14  
 	 0, //15  
-	 2, //16 PLAYER 
+	 GAME_PLAYER_SPEED, //16 PLAYER 
 };
 //TEMPORARY SPEED FOR SPEED UP
-unsigned char sprite_speed2[8];
+unsigned char sprite_speed_alt[8];
 
 /*HALL OF FAME*/
 unsigned int hall_scores[] = {

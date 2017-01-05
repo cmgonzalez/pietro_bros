@@ -1,6 +1,12 @@
 @echo off
 
-del bin\pietro_release_zx7.tap > nul 2>&1
+if "%~1"=="pentagon" (
+ del bin\pietro_release_pentagon_zx7.tap > nul 2>&1
+) else (
+ del bin\pietro_release_zx7.tap > nul 2>&1
+)
+
+
 
 @rem SET ENVIRONMENT VARIABLES FOR Z88DK
 SET ZCCCFG=C:\z88dk\lib\config

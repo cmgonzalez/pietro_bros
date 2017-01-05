@@ -24,20 +24,10 @@
 
 unsigned char spr_chktime( unsigned char *sprite ) {
 	//if (FULL_SPEED) return 1;
-	if (sprite_speed2[*sprite] == 0) {
+	if (sprite_speed_alt[*sprite] == 0) {
 		tmp = sprite_speed[class[*sprite]];
 	} else {
-		
-		if ( !BIT_CHK(state[*sprite], STAT_ANGRY) ) {
-			tmp = sprite_speed2[*sprite];
-		} else {
-			if (tmp > 1) {
-				tmp = sprite_speed2[*sprite]-1;
-			} else {
-				tmp = 0;
-			}
-		}
-		
+		tmp = sprite_speed_alt[*sprite];		
 	}
 	if ( game_check_time(last_time[*sprite],tmp)) {
 		last_time[*sprite] = zx_clock();
@@ -190,7 +180,11 @@ unsigned char spr_killed( unsigned char f_sprite) {
 }
 
 void spr_anim_fall( unsigned char f_sprite) {
-	if ( lin[f_sprite] > 48 && lin[f_sprite] < GAME_LIN_FLOOR && (lin[f_sprite] & 5) == 0) {
+	/* Restore Backgroud */
+	if (  lin[f_sprite] > 48 && 
+	      lin[f_sprite] < GAME_LIN_FLOOR && 
+		 (lin[f_sprite] & 5) == 0) 
+	{
 		index1 = game_calc_index ( lin[f_sprite]-16 , col[f_sprite]);
 		tmp  = lvl_1[index1] == 18 || lvl_1[index1] == 20;
 		tmp0 = lvl_1[index1+1] == 18 || lvl_1[index1+1] == 20;
@@ -331,6 +325,12 @@ void spr_destroy(unsigned char f_sprite) {
 void spr_set_fall( void ) {
 	BIT_CLR(s_state, STAT_JUMP);
 	BIT_SET(s_state, STAT_FALL);
+	if (sprite >= SPR_P2) {
+		sprite_speed_alt[sprite] = GAME_PLAYER_FALL_SPEED;	
+	} else {
+		if ( class[sprite] <= COIN_1 ) sprite_speed_alt[sprite] = ENEMY_FALL_SPEED;
+	}
+	
 }
 
 int spr_tile(unsigned char f_sprite){

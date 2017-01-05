@@ -40,7 +40,7 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	state_a[f_sprite] = 0;
 	jump_lin[f_sprite] = f_lin;
 	last_time[f_sprite] = zx_clock();
-	sprite_speed2[f_sprite] = 0;
+	sprite_speed_alt[f_sprite] = 0;
 	//PLAYER ONLY VARIABLES
 	if (sprite == SPR_P1) {
 		index_player = 0;
@@ -124,6 +124,7 @@ void player_kill(void) {
 	if ( !BIT_CHK(state[sprite], STAT_KILL) ) {
 		sound_hit_brick();
 		BIT_SET(state[sprite], STAT_KILL);
+		sprite_speed_alt[sprite] = GAME_SPRITE_FALL_SPEED;
 		if ( BIT_CHK(state[sprite], STAT_DIRR) ) {
 			tile[sprite] = TILE_P1_HITR + tile_offset;
 		} else {
@@ -173,10 +174,10 @@ unsigned char player_move(void){
 	
 	
 	if ( BIT_CHK(s_state, STAT_KILL) ) {
-		if ( game_check_time(spr_timer[sprite],50) ) { //TODO DEFINE
-			tile[sprite] = TILE_P1_KILL + tile_offset;
-			spr_killed(sprite);
-		}
+		//if ( game_check_time(spr_timer[sprite],50) ) { //TODO DEFINE
+		tile[sprite] = TILE_P1_KILL + tile_offset;
+		spr_killed(sprite);
+		//}
 		return 0;
 	}
 	
@@ -191,9 +192,6 @@ unsigned char player_move(void){
 	
 	// READ PLAYER INPUT
 	player_move_read_input(); 
-	
-	
-	sprite_speed2[sprite] = 0;
 	
 	if (BIT_CHK(s_state, STAT_HIT)) {
 		//PLAYER RE-STARTED AND PLACED ON THE TEMPORARY BRICK
@@ -226,6 +224,7 @@ unsigned char player_move(void){
 			if (s_lin0 == GAME_LIN_FLOOR) index_d = 0;
 		}
 		if ( index_d > 0 && lvl_1[index_d] < VAL_COL  ) {
+			sprite_speed_alt[sprite] = GAME_PLAYER_FALL_SPEED;
 			BIT_SET(s_state, STAT_FALL);
 		}
 	} else {
@@ -239,9 +238,7 @@ unsigned char player_move(void){
 			}
 			player_move_horizontal();
 			tmp = jump_lin[sprite] - lin[sprite];
-			sprite_speed2[sprite] = 1;
-			if (tmp >= 16) sprite_speed2[sprite] = 2;
-			if (tmp >= PLAYER_MAX_JUMP) sprite_speed2[sprite] = 4;
+			
 		} else {
 			if ( BIT_CHK(s_state, STAT_FALL) ){
 				spr_move_down();
@@ -259,7 +256,7 @@ unsigned char player_move(void){
 			}
 		}
 	}
-	player_hit_brick_clear();
+	if ( game_check_time( spr_timer[sprite], PLAYER_HIT_BRICK_TIME ) ) player_hit_brick_clear();
 	spr_redraw();
 	state[sprite] = s_state;
 	return 0;
@@ -269,6 +266,8 @@ unsigned char player_move(void){
 
 void player_turn(void) {
 	if ( class[sprite] == PLAYER && phase_left > 0 && game_lives[index_player] > 0) {
+		
+		
 		if ( spr_chktime(&sprite)  ) {
 			dirs = 0;
 			if (sprite == SPR_P1) {
@@ -284,6 +283,7 @@ void player_turn(void) {
 
 
 int player_move_read_input(void) {
+	
 	if ( dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT) {
 		player_lock[index_player] = 0;
 		if (BIT_CHK(s_state, STAT_HIT)) {
@@ -316,21 +316,28 @@ int player_move_read_input(void) {
 				BIT_CLR(s_state, STAT_FALL);
 				jump_lin[sprite] = lin[sprite];
 				tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset,sprite,12);
+				sprite_speed_alt[sprite] = GAME_PLAYER_JUMP_SPEED;
 				return 0;
 			}
 			if (!ay_is_playing() && !game_bonus) ay_fx_play(ay_effect_20);
 			player_move_horizontal();
 			
+			/* Key right */
 			if ( dirs & IN_STICK_RIGHT ) {
-				//KEY RIGHT
+				/* Decrease Inertia */
+				sprite_speed_alt[sprite] = sprite_speed_alt[sprite] - 2;
 				BIT_SET(s_state, STAT_DIRR);
 				BIT_CLR(s_state, STAT_DIRL);
 			}
+			/* Key left */
 			if ( dirs & IN_STICK_LEFT ) {
-				//KEY LEFT
+				/* Decrease Inertia */
+				sprite_speed_alt[sprite] = sprite_speed_alt[sprite] - 2;
 				BIT_SET(s_state, STAT_DIRL);
 				BIT_CLR(s_state, STAT_DIRR);
 			}
+			/* Inertia */
+			if (sprite_speed_alt[sprite] < GAME_PLAYER_SPEED || sprite_speed_alt[sprite] > 128) sprite_speed_alt[sprite] = 0;
 			state[sprite] = s_state;
 			tile[sprite] = spr_tile_dir(TILE_P1_RIGHT + tile_offset,sprite,12);
 		}
@@ -343,7 +350,9 @@ int player_move_read_input(void) {
 			sound_slide();
 			player_move_horizontal();
 			sliding[index_player]--;
+			sprite_speed_alt[sprite] = 0;
 			if ( sliding[index_player] == 0 ) { 
+				sprite_speed_alt[sprite] = GAME_PLAYER_INERT_SPEED;
 				NIRVANAP_fillT(PAPER, s_lin0,s_col0);//TODO??? NIRVANA CORRUPT
 				colint[sprite] = 0;
 				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
@@ -409,7 +418,7 @@ void player_hit_slipice(unsigned char f_enemies) {
 unsigned char player_hit_brick(void){
 	if ( ( hit_lin[index_player] == 0 ) && 
 		 ( lin[sprite] > 16 ) && 
-		 ( lvl_1[ index1 ] >= IDX_BRICK || lvl_1[ index2 ] >= IDX_BRICK ) 
+		 ( lvl_1[ index1 ] >= GAME_MAP_PLATFORM || lvl_1[ index2 ] >= GAME_MAP_PLATFORM ) 
 		) {
 		
 		for (enemies = 0; enemies < 6 ; ++enemies){
@@ -429,7 +438,7 @@ unsigned char player_hit_brick(void){
 			 lin[sprite] - lin[sprite_other_player] == 24 && 
 		     abs(col[sprite] - col[sprite_other_player]) <= 2 ) 
 		{
-			//MAKE OTHER PLAYER JUMP
+			/* Make other player jump */
 			NIRVANAP_fillT(PAPER, lin[sprite_other_player], col[sprite_other_player]);
 			lin[sprite_other_player] = lin[sprite_other_player]-4;
 			NIRVANAP_spriteT(sprite_other_player, tile[sprite_other_player], lin[sprite_other_player], col[sprite_other_player]);
@@ -443,15 +452,15 @@ unsigned char player_hit_brick(void){
 		spr_timer[sprite] = zx_clock();
 		hit_lin[index_player] = lin[sprite];
 		hit_col[index_player] = col[sprite];
-		
+		/*
 		if (lvl_1[ index1 ] == 18 || lvl_1[ index2 ] == 18) {
-			//NIRVANAP_drawT( game_brick_tile , lin[sprite] - 10, col[sprite]);
 			game_brick_anim(game_brick_tile, 1);
 		}
 		if (lvl_1[ index1 ] == 20 || lvl_1[ index2 ] == 20 ) {
-			//NIRVANAP_drawT( TILE_BRICK_FREEZE , lin[sprite] - 10, col[sprite]);
 			game_brick_anim(TILE_BRICK_FREEZE, 1);
 		}
+		*/
+		game_brick_anim(1);
 		sound_hit_brick();
 		return 1;
 	}
@@ -460,28 +469,14 @@ unsigned char player_hit_brick(void){
 
 void player_hit_brick_clear(void){
 	//CLEAR HITTED BRICKS N MAKES THE PLAYER FALL
-	if ( hit_lin[index_player] > 0 && game_check_time( spr_timer[sprite], PLAYER_HIT_BRICK_TIME ) ) {
+	if ( hit_lin[index_player] > 0 ) {
 		NIRVANAP_halt();
-		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
-		
+		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);		
 		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
 		index2 = index1 + 1;
-
-		//NIRVANAP_halt(); // synchronize with interrupts
-		//NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
-		
-		if (lvl_1[ index1 ] == MAZE_BRICK_FREEZE || lvl_1[ index2 ] == MAZE_BRICK_FREEZE) {
-			//NIRVANAP_drawT( TILE_BRICK_FREEZE , hit_lin[index_player] - 8, hit_col[index_player] );
-			game_brick_anim(TILE_BRICK_FREEZE, 0);
-		}
-		if (lvl_1[ index1 ] == MAZE_BRICK || lvl_1[ index2 ] == MAZE_BRICK) {
-			//NIRVANAP_drawT( game_brick_tile , hit_lin[index_player] - 8, hit_col[index_player] );
-			game_brick_anim(game_brick_tile, 0);
-		}
-		
+		game_brick_anim(0);
 		hit_lin[index_player] = 0;
 		hit_col[index_player] = 0;
-		lin[sprite] = lin[sprite] + LIN_INC;
 		spr_set_fall();
 	}
 }
