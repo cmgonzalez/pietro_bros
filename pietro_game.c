@@ -141,6 +141,7 @@ void game_cortina_brick(void) {
 }
 /* Clear Screen With Pipes */
 void game_cortina_pipes(void) {
+
  	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
@@ -277,8 +278,8 @@ void game_phase_init(void) {
 	/*PHASE INIT*/
 	phase_end = 0;
 	phase_angry = 0;
+	phase_coins = 0;
 	game_bonus = 0;
-	game_coin_count = 0;
 	entry_time = 0;
 	zx_set_clock(0);
 	frame_time = 0;
@@ -669,7 +670,7 @@ unsigned char game_enemy_quota(void) {
 	switch (rand() & 0x5) {	 //0->7
 	case 0:
 	case 1:
-		if (game_coin_count < GAME_COIN_COUNT_MAX) game_enemy_add1(COIN_1);
+		if (phase_coins > 0) game_enemy_add1(COIN_1);
 		break;
 	case 2:
 		if ( phase_curr > 8) game_enemy_add1(SLIPICE);
@@ -726,10 +727,9 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	}
 
 	if (f_class == COIN_1) {
-		++game_coin_count;
-	} else {
-		game_coin_count = 0;
+		--phase_coins;
 	}
+	
 	tmp_uc = 0;
 	if (f_class == FIREBALL_GREEN || f_class == FIREBALL_RED) {
 		tmp_uc = rand() % 3;
@@ -931,7 +931,7 @@ void game_menu_paint(void) {
 	zx_print_str(18,10, "   CONFIG    ");
 	zx_print_ink(INK_BLUE);
 	zx_print_str(22,7, "CODED BY CGONZALEZ");
-	zx_print_str(23,7, "   VERSION  1.2   ");
+	zx_print_str(23,7, "   VERSION  1.3  ");
 	tmp_uc = 0; //fix menu return
 }
 
@@ -1112,7 +1112,7 @@ void game_hall_enter(void) {
 	if ( p1 > 0 || p2 > 0 ) {
 		edit = 1;
 		zx_print_str( 2,10, "HALL OF FAME");
-		zx_print_str(18, 6, " CONGRATULATIONS!");
+		zx_print_str(18, 6, " CONGRATULATIONS !");
 		zx_print_str(19, 6, "ENTER YOUR INITIALS");
 	} else {
 		edit = 0;

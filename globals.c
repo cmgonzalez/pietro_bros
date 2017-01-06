@@ -116,7 +116,6 @@ unsigned int	game_time_fireball_start;
 unsigned char	game_water_clear;
 unsigned int	game_water_time;
 unsigned char	game_bonus;
-unsigned char	game_coin_count;
 unsigned char	game_type;
 unsigned char	game_menu_sel;
 unsigned int	game_score_top;
@@ -164,6 +163,7 @@ unsigned char phases[] = {
 //PHASE RELATED VARIABLES
 unsigned char phase_quota[3];
 unsigned char phase_left;
+unsigned char phase_coins;
 unsigned char phase_end;
 unsigned char phase_curr;
 unsigned char phase_angry;
@@ -258,7 +258,7 @@ unsigned char sprite_speed[] = {
 	 0, //13  
 	 0, //14  
 	 0, //15  
-	 GAME_PLAYER_SPEED, //16 PLAYER 
+	 PLAYER_SPEED, //16 PLAYER 
 };
 //TEMPORARY SPEED FOR SPEED UP
 unsigned char sprite_speed_alt[8];

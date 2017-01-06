@@ -127,6 +127,7 @@
 #define STAT_PUSH									2
 #define STAT_LDIRL									3
 #define STAT_LDIRR									4
+#define STAT_INERT									5
 /* Player */
 #define PLAYER_SLIDE_NORMAL							4
 #define PLAYER_SLIDE_ICE							16
@@ -135,11 +136,11 @@
 #define PLAYER_VCOL_MARGIN							14 //VERTICAL COLLISION MARGIN
 #define PLAYER_HCOL_MARGIN							2  //HORIZONTAL COLLISION MARGIN
 #define PLAYER_HCOL_MARGIN_INT						4  //HORIZONTAL COLLISION MARGIN INTERNAL (1 COL = 3 INT)
-#define GAME_PLAYER_SPEED							2
-#define GAME_PLAYER_JUMP_SPEED						1
-#define GAME_PLAYER_FALL_SPEED						2
-#define GAME_PLAYER_INERT_SPEED						8 /* Player Inertia */
-#define GAME_SPRITE_FALL_SPEED						3
+#define PLAYER_SPEED								2
+#define PLAYER_JUMP_SPEED							1
+#define PLAYER_FALL_SPEED							2
+#define PLAYER_INERT_TIME							8 /* Player Inertia */
+#define SPRITE_FALL_SPEED							3
 /* Enemies */
 #define ENEMIES_MAX									6   //MAX QUANTITY OF ENEMIES ON SCREEN (0->6)
 #define ENEMIES_MAXJUMP								12 //MAX JUMP WHEN HIT
@@ -155,7 +156,6 @@
 #define TIME_FLIPPED_A								500  //15 - ORIG 20 SECONDS (50HZ)
 #define TIME_FLIPPED_B								250  //7  - ORIG 15 SECONDS (50HZ)
 #define GAME_EXTRA_LIFE								2000
-#define GAME_COIN_COUNT_MAX							3
 #define GAME_RANDOM_TYPE							2
 /* Map tiles */
 #define GAME_MAP_PLATFORM							18

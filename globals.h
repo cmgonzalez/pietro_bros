@@ -109,7 +109,6 @@ extern unsigned int		game_time_fireball_start;
 extern unsigned char	game_water_clear;
 extern unsigned int		game_water_time;
 extern unsigned char	game_bonus;
-extern unsigned char	game_coin_count;
 extern unsigned char	game_type;
 extern unsigned char	game_menu_sel;
 
@@ -122,6 +121,7 @@ extern unsigned int  spr_idx[];
 extern unsigned char phases[];
 extern unsigned char phase_quota[3];
 extern unsigned char phase_left;
+extern unsigned char phase_coins;
 extern unsigned char phase_end;
 extern unsigned char phase_curr;
 extern unsigned char phase_angry;

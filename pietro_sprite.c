@@ -326,7 +326,7 @@ void spr_set_fall( void ) {
 	BIT_CLR(s_state, STAT_JUMP);
 	BIT_SET(s_state, STAT_FALL);
 	if (sprite >= SPR_P2) {
-		sprite_speed_alt[sprite] = GAME_PLAYER_FALL_SPEED;	
+		sprite_speed_alt[sprite] = PLAYER_FALL_SPEED;	
 	} else {
 		if ( class[sprite] <= COIN_1 ) sprite_speed_alt[sprite] = ENEMY_FALL_SPEED;
 	}
