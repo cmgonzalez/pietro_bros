@@ -121,6 +121,7 @@ extern unsigned int  spr_idx[];
 extern unsigned char phases[];
 extern unsigned char phase_quota[3];
 extern unsigned char phase_left;
+extern unsigned char phase_tot;
 extern unsigned char phase_coins;
 extern unsigned char phase_end;
 extern unsigned char phase_curr;

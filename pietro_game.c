@@ -116,6 +116,9 @@ void game_brick_anim(unsigned char f_hit) {
 	}
 	/* Draw Plaform */
 	NIRVANAP_halt();
+	if (!f_hit) {
+		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
+	}
 	NIRVANAP_drawT( tmp0 , tmp, hit_col[index_player] );
 	if (tmp_uc != 0) {
 		/* Clear end row Plaform */
@@ -303,15 +306,17 @@ void game_phase_init(void) {
 	game_print_score();
 
 	//GAME TYPES/BONUS
-	if (game_type != GAME_RANDOM_TYPE) { //A-B
+	if (game_type != GAME_RANDOM_TYPE) { 
+		/* A or B Game */
 		phase_left = game_phase_calc();
+		phase_tot = phase_left;
 		if (phase_left == 0) {
-			//INIT A BONUS STAGE
+			/* Init a bonus stage */
 			phase_bonus_total[0] = 0;
 			phase_bonus_total[1] = 0;
 			phase_left = 6;
 			game_bonus = 1;
-			/* FIXED COINS - WE CAN HAVE ONLY 6! (8-2PLAYERS)*/
+			/* Fixed coins - We can have only 6 by Nirvana Sprites Max (8-2players)*/
 			enemy_init( 0, 144 ,  8, COIN_2	, 0);
 			enemy_init( 1, 144 , 22, COIN_2	, 0);
 			enemy_init( 2,	80 ,  6, COIN_2	, 0);
@@ -320,6 +325,7 @@ void game_phase_init(void) {
 			enemy_init( 5,	16 , 25, COIN_2	, 0);
 		}
 	} else {
+		/* Random Game */
 		phase_left = 255;
 		phase_curr = 255;
 		game_brick_tile = TILE_BRICK_RESTART;
@@ -394,7 +400,7 @@ void game_loop(void) {
 	game_over = 0;
 	game_pow = 3;
 	/* phase init */
-	phase_curr = 0; //TESTING 31
+	phase_curr = 0; //TESTING - Default 0
 	game_phase_init();
 	/* game loop start */
 	loop_count=0;
@@ -415,7 +421,7 @@ void game_loop(void) {
 			if (phase_left > 0 && !ay_is_playing()) ay_fx_play(ay_effect_19);
 		}
 		/* clear water effect */
-		game_clear_water_splash();
+		game_water_splash_clear();
 		
 		/*each second aprox - update fps/score/phase left/phase advance*/
 		if (game_check_time(frame_time, TIME_EVENT)) {
@@ -594,7 +600,7 @@ void game_bonus_summary_player(unsigned char f_index)  {
 	zx_print_str(s_lin1, 22, "X 800");
 }
 
-void game_draw_water_splash( unsigned char f_col) {
+void game_water_splash_draw( unsigned char f_col) {
 	if (game_water_clear == 255) {
 		/* water splash effect */
 		zx_print_paper(PAPER_RED);
@@ -608,7 +614,7 @@ void game_draw_water_splash( unsigned char f_col) {
 	}
 }
 
-void game_clear_water_splash(void) {
+void game_water_splash_clear(void) {
 	if ( game_water_clear < SCR_COLS ) {
 		if ( game_check_time( game_water_time , TIME_WATER_SPLASH ) ) {
 			zx_print_ink(INK_YELLOW);
@@ -650,38 +656,54 @@ unsigned char game_enemy_add(void) {
 }
 
 unsigned char game_enemy_quota(void) {
-	if (phase_left > 0 && ((rand() & 0x7) >= 3) ) { //0->7
-		if ( phase_quota[0] ) {
-			game_enemy_add1(SHELLCREEPER_GREEN);
-			phase_quota[0]--;
+	
+	tmp = rand() & 0x1;
+	if (phase_tot == phase_left) {
+		/* Force Enemy Popup */
+		tmp = 1;
+	}
+	
+	
+	if (phase_left > 0 && tmp ) { //50%
+		if ( phase_quota[2] ) {
+			game_enemy_add1(FIGHTERFLY);
+			phase_quota[2]--;
 			return 0;
-		}
+		}	
 		if ( phase_quota[1] ) {
 			game_enemy_add1(SIDESTEPPER_RED);
 			phase_quota[1]--;
 			return 0;
 		}
-		if ( phase_quota[2] ) {
-			game_enemy_add1(FIGHTERFLY);
-			phase_quota[2]--;
+		if ( phase_quota[0] ) {
+			game_enemy_add1(SHELLCREEPER_GREEN);
+			phase_quota[0]--;
 			return 0;
 		}
 	}
-	/* random enemies*/
-	switch (rand() & 0x5) {	 //0->7
+	
+	/* Other random enemies*/
+	if (phase_coins > 0) {
+		game_enemy_add1(COIN_1);
+		return 0;
+	}
+	
+	
+	switch (rand() & 0x3) {	 //0,1,2,3
 	case 0:
+		if ( phase_curr > 7) game_enemy_add1(SLIPICE);
+		break;
 	case 1:
-		if (phase_coins > 0) game_enemy_add1(COIN_1);
-		break;
-	case 2:
-		if ( phase_curr > 8) game_enemy_add1(SLIPICE);
-		break;
-	case 3:
 		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_GREEN);
 		break;
-	case 4:
+	case 2:
 		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_RED);
 		break;
+	/*
+	case 4:
+		 No enemies
+		break;
+	*/
 	};
 	return 0;
 }
@@ -702,8 +724,7 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 		(f_class == SIDESTEPPER_MAGENTA) ||
 		(f_class == FIREBALL_RED   && game_enemy_add_get_index(FIREBALL_RED	 ) != 255 ) ||
 		(f_class == FIREBALL_GREEN && game_enemy_add_get_index(FIREBALL_GREEN) != 255 ) ||
-		(f_class == SLIPICE		   && game_enemy_add_get_index(SLIPICE		 ) != 255 &&
-		 phase_curr < 8 )
+		(f_class == SLIPICE		   && game_enemy_add_get_index(SLIPICE		 ) != 255 )
 	) {
 		return 0;
 	}

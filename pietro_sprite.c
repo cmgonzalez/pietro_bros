@@ -227,7 +227,7 @@ void spr_anim_fall( unsigned char f_sprite) {
 		
 	} else {
 		s_col1 = col[f_sprite];
-		game_draw_water_splash(s_col1);
+		game_water_splash_draw(s_col1);
 		/* Sprite reach floor */
 		if (f_sprite >= SPR_P2)  {
 			/* Player Die */

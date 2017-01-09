@@ -474,14 +474,6 @@ unsigned char player_hit_brick(void){
 		spr_timer[sprite] = zx_clock();
 		hit_lin[index_player] = lin[sprite];
 		hit_col[index_player] = col[sprite];
-		/*
-		if (lvl_1[ index1 ] == 18 || lvl_1[ index2 ] == 18) {
-			game_brick_anim(game_brick_tile, 1);
-		}
-		if (lvl_1[ index1 ] == 20 || lvl_1[ index2 ] == 20 ) {
-			game_brick_anim(TILE_BRICK_FREEZE, 1);
-		}
-		*/
 		game_brick_anim(1);
 		sound_hit_brick();
 		return 1;
@@ -492,8 +484,6 @@ unsigned char player_hit_brick(void){
 void player_hit_brick_clear(void){
 	//CLEAR HITTED BRICKS N MAKES THE PLAYER FALL
 	if ( hit_lin[index_player] > 0 ) {
-		NIRVANAP_halt();
-		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);		
 		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
 		index2 = index1 + 1;
 		game_brick_anim(0);
