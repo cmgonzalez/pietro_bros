@@ -99,6 +99,7 @@
 #define PAPER										000 /* Screen paper */
 #define LIN_INC										4
 #define GAME_LIN_FLOOR								152
+#define GAME_LIN_TOP_PLATFORM						48
 #define ST_STAND_R									0
 #define ST_STAND_L									1
 #define ST_TURN_R									10

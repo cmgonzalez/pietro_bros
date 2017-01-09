@@ -141,7 +141,7 @@ void game_cortina_brick(void) {
 }
 /* Clear Screen With Pipes */
 void game_cortina_pipes(void) {
-
+/*
  	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
@@ -160,6 +160,7 @@ void game_cortina_pipes(void) {
 	}
 	NIRVANAP_halt();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
+*/
 }
 
 void game_draw_clear(void) {

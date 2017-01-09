@@ -180,45 +180,57 @@ unsigned char spr_killed( unsigned char f_sprite) {
 }
 
 void spr_anim_fall( unsigned char f_sprite) {
-	/* Restore Backgroud */
-	if (  lin[f_sprite] > 48 && 
-	      lin[f_sprite] < GAME_LIN_FLOOR && 
-		 (lin[f_sprite] & 5) == 0) 
-	{
-		index1 = game_calc_index ( lin[f_sprite]-16 , col[f_sprite]);
-		tmp  = lvl_1[index1] == 18 || lvl_1[index1] == 20;
-		tmp0 = lvl_1[index1+1] == 18 || lvl_1[index1+1] == 20;
+	
+	if (lin[f_sprite] < GAME_LIN_FLOOR) {
+		
+		/* Move sprite down screen n draw*/
+		s_col0 = col[f_sprite];
+		s_lin0 = lin[f_sprite];
+		lin[f_sprite] = s_lin0+ (LIN_INC << 1);
+		NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], s_col0);
+		
+		
+		/* Sprite Falling */
+		index1 = game_calc_index ( s_lin0 , s_col0);
+		tmp  = lvl_1[index1] == GAME_MAP_PLATFORM || lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE;
+		tmp0 = lvl_1[index1+1] == GAME_MAP_PLATFORM || lvl_1[index1+1] == GAME_MAP_PLATFORM_FREEZE;
 		if (tmp || tmp0) {
-			s_col1 = col[f_sprite];
+			/* Restore Platforms */
+			/* The platform is made of brick or ice */
+			s_col1 = s_col0;
 			s_tile1 = spr_idx[lvl_1[index1]];
-			s_lin1 = lin[f_sprite] - 16;
-			
+			s_lin1 = s_lin0;
+			/* Calculate the lin from the 8x8 lvl_1 screen map */
+			s_lin1 = s_lin1>>3; /* div 8 (2^3) */
+			s_lin1 = s_lin1<<3; /* mul 8 (2^3) */
+			/* Nirvana can't draw 8x8 :( */
 			if ( !tmp && tmp0 ) {
-				s_col1 = col[f_sprite] + 1;
+				s_col1 = s_col0 + 1;
 				s_tile1 = spr_idx[lvl_1[index1+1]];
 			}
+			/* Nirvana can't draw 8x8 :( */
 			if (tmp && !tmp0) {
-				s_col1 = col[f_sprite] - 1;
+				s_col1 = s_col0 - 1;
 				s_tile1 = spr_idx[lvl_1[index1]];
 			}
-			NIRVANAP_halt(); // synchronize with interrupts
+			NIRVANAP_halt();
 			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
+		} else {
+			/* PAPER Backroud Restore */
+			NIRVANAP_halt();
+			NIRVANAP_fillT(PAPER, s_lin0, s_col0);	
 		}
-	}
-	NIRVANAP_halt();
-	NIRVANAP_fillT(PAPER, lin[f_sprite] - 8, col[f_sprite]);
-	NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], col[f_sprite]);
-	//FIX POW
-	if ( lin[f_sprite] == 140 || lin[f_sprite] == 148 ) game_draw_pow();
-	//FIX PIPES 
-	if (lin[f_sprite] > 144) {
+		/* Fix Pow */
+		if ( s_lin0 >= 140 && s_lin0 <= 148 && s_col0 >= 14 && s_col0 <= 16 ) {
+			game_draw_pow();	
+		}
+		
+	} else {
 		s_col1 = col[f_sprite];
 		game_draw_water_splash(s_col1);
-		/*SET END OF PHASE TO BE READED ON GAME_LOOP*/
-		if (phase_left <= 0) phase_end = 1;
-		
+		/* Sprite reach floor */
 		if (f_sprite >= SPR_P2)  {
-			//PLAYERS
+			/* Player Die */
 			if ( player_lost_life() ) {
 				/* Player Lost a Life */
 				NIRVANAP_halt();
@@ -226,7 +238,6 @@ void spr_anim_fall( unsigned char f_sprite) {
 				player_restart(f_sprite);
 			} else {
 				/* Player Dies */
-				//spr_destroy(f_sprite); //TWO PLAYER GAMES
 				game_print_footer();
 				NIRVANAP_fillT(PAPER, lin[f_sprite], col[f_sprite]);
 				col[f_sprite] = 0;
@@ -236,13 +247,14 @@ void spr_anim_fall( unsigned char f_sprite) {
 				NIRVANAP_spriteT(f_sprite, TILE_EMPTY, 0,0);
 			}
 		} else {
-			//ENEMIES
+			/* Enemy dies */
 			spr_destroy(f_sprite);
+			/*Set end of phase to be readed on game_loop*/
+			if (phase_left <= 0) phase_end = 1;
 		}
+		/* Restore lower pipes */
 		if (s_col1 <= 4  ) game_back_fix3();
 		if (s_col1 >= 26 ) game_back_fix4();
-	} else {
-		lin[f_sprite] = lin[f_sprite] + 4;
 	}
 }
 
