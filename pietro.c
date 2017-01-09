@@ -69,6 +69,7 @@
 #include "pietro.h"
 #include "pietro_ay.h"
 #include "pietro_game.h"
+#include "pietro_sprite.h"
 #include "pietro_zx.h"
 #include "macros.h"
 
@@ -151,8 +152,8 @@ int main(void) {
 	for (counter = 0x1234; !in_test_key(); ++counter) ;
 	srand(counter);
 
-	//Init	SCREEN
-	game_cortina_brick();
+	//Init SCREEN
+	spr_cortina_brick();
 	//INIT GAME
 	game_start_timer();
 	//INIT NIRVANA

@@ -222,12 +222,14 @@ void spr_anim_fall( unsigned char f_sprite) {
 		}
 		/* Fix Pow */
 		if ( s_lin0 >= 140 && s_lin0 <= 148 && s_col0 >= 14 && s_col0 <= 16 ) {
-			game_draw_pow();	
+			spr_draw_pow();	
+			NIRVANAP_fillT(PAPER, 148, 14);
+			NIRVANAP_fillT(PAPER, 148, 16);
 		}
 		
 	} else {
 		s_col1 = col[f_sprite];
-		game_water_splash_draw(s_col1);
+		spr_water_splash_draw(s_col1);
 		/* Sprite reach floor */
 		if (f_sprite >= SPR_P2)  {
 			/* Player Die */
@@ -253,8 +255,8 @@ void spr_anim_fall( unsigned char f_sprite) {
 			if (phase_left <= 0) phase_end = 1;
 		}
 		/* Restore lower pipes */
-		if (s_col1 <= 4  ) game_back_fix3();
-		if (s_col1 >= 26 ) game_back_fix4();
+		if (s_col1 <= 4  ) spr_back_fix3();
+		if (s_col1 >= 26 ) spr_back_fix4();
 	}
 }
 
@@ -297,21 +299,21 @@ unsigned char spr_collition_check(unsigned char f_dir) {
 unsigned char spr_check_over( void ){
 	if (s_lin0 >= 136) {
 		if( s_col0 < 4) {
-			game_back_fix3();
+			spr_back_fix3();
 			return 1;
 		}
 		if( s_col0 > 26) {
-			game_back_fix4();
+			spr_back_fix4();
 			return 1;
 		}
 	} else {
 		if (s_lin0 <= 40) {
 			if( s_col0 < 4) {
-				game_back_fix1();
+				spr_back_fix1();
 				return 1;
 			}
 			if( s_col0 > 26) {
-				game_back_fix2();
+				spr_back_fix2();
 				return 1;
 			}
 		}
@@ -410,5 +412,209 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 		return f_tile;
 	} else {
 		return f_tile + f_inc;
+	}
+}
+
+void spr_draw_back(void) {
+	
+	NIRVANAP_stop();
+	zx_paper_fill(INK_BLACK | PAPER_BLACK);
+	intrinsic_di();
+	for (s_lin1 = 16; s_lin1 < 182; s_lin1 = s_lin1 + 8) {
+		for (s_col1 = 0; s_col1 < 32; s_col1 = s_col1 + 2) {
+			tmp_ui = game_calc_index(s_lin1,s_col1);
+			if (lvl_1[tmp_ui] >= GAME_MAP_PLATFORM ) {
+				NIRVANAP_drawT_raw(game_brick_tile, s_lin1, s_col1);
+			}
+		}
+	}
+	intrinsic_ei();
+	NIRVANAP_start();
+	spr_back_fix1();
+	spr_back_fix2();
+	spr_back_fix3();
+	spr_back_fix4();
+	spr_draw_pow();
+	NIRVANAP_halt();
+	zx_print_ink(INK_YELLOW);
+	zx_print_paper(PAPER_RED);
+	game_fill_row(20,35);//brick row
+	game_fill_row(21,35);//brick row
+	zx_print_paper(PAPER_BLACK);
+	zx_print_ink(INK_BLACK);
+	game_fill_row(12,32);//clear row
+	game_print_footer();
+}
+
+void game_draw_clear(void) {
+	intrinsic_di();
+	zx_paper_fill(INK_BLACK | PAPER_BLACK);
+	//todo an asm routine to clear the screen fast (nirvana)
+	for (s_lin1 = 16; s_lin1 <= 162; s_lin1+= 16) {
+		for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
+			NIRVANAP_drawT_raw(TILE_EMPTY, s_lin1, s_col1);
+		}
+	}
+	intrinsic_ei();
+}
+
+void spr_draw_pow(void) {
+	if (game_pow > 0) {
+		if (game_pow == 3) s_tile1 = TILE_POW1;
+		if (game_pow == 2) s_tile1 = TILE_POW1 + 12;
+		if (game_pow == 1) s_tile1 = TILE_POW1 + 24;
+		
+		NIRVANAP_halt(); // synchronize with interrupts  CG
+		NIRVANAP_fillT(PAPER, 120,15);
+		NIRVANAP_drawT( s_tile1 , 120, 15 );	
+	}
+}
+
+
+
+void spr_back_fix1(void) {
+	NIRVANAP_halt(); // synchronize with interrupts
+	NIRVANAP_drawT(TILE_PIPE5, 16, 0);
+	NIRVANAP_drawT(TILE_PIPE4, 32, 0);
+	NIRVANAP_drawT(TILE_PIPE2, 16, 2);
+	NIRVANAP_fillT(PAPER, 32, 2);
+	NIRVANAP_fillT(PAPER, 16, 4);
+	NIRVANAP_fillT(PAPER, 32, 4);	
+}
+
+void spr_back_fix2(void) {
+	NIRVANAP_halt(); // synchronize with interrupts
+	NIRVANAP_drawT(TILE_PIPE3, 16, 28);
+	NIRVANAP_drawT(TILE_PIPE7, 16, 30);
+	NIRVANAP_drawT(TILE_PIPE6, 32, 30);
+	NIRVANAP_fillT(PAPER, 32, 28);
+	NIRVANAP_fillT(PAPER, 16, 26);
+	NIRVANAP_fillT(PAPER, 32, 26);
+}
+
+void spr_back_fix3(void) {
+	NIRVANAP_halt(); // synchronize with interrupts
+	NIRVANAP_drawT(TILE_PIPE1A, 136, 0);
+	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 0);
+	NIRVANAP_drawT(TILE_PIPE2A, 136, 2);
+	NIRVANAP_drawT(TILE_PIPE2B, GAME_LIN_FLOOR, 2);
+	NIRVANAP_fillT(PAPER, 136, 4);
+	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 4);
+}
+
+void spr_back_fix4(void) {
+	NIRVANAP_halt(); // synchronize with interrupts
+	NIRVANAP_drawT(TILE_PIPE1A, 136, 30);
+	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 30);
+	NIRVANAP_drawT(TILE_PIPE3A, 136, 28);
+	NIRVANAP_drawT(TILE_PIPE3B, GAME_LIN_FLOOR, 28);
+	NIRVANAP_fillT(PAPER, 136, 26);
+	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 26);
+}
+
+void spr_brick_anim(unsigned char f_hit) {
+	
+	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM || lvl_1[ index2 ] == GAME_MAP_PLATFORM) {
+		tmp0 = game_brick_tile;
+	}
+	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM_FREEZE || lvl_1[ index2 ] == GAME_MAP_PLATFORM_FREEZE ) {
+		tmp0 = TILE_BRICK_FREEZE;
+	}
+
+	//index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
+	//index2 = index1 + 1;
+	if (f_hit) {
+		tmp = hit_lin[index_player]-10;
+	} else {
+		tmp = hit_lin[index_player]-8;	
+	}
+	tmp_uc = 0;
+	if (lvl_1[index1] >= GAME_MAP_PLATFORM && lvl_1[index2] == 0) {
+		tmp_uc = hit_col[index_player] + 1;
+	}
+	if (lvl_1[index1] == 0 && lvl_1[index2] >= GAME_MAP_PLATFORM) {
+		tmp_uc = hit_col[index_player];
+	}
+	/* Draw Plaform */
+	NIRVANAP_halt();
+	if (!f_hit) {
+		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
+	}
+	NIRVANAP_drawT( tmp0 , tmp, hit_col[index_player] );
+	if (tmp_uc != 0) {
+		/* Clear end row Plaform */
+		NIRVANAP_fillC(PAPER, tmp, tmp_uc); 
+	}
+}
+
+/* Clear Screen With Bricks UDG */
+void spr_cortina_brick(void) {
+	zx_print_ink(INK_YELLOW);
+	zx_print_paper(PAPER_RED);
+	tmp = 0;
+	tmp0 = 23;
+	while (tmp < 13) {
+		game_fill_row(tmp ,35); /*UDG 35 Brick*/
+		game_fill_row(tmp0,35); /*UDG 35 Brick*/
+		tmp0--;
+		tmp++;
+		z80_delay_ms(25);
+	}
+	zx_paper_fill(INK_BLACK | PAPER_BLACK);
+	zx_print_paper(PAPER_BLACK);
+}
+
+/* Clear Screen With Pipes */
+void spr_cortina_pipes(void) {
+/* OUT OF MEM!
+ 	unsigned char s_col1,s_lin1;
+	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
+		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
+			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*3=6 draws
+			if ( s_col1 < 30 ) NIRVANAP_drawT(179, s_lin1, s_col1 + 2); //pipe end right
+			NIRVANAP_drawT(TILE_EMPTY, s_lin1+16,s_col1);
+			NIRVANAP_drawT(172, s_lin1,s_col1);		 //pipe center
+		}
+	}
+	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
+		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
+			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*2=4 draws
+			NIRVANAP_drawT(TILE_EMPTY, s_lin1,s_col1);		//clear
+		if ( s_col1 < 30 ) NIRVANAP_drawT(167, s_lin1, s_col1 + 2); //pipe end left
+		}
+	}
+	NIRVANAP_halt();
+	zx_paper_fill(INK_BLACK | PAPER_BLACK);
+*/
+}
+
+
+
+
+void spr_water_splash_draw( unsigned char f_col) {
+	if (spr_water_clear == 255) {
+		/* water splash effect */
+		zx_print_paper(PAPER_RED);
+		zx_print_ink(INK_CYAN);
+		zx_print_str(20, f_col, "()");//udg splash
+		zx_print_ink(INK_WHITE);
+		zx_print_str(21, f_col, "*+");//udg splash
+		spr_water_clear = f_col;
+		spr_water_time = zx_clock();
+		zx_print_paper(PAPER_BLACK);
+	}
+}
+
+void spr_water_splash_clear(void) {
+	if ( spr_water_clear < SCR_COLS ) {
+		if ( game_check_time( spr_water_time , TIME_WATER_SPLASH ) ) {
+			zx_print_ink(INK_YELLOW);
+			zx_print_paper(PAPER_RED);
+			zx_print_str(20, spr_water_clear, "##"); //udg brick
+			zx_print_str(21, spr_water_clear, "##"); //udg brick
+			zx_print_ink(INK_WHITE);
+			zx_print_paper(PAPER_BLACK);
+			spr_water_clear = 255;
+		}
 	}
 }

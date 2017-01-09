@@ -474,7 +474,7 @@ unsigned char player_hit_brick(void){
 		spr_timer[sprite] = zx_clock();
 		hit_lin[index_player] = lin[sprite];
 		hit_col[index_player] = col[sprite];
-		game_brick_anim(1);
+		spr_brick_anim(1);
 		sound_hit_brick();
 		return 1;
 	}
@@ -486,7 +486,7 @@ void player_hit_brick_clear(void){
 	if ( hit_lin[index_player] > 0 ) {
 		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
 		index2 = index1 + 1;
-		game_brick_anim(0);
+		spr_brick_anim(0);
 		hit_lin[index_player] = 0;
 		hit_col[index_player] = 0;
 		spr_set_fall();
@@ -504,7 +504,7 @@ void player_hit_pow(void){
 		}
 		ay_fx_play(ay_effect_06);
 		sound_hit_pow();
-		game_draw_pow();
+		spr_draw_pow();
 		if (game_pow == 0) {
 			NIRVANAP_fillT(PAPER, 120,15); 
 			lvl_1[495] = 0;

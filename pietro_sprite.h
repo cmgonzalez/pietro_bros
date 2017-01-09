@@ -34,4 +34,18 @@ extern void          spr_destroy(unsigned char f_sprite);
 extern void          spr_set_fall(void);
 extern int           spr_tile(unsigned char f_sprite);
 
+extern void			 spr_draw_pow(void);
+extern void			 spr_back_fix1(void);
+extern void			 spr_back_fix2(void);
+extern void			 spr_back_fix3(void);
+extern void			 spr_back_fix4(void);
+extern void			 spr_brick_anim(unsigned char f_hit);
+extern void			 spr_cortina_brick(void);
+extern void			 spr_cortina_pipes(void);
+extern void			 spr_draw_back(void);
+extern void			 spr_water_splash_clear();
+extern void			 spr_water_splash_draw( unsigned char f_col);
+extern void			 game_draw_clear(void);
+
+
 #endif

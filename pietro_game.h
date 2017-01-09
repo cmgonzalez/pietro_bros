@@ -36,15 +36,8 @@ extern void __CALLEE__ game_fill_row(unsigned char f_row, unsigned char f_asc);
 #endif
 
 extern unsigned int	 game_calc_index(unsigned char l, unsigned char c);
-extern void			 game_draw_pow(void);
-extern void			 game_back_fix1(void);
-extern void			 game_back_fix2(void);
-extern void			 game_back_fix3(void);
-extern void			 game_back_fix4(void);
-extern void			 game_brick_anim(unsigned char f_hit);
-extern void			 game_cortina_brick(void);
-extern void			 game_cortina_pipes(void);
-extern void			 game_draw_back(void);
+
+
 extern void          game_print_footer(void);
 extern void			 game_print_lives(void);
 extern void			 game_tick(void);
@@ -77,9 +70,6 @@ extern void			 game_rotate_attrib( );
 extern void			 game_menu(void);
 extern void			 game_menu_config(void);
 extern unsigned char game_check_time(unsigned int start, unsigned int lapse);
-extern void			 game_water_splash_clear();
-extern void			 game_water_splash_draw( unsigned char f_col);
-extern void			 game_draw_clear(void);
 extern void			 game_bonus_summary(void);
 extern void			 game_bonus_summary_player(unsigned char f_index);
 extern void			 game_bonus_clock(void);

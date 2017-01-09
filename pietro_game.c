@@ -38,173 +38,6 @@ unsigned int game_calc_index( unsigned char f_lin , unsigned char f_col ) {
 	return f_col + ((f_lin >> 3) << 5);
 }
 
-void game_draw_pow(void) {
-	if (game_pow > 0) {
-		if (game_pow == 3) s_tile1 = TILE_POW1;
-		if (game_pow == 2) s_tile1 = TILE_POW1 + 12;
-		if (game_pow == 1) s_tile1 = TILE_POW1 + 24;
-		
-		NIRVANAP_halt(); // synchronize with interrupts  CG
-		NIRVANAP_fillT(PAPER, 120,15);
-		NIRVANAP_drawT( s_tile1 , 120, 15 );	
-	}
-}
-
-
-void game_back_fix1(void) {
-	NIRVANAP_halt(); // synchronize with interrupts
-	NIRVANAP_drawT(TILE_PIPE5, 16, 0);
-	NIRVANAP_drawT(TILE_PIPE4, 32, 0);
-	NIRVANAP_drawT(TILE_PIPE2, 16, 2);
-	NIRVANAP_fillT(PAPER, 32, 2);
-	NIRVANAP_fillT(PAPER, 16, 4);
-	NIRVANAP_fillT(PAPER, 32, 4);	
-}
-
-void game_back_fix2(void) {
-	NIRVANAP_halt(); // synchronize with interrupts
-	NIRVANAP_drawT(TILE_PIPE3, 16, 28);
-	NIRVANAP_drawT(TILE_PIPE7, 16, 30);
-	NIRVANAP_drawT(TILE_PIPE6, 32, 30);
-	NIRVANAP_fillT(PAPER, 32, 28);
-	NIRVANAP_fillT(PAPER, 16, 26);
-	NIRVANAP_fillT(PAPER, 32, 26);
-}
-
-void game_back_fix3(void) {
-	NIRVANAP_halt(); // synchronize with interrupts
-	NIRVANAP_drawT(TILE_PIPE1A, 136, 0);
-	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 0);
-	NIRVANAP_drawT(TILE_PIPE2A, 136, 2);
-	NIRVANAP_drawT(TILE_PIPE2B, GAME_LIN_FLOOR, 2);
-	NIRVANAP_fillT(PAPER, 136, 4);
-	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 4);
-}
-
-void game_back_fix4(void) {
-	NIRVANAP_halt(); // synchronize with interrupts
-	NIRVANAP_drawT(TILE_PIPE1A, 136, 30);
-	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 30);
-	NIRVANAP_drawT(TILE_PIPE3A, 136, 28);
-	NIRVANAP_drawT(TILE_PIPE3B, GAME_LIN_FLOOR, 28);
-	NIRVANAP_fillT(PAPER, 136, 26);
-	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 26);
-}
-
-void game_brick_anim(unsigned char f_hit) {
-	
-	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM || lvl_1[ index2 ] == GAME_MAP_PLATFORM) {
-		tmp0 = game_brick_tile;
-	}
-	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM_FREEZE || lvl_1[ index2 ] == GAME_MAP_PLATFORM_FREEZE ) {
-		tmp0 = TILE_BRICK_FREEZE;
-	}
-
-	//index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
-	//index2 = index1 + 1;
-	if (f_hit) {
-		tmp = hit_lin[index_player]-10;
-	} else {
-		tmp = hit_lin[index_player]-8;	
-	}
-	tmp_uc = 0;
-	if (lvl_1[index1] >= GAME_MAP_PLATFORM && lvl_1[index2] == 0) {
-		tmp_uc = hit_col[index_player] + 1;
-	}
-	if (lvl_1[index1] == 0 && lvl_1[index2] >= GAME_MAP_PLATFORM) {
-		tmp_uc = hit_col[index_player];
-	}
-	/* Draw Plaform */
-	NIRVANAP_halt();
-	if (!f_hit) {
-		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
-	}
-	NIRVANAP_drawT( tmp0 , tmp, hit_col[index_player] );
-	if (tmp_uc != 0) {
-		/* Clear end row Plaform */
-		NIRVANAP_fillC(PAPER, tmp, tmp_uc); 
-	}
-}
-
-/* Clear Screen With Bricks UDG */
-void game_cortina_brick(void) {
-	zx_print_ink(INK_YELLOW);
-	zx_print_paper(PAPER_RED);
-	tmp = 0;
-	tmp0 = 23;
-	while (tmp < 13) {
-		game_fill_row(tmp ,35); /*UDG 35 Brick*/
-		game_fill_row(tmp0,35); /*UDG 35 Brick*/
-		tmp0--;
-		tmp++;
-		z80_delay_ms(25);
-	}
-	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-	zx_print_paper(PAPER_BLACK);
-}
-/* Clear Screen With Pipes */
-void game_cortina_pipes(void) {
-/*
- 	unsigned char s_col1,s_lin1;
-	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
-		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
-			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*3=6 draws
-			if ( s_col1 < 30 ) NIRVANAP_drawT(179, s_lin1, s_col1 + 2); //pipe end right
-			NIRVANAP_drawT(TILE_EMPTY, s_lin1+16,s_col1);
-			NIRVANAP_drawT(172, s_lin1,s_col1);		 //pipe center
-		}
-	}
-	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
-		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
-			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*2=4 draws
-			NIRVANAP_drawT(TILE_EMPTY, s_lin1,s_col1);		//clear
-		if ( s_col1 < 30 ) NIRVANAP_drawT(167, s_lin1, s_col1 + 2); //pipe end left
-		}
-	}
-	NIRVANAP_halt();
-	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-*/
-}
-
-void game_draw_clear(void) {
-	intrinsic_di();
-	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-	//todo an asm routine to clear the screen fast (nirvana)
-	for (s_lin1 = 16; s_lin1 <= 162; s_lin1+= 16) {
-		for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
-			NIRVANAP_drawT_raw(TILE_EMPTY, s_lin1, s_col1);
-		}
-	}
-	intrinsic_ei();
-}
-
-void game_draw_back(void) {
-	intrinsic_di();
-	for (s_lin1 = 16; s_lin1 < 182; s_lin1 = s_lin1 + 8) {
-		for (s_col1 = 0; s_col1 < 32; s_col1 = s_col1 + 2) {
-			tmp_ui = game_calc_index(s_lin1,s_col1);
-			if (lvl_1[tmp_ui] >= GAME_MAP_PLATFORM ) {
-				NIRVANAP_drawT_raw(game_brick_tile, s_lin1, s_col1);
-			}
-		}
-	}
-	intrinsic_ei();
-	game_back_fix1();
-	game_back_fix2();
-	game_back_fix3();
-	game_back_fix4();
-	game_draw_pow();
-	NIRVANAP_halt();
-	zx_print_ink(INK_YELLOW);
-	zx_print_paper(PAPER_RED);
-	game_fill_row(20,35);//brick row
-	game_fill_row(21,35);//brick row
-	zx_print_paper(PAPER_BLACK);
-	zx_print_ink(INK_BLACK);
-	game_fill_row(12,32);//clear row
-	game_print_footer();
-}
-
 void game_print_footer(void) {
 	zx_print_str(22, 1, " "); 
 	zx_print_str(22,30, " "); 
@@ -293,7 +126,7 @@ void game_phase_init(void) {
 	player_lock[1] = 1;
 	/* PHASE OSD START */
 	game_draw_clear();
-	game_cortina_pipes();
+	spr_cortina_pipes();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	spr_count = 0;
 	/*EXTRA ZEROS FOR SCORES*/
@@ -340,7 +173,7 @@ void game_phase_init(void) {
 	if (game_lives[0]) player_init(SPR_P1,GAME_LIN_FLOOR,10,TILE_P1_STANR);
 	if (game_lives[1]) player_init(SPR_P2,GAME_LIN_FLOOR,20,TILE_P1_STANR +24+12);
 	/*DRAW MAZE*/
-	game_draw_back();
+	spr_draw_back();
 	zx_print_str(23, 11, "PHASE");
 	zx_print_chr(23, 18, phase_curr+1);
 }
@@ -388,7 +221,7 @@ void game_loop(void) {
 	player_score[1] = 0;
 	player_next_extra[0] = GAME_EXTRA_LIFE;
 	player_next_extra[1] = GAME_EXTRA_LIFE;
-	game_water_clear = 255; //255 = no need to clear the brick udg row
+	spr_water_clear = 255; //255 = no need to clear the brick udg row
 	if (game_type ==0) {
 		game_time_flipped = TIME_FLIPPED_A;
 		game_time_fireball_start = TIME_FIREBALL_A;
@@ -421,7 +254,7 @@ void game_loop(void) {
 			if (phase_left > 0 && !ay_is_playing()) ay_fx_play(ay_effect_19);
 		}
 		/* clear water effect */
-		game_water_splash_clear();
+		spr_water_splash_clear();
 		
 		/*each second aprox - update fps/score/phase left/phase advance*/
 		if (game_check_time(frame_time, TIME_EVENT)) {
@@ -600,33 +433,6 @@ void game_bonus_summary_player(unsigned char f_index)  {
 	zx_print_str(s_lin1, 22, "X 800");
 }
 
-void game_water_splash_draw( unsigned char f_col) {
-	if (game_water_clear == 255) {
-		/* water splash effect */
-		zx_print_paper(PAPER_RED);
-		zx_print_ink(INK_CYAN);
-		zx_print_str(20, f_col, "()");//udg splash
-		zx_print_ink(INK_WHITE);
-		zx_print_str(21, f_col, "*+");//udg splash
-		game_water_clear = f_col;
-		game_water_time = zx_clock();
-		zx_print_paper(PAPER_BLACK);
-	}
-}
-
-void game_water_splash_clear(void) {
-	if ( game_water_clear < SCR_COLS ) {
-		if ( game_check_time( game_water_time , TIME_WATER_SPLASH ) ) {
-			zx_print_ink(INK_YELLOW);
-			zx_print_paper(PAPER_RED);
-			zx_print_str(20, game_water_clear, "##"); //udg brick
-			zx_print_str(21, game_water_clear, "##"); //udg brick
-			zx_print_ink(INK_WHITE);
-			zx_print_paper(PAPER_BLACK);
-			game_water_clear = 255;
-		}
-	}
-}
 
 void game_kill_all_sprites(void) { //TODO MOVE TO PIETRO_SPRITE.C
 	for (sprite = 0; sprite < 8 ; ++sprite ) {
