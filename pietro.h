@@ -129,6 +129,7 @@
 #define STAT_LDIRL									3
 #define STAT_LDIRR									4
 #define STAT_INERT									5
+#define STAT_RESTART								6
 /* Player */
 #define PLAYER_SLIDE_NORMAL							4
 #define PLAYER_SLIDE_ICE							16

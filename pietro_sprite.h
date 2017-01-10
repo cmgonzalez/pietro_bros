@@ -45,7 +45,7 @@ extern void			 spr_cortina_pipes(void);
 extern void			 spr_draw_back(void);
 extern void			 spr_water_splash_clear();
 extern void			 spr_water_splash_draw( unsigned char f_col);
-extern void			 game_draw_clear(void);
+extern void			 spr_draw_clear(void);
 
 
 #endif

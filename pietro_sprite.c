@@ -223,14 +223,17 @@ void spr_anim_fall( unsigned char f_sprite) {
 		/* Fix Pow */
 		if ( s_lin0 >= 140 && s_lin0 <= 148 && s_col0 >= 14 && s_col0 <= 16 ) {
 			spr_draw_pow();	
-			NIRVANAP_fillT(PAPER, 148, 14);
-			NIRVANAP_fillT(PAPER, 148, 16);
 		}
 		
 	} else {
 		s_col1 = col[f_sprite];
 		spr_water_splash_draw(s_col1);
 		/* Sprite reach floor */
+		/* Test FIX artifacts */
+		NIRVANAP_drawT( TILE_COIN1 , 116, 13 );
+		NIRVANAP_drawT( TILE_COIN1 , 116, 18 );
+		
+		
 		if (f_sprite >= SPR_P2)  {
 			/* Player Die */
 			if ( player_lost_life() ) {
@@ -446,7 +449,7 @@ void spr_draw_back(void) {
 	game_print_footer();
 }
 
-void game_draw_clear(void) {
+void spr_draw_clear(void) {
 	intrinsic_di();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	//todo an asm routine to clear the screen fast (nirvana)

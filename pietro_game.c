@@ -57,6 +57,9 @@ void game_print_footer(void) {
 	}
 	/* phase osd bottom*/
 	game_print_lives();	
+	
+	zx_print_str(23, 11, "PHASE");
+	zx_print_chr(23, 18, phase_curr+1);
 }
 
 void game_phase_print_score_back(void) {
@@ -125,18 +128,11 @@ void game_phase_init(void) {
 	player_lock[0] = 1;
 	player_lock[1] = 1;
 	/* PHASE OSD START */
-	game_draw_clear();
+	spr_draw_clear();
 	spr_cortina_pipes();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	spr_count = 0;
-	/*EXTRA ZEROS FOR SCORES*/
-	game_phase_print_score_back();
-	zx_print_ink(INK_WHITE);
-	//zx_print_int(0, 4 , 0);
-	//zx_print_int(0,15 , 0);
-	if (game_two_player) zx_print_int(0,25 , 0);
-	/*PRINT SCORE*/
-	game_print_score();
+
 
 	//GAME TYPES/BONUS
 	if (game_type != GAME_RANDOM_TYPE) { 
@@ -167,16 +163,28 @@ void game_phase_init(void) {
 	/*PHASE TUNE*/
 	ay_reset();
 	if (game_bonus == 0) ay_midi_play(pb_midi_phase_1);
+	game_print_header();
 	/*PRINT PHASE MESSAGE*/
 	game_phase_print(12);
 	/* PLAYER INIT */
 	if (game_lives[0]) player_init(SPR_P1,GAME_LIN_FLOOR,10,TILE_P1_STANR);
 	if (game_lives[1]) player_init(SPR_P2,GAME_LIN_FLOOR,20,TILE_P1_STANR +24+12);
-	/*DRAW MAZE*/
+
+	/*Draw Platforms*/
 	spr_draw_back();
-	zx_print_str(23, 11, "PHASE");
-	zx_print_chr(23, 18, phase_curr+1);
+	game_print_header();
+	game_print_footer();
 }
+
+void game_print_header() {
+	/*Extra zeros for scores*/
+	game_phase_print_score_back();
+	zx_print_ink(INK_WHITE);
+	if (game_two_player) zx_print_int(0,25 , 0);
+	/* Print score */
+	game_print_score();
+}
+
 
 void game_phase_print(unsigned char f_row) {
 	zx_print_str(f_row, 11, "PHASE");
@@ -304,7 +312,7 @@ void game_loop(void) {
 	z80_delay_ms(800);
 	game_kill_all_sprites();
 	NIRVANAP_halt();
-	game_draw_clear();
+	spr_draw_clear();
 	zx_print_str(8, 11, "GAME OVER");
 	game_colour_message( 8, 11, 21, 200 );
 	game_hall_enter();
@@ -368,7 +376,7 @@ void game_bonus_clock(void) {
 
 void game_bonus_summary(void) {
 	game_kill_all_sprites();
-	game_draw_clear();
+	spr_draw_clear();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 //	game_phase_print_score_back(1);
 	game_phase_print_score_back();
@@ -468,8 +476,7 @@ unsigned char game_enemy_quota(void) {
 		/* Force Enemy Popup */
 		tmp = 1;
 	}
-	
-	
+
 	if (phase_left > 0 && tmp ) { //50%
 		if ( phase_quota[2] ) {
 			game_enemy_add1(FIGHTERFLY);
@@ -493,8 +500,7 @@ unsigned char game_enemy_quota(void) {
 		game_enemy_add1(COIN_1);
 		return 0;
 	}
-	
-	
+
 	switch (rand() & 0x3) {	 //0,1,2,3
 	case 0:
 		if ( phase_curr > 7) game_enemy_add1(SLIPICE);
@@ -503,13 +509,11 @@ unsigned char game_enemy_quota(void) {
 		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_GREEN);
 		break;
 	case 2:
+		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_GREEN);
+		break;
+	case 4:
 		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_RED);
 		break;
-	/*
-	case 4:
-		 No enemies
-		break;
-	*/
 	};
 	return 0;
 }
@@ -821,7 +825,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 void game_end() {
 	unsigned char f_p1, f_p2;
 	game_kill_all_sprites();
-	game_draw_clear();
+	spr_draw_clear();
 	ay_midi_play(pb_midi_title);
 	/* background */
 	for (tmp0 = 4 ; tmp0 < 28 ; tmp0 = tmp0 + 2) NIRVANAP_drawT(TILE_GRASS,  80, tmp0);
@@ -889,7 +893,7 @@ void game_end() {
 	game_colour_message( 19, 1, 31, 200 );
 	zx_print_str(19, 1, "SEE YOU!              ");
 	game_colour_message( 19, 1, 31, 200 );
-	game_draw_clear();
+	spr_draw_clear();
 }
 
 void game_hall_enter(void) {
@@ -926,7 +930,7 @@ void game_hall_enter(void) {
 	f_row = 12;
 	f_col = 6;
 	
-	game_draw_clear();
+	spr_draw_clear();
 	game_paint_attrib(0);
 	
 	
@@ -981,7 +985,7 @@ void game_hall_enter(void) {
 		}
 		if (p1 == 0 && p2 == 0) {
 			edit = 0;
-			game_draw_clear();
+			spr_draw_clear();
 		}
 	}
 	game_hall_of_fame();
@@ -1085,7 +1089,7 @@ void game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned c
 
 void game_hall_of_fame(void) {
 	//OUT OF MEMORY
-	game_draw_clear();
+	spr_draw_clear();
 	game_paint_attrib(0);
 	
 	game_menu_e(16 ,6, 24,156,1);
@@ -1101,7 +1105,7 @@ void game_hall_of_fame(void) {
 	}
 	zx_print_str( 4, 10, "HALL OF FAME");
 	game_colour_message( 4, 10,22, 500 );
-	game_draw_clear();
+	spr_draw_clear();
 	game_menu_sel = 0;
 	ay_midi_play(pb_midi_title);
 }

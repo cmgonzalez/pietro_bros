@@ -139,19 +139,21 @@ void player_kill(void) {
 void player_restart(unsigned char f_sprite){
 	ay_fx_play(ay_effect_15);
 	if (f_sprite == SPR_P1) {
-		player_init( SPR_P1,16,14,TILE_P1_STANR);
-		NIRVANAP_drawT(  TILE_BRICK_RESTART , 32, 14 );
+		player_init( SPR_P1,0,14,TILE_P1_STANR);
+		NIRVANAP_drawT(  TILE_BRICK_RESTART , 16, 14 );
 	} else {
-		player_init( SPR_P2,16,16,TILE_P1_STANR + 24 +12);
-		NIRVANAP_drawT(  TILE_BRICK_RESTART , 32, 16 );
+		player_init( SPR_P2,0,16,TILE_P1_STANR + 24 +12);
+		NIRVANAP_drawT(  TILE_BRICK_RESTART , 16, 16 );
 	}
 	BIT_SET(state[f_sprite],STAT_HIT);
+	player_lock[index_player] = 1;
 	spr_timer[f_sprite] = zx_clock();
 }
 
 unsigned char player_lost_life(void){
 	sound_hit_enemy();
 	--game_lives[index_player];
+
 	if (game_lives[index_player] == 0) {
 		/* Player dies */
 		if ( game_lives[0] == 0 && game_lives[1] == 0 ) {
@@ -214,21 +216,31 @@ unsigned char player_move(void){
 		}
 	}
 	
-	/* Read player input */
-	player_move_input(); 
 	
 	if (BIT_CHK(s_state, STAT_HIT)) {
 		/* Player re-start over safe platform */
+		if ( lin[sprite] < 16 ) {
+			spr_move_down();
+			player_lock[index_player] = 0;
+		} else {
+			tmp = player_move_input(); 
+			if (tmp) {
+				NIRVANAP_drawT(  TILE_EMPTY, s_lin0, s_col0 );
+				NIRVANAP_drawT(  TILE_EMPTY, s_lin0 + 16, s_col0 );
+			}
+		}
+		
+		spr_redraw();
 		tmp_ui = zx_clock() - spr_timer[sprite];
 		tmp = 0;
 		if (tmp_ui > 50) tmp = 1;
 		if (tmp_ui > 100) tmp = 2;
 		NIRVANAP_halt();
-		NIRVANAP_drawT(  TILE_BRICK_RESTART + tmp, 32, s_col0 );
+		NIRVANAP_drawT(  TILE_BRICK_RESTART + tmp, lin[sprite] + 16, s_col0 );
 
 		if (tmp_ui > 150) {
-			NIRVANAP_drawT(  TILE_EMPTY, 16, s_col0 );
-			NIRVANAP_drawT(  TILE_EMPTY, 32, s_col0 );
+			NIRVANAP_drawT(  TILE_EMPTY, lin[sprite], s_col0 );
+			NIRVANAP_drawT(  TILE_EMPTY, lin[sprite] + 16, s_col0 );
 			BIT_CLR(s_state, STAT_HIT);
 			BIT_SET(s_state, STAT_JUMP);
 			state[sprite] = s_state;
@@ -237,6 +249,9 @@ unsigned char player_move(void){
 		
 		return 0;
 	}
+	
+	/* Read player input */
+	player_move_input(); 
 	
 	if (player_lock[index_player]) return 0;
 	
