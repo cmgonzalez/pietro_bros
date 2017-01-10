@@ -511,7 +511,7 @@ unsigned char game_enemy_quota(void) {
 	case 2:
 		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_GREEN);
 		break;
-	case 4:
+	case 3:
 		if ( game_check_time( 0, game_time_fireball_start ) ) game_enemy_add1(FIREBALL_RED);
 		break;
 	};
