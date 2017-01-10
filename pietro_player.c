@@ -148,6 +148,7 @@ void player_restart(unsigned char f_sprite){
 	BIT_SET(state[f_sprite],STAT_HIT);
 	player_lock[index_player] = 1;
 	spr_timer[f_sprite] = zx_clock();
+	sprite_speed_alt[f_sprite] = SPRITE_RESTART_SPEED;
 }
 
 unsigned char player_lost_life(void){
@@ -223,10 +224,13 @@ unsigned char player_move(void){
 			spr_move_down();
 			player_lock[index_player] = 0;
 		} else {
-			tmp = player_move_input(); 
-			if (tmp) {
-				NIRVANAP_drawT(  TILE_EMPTY, s_lin0, s_col0 );
-				NIRVANAP_drawT(  TILE_EMPTY, s_lin0 + 16, s_col0 );
+			if ( dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT) {
+				BIT_CLR(state[sprite], STAT_HIT);
+				NIRVANAP_halt();
+				NIRVANAP_drawT(  TILE_EMPTY, 16, s_col0 );
+				NIRVANAP_drawT(  TILE_EMPTY, 32, s_col0 );
+				sprite_speed_alt[sprite] = 0;
+				return 0;
 			}
 		}
 		
@@ -245,6 +249,7 @@ unsigned char player_move(void){
 			BIT_SET(s_state, STAT_JUMP);
 			state[sprite] = s_state;
 			player_lock[index_player] = 0;
+			sprite_speed_alt[sprite] = 0;
 		}
 		
 		return 0;
@@ -313,15 +318,6 @@ int player_move_input(void) {
 	if ( dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT) {
 		/* User have pressed valid input */
 		player_lock[index_player] = 0;
-		if (BIT_CHK(s_state, STAT_HIT)) {
-			/* Player moves away from safe platform */
-			BIT_CLR(s_state, STAT_HIT);
-			tile[sprite] = spr_tile_dir( TILE_P1_RIGHT + tile_offset,sprite, 12 );
-			NIRVANAP_halt(); // synchronize with interrupts
-			NIRVANAP_drawT(  TILE_EMPTY, 16, s_col0 ); //CLEAR TEMPORARY TILE
-			NIRVANAP_drawT(  TILE_EMPTY, 32, s_col0 ); //CLEAR PLAYER
-		}
-		
 		
 		if (!(dirs & IN_STICK_FIRE)) {
 			BIT_CLR(state_a[sprite], STAT_LOCK);

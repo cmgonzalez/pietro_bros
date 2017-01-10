@@ -214,11 +214,12 @@ void spr_anim_fall( unsigned char f_sprite) {
 				s_tile1 = spr_idx[lvl_1[index1]];
 			}
 			NIRVANAP_halt();
+			NIRVANAP_fillT(PAPER, s_lin0, s_col0);
 			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
 		} else {
 			/* PAPER Backroud Restore */
 			NIRVANAP_halt();
-			NIRVANAP_fillT(PAPER, s_lin0, s_col0);	
+			NIRVANAP_fillT(PAPER, s_lin0, s_col0);
 		}
 		/* Fix Pow */
 		if ( s_lin0 >= 140 && s_lin0 <= 148 && s_col0 >= 14 && s_col0 <= 16 ) {
@@ -229,11 +230,6 @@ void spr_anim_fall( unsigned char f_sprite) {
 		s_col1 = col[f_sprite];
 		spr_water_splash_draw(s_col1);
 		/* Sprite reach floor */
-		/* Test FIX artifacts */
-		NIRVANAP_drawT( TILE_COIN1 , 116, 13 );
-		NIRVANAP_drawT( TILE_COIN1 , 116, 18 );
-		
-		
 		if (f_sprite >= SPR_P2)  {
 			/* Player Die */
 			if ( player_lost_life() ) {
@@ -254,6 +250,7 @@ void spr_anim_fall( unsigned char f_sprite) {
 		} else {
 			/* Enemy dies */
 			spr_destroy(f_sprite);
+			
 			/*Set end of phase to be readed on game_loop*/
 			if (phase_left <= 0) phase_end = 1;
 		}
@@ -514,6 +511,7 @@ void spr_back_fix4(void) {
 	NIRVANAP_fillT(PAPER, 136, 26);
 	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 26);
 }
+
 
 void spr_brick_anim(unsigned char f_hit) {
 	

@@ -143,6 +143,7 @@
 #define PLAYER_FALL_SPEED							2
 #define PLAYER_INERT_TIME							8 /* Player Inertia */
 #define SPRITE_FALL_SPEED							3
+#define SPRITE_RESTART_SPEED						8
 /* Enemies */
 #define ENEMIES_MAX									6   //MAX QUANTITY OF ENEMIES ON SCREEN (0->6)
 #define ENEMIES_MAXJUMP								12 //MAX JUMP WHEN HIT
