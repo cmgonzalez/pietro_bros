@@ -587,3 +587,4 @@ void player_set2(void){
 	tile_offset = 24;
 	tile_offset_other_player = 0;
 }
+

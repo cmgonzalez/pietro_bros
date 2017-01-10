@@ -763,7 +763,7 @@ void game_menu_paint(void) {
 	zx_print_str(18,10, "   CONFIG    ");
 	zx_print_ink(INK_BLUE);
 	zx_print_str(22,7, "CODED BY CGONZALEZ");
-	zx_print_str(23,7, "   VERSION  1.3  ");
+	zx_print_str(23,7, "   VERSION  1.4  ");
 	tmp_uc = 0; //fix menu return
 }
 
