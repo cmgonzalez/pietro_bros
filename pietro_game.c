@@ -119,6 +119,7 @@ void game_phase_init(void) {
 	phase_end = 0;
 	phase_angry = 0;
 	phase_coins = 0;
+	phase_pop = 0;
 	game_bonus = 0;
 	entry_time = 0;
 	zx_set_clock(0);
@@ -471,13 +472,13 @@ unsigned char game_enemy_add(void) {
 
 unsigned char game_enemy_quota(void) {
 	
-	tmp = rand() & 0x1;
-	if (phase_tot == phase_left) {
+	tmp = rand() & 0x3;
+	if (!phase_pop) {
 		/* Force Enemy Popup */
-		tmp = 1;
+		tmp = 0;
 	}
 
-	if (phase_left > 0 && tmp ) { //50%
+	if (phase_left > 0 && tmp == 0 ) { //25%
 		if ( phase_quota[2] ) {
 			game_enemy_add1(FIGHTERFLY);
 			phase_quota[2]--;
@@ -540,6 +541,7 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	}
 	//force for test an enemy
 	//f_class = SIDESTEPPER_MAGENTA;
+	++phase_pop;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
 	tmp0 = rand() & 0x1;

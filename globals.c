@@ -164,6 +164,7 @@ unsigned char phases[] = {
 unsigned char phase_quota[3];
 unsigned char phase_left;
 unsigned char phase_tot;
+unsigned char phase_pop;
 unsigned char phase_coins;
 unsigned char phase_end;
 unsigned char phase_curr;

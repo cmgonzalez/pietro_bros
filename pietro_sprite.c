@@ -222,7 +222,7 @@ void spr_anim_fall( unsigned char f_sprite) {
 			NIRVANAP_fillT(PAPER, s_lin0, s_col0);
 		}
 		/* Fix Pow */
-		if ( s_lin0 >= 140 && s_lin0 <= 148 && s_col0 >= 14 && s_col0 <= 16 ) {
+		if ( s_lin0 >= 120 && s_lin0 <= 136 && s_col0 >= 14 && s_col0 <= 16 ) {
 			spr_draw_pow();	
 		}
 		
