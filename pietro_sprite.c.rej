@@ -1,9 +1,0 @@
-diff a/pietro_sprite.c b/pietro_sprite.c	(rejected hunks)
-@@ -141,6 +141,7 @@
- 
- void spr_redraw( void ){
- 	s_tile1 = tile[sprite] + colint[sprite];
-+	if ( (lin[sprite] !=  s_lin0) || (col[sprite] != s_col0) ) { 
- 		/* Column Movement */
- 		if ( !spr_check_over() ) {
- 			NIRVANAP_halt();
