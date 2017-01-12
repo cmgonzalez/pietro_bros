@@ -9,8 +9,8 @@ if "%~1"=="pentagon" (
 
 
 @rem SET ENVIRONMENT VARIABLES FOR Z88DK
-SET ZCCCFG=C:\z88dk\lib\config
-PATH=C:\z88dk\bin;%PATH%
+@rem SET ZCCCFG=C:\z88dk\lib\config
+@rem PATH=C:\z88dk\bin;%PATH%
 
 @rem SET VARIOUS ORG ADDRESSES
 
