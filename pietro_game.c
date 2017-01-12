@@ -696,7 +696,7 @@ void game_menu_config(void) {
 		case 0: //SOUND 48
 			ay_fx_play(ay_effect_10);
 			sound_coin();
-			game_sound ^= GAME_SOUND_48_FX_ON;
+			game_sound ^= GAME_SOUND_48_FX_ON | GAME_SOUND_AY_FX_ON;
 			break;
 		case 1: //GAME TYPE
 			ay_fx_play(ay_effect_10);
