@@ -178,10 +178,9 @@ void game_phase_init(void) {
 }
 
 void game_print_header() {
-	/*Extra zeros for scores*/
 	game_phase_print_score_back();
 	zx_print_ink(INK_WHITE);
-	if (game_two_player) zx_print_int(0,25 , 0);
+//	if (game_two_player) zx_print_int(0,25 , 0);
 	/* Print score */
 	game_print_score();
 }
@@ -928,15 +927,15 @@ void game_hall_enter(void) {
 	spr_draw_clear();
 	game_paint_attrib(0);
 	
-   if (player_score[0] > player_score[1]) {
-      p1 = game_hall_check(0);
-      p2 = game_hall_check(1);
-   }
-   else
-   {
-      p2 = game_hall_check(1);
-      p1 = game_hall_check(0);
-   }
+	if (player_score[0] > player_score[1]) {
+		p1 = game_hall_check(0);
+		p2 = game_hall_check(1);
+	}
+	else
+	{
+		p2 = game_hall_check(1);
+		p1 = game_hall_check(0);
+	}
 
 	if (p1 || p2)
 	{
@@ -987,7 +986,7 @@ void game_hall_enter(void) {
 		}
 		
 		spr_draw_clear();
-		_insertion_sort_(hof, sizeof(hof)/sizeof(HOF_ENTRY), sizeof(HOF_ENTRY), compare_scores);
+		_insertion_sort_(hof, sizeof(hof)/sizeof(hof[0]), sizeof(hof[0]), compare_scores);
 		ay_reset();
 	}
 	
@@ -1056,7 +1055,7 @@ void game_hall_print_p(unsigned char index, unsigned char frame)
 		else
 		{
 			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16  , HOF_P2_COL+1);
-			NIRVANAP_drawT(23        , ((HOF_ROW+1)<<3)-16-2, HOF_P2_COL+1);
+			NIRVANAP_drawT(46        , ((HOF_ROW+1)<<3)-16-2, HOF_P2_COL+1);
 		}
 	}
 }
@@ -1148,18 +1147,16 @@ void game_colour_message( unsigned char f_row, unsigned char f_col, unsigned cha
 	tmp = 1;
 	frame_time = zx_clock();
 	entry_time = zx_clock();
-	while ( tmp && !game_check_time( entry_time, f_microsecs)) {
+	while (tmp && !game_check_time( entry_time, f_microsecs)) {
 		if ( game_check_time(frame_time,5) ) {
 			//ROTATE ATTRIB ARRAY
 			frame_time = zx_clock();
 			game_paint_attrib_lin_h( f_col, f_col2 , (f_row<<3)+8);
 			game_rotate_attrib();
 		}
-		while ((joyfunc1)(&k1) != 0) {
+		while (((joyfunc1)(&k1) | (joyfunc2)(&k2)) != 0)
 			tmp = 0;
-		}
 	};
-	
 }
 
 unsigned char game_check_time( unsigned int start, unsigned int lapse) {
