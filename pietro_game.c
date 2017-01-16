@@ -402,7 +402,7 @@ void game_bonus_summary(void) {
 		game_colour_message( 18, 16, 26, 200 );
 	} else {
 		zx_print_str(18, 12, "NO BONUS");
-		z80_delay_ms(200);
+		z80_delay_ms(1000);
 	}
 }
 
