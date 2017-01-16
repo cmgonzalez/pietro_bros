@@ -108,9 +108,9 @@ int main(void) {
 	
 	//Keyboard Handling P1
 	
-	k1.fire	 = in_key_scancode('0');
-	k1.left	 = in_key_scancode('6');
-	k1.right = in_key_scancode('7');
+	k1.fire	 = in_key_scancode('m');
+	k1.left	 = in_key_scancode('o');
+	k1.right  = in_key_scancode('p');
 
 #ifdef __SDCC
 	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
@@ -122,9 +122,9 @@ int main(void) {
 
 	//Keyboard Handling P2
 
-	k2.fire	 = in_key_scancode('5');
-	k2.left	 = in_key_scancode('1');
-	k2.right = in_key_scancode('2');
+	k2.fire	 = in_key_scancode('x');
+	k2.left	 = in_key_scancode('q');
+	k2.right  = in_key_scancode('w');
 
 #ifdef __SDCC
 	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
