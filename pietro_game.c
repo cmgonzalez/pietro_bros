@@ -472,13 +472,12 @@ unsigned char game_enemy_add(void) {
 
 unsigned char game_enemy_quota(void) {
 	
-	tmp = rand() & 0x3;
-	if (!phase_pop) {
+	tmp = rand() & 0x1;
+	if (!phase_pop || phase_left == 1) {
 		/* Force Enemy Popup */
 		tmp = 0;
 	}
-
-	if (phase_left > 0 && tmp == 0 ) { //25%
+	if (phase_left > 0 && tmp == 0 ) { //50%
 		if ( phase_quota[2] ) {
 			game_enemy_add1(FIGHTERFLY);
 			phase_quota[2]--;
