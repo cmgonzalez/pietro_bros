@@ -32,11 +32,11 @@ uint16_t (*joyfunc1)(udk_t *);			// pointer to joystick function Player 1
 uint16_t (*joyfunc2)(udk_t *);			// pointer to joystick function Player 1
 #endif
 
-
 #ifdef __SCCZ80
 void *joyfunc1;							// pointer to joystick function Player 1
 void *joyfunc2;							// pointer to joystick function Player 1
 #endif
+
 udk_t k1;
 udk_t k2;
 unsigned char dirs;
@@ -266,33 +266,18 @@ unsigned char sprite_speed[] = {
 unsigned char sprite_speed_alt[8];
 
 /*HALL OF FAME*/
-unsigned int hall_scores[] = {
-	10000,
-	 9000,
-	 8000,
-	 7000,
-	 6000,
-	 5000,
-	 4000,
-	 3000,
-	 2000,
-	 1000,
+HOF_ENTRY hof[10] = {
+	{"CRI", 10000},
+	{"GON", 9000},
+	{"ALV", 8000},
+	{"ABR", 7000},
+	{"EIN", 6000},
+	{"SAU", 5000},
+	{"FEL", 4000},
+	{"GON", 3000},
+	{"ALE", 2000},
+	{"CAL", 1000}
 };
 
-unsigned char hall_names[][4] = {
-	"CRI",
-	"GON",
-	"ALV",
-	"ABR",
-	"EIN",
-	"SAU",
-	"FEL",
-	"GON",
-	"ALE",
-	"CAL",
-	"LOV",
-};
-
-unsigned char *initals = "A\0A\0A\0A\0A\0A\0";
-unsigned char *hall_valids = "ABCEDFGHIJKLMNOPQRSTUVWXYZ1234567890.~ {";
-unsigned char hall_flip;
+const unsigned char hall_valids[42] = "\001ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.~ {";
+unsigned char initials[8] = "AAA\0AAA";

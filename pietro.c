@@ -112,10 +112,6 @@ int main(void) {
 	k1.left	 = in_key_scancode('6');
 	k1.right = in_key_scancode('7');
 
-#ifdef __LLVM
-	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
-#endif
-
 #ifdef __SDCC
 	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
 #endif
@@ -129,10 +125,6 @@ int main(void) {
 	k2.fire	 = in_key_scancode('5');
 	k2.left	 = in_key_scancode('1');
 	k2.right = in_key_scancode('2');
-
-#ifdef __LLVM
-	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
-#endif
 
 #ifdef __SDCC
 	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);

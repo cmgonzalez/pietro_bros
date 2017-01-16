@@ -14,6 +14,7 @@ CFLAGS = -SO3 --max-allocs-per-node200000 --opt-code-size
 .PHONY: depend clean
 
 default: loader.tap pietro_scr.bin pietro.font nirvanap.bin $(OUTF)
+	dir *.bin
 	-rm -f *.bin *.tap *.font pietro_bros zcc_proj.lst zcc_opt.def
 
 loader.tap: src_tap/loader.bas

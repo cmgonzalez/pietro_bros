@@ -898,16 +898,35 @@ void game_end() {
 	spr_draw_clear();
 }
 
+#define HOF_ROW      12
+#define HOF_P1_COL    6
+#define HOF_P2_COL   22
+
+HOF_ENTRY *game_hall_check(unsigned char p)
+{	
+	if (player_score[p] > hof[9].score) {
+		hof[9].score = player_score[p];
+		return &hof[9];
+	}
+	else if (player_score[p] > hof[8].score) {
+		hof[8].score = player_score[p];
+		return &hof[8];
+	}
+	
+	return NULL;
+}
+
+int compare_scores(const HOF_ENTRY *e1, const HOF_ENTRY *e2)
+{
+	// sort in descending order
+	return e2->score - e1->score;
+}
+
 void game_hall_enter(void) {
-	unsigned char edit, f_col, f_row;
-	unsigned char p1;
-	unsigned char p2;
-	unsigned char p1_lock;
-	unsigned char p2_lock;
-	unsigned char p1_sel;
-	unsigned char p2_sel;
-	unsigned char p1_cnt;
-	unsigned char p2_cnt;
+	HOF_ENTRY *p1, *p2;
+	
+	spr_draw_clear();
+	game_paint_attrib(0);
 	
    if (player_score[0] > player_score[1]) {
       p1 = game_hall_check(0);
@@ -918,175 +937,172 @@ void game_hall_enter(void) {
       p2 = game_hall_check(1);
       p1 = game_hall_check(0);
    }
-	
-	p1_lock = 0;
-	p2_lock = 0;
-	
-	hall_flip = 0;
-	
-	
-	p1_cnt = 0;
-	p2_cnt = 0;
-	p1_sel = 0;
-	p2_sel = 0;
-	f_row = 12;
-	f_col = 6;
-	
-	spr_draw_clear();
-	game_paint_attrib(0);
-	
-	
-	if (p1 > 0) {
-		game_hall_enter_phs(f_row,f_col);
-	}
-	if (p2 > 0) {
-		game_hall_enter_phs(f_row,f_col+16);
-	}
-	
-	if ( p1 > 0 || p2 > 0 ) {
-		edit = 1;
+
+	if (p1 || p2)
+	{
+		unsigned char lock0  = 0;    // ignore input from player 1 until cleared
+		unsigned char lock1  = 0;    // ignore input from player 2 until cleared
+		unsigned char frame  = 0;    // pietro sprite jump frame (up/down)
+		unsigned char index0 = 0;    // player 1 edit index into initials[] array + 1 == 0 if not editing
+		unsigned char index1 = 0;    // player 2 edit index into initials[] array + 1 == 0 if not editing
+
+		if (p1)
+		{
+			index0 = 1;
+			game_hall_enter_phs(0);
+		}
+		
+		if (p2)
+		{
+			index1 = 5;
+			game_hall_enter_phs(1);
+		}
+		
 		zx_print_str( 2,10, "HALL OF FAME");
 		zx_print_str(18, 6, " CONGRATULATIONS !");
 		zx_print_str(19, 6, "ENTER YOUR INITIALS");
-	} else {
-		edit = 0;
-	}
-	
-	while (edit){
-		if ( game_check_time(frame_time,5) ) {
-			if (p1 > 0) {
-				game_hall_print_p(p1_sel,f_row, f_col   , 3,0);
-			}
-			if (p2 > 0) {
-				game_hall_print_p(p2_sel,f_row, f_col+16,39,6);
-			}			
-			frame_time = zx_clock();
-			game_rotate_attrib();
-			hall_flip = !hall_flip;
-		}
-		dirs = 0;
-		if (p1 > 0) {
-			dirs = (joyfunc1)(&k1);
-			if (!p1_lock && dirs) {
-				game_hall_edit_p(&p1, &p1_sel,&p1_cnt,f_col,f_row,0);
-				p1_lock = 1;
-			} else {
-				if (!dirs) p1_lock = 0;
+		
+		while (index0 + index1)
+		{
+			if (game_check_time(frame_time, 5))
+			{
+				frame = !frame;
+				
+				if (index0) game_hall_print_p(index0, frame);
+				if (index1) game_hall_print_p(index1, frame);
+				
+				game_rotate_attrib();
+				frame_time = zx_clock();
 			}
 			
+			dirs = (joyfunc1)(&k1);
+			if ((lock0 == 0) && index0 && ((index0 = game_hall_edit_p(index0)) == 0))
+				strcpy(p1->name, &initials[0]);
+			lock0 = dirs;
+			
+			dirs = (joyfunc2)(&k2);
+			if ((lock1 == 0) && index1 && ((index1 = game_hall_edit_p(index1)) == 0))
+				strcpy(p2->name, &initials[4]);
+			lock1 = dirs;
 		}
 		
-		if (p2 > 0) {
-			dirs = (joyfunc2)(&k1);
-			if (!p2_lock && dirs) {
-				game_hall_edit_p(&p2, &p2_sel,&p2_cnt,f_col+16,f_row,6);
-				p2_lock = 1;
-			} else {
-				if (!dirs) p2_lock = 0;
-			}
-		}
-		if (p1 == 0 && p2 == 0) {
-			edit = 0;
-			spr_draw_clear();
-		}
+		spr_draw_clear();
+		_insertion_sort_(hof, sizeof(hof)/sizeof(HOF_ENTRY), sizeof(HOF_ENTRY), compare_scores);
+		ay_reset();
 	}
+	
 	game_hall_of_fame();
 	game_menu_back(0);
 }
 
-void game_menu_back(unsigned char f_start) {
+void game_menu_back(unsigned char f_start)
+{
 	game_menu_sel = 0;
 	s_lin1 = f_start;
 	game_menu_paint();
 	entry_time = zx_clock(); 
 }
 
-
-unsigned char game_hall_check(unsigned char p_index) {
-	for (tmp=0;tmp<10;++tmp){
-		if ( player_score[p_index] > hall_scores[tmp] ) {
-				for (tmp0 = 9; tmp0 > tmp; --tmp0 ) {
-					hall_scores[tmp0] = hall_scores[tmp0-1];
-               strcpy(hall_names[tmp0], hall_names[tmp0-1]);
-				}
-				hall_scores[tmp] = player_score[p_index];
-				return tmp+1;
-		}
+void game_hall_enter_phs(unsigned char p)
+{
+	if (p == 0)
+	{
+		game_menu_e((HOF_ROW<<3)-48, HOF_P1_COL-4, HOF_P1_COL+6, 156,   1);
+		game_menu_e((HOF_ROW<<3)+28, HOF_P1_COL-4, HOF_P1_COL+6, 159, 255);
+		zx_print_str(HOF_ROW-5, HOF_P1_COL-1, "HIGH");
+		zx_print_str(HOF_ROW-4, HOF_P1_COL-1, " SCORE");
 	}
-	return 0;
-}
-
-void game_hall_enter_phs(unsigned char f_row,unsigned char f_col) {
-	game_menu_e( (f_row<<3)-48, f_col-4,f_col+6, 156,   1);
-	game_menu_e( (f_row<<3)+28, f_col-4,f_col+6, 159, 255);
-	zx_print_str(f_row-5, f_col-1, "HIGH");
-	zx_print_str(f_row-4, f_col-1, " SCORE");
-}
-
-void game_hall_print_p( unsigned char selected, unsigned char f_row,unsigned char f_col, unsigned char f_tile, unsigned char f_inc) {
-	++f_row;
-	zx_print_str( f_row, f_col  , &initals[f_inc    ] );
-	zx_print_str( f_row, f_col+1, &initals[f_inc + 2] );
-	zx_print_str( f_row, f_col+2, &initals[f_inc + 4] );
-	tmp = f_col + selected;
-	game_paint_attrib_lin_h( tmp , tmp + 1 , (f_row<<3)+8);
-
-	f_row = (f_row<<3)-16;
-	if (f_inc > 0) f_col = f_col + 1;
-	NIRVANAP_halt(); // synchronize with interrupts
-	if (hall_flip) {
-		NIRVANAP_drawT( TILE_EMPTY    , f_row-2, f_col );
-		NIRVANAP_drawT( f_tile        , f_row  , f_col );
-	} else {
-		NIRVANAP_drawT( TILE_EMPTY    , f_row , f_col );
-		NIRVANAP_drawT( 22+(f_inc<<2) , f_row-2 , f_col );
+	else
+	{
+		game_menu_e((HOF_ROW<<3)-48, HOF_P2_COL-4, HOF_P2_COL+6, 156,   1);
+		game_menu_e((HOF_ROW<<3)+28, HOF_P2_COL-4, HOF_P2_COL+6, 159, 255);
+		zx_print_str(HOF_ROW-5, HOF_P2_COL-1, "HIGH");
+		zx_print_str(HOF_ROW-4, HOF_P2_COL-1, " SCORE");
 	}
 }
 
-void game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned char *cnt, unsigned char f_col, unsigned char f_row, unsigned char f_inc) {
-	unsigned char *p;
-	unsigned char *out_str;
-	unsigned char f_tmp;
-
-	out_str = &f_tmp;
-
-	if ( dirs & IN_STICK_FIRE ) {
-		++f_row;
-		game_paint_attrib_lin( f_col + *selected, f_col + 1 + *selected, (f_row<<3)+8);
-		sound_slide();
-		if (*cnt != 39) {
-			++*selected;
-		} else {
-			if (*selected > 0) {
-				initals[f_inc + ( *selected<<1 )] = 0x41;
-				--*selected;
-			}
-		}
+void game_hall_print_p(unsigned char index, unsigned char frame)
+{
+	if (index < 5)
+	{
+		// player 1
+		zx_print_str(HOF_ROW+1, HOF_P1_COL, &initials[0]);
+		game_paint_attrib_lin_h(HOF_P1_COL-1+index, HOF_P1_COL+index, ((HOF_ROW+1)<<3)+8);
 		
-		if (*selected == 3) {
-			tmp = *player - 1;
-			p = hall_names[tmp];
-			*p++ = initals[f_inc];
-			*p++ = initals[f_inc+2];
-			*p = initals[f_inc+4];
-			*player = 0;
+		NIRVANAP_halt();
+		if (frame)
+		{
+			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16-2, HOF_P1_COL);
+			NIRVANAP_drawT(3         , ((HOF_ROW+1)<<3)-16  , HOF_P1_COL);
 		}
-		*cnt = 0;
-		while( hall_valids[*cnt] != initals[f_inc + ( *selected<<1 )]) ++*cnt;
+		else
+		{
+			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16  , HOF_P1_COL);
+			NIRVANAP_drawT(22        , ((HOF_ROW+1)<<3)-16-2, HOF_P1_COL);
+		}
+	}
+	else
+	{
+		// player 2
+		zx_print_str(HOF_ROW+1, HOF_P2_COL, &initials[4]);
+		game_paint_attrib_lin_h(HOF_P2_COL-5+index, HOF_P2_COL-4+index, ((HOF_ROW+1)<<3)+8);
+		
+		NIRVANAP_halt();
+		if (frame)
+		{
+			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16-2, HOF_P2_COL+1);
+			NIRVANAP_drawT(39        , ((HOF_ROW+1)<<3)-16  , HOF_P2_COL+1);
+		}
+		else
+		{
+			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16  , HOF_P2_COL+1);
+			NIRVANAP_drawT(23        , ((HOF_ROW+1)<<3)-16-2, HOF_P2_COL+1);
+		}
+	}
+}
+
+unsigned char game_hall_edit_p(unsigned char index)
+{
+	--index;
+	
+	if (dirs & IN_STICK_FIRE)
+	{
+		if (index < 4)
+			game_paint_attrib_lin(HOF_P1_COL + index, HOF_P1_COL+1 + index, ((HOF_ROW+1)<<3)+8);
+		else
+			game_paint_attrib_lin(HOF_P2_COL-4 + index, HOF_P2_COL-3 + index, ((HOF_ROW+1)<<3)+8);
+		
+		sound_slide();
+		ay_fx_play(ay_effect_01);
+		
+		if (initials[index++] == '{')
+		{
+			// backspace
+			if (--index & 0x3)
+				initials[index--] = 'A';
+		}
+
+		if ((index & 0x3) == 0x3)
+			return 0;
+	}
+	else if (dirs & (IN_STICK_LEFT | IN_STICK_RIGHT))
+	{
+		const unsigned char *p;
+		
+		p = strchr(hall_valids, initials[index]);
+		
+		if (dirs & IN_STICK_LEFT)
+		{
+			if (*--p == '\x01')
+				p = hall_valids + sizeof(hall_valids) - 2;
+		}
+		else if (*++p == '\0')
+			p = hall_valids + 1;
+		
+		initials[index] = *p;
 	}
 
-	if ( dirs & IN_STICK_RIGHT ) {
-		++*cnt;
-		if (*cnt > 39) *cnt = 0;
-	}
-
-	if ( dirs & IN_STICK_LEFT ) {
-		--*cnt;
-		if (*cnt > 39) *cnt = 39;
-	}
-
-	out_str = hall_valids + *cnt;
-	initals[f_inc + ( *selected<<1 )] = *out_str;
+	return index+1;
 }
 
 void game_hall_of_fame(void) {
@@ -1100,9 +1116,9 @@ void game_hall_of_fame(void) {
 	//MENU
 	for(s_lin1=0; s_lin1 < 10; ++s_lin1){
 		zx_print_ink(INK_CYAN);
-		zx_print_str( 7 + s_lin1, 10, hall_names[s_lin1] );
+		zx_print_str( 7 + s_lin1, 10, hof[s_lin1].name);
+		zx_print_int( 7 + s_lin1, 16, hof[s_lin1].score);
 		zx_print_str( 7 + s_lin1, 14, "-");
-		zx_print_int( 7 + s_lin1, 16, hall_scores[s_lin1] );
 		zx_print_str( 7 + s_lin1, 21, "0");
 	}
 	zx_print_str( 4, 10, "HALL OF FAME");
