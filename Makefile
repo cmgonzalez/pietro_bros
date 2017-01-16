@@ -14,7 +14,7 @@ CFLAGS = -SO3 --max-allocs-per-node200000 --opt-code-size
 .PHONY: depend clean
 
 default: loader.tap pietro_scr.bin pietro.font nirvanap.bin $(OUTF)
-	dir *.bin
+	-ls -l *.bin
 	-rm -f *.bin *.tap *.font pietro_bros zcc_proj.lst zcc_opt.def
 
 loader.tap: src_tap/loader.bas
@@ -31,7 +31,7 @@ nirvanap.bin: src_nirvana/nirvana+.asm
 
 $(OUTF): $(OBJS) mmap.inc
 	-rm -f $(OUTG)
-	zcc +zx -vn -zorg=23552 -startup=31 -clib=sdcc_iy $(OBJS) $(ASRC) -o pietro_bros -pragma-include:zpragma.inc
+	zcc +zx -vn -m -zorg=23552 -startup=31 -clib=sdcc_iy $(OBJS) $(ASRC) -o pietro_bros -pragma-include:zpragma.inc
 	appmake +inject -b nirvanap.bin -o nirvanap_final.bin -i pietro_bros_NIRVANA_HOLE.bin --offset 6627
 	appmake +zx -b pietro_bros_MCLOAD.bin -o mcload.tap --blockname mcload --org 16384 --noloader
 	appmake +zx -b pietro_bros_LOADER.bin -o mcloader.tap --org 23296 --noloader --noheader
@@ -42,7 +42,7 @@ $(OUTF): $(OBJS) mmap.inc
 	cat loader.tap mcload.tap mcloader.tap pietro_scr.tap nirvanap.tap pietro.tap pietro_ay.tap > $(OUTF)
 	-rm -f zcc_proj.lst zcc_opt.def
 .c.o:
-	zcc +zx -vn -c -clib=sdcc_iy $(CFLAGS) --fsigned-char $<
+	zcc +zx -vn --list -c -clib=sdcc_iy $(CFLAGS) --fsigned-char $<
 
 clean:
 	-rm -f *.o *.lis *.bin *.tap *.font pietro_bros zcc_proj.lst zcc_opt.def
