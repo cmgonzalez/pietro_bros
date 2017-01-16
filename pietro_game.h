@@ -17,11 +17,7 @@
 #ifndef PIETRO_GAME_H
 #define PIETRO_GAME_H
 
-#ifdef __LLVM
-
-extern void            game_fill_row(unsigned char f_row, unsigned char f_asc);
-
-#endif
+#include "globals.h"
 
 #ifdef __SDCC
 
@@ -79,9 +75,9 @@ extern void			 game_hall_of_fame(void);
 extern void			 game_hall_enter(void);
 extern void			 game_end(void);
 extern void			 game_print_header(void);
-extern void			 game_hall_enter_phs(unsigned char f_row,unsigned char f_col);
-extern unsigned char game_hall_check(unsigned char p_index);
-extern void			 game_hall_edit_p(unsigned char *player, unsigned char *selected, unsigned char *cnt, unsigned char f_col, unsigned char f_row, unsigned char f_inc);
-extern void			 game_hall_print_p(unsigned char selected, unsigned char f_row,unsigned char f_col, unsigned char f_tile, unsigned char f_inc);
+extern void			 game_hall_enter_phs(unsigned char p);
+extern HOF_ENTRY  *game_hall_check(unsigned char p);
+extern unsigned char game_hall_edit_p(unsigned char index);
+extern void			 game_hall_print_p(unsigned char index, unsigned char frame);
 
 #endif

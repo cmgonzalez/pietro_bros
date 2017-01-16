@@ -27,15 +27,6 @@
 
 // AY Control
 
-#ifdef __LLVM
-
-extern void              ay_reset(void);              // stop all ay sound and go silent
-extern unsigned char     ay_is_playing(void);         // return values defined above
-extern void              ay_midi_play(void *song);    // stop all ay sound and start new midi song
-extern void              ay_fx_play(void *effect);    // stop all ay sound and start new effect
-
-#endif
-
 #ifdef __SDCC
 
 extern void              ay_reset(void) __preserves_regs(b,c);

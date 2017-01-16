@@ -8,15 +8,6 @@
 
 extern void            zx_isr(void);
 
-#ifdef __LLVM
-
-extern void            zx_print_bonus_time(unsigned char ui_row, unsigned char ui_col, unsigned int time);
-extern void            zx_print_chr(unsigned char ui_row, unsigned char ui_col, unsigned char val);
-extern void            zx_print_int(unsigned char ui_row, unsigned char ui_col, unsigned int val);
-extern void            zx_print_str(unsigned char ui_row, unsigned char ui_col, unsigned char *s);
-
-#endif
-
 #ifdef __SDCC
 
 extern void            zx_print_bonus_time(unsigned char ui_row, unsigned char ui_col, unsigned int time) __z88dk_callee;

@@ -133,10 +133,14 @@ extern unsigned char score_osd_col[2];
 extern unsigned int  score_osd_time[2];
 extern unsigned int  score_osd_tile[2];
 
-extern unsigned int hall_scores[];
-extern unsigned char hall_names[][4];
-extern unsigned char *initals;
-extern unsigned char *hall_valids;
-extern unsigned char hall_flip;
+typedef struct {
+	   unsigned char name[4];
+		unsigned int  score;
+} HOF_ENTRY;
+
+extern HOF_ENTRY hof[10];
+extern const unsigned char hall_valids[42];
+extern unsigned char initials[8];
+
 
 #endif
