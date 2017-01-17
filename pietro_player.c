@@ -278,12 +278,16 @@ unsigned char player_move(void){
 			if ( jump_lin[sprite] - lin[sprite] < PLAYER_MAX_JUMP ) {
 				spr_move_up();
 				/* TODO CHECK THIS */
-				if ( jump_lin[sprite] - lin[sprite] >= PLAYER_MAX_JUMP ) spr_timer[sprite] = zx_clock();
+				if ( jump_lin[sprite] - lin[sprite] >= PLAYER_MAX_JUMP ) spr_timer[sprite] = zx_clock() - 24;
 			} else {
 				if (game_check_time(spr_timer[sprite] , PLAYER_HIT_BRICK_TIME) ) spr_set_fall();			
 			}
-			player_move_horizontal();
-			tmp = jump_lin[sprite] - lin[sprite];
+			
+			
+			tmp = jump_lin[sprite] - lin[sprite];	
+			if (tmp & 7) { //mod 8
+				player_move_horizontal();
+			}
 			
 		} else {
 			if ( BIT_CHK(s_state, STAT_FALL) ){
