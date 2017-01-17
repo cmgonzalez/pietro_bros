@@ -476,7 +476,7 @@ void spr_back_fix( unsigned char f_inc ) {
 			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
 		}
 		/* Fix Pow */
-		if ( s_lin0 >= 120 && s_lin0 <= 136 && s_col0 >= 14 && s_col0 <= 16 ) {
+		if ( s_lin0 >= 104 && s_lin0 <= 136 && s_col0 >= 14 && s_col0 <= 16 ) {
 			spr_draw_pow();	
 		}
 }
