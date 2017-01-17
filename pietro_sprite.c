@@ -96,12 +96,12 @@ void spr_move_horizontal(void ){
 unsigned char spr_move_right( void ){
 	++colint[sprite];
 	if (colint[sprite] == SPR_COLINT) {
-		if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
-			if ( spr_collition_check(DIR_RIGHT) ) {
-				colint[sprite] = SPR_COLINT -1 ;
-				return 0;
-			}
-		}
+		// if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
+			// if ( spr_collition_check(DIR_RIGHT) ) {
+				// colint[sprite] = SPR_COLINT -1 ;
+				// return 0;
+			// }
+		// }
 		colint[sprite] = 0;
 		++col[sprite];
 		if (col[sprite] > SCR_COLS_M) {
@@ -114,12 +114,12 @@ unsigned char spr_move_right( void ){
 unsigned char spr_move_left( void ){
 	--colint[sprite];
 	if (colint[sprite] == 255) {
-		if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
-			if ( spr_collition_check(DIR_LEFT) ) {
-				colint[sprite] = 0;
-				return 0;
-			}
-		}
+		// if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
+			// if ( spr_collition_check(DIR_LEFT) ) {
+				// colint[sprite] = 0;
+				// return 0;
+			// }
+		// }
 		colint[sprite] = SPR_COLINT - 1;
 		--col[sprite];
 		if (col[sprite] == 255) {
@@ -129,7 +129,7 @@ unsigned char spr_move_left( void ){
 	return 0;
 }
 
-void spr_redraw( void ){
+unsigned char spr_redraw( void ){
 	s_tile1 = tile[sprite] + colint[sprite];
 
 	if ( (lin[sprite] !=  s_lin0) || (col[sprite] != s_col0) ) { 
@@ -138,20 +138,29 @@ void spr_redraw( void ){
 			NIRVANAP_fillT(PAPER, 8, s_col0);
 		}
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
+		
 		if ( !spr_check_over() ) {
-
-			
+		
+			if ( BIT_CHK(state[sprite], STAT_JUMP) ) {
+				spr_back_fix(16);
+				return 0;
+			}
+			if ( BIT_CHK(state[sprite], STAT_FALL) ) {
+				spr_back_fix(0);
+				return 0;
+			}
 			NIRVANAP_fillC(PAPER, s_lin0, s_col0);
 			NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);
-		
 			NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
 			NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
 		}
+
 		
 	} else if (  s_tile1 != s_tile0 ) { 
 		/* Internal Movement */
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
 	}
+	return 0;
 
 }
 
@@ -188,43 +197,9 @@ void spr_anim_fall( unsigned char f_sprite) {
 		s_lin0 = lin[f_sprite];
 		lin[f_sprite] = s_lin0+ (LIN_INC << 1);
 		NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], s_col0);
-		
-		
 		/* Sprite Falling */
-		index1 = game_calc_index ( s_lin0 , s_col0);
-		tmp  = lvl_1[index1] == GAME_MAP_PLATFORM || lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE;
-		tmp0 = lvl_1[index1+1] == GAME_MAP_PLATFORM || lvl_1[index1+1] == GAME_MAP_PLATFORM_FREEZE;
-		if (tmp || tmp0) {
-			/* Restore Platforms */
-			/* The platform is made of brick or ice */
-			s_col1 = s_col0;
-			s_tile1 = spr_idx[lvl_1[index1]];
-			s_lin1 = s_lin0;
-			/* Calculate the lin from the 8x8 lvl_1 screen map */
-			s_lin1 = s_lin1>>3; /* div 8 (2^3) */
-			s_lin1 = s_lin1<<3; /* mul 8 (2^3) */
-			/* Nirvana can't draw 8x8 :( */
-			if ( !tmp && tmp0 ) {
-				s_col1 = s_col0 + 1;
-				s_tile1 = spr_idx[lvl_1[index1+1]];
-			}
-			/* Nirvana can't draw 8x8 :( */
-			if (tmp && !tmp0) {
-				s_col1 = s_col0 - 1;
-				s_tile1 = spr_idx[lvl_1[index1]];
-			}
-			NIRVANAP_halt();
-			NIRVANAP_fillT(PAPER, s_lin0, s_col0);
-			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
-		} else {
-			/* PAPER Backroud Restore */
-			NIRVANAP_halt();
-			NIRVANAP_fillT(PAPER, s_lin0, s_col0);
-		}
-		/* Fix Pow */
-		if ( s_lin0 >= 120 && s_lin0 <= 136 && s_col0 >= 14 && s_col0 <= 16 ) {
-			spr_draw_pow();	
-		}
+		spr_back_fix(0);
+
 		
 	} else {
 		s_col1 = col[f_sprite];
@@ -318,6 +293,8 @@ unsigned char spr_check_over( void ){
 			}
 		}
 	}
+	
+	
 	return 0;
 }
 
@@ -470,7 +447,38 @@ void spr_draw_pow(void) {
 	}
 }
 
+void spr_back_fix( unsigned char f_inc ) {
+		index1 = game_calc_index ( s_lin0 + f_inc , s_col0);
+		tmp  = lvl_1[index1] == GAME_MAP_PLATFORM || lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE;
+		tmp0 = lvl_1[index1+1] == GAME_MAP_PLATFORM || lvl_1[index1+1] == GAME_MAP_PLATFORM_FREEZE;
+		NIRVANAP_fillT( PAPER, s_lin0, s_col0 );
+		if (tmp || tmp0) {
 
+			/* Restore Platforms */
+			/* The platform is made of brick or ice */
+			s_col1 = s_col0;
+			s_tile1 = spr_idx[lvl_1[index1]];
+			s_lin1 = s_lin0 + f_inc;
+			/* Calculate the lin from the 8x8 lvl_1 screen map */
+			s_lin1 = s_lin1>>3; /* div 8 (2^3) */
+			s_lin1 = s_lin1<<3; /* mul 8 (2^3) */
+			/* Nirvana can't draw 8x8 :( */
+			if ( !tmp && tmp0 ) {
+				s_col1 = s_col0 + 1;
+				s_tile1 = spr_idx[lvl_1[index1+1]];
+			}
+			/* Nirvana can't draw 8x8 :( */
+			if (tmp && !tmp0) {
+				s_col1 = s_col0 - 1;
+				s_tile1 = spr_idx[lvl_1[index1]];
+			}
+			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
+		}
+		/* Fix Pow */
+		if ( s_lin0 >= 120 && s_lin0 <= 136 && s_col0 >= 14 && s_col0 <= 16 ) {
+			spr_draw_pow();	
+		}
+}
 
 void spr_back_fix1(void) {
 	NIRVANAP_halt(); // synchronize with interrupts

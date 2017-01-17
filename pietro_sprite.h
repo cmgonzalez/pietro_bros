@@ -23,7 +23,7 @@ extern unsigned char spr_move_down(void);
 extern void          spr_move_horizontal(void);
 extern unsigned char spr_move_right(void);
 extern unsigned char spr_move_left(void);
-extern void          spr_redraw(void);
+extern unsigned char spr_redraw(void);
 extern unsigned char spr_killed( unsigned char f_sprite);
 extern void          spr_anim_fall( unsigned char f_sprite);
 extern void          spr_anim_kill( unsigned char f_sprite, unsigned int f_tile);
@@ -35,10 +35,13 @@ extern void          spr_set_fall(void);
 extern int           spr_tile(unsigned char f_sprite);
 
 extern void			 spr_draw_pow(void);
+extern void			 spr_back_fix(unsigned char f_inc);
 extern void			 spr_back_fix1(void);
 extern void			 spr_back_fix2(void);
 extern void			 spr_back_fix3(void);
 extern void			 spr_back_fix4(void);
+
+
 extern void			 spr_brick_anim(unsigned char f_hit);
 extern void			 spr_cortina_brick(void);
 extern void			 spr_cortina_pipes(void);
