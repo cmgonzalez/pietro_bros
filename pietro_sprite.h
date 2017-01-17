@@ -35,6 +35,7 @@ extern void          spr_set_fall(void);
 extern int           spr_tile(unsigned char f_sprite);
 
 extern void			 spr_draw_pow(void);
+extern void			 spr_back_clr(void);
 extern void			 spr_back_fix(unsigned char f_inc);
 extern void			 spr_back_fix1(void);
 extern void			 spr_back_fix2(void);

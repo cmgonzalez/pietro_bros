@@ -149,10 +149,7 @@ unsigned char spr_redraw( void ){
 				spr_back_fix(0);
 				return 0;
 			}
-			NIRVANAP_fillC(PAPER, s_lin0, s_col0);
-			NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);
-			NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
-			NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
+			spr_back_clr();
 		}
 
 		
@@ -293,8 +290,6 @@ unsigned char spr_check_over( void ){
 			}
 		}
 	}
-	
-	
 	return 0;
 }
 
@@ -446,12 +441,18 @@ void spr_draw_pow(void) {
 		NIRVANAP_drawT( s_tile1 , 120, 15 );	
 	}
 }
+void spr_back_clr( void ) {
+	NIRVANAP_fillC(PAPER, s_lin0, s_col0);
+	NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);
+	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
+	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);	
+}
 
 void spr_back_fix( unsigned char f_inc ) {
 		index1 = game_calc_index ( s_lin0 + f_inc , s_col0);
 		tmp  = lvl_1[index1] == GAME_MAP_PLATFORM || lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE;
 		tmp0 = lvl_1[index1+1] == GAME_MAP_PLATFORM || lvl_1[index1+1] == GAME_MAP_PLATFORM_FREEZE;
-		NIRVANAP_fillT( PAPER, s_lin0, s_col0 );
+		spr_back_clr();
 		if (tmp || tmp0) {
 
 			/* Restore Platforms */
