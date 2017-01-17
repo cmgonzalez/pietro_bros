@@ -279,5 +279,5 @@ HOF_ENTRY hof[10] = {
 	{"CAL", 1000}
 };
 
-const unsigned char hall_valids[42] = "\001ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.~ {";
+const unsigned char hall_valids[42] = "\x01" "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.~ {";
 unsigned char initials[8] = "AAA\0AAA";
