@@ -21,6 +21,7 @@ extern void          enemy_coin1(void);
 extern void          enemy_collition(void);
 extern unsigned char enemy_collition_check(void);
 extern void          enemy_hit(void);
+extern void          enemy_flip_change_dir(void);
 extern void          enemy_flip(unsigned int f_tile);
 extern void          enemy_flip_sidestepper(unsigned int f_tile);
 extern void          enemy_turn(void);
