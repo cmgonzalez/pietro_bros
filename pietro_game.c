@@ -958,7 +958,7 @@ void game_hall_enter(void) {
 		zx_print_str(18, 6, " CONGRATULATIONS !");
 		zx_print_str(19, 6, "ENTER YOUR INITIALS");
 		
-		while (index0 + index1)
+		while ((unsigned char)(index0 + index1))
 		{
 			if (game_check_time(frame_time, 5))
 			{
@@ -982,9 +982,9 @@ void game_hall_enter(void) {
 			lock1 = dirs;
 		}
 		
+		ay_reset();
 		spr_draw_clear();
 		_insertion_sort_(hof, sizeof(hof)/sizeof(hof[0]), sizeof(hof[0]), compare_scores);
-		ay_reset();
 	}
 	
 	game_hall_of_fame();
