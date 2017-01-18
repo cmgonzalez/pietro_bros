@@ -44,20 +44,16 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	//PLAYER ONLY VARIABLES
 	if (sprite == SPR_P1) {
 		index_player = 0;
-	} else {
-		index_player = 1;
-	}
-	hit_col[index_player] = 0;
-	hit_lin[index_player] = 0;
-	player_lock[index_player] = 1;
-	//sliding[index_player] = 0;
-	sliding[index_player] = PLAYER_SLIDE_NORMAL;
-	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
-	if (sprite == SPR_P1) {
 		BIT_SET(state_a[f_sprite], STAT_LDIRL);
 	} else {
+		index_player = 1;
 		BIT_SET(state_a[f_sprite], STAT_LDIRR);
 	}
+	BIT_SET(state_a[f_sprite], STAT_LOCK);
+	hit_col[index_player] = 0;
+	hit_lin[index_player] = 0;
+	sliding[index_player] = PLAYER_SLIDE_NORMAL;
+	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
 }
 
 unsigned char player_collition(void) {
@@ -156,7 +152,7 @@ void player_restart(unsigned char f_sprite){
 		NIRVANAP_drawT(  TILE_BRICK_RESTART , 16, 16 );
 	}
 	BIT_SET(state[f_sprite],STAT_HIT);
-	player_lock[index_player] = 1;
+	BIT_SET(state_a[f_sprite],STAT_LOCK);
 	spr_timer[f_sprite] = zx_clock();
 	sprite_speed_alt[f_sprite] = SPRITE_RESTART_SPEED;
 }
@@ -234,10 +230,11 @@ unsigned char player_move(void){
 		/* Player re-start over safe platform */
 		if ( lin[sprite] < 16 ) {
 			spr_move_down();
-			player_lock[index_player] = 0;
+			//BIT_CLR(state_a[sprite], STAT_LOCK);
 		} else {
 			if ( dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT) {
 				BIT_CLR(state[sprite], STAT_HIT);
+				BIT_CLR(state_a[sprite], STAT_LOCK);
 				NIRVANAP_halt();
 				NIRVANAP_drawT(  TILE_EMPTY, 16, s_col0 );
 				NIRVANAP_drawT(  TILE_EMPTY, 32, s_col0 );
@@ -260,7 +257,7 @@ unsigned char player_move(void){
 			BIT_CLR(s_state, STAT_HIT);
 			BIT_SET(s_state, STAT_JUMP);
 			state[sprite] = s_state;
-			player_lock[index_player] = 0;
+			//BIT_CLR(state_a[sprite], STAT_LOCK);
 			sprite_speed_alt[sprite] = 0;
 		}
 		
@@ -270,7 +267,7 @@ unsigned char player_move(void){
 	/* Read player input */
 	player_move_input(); 
 	
-	if (player_lock[index_player]) return 0;
+	if (BIT_CHK(state_a[sprite], STAT_LOCK)) return 0;
 	
 	if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL)) {
 		/* Check if the player have floor, and set fall if not */
@@ -333,12 +330,7 @@ int player_move_input(void) {
 
 	if ( dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT) {
 		/* User have pressed valid input */
-		player_lock[index_player] = 0;
-		
-		if (!(dirs & IN_STICK_FIRE)) {
-			BIT_CLR(state_a[sprite], STAT_LOCK);
-		}
-		
+		BIT_CLR(state_a[sprite], STAT_LOCK);
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
 			index1 = game_calc_index(s_lin0+16 , s_col0);
 			if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE) {
@@ -375,7 +367,6 @@ int player_move_input(void) {
 				if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_03);
 				sound_jump();
 				colint[sprite]=0;
-				BIT_SET(state_a[sprite], STAT_LOCK);
 				BIT_SET(s_state, STAT_JUMP);
 				BIT_CLR(s_state, STAT_FALL);
 				BIT_CLR(state_a[sprite],STAT_INERT);
@@ -397,7 +388,6 @@ int player_move_input(void) {
 		}
 	} else {		
 		/* No Input from the player */
-		BIT_CLR(state_a[sprite], STAT_LOCK);
 		if ( !BIT_CHK(s_state, STAT_HIT) && !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) && sliding[index_player] > 0 ) {
 			/* Sliding */
 			if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);

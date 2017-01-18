@@ -126,8 +126,6 @@ void game_phase_init(void) {
 	frame_time = 0;
 	score_osd_col[0] = 0xFF;
 	score_osd_col[1] = 0xFF;
-	player_lock[0] = 1;
-	player_lock[1] = 1;
 	/* PHASE OSD START */
 	spr_draw_clear();
 	spr_cortina_pipes();

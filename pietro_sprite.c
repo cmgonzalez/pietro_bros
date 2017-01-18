@@ -251,6 +251,7 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 	}
 }
 
+/*
 unsigned char spr_collition_check(unsigned char f_dir) {
 	index1 = game_calc_index( lin[sprite] , col[sprite] );
 	if (f_dir == DIR_RIGHT) {
@@ -267,6 +268,7 @@ unsigned char spr_collition_check(unsigned char f_dir) {
 	if ( lvl_1[ index3] > VAL_COL ) return 1;
 	return 0;
 }
+*/
 
 unsigned char spr_check_over( void ){
 	if (s_lin0 >= 136) {

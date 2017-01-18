@@ -60,7 +60,6 @@ unsigned char jump_lin[8];				//START JUMP LINE
 unsigned char hit_lin[2];				//HIT BRICK LINE
 unsigned char hit_col[2];				//HIT BRICK COL
 unsigned char sliding[2];				//SLIDING COUNTER
-unsigned char player_lock[2];			//LOCK MOVEMENT ON START FIX
 unsigned int  player_score[2];			//SCORE ARRAYS
 unsigned int  player_next_extra[2];		//SCORE ARRAYS
 
