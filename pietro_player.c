@@ -196,7 +196,9 @@ unsigned char player_move(void){
 	if ( BIT_CHK(s_state, STAT_KILL) ) {
 		/* Killed Player */
 		tile[sprite] = TILE_P1_KILL + tile_offset;
-		spr_killed(sprite);
+		if ( game_check_time(spr_timer[sprite], 40 ) ) { //TODO DEFINE
+			spr_killed(sprite);
+		}
 		return 0;
 	}
 	
