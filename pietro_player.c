@@ -53,6 +53,11 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	//sliding[index_player] = 0;
 	sliding[index_player] = PLAYER_SLIDE_NORMAL;
 	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
+	if (sprite == SPR_P1) {
+		BIT_SET(state_a[f_sprite], STAT_LDIRL);
+	} else {
+		BIT_SET(state_a[f_sprite], STAT_LDIRR);
+	}
 }
 
 unsigned char player_collition(void) {
@@ -133,6 +138,11 @@ void player_kill(void) {
 		player_hit_brick_clear();
 		NIRVANAP_spriteT(sprite, tile[sprite], lin[sprite], col[sprite]);
 		spr_timer[sprite] = zx_clock();
+		if (sprite == SPR_P1) {
+			BIT_SET(state_a[sprite], STAT_LDIRL);
+		} else {
+			BIT_SET(state_a[sprite], STAT_LDIRR);
+		}
 	}
 }
 
@@ -344,11 +354,17 @@ int player_move_input(void) {
 			if ( dirs & IN_STICK_RIGHT ) {
 				BIT_SET(s_state, STAT_DIRR);
 				BIT_CLR(s_state, STAT_DIRL);
+				
+				BIT_SET(state_a[sprite], STAT_LDIRR);
+				BIT_CLR(state_a[sprite], STAT_LDIRL);
 			}
 			/* Key left */
 			if ( dirs & IN_STICK_LEFT ) {
 				BIT_SET(s_state, STAT_DIRL);
 				BIT_CLR(s_state, STAT_DIRR);
+				
+				BIT_SET(state_a[sprite], STAT_LDIRL);
+				BIT_CLR(state_a[sprite], STAT_LDIRR);
 			}
 			/* Set Tile according to current direction */
 			state[sprite] = s_state;

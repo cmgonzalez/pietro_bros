@@ -382,9 +382,18 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 	
 	if ( BIT_CHK(state[f_sprite], STAT_DIRR) ) {
 		return f_tile;
-	} else {
+	} 
+	if ( BIT_CHK(state[f_sprite], STAT_DIRL) ) {
 		return f_tile + f_inc;
 	}
+	
+	if ( BIT_CHK(state_a[f_sprite], STAT_LDIRR) ) {
+		return f_tile;
+	} 
+	if ( BIT_CHK(state_a[f_sprite], STAT_LDIRL) ) {
+		return f_tile + f_inc;
+	}
+	return TILE_EMPTY;
 }
 
 void spr_draw_back(void) {
