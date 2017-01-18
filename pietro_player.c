@@ -229,8 +229,8 @@ unsigned char player_move(void){
 	if (BIT_CHK(s_state, STAT_HIT)) {
 		/* Player re-start over safe platform */
 		if ( lin[sprite] < 16 ) {
+			BIT_CLR(state_a[sprite], STAT_LOCK);
 			spr_move_down();
-			//BIT_CLR(state_a[sprite], STAT_LOCK);
 		} else {
 			if ( dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT) {
 				BIT_CLR(state[sprite], STAT_HIT);

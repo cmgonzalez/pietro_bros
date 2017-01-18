@@ -514,7 +514,7 @@ void enemy_upgrade(unsigned char f_class, unsigned int f_tile){
 	class[sprite] = f_class;
 	tile[sprite] = f_tile + 6;
 	BIT_SET(state[sprite], STAT_UPGR);
-	BIT_CLR(state[sprite], STAT_ANGRY);
+	//BIT_CLR(state[sprite], STAT_ANGRY);
 }
 
 void enemy_walk(void){
