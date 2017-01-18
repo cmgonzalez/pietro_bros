@@ -152,7 +152,8 @@ void enemy_hit(void){
 				break;
 	}
 }
-void enemy_flip_change_dir( void ) {
+void enemy_flip_change_dir( unsigned char f_keep ) {
+	
 	if (BIT_CHK(state[enemies], STAT_DIRR)) {
 		BIT_SET(state_a[enemies], STAT_LDIRR);
 		BIT_CLR(state_a[enemies], STAT_LDIRL);
@@ -169,7 +170,7 @@ void enemy_flip_change_dir( void ) {
 		BIT_SET(state[enemies], STAT_DIRR);
 		BIT_CLR(state[enemies], STAT_DIRL);
 	}
-	if (col[sprite] == col[enemies]) {
+	if (!f_keep && col[sprite] == col[enemies]) {
 		BIT_CLR(state[enemies], STAT_DIRL);
 		BIT_CLR(state[enemies], STAT_DIRR);
 	}
@@ -186,13 +187,12 @@ void enemy_flip(unsigned int f_tile){
 	if (BIT_CHK(state[enemies], STAT_HIT)){
 		//Normal
 		ay_fx_play(ay_effect_02);
-		enemy_flip_change_dir();
+		enemy_flip_change_dir(0);
 
 		tile[enemies] = f_tile + 6; 
 		player_score_add(1);
 	} else {
 		//Flipped
-				
 		if (BIT_CHK(state_a[enemies], STAT_LDIRR)) {
 			BIT_SET(state[enemies], STAT_DIRR);
 			BIT_CLR(state[enemies], STAT_DIRL);
@@ -210,7 +210,7 @@ void enemy_flip_sidestepper(unsigned int f_tile){
 	if ( BIT_CHK(state[enemies], STAT_ANGRY) ) {
 		enemy_flip(f_tile);
 	} else {
-		enemy_flip_change_dir();
+		enemy_flip_change_dir(1);
 		BIT_FLP(state[enemies], STAT_JUMP);
 		BIT_CLR(state[enemies], STAT_FALL);
 		BIT_SET(state[enemies], STAT_ANGRY);

@@ -241,7 +241,7 @@ void game_loop(void) {
 	game_over = 0;
 	game_pow = 3;
 	/* phase init */
-	phase_curr = 0; //TESTING - Default 0
+	phase_curr = 3; //TESTING - Default 0
 	game_phase_init();
 	/* game loop start */
 	loop_count=0;
