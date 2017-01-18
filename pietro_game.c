@@ -665,15 +665,11 @@ void game_menu_config(void) {
 	while (cont) {
 		while ((joyfunc1)(&k1) != 0);
 		//MENU
-		zx_print_str(14,10,"SOUND 48  ");
+		zx_print_str(14,10,spec128 ? "SOUND AY  " : "SOUND 48  ");
 		zx_print_str(16,10,"GAME      ");
 		zx_print_str(18,10,"BACK      ");
 		
-		if (game_sound & GAME_SOUND_48_FX_ON) {
-			zx_print_str(14,20,"ON ");
-		} else {
-			zx_print_str(14,20,"OFF");
-		};
+		zx_print_str(14,20,(game_sound & (GAME_SOUND_48_FX_ON | GAME_SOUND_AY_FX_ON)) ? "ON " : "OFF");
 		
 		switch ( game_type ) {	//0->3
 		case 0:
@@ -692,7 +688,7 @@ void game_menu_config(void) {
 		case 0: //SOUND 48
 			ay_fx_play(ay_effect_10);
 			sound_coin();
-			game_sound ^= GAME_SOUND_48_FX_ON | GAME_SOUND_AY_FX_ON;
+			game_sound ^= spec128 ? GAME_SOUND_AY_FX_ON : GAME_SOUND_48_FX_ON;
 			break;
 		case 1: //GAME TYPE
 			ay_fx_play(ay_effect_10);
