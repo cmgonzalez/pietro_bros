@@ -67,7 +67,9 @@ unsigned char spr_move_down( void ){
 	//12
 	//43
 	if ((lin[sprite] & 7) == 0) {
-		if ( !game_check_maze( game_calc_index( lin[sprite] + 16 , col[sprite] ) ) ) {
+		
+		index1 = game_calc_index( lin[sprite] + 16 , col[sprite] );
+		if ( !game_check_maze( index1 ) ) {
 			BIT_CLR(s_state, STAT_FALL);
 			if (sprite >= SPR_P2 ) {
 				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
@@ -96,12 +98,12 @@ void spr_move_horizontal(void ){
 unsigned char spr_move_right( void ){
 	++colint[sprite];
 	if (colint[sprite] == SPR_COLINT) {
-		// if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
-			// if ( spr_collition_check(DIR_RIGHT) ) {
-				// colint[sprite] = SPR_COLINT -1 ;
-				// return 0;
-			// }
-		// }
+/* 		if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
+			if ( spr_collition_check(DIR_RIGHT) ) {
+				colint[sprite] = SPR_COLINT -1 ;
+				return 0;
+			}
+		} */
 		colint[sprite] = 0;
 		++col[sprite];
 		if (col[sprite] > SCR_COLS_M) {
@@ -114,12 +116,12 @@ unsigned char spr_move_right( void ){
 unsigned char spr_move_left( void ){
 	--colint[sprite];
 	if (colint[sprite] == 255) {
-		// if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
-			// if ( spr_collition_check(DIR_LEFT) ) {
-				// colint[sprite] = 0;
-				// return 0;
-			// }
-		// }
+/* 		if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
+			if ( spr_collition_check(DIR_LEFT) ) {
+				colint[sprite] = 0;
+				return 0;
+			}
+		} */
 		colint[sprite] = SPR_COLINT - 1;
 		--col[sprite];
 		if (col[sprite] == 255) {
@@ -448,8 +450,8 @@ void spr_draw_pow(void) {
 		if (game_pow == 1) s_tile1 = TILE_POW1 + 24;
 		
 		NIRVANAP_halt(); // synchronize with interrupts  CG
-		NIRVANAP_fillT(PAPER, 120,15);
-		NIRVANAP_drawT( s_tile1 , 120, 15 );	
+		NIRVANAP_fillT(PAPER, 128,15);
+		NIRVANAP_drawT( s_tile1 , 128, 15 );	
 	}
 }
 void spr_back_clr( void ) {
@@ -487,7 +489,7 @@ void spr_back_fix( unsigned char f_inc ) {
 			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
 		}
 		/* Fix Pow */
-		if ( s_lin0 >= 104 && s_lin0 <= 136 && s_col0 >= 14 && s_col0 <= 16 ) {
+		if ( s_lin0 >= 112 && s_lin0 <= 144 && s_col0 >= 14 && s_col0 <= 16 ) {
 			spr_draw_pow();	
 		}
 }

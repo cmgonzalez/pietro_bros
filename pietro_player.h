@@ -18,13 +18,15 @@
 #define PIETRO_PLAYER_H
 
 extern void          player_init(unsigned char f_sprite, unsigned char f_lin, unsigned char f_col, unsigned char f_tile);
+extern void          player_calc_slide(void);
 extern unsigned char player_collition(void);
 extern unsigned char player_collition_check(void);
+extern unsigned char player_check_input(void);
 extern void          player_kill(void);
 extern void          player_restart(unsigned char f_sprite);
 extern unsigned char player_move(void);
 extern void          player_turn(void);
-extern int           player_move_input(void);
+extern unsigned char player_move_input(void);
 extern void          player_hit_slipice(unsigned char f_enemies);
 extern unsigned char player_hit_brick(void);
 extern void          player_hit_pow(void);

@@ -212,10 +212,10 @@ void game_loop(void) {
 	zx_print_str(22,7,"                  ");
 	ay_reset();
 	/*restore pow on map*/
-	lvl_1[495] = 17;
-	lvl_1[495 + 1] = 17;
-	lvl_1[495 + 32] = 17;
-	lvl_1[495 + 33] = 17;
+	lvl_1[POW_INDEX     ] = 17;
+	lvl_1[POW_INDEX +  1] = 17;
+	lvl_1[POW_INDEX + 32] = 17;
+	lvl_1[POW_INDEX + 33] = 17;
 	game_lives[0] = 4;
 	if (game_two_player) {
 		game_lives[1] = 4;

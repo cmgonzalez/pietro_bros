@@ -106,6 +106,7 @@
 #define ST_TURN_L									11
 #define VAL_COL										16
 #define IDX_POW										17
+#define POW_INDEX									527
 /* Starting positions*/
 #define ENEMY_SCOL_R								26
 #define ENEMY_SLIN_R								16
@@ -134,7 +135,7 @@
 #define PLAYER_SLIDE_NORMAL							4
 #define PLAYER_SLIDE_ICE							16
 #define PLAYER_MAX_JUMP								48
-#define PLAYER_HIT_BRICK_TIME						8
+#define PLAYER_HIT_BRICK_TIME						4
 #define PLAYER_VCOL_MARGIN							14 //VERTICAL COLLISION MARGIN
 #define PLAYER_HCOL_MARGIN							2  //HORIZONTAL COLLISION MARGIN
 #define PLAYER_HCOL_MARGIN_INT						4  //HORIZONTAL COLLISION MARGIN INTERNAL (1 COL = 3 INT)
