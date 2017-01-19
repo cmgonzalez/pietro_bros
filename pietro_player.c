@@ -55,8 +55,9 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	sliding[index_player] = PLAYER_SLIDE_NORMAL;
 	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
 }
-void player_calc_slide( void ) {
-	index1 = game_calc_index(lin[sprite] + 16 , col[sprite]);
+
+void player_calc_slide( unsigned char f_lin , unsigned char f_col ) {
+	index1 = game_calc_index(f_lin + 16 , f_col);
 	if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE) {
 		sliding[index_player] = PLAYER_SLIDE_ICE;
 	} else {
@@ -320,20 +321,18 @@ unsigned char player_move(void){
 	} else {
 		if ( BIT_CHK(s_state, STAT_JUMP) ) {
 			/* Jump Handling */
-			if ( jump_lin[sprite] - lin[sprite] < PLAYER_MAX_JUMP ) {
+			tmp = jump_lin[sprite] - lin[sprite];
+			if ( tmp < PLAYER_MAX_JUMP ) {
 				spr_move_up();
 				/* TODO CHECK THIS */
 				if ( jump_lin[sprite] - lin[sprite] >= PLAYER_MAX_JUMP ) spr_timer[sprite] = zx_clock() - 24;
 			} else {
 				if (game_check_time(spr_timer[sprite] , PLAYER_HIT_BRICK_TIME) ) spr_set_fall();			
 			}
-			
 			/* Parabolic ;) Jump Part 1 */
-			tmp = jump_lin[sprite] - lin[sprite];	
 			if (tmp  > 32 || tmp & 7) { //mod 8
 				player_move_horizontal();
 			}
-			
 		} else {
 			if ( BIT_CHK(s_state, STAT_FALL) ){
 				/* Falling Handling */
@@ -344,7 +343,7 @@ unsigned char player_move(void){
 					player_move_horizontal();
 				}
 				/* Determine Sliding */
-				player_calc_slide();
+				player_calc_slide(lin[sprite],col[sprite]);
 				if ( BIT_CHK(s_state, STAT_DIRL) == BIT_CHK(s_state, STAT_DIRR) ) {
 					sliding[index_player] = 0;
 				}
@@ -371,8 +370,9 @@ unsigned char player_move_input(void) {
 		/* Player is standing at the floor */
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
 			/* Calculate current position slide value*/
-			player_calc_slide();
-			
+			//player_calc_slide();
+			player_calc_slide(s_lin0 ,s_col0);
+		
 			if ( BIT_CHK(state_a[sprite],STAT_INERT) && spr_timer[sprite] == 0) {
 				spr_timer[sprite] = zx_clock();
 			}

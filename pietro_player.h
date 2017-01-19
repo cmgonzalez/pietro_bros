@@ -18,7 +18,7 @@
 #define PIETRO_PLAYER_H
 
 extern void          player_init(unsigned char f_sprite, unsigned char f_lin, unsigned char f_col, unsigned char f_tile);
-extern void          player_calc_slide(void);
+extern void 		 player_calc_slide( unsigned char f_lin , unsigned char f_col );
 extern unsigned char player_collition(void);
 extern unsigned char player_collition_check(void);
 extern unsigned char player_check_input(void);
