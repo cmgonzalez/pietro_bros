@@ -41,15 +41,17 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	jump_lin[f_sprite] = f_lin;
 	last_time[f_sprite] = zx_clock();
 	sprite_speed_alt[f_sprite] = 0;
+	
+	BIT_SET(state_a[f_sprite], STAT_LOCK);
 	//PLAYER ONLY VARIABLES
-	if (sprite == SPR_P1) {
+	if (f_sprite == SPR_P1) {
 		index_player = 0;
-		BIT_SET(state_a[f_sprite], STAT_LDIRL);
+		BIT_SET(state_a[f_sprite], STAT_LDIRR);
 	} else {
 		index_player = 1;
-		BIT_SET(state_a[f_sprite], STAT_LDIRR);
+		BIT_SET(state_a[f_sprite], STAT_LDIRL);
 	}
-	BIT_SET(state_a[f_sprite], STAT_LOCK);
+	
 	hit_col[index_player] = 0;
 	hit_lin[index_player] = 0;
 	sliding[index_player] = PLAYER_SLIDE_NORMAL;
@@ -149,8 +151,10 @@ void player_kill(void) {
 		spr_timer[sprite] = zx_clock();
 		if (sprite == SPR_P1) {
 			BIT_SET(state_a[sprite], STAT_LDIRL);
+			BIT_CLR(state_a[sprite], STAT_LDIRR);
 		} else {
 			BIT_SET(state_a[sprite], STAT_LDIRR);
+			BIT_CLR(state_a[sprite], STAT_LDIRL);
 		}
 	}
 }
@@ -205,12 +209,13 @@ void player_turn(void) {
 }
 
 unsigned char player_move(void){
+	
 	/* Player initial Values */
 	s_lin0 = lin[sprite];
 	s_col0 = col[sprite];
 	s_tile0 = tile[sprite] + colint[sprite];
 	s_state = state[sprite];
-	
+
 	/* Killed Player */
 	if ( BIT_CHK(s_state, STAT_KILL) ) {
 		tile[sprite] = TILE_P1_KILL + tile_offset;
@@ -257,7 +262,7 @@ unsigned char player_move(void){
 	
 	/* Player Locked */
 	if (BIT_CHK(state_a[sprite], STAT_LOCK)) {
-		if ( dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT) {
+		if ( player_check_input() ) {
 			BIT_CLR(state_a[sprite], STAT_LOCK);
 		} else {
 			return 0;		
@@ -285,38 +290,36 @@ unsigned char player_move(void){
 	player_move_input();
 	
 	s_state = state[sprite];
-	/* Slide Handling */
-	if ( !player_check_input() && sliding[index_player] > 0 && !BIT_CHK(s_state, STAT_FALL) ) {
-		/* Sliding */
-		if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
-		sound_slide();
-		player_move_horizontal();
-		sliding[index_player]--;
-		sprite_speed_alt[sprite] = 0;
-		if ( sliding[index_player] == 0 ) { 
-			BIT_SET(state_a[sprite],STAT_INERT);
-			spr_timer[sprite] = 0;
-			//NIRVANAP_fillT(PAPER, s_lin0,s_col0);
-			colint[sprite] = 0;
-			tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
-			BIT_CLR(s_state,STAT_DIRR);
-			BIT_CLR(s_state,STAT_DIRL);
-		} else {
-			tile[sprite] = spr_tile_dir(TILE_P1_SLIDR + tile_offset,sprite,12);
-		}
-	}
+
 	
 	if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL)) {
 		/* Check if the player have floor, and set fall if not */
-		if (col[sprite] & 1 ) {
-			index_d = 0;
-		} else {
-			index_d = game_calc_index( lin[sprite] + 16 , col[sprite] );
-			if (s_lin0 == GAME_LIN_FLOOR) index_d = 0;
-		}
+		index_d = game_calc_index( lin[sprite] + 16 , col[sprite] );
+		if (s_lin0 == GAME_LIN_FLOOR) index_d = 0;
+
 		if ( index_d > 0 && lvl_1[index_d] < VAL_COL  ) {
 			sprite_speed_alt[sprite] = PLAYER_FALL_SPEED;
 			BIT_SET(s_state, STAT_FALL);
+		}
+		/* Slide Handling */
+		if ( !player_check_input() && sliding[index_player] > 0 && !BIT_CHK(s_state, STAT_FALL) ) {
+			/* Sliding */
+			if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
+			sound_slide();
+			player_move_horizontal();
+			sliding[index_player]--;
+			sprite_speed_alt[sprite] = 0;
+			if ( sliding[index_player] == 0 ) { 
+				BIT_SET(state_a[sprite],STAT_INERT);
+				spr_timer[sprite] = 0;
+				//NIRVANAP_fillT(PAPER, s_lin0,s_col0);
+				colint[sprite] = 0;
+				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
+				BIT_CLR(s_state,STAT_DIRR);
+				BIT_CLR(s_state,STAT_DIRL);
+			} else {
+				tile[sprite] = spr_tile_dir(TILE_P1_SLIDR + tile_offset,sprite,12);
+			}
 		}
 	} else {
 		if ( BIT_CHK(s_state, STAT_JUMP) ) {
