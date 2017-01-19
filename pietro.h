@@ -142,9 +142,20 @@
 #define PLAYER_SPEED								2
 #define PLAYER_JUMP_SPEED							1
 #define PLAYER_FALL_SPEED							2
-#define PLAYER_INERT_TIME							8 /* Player Inertia */
+#define PLAYER_INERT_TIME							8  /* Time for Player Inertia */
+#define PLAYER_ANIM_HIT_TIME						40 /* Time for Player Hit Sprite display after kill */
 #define SPRITE_FALL_SPEED							3
 #define SPRITE_RESTART_SPEED						8
+#define ENEMY_KILLED_SPEED							8
+
+#define ENEMY_FIREBALL_START_COL_L					3
+#define ENEMY_FIREBALL_START_COL_R					28
+
+#define ENEMY_FIREBALL_START_TOP					16
+#define ENEMY_FIREBALL_START_MID					56
+#define ENEMY_FIREBALL_START_BOT					132
+
+
 /* Enemies */
 #define ENEMIES_MAX									6   //MAX QUANTITY OF ENEMIES ON SCREEN (0->6)
 #define ENEMIES_MAXJUMP								12 //MAX JUMP WHEN HIT

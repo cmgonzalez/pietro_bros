@@ -29,7 +29,8 @@
 
 void enemy_coin1(void){
 	//COINS N SLIPICE
-	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
+	//if ( spr_chktime(&sprite) && (phase_left > 0) ) {
+	if ( phase_left > 0 ) {
 		enemy_walk();
 		if ( ( lin[sprite] == GAME_LIN_FLOOR )  && ( col[sprite] == 3 || col[sprite] == 27) ) {
 			spr_destroy(sprite);
@@ -39,12 +40,12 @@ void enemy_coin1(void){
 
 void enemy_coin2(void){
 	//FIXED COINS
-	if ( spr_chktime(&sprite) ) {
+	//if ( spr_chktime(&sprite) ) {
 		++colint[sprite]; //ONLY ROTATE SPRITE
 		if (colint[sprite] == SPR_COLINT) {
 			colint[sprite] = 0;
 		}
-	}
+	//}
 }
 
 
@@ -221,12 +222,12 @@ void enemy_flip_sidestepper(unsigned int f_tile){
 
 void enemy_turn(void){
 	for ( sprite = 0; sprite < 6 ; ++sprite ) {
-		if ( class[sprite] > 0 ) {
+		if ( class[sprite] > 0 && spr_chktime(&sprite) ) {
 			s_lin0  = lin[sprite];
 			s_col0  = col[sprite];
 			s_tile0 = tile[sprite] + colint[sprite];
 			s_state = state[sprite];
-			
+			last_time[sprite] = zx_clock();
 			//KILLED ENEMY
 			if ( BIT_CHK(s_state, STAT_KILL) && !BIT_CHK(s_state, STAT_JUMP) ) {
 				spr_killed(sprite);
@@ -235,13 +236,10 @@ void enemy_turn(void){
 			
 			//FLIPPED ENEMY
 			if ( BIT_CHK(s_state,STAT_HIT) && !BIT_CHK(s_state,STAT_FALL) && !BIT_CHK(s_state,STAT_JUMP) ) {
-				if ( game_check_time(last_time[sprite],8) ) {
-					last_time[sprite] = zx_clock();
-					enemy_standard_hit();
-					++colint[sprite];
-					if (colint[sprite] > 2) colint[sprite] = 0;
-					spr_redraw();
-				}
+				enemy_standard_hit();
+				++colint[sprite];
+				if (colint[sprite] > 2) colint[sprite] = 0;
+				spr_redraw();
 				continue;
 			}
 			
@@ -277,7 +275,7 @@ void enemy_turn(void){
 
 void enemy_standard(void){
 	//SHELLCREEPERS - SIDESTEPPERS
-	if ( spr_chktime(&sprite) ) {
+	//if ( spr_chktime(&sprite) ) {
 		if ( !BIT_CHK(s_state, STAT_JUMP) ) {
 			//WALKING OR FALLING
 			sprite_speed_alt[sprite] = 0;
@@ -301,12 +299,13 @@ void enemy_standard(void){
 		}
 		//TRAVEL TROUGH PIPES
 		enemy_trip();
-	}
+	//}
 }
 
 void enemy_slipice(void){
 	//COINS N SLIPICE
-	if ( spr_chktime(&sprite) && phase_left > 0 ) {
+	//if ( spr_chktime(&sprite) && phase_left > 0 ) {
+	if ( phase_left > 0 ) {
 		if (BIT_CHK(state[sprite], STAT_ANGRY) ) {
 			//ANGRY OR FREEZING
 			NIRVANAP_halt(); // synchronize with interrupts
@@ -350,10 +349,11 @@ void enemy_slipice(void){
 void enemy_fireball_red(void){
 	
 	//BOUNCE EVERYWHERE
-	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
-
+	//if ( spr_chktime(&sprite) && (phase_left > 0) ) {
+	if ( phase_left > 0) {
 		if ( game_check_time( spr_timer[sprite], TIME_FIREBALL_RED) ) {
 			spr_timer[sprite] = zx_clock();
+			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
 			BIT_SET(s_state, STAT_KILL);
 		} else {
 			
@@ -391,7 +391,8 @@ void enemy_fireball_red(void){
 
 void enemy_fireball_green(void){
 	// FIREBALL_GREEN
-	if ( spr_chktime(&sprite) && (phase_left > 0) ) {
+	//if ( spr_chktime(&sprite) && (phase_left > 0) ) {
+	if ( phase_left > 0 ) {
 		index1 = abs(jump_lin[sprite] - lin[sprite]);
 		if (index1 > 8) {
 			BIT_FLP(s_state, STAT_JUMP);
@@ -409,6 +410,7 @@ void enemy_fireball_green(void){
 		if ( ( col[sprite] ==  0 && BIT_CHK(s_state, STAT_DIRL) ) ||
 			 ( col[sprite] == 30 && BIT_CHK(s_state, STAT_DIRR)) ) {
 			spr_timer[sprite] = zx_clock();
+			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
 			BIT_SET(s_state, STAT_KILL);
 		}
 	}
@@ -417,7 +419,7 @@ void enemy_fireball_green(void){
 void enemy_fighterfly(void){
 	// FIGHTERFLY
 	
-	if ( spr_chktime(&sprite) ) {
+	//if ( spr_chktime(&sprite) ) {
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
 			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_13);
 			//TODO TIMER ...
@@ -445,7 +447,7 @@ void enemy_fighterfly(void){
 			}
 		}
 		enemy_trip();
-	}
+	//}
 }
 
 void enemy_trip(void){
@@ -614,7 +616,9 @@ void enemy_kill(unsigned char f_sprite){
 	}
 	
 	BIT_SET(state[f_sprite], STAT_JUMP);
+	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED;
 	BIT_SET(state[f_sprite], STAT_KILL);
+	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED;
 	player_score_add(80 << hit_count); //BONUS!
 	++hit_count;
 	spr_timer[f_sprite] = zx_clock();

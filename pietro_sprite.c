@@ -39,20 +39,23 @@ unsigned char spr_chktime( unsigned char *sprite ) {
 unsigned char spr_move_up( void ){
 	//12
 	//43
-	if ((lin[sprite] & 7) == 0) {
-		index1 = game_calc_index( lin[sprite] - LIN_INC , col[sprite]);
-		if ( !game_check_maze( index1 ) ) {
-			if (sprite >= SPR_P2 ) {
-				index2 = index1 + 1;
-				if(!player_hit_brick()) {
-					player_hit_pow();
-				};
-				return 1;
+	if (sprite >= SPR_P2 || class[sprite] == FIREBALL_RED) {
+		if ((lin[sprite] & 7) == 0) {
+			index1 = game_calc_index( lin[sprite] - LIN_INC , col[sprite]);
+			if ( !game_check_maze( index1 ) ) {
+				if (sprite >= SPR_P2 ) {
+					index2 = index1 + 1;
+					if(!player_hit_brick()) {
+						player_hit_pow();
+					};
+					return 1;
+				}
+				spr_set_fall();
+				return 0;
 			}
-			spr_set_fall();
-			return 0;
-		}
+		}	
 	}
+	
 	
 	
 	lin[sprite] = lin[sprite] - LIN_INC; 
@@ -188,69 +191,71 @@ unsigned char spr_killed( unsigned char f_sprite) {
 }
 
 void spr_anim_fall( unsigned char f_sprite) {
-	
-	if (lin[f_sprite] < GAME_LIN_FLOOR) {
+//	if ( spr_chktime(&sprite) ) {
 		
-		/* Move sprite down screen n draw*/
-		s_col0 = col[f_sprite];
-		s_lin0 = lin[f_sprite];
-		lin[f_sprite] = s_lin0+ (LIN_INC << 1);
-		NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], s_col0);
-		/* Sprite Falling */
-		spr_back_fix(0);
-
-		
-	} else {
-		s_col1 = col[f_sprite];
-		spr_water_splash_draw(s_col1);
-		/* Sprite reach floor */
-		if (f_sprite >= SPR_P2)  {
-			/* Player Die */
-			if ( player_lost_life() ) {
-				/* Player Lost a Life */
-				NIRVANAP_halt();
-				NIRVANAP_fillT(PAPER, lin[f_sprite], col[f_sprite]);
-				player_restart(f_sprite);
-			} else {
-				/* Player Dies */
-				game_print_footer();
-				NIRVANAP_fillT(PAPER, lin[f_sprite], col[f_sprite]);
-				col[f_sprite] = 0;
-				lin[f_sprite] = 0;
-				class[f_sprite] = 0;
-				state[f_sprite] = 0;
-				NIRVANAP_spriteT(f_sprite, TILE_EMPTY, 0,0);
-			}
-		} else {
-			/* Enemy dies */
-			spr_destroy(f_sprite);
+		if (lin[f_sprite] < GAME_LIN_FLOOR) {
 			
-			/*Set end of phase to be readed on game_loop*/
-			if (phase_left <= 0) phase_end = 1;
+			/* Move sprite down screen n draw*/
+			s_col0 = col[f_sprite];
+			s_lin0 = lin[f_sprite];
+			lin[f_sprite] = s_lin0+ (LIN_INC << 1);
+			NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], s_col0);
+			/* Sprite Falling */
+			spr_back_fix(0);
+
+			
+		} else {
+			s_col1 = col[f_sprite];
+			spr_water_splash_draw(s_col1);
+			/* Sprite reach floor */
+			if (f_sprite >= SPR_P2)  {
+				/* Player Die */
+				if ( player_lost_life() ) {
+					/* Player Lost a Life */
+					NIRVANAP_halt();
+					NIRVANAP_fillT(PAPER, lin[f_sprite], col[f_sprite]);
+					player_restart(f_sprite);
+				} else {
+					/* Player Dies */
+					game_print_footer();
+					NIRVANAP_fillT(PAPER, lin[f_sprite], col[f_sprite]);
+					col[f_sprite] = 0;
+					lin[f_sprite] = 0;
+					class[f_sprite] = 0;
+					state[f_sprite] = 0;
+					NIRVANAP_spriteT(f_sprite, TILE_EMPTY, 0,0);
+				}
+			} else {
+				/* Enemy dies */
+				spr_destroy(f_sprite);
+				
+				/*Set end of phase to be readed on game_loop*/
+				if (phase_left <= 0) phase_end = 1;
+			}
+			/* Restore lower pipes */
+			if (s_col1 <= 4  ) spr_back_fix3();
+			if (s_col1 >= 26 ) spr_back_fix4();
 		}
-		/* Restore lower pipes */
-		if (s_col1 <= 4  ) spr_back_fix3();
-		if (s_col1 >= 26 ) spr_back_fix4();
-	}
+//	}
 }
 
 void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
-	if ( game_check_time(last_time[f_sprite],10) ) {
-		last_time[f_sprite] = zx_clock();
-		tmp0 = zx_clock() - spr_timer[f_sprite];
-		tmp = 2;
-		if ( tmp0 <= 40 ) {
-			tmp = 1;
-		}
-		if ( tmp0 <= 20 ) {
-			tmp = 0;
-		}
-		if ( tmp0 <= 60 ) {
-			NIRVANAP_spriteT(f_sprite, f_tile + tmp, lin[f_sprite], col[f_sprite]);
-		} else {
-			spr_destroy(f_sprite);
-		}
+	
+	last_time[f_sprite] = zx_clock();
+	tmp0 = zx_clock() - spr_timer[f_sprite];
+	tmp = 2;
+	if ( tmp0 <= 40 ) {
+		tmp = 1;
 	}
+	if ( tmp0 <= 20 ) {
+		tmp = 0;
+	}
+	if ( tmp0 <= 60 ) {
+		NIRVANAP_spriteT(f_sprite, f_tile + tmp, lin[f_sprite], col[f_sprite]);
+	} else {
+		spr_destroy(f_sprite);
+	}
+	
 }
 
 /*

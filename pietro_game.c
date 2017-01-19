@@ -546,13 +546,13 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 		s_lin0 = ENEMY_SLIN_L;
 		s_col0 = ENEMY_SCOL_L;
 		s_col1 = 2;
-		if (f_class == FIREBALL_RED ) s_col1 = 3;
+		if (f_class == FIREBALL_RED ) s_col1 = ENEMY_FIREBALL_START_COL_L;
 		tmp1 = DIR_RIGHT;
 	} else {
 		s_lin0 = ENEMY_SLIN_R;
 		s_col0 = ENEMY_SCOL_R;
 		s_col1 = 30;
-		if (f_class == FIREBALL_RED ) s_col1 = 28;
+		if (f_class == FIREBALL_RED ) s_col1 = ENEMY_FIREBALL_START_COL_R;
 		tmp1 = DIR_LEFT;
 	}
 
@@ -564,13 +564,13 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	if (f_class == FIREBALL_GREEN || f_class == FIREBALL_RED) {
 		tmp_uc = rand() % 3;
 		if (tmp_uc == 0) {
-			tmp_uc = 16;
+			tmp_uc = ENEMY_FIREBALL_START_TOP;  /* ROW TOP */
 		}
 		if (tmp_uc == 1) {
-			tmp_uc = 40;
+			tmp_uc = ENEMY_FIREBALL_START_MID;  /* ROW MIDDLE */
 		}
 		if (tmp_uc == 2) {
-			tmp_uc = 132;
+			tmp_uc = ENEMY_FIREBALL_START_BOT; /* ROW BOTTOM */
 		}
 		s_col0 = s_col1;
 	}

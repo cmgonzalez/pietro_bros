@@ -219,7 +219,7 @@ unsigned char player_move(void){
 	/* Killed Player */
 	if ( BIT_CHK(s_state, STAT_KILL) ) {
 		tile[sprite] = TILE_P1_KILL + tile_offset;
-		if ( game_check_time(spr_timer[sprite], 40 ) ) { //TODO DEFINE
+		if ( game_check_time(spr_timer[sprite], PLAYER_ANIM_HIT_TIME ) ) { 
 			spr_killed(sprite);
 		}
 		return 0;
@@ -471,6 +471,7 @@ void player_push(void){
 void player_hit_slipice(unsigned char f_enemies) {
 	player_score_add(50);
 	sound_coin();
+	sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
 	BIT_SET(state[f_enemies], STAT_KILL);
 	spr_timer[f_enemies] = zx_clock();
 }
@@ -564,6 +565,7 @@ void player_coin(unsigned char f_enemies, unsigned char f_score) {
 		ay_fx_play(ay_effect_10); //COIN SOUND
 	}
 	sound_coin();
+	sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
 	BIT_SET(state[f_enemies], STAT_KILL);
 	spr_timer[f_enemies] = zx_clock();
 	if (game_bonus){
