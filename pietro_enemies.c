@@ -29,7 +29,6 @@
 
 void enemy_coin1(void){
 	//COINS N SLIPICE
-	//if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 	if ( phase_left > 0 ) {
 		enemy_walk();
 		if ( ( lin[sprite] == GAME_LIN_FLOOR )  && ( col[sprite] == 3 || col[sprite] == 27) ) {
@@ -40,12 +39,10 @@ void enemy_coin1(void){
 
 void enemy_coin2(void){
 	//FIXED COINS
-	//if ( spr_chktime(&sprite) ) {
-		++colint[sprite]; //ONLY ROTATE SPRITE
-		if (colint[sprite] == SPR_COLINT) {
-			colint[sprite] = 0;
-		}
-	//}
+	++colint[sprite]; //ONLY ROTATE SPRITE
+	if (colint[sprite] == SPR_COLINT) {
+		colint[sprite] = 0;
+	}
 }
 
 
@@ -179,7 +176,7 @@ void enemy_flip_change_dir( unsigned char f_keep ) {
 void enemy_flip(unsigned int f_tile){
 
 	spr_timer[enemies] = zx_clock();
-	BIT_FLP(state[enemies], STAT_JUMP);
+	BIT_SET(state[enemies], STAT_JUMP);
 	BIT_CLR(state[enemies], STAT_FALL);
 	BIT_FLP(state[enemies], STAT_HIT);
 	BIT_CLR(state[enemies], STAT_UPGR);
@@ -236,6 +233,7 @@ void enemy_turn(void){
 			
 			//FLIPPED ENEMY
 			if ( BIT_CHK(s_state,STAT_HIT) && !BIT_CHK(s_state,STAT_FALL) && !BIT_CHK(s_state,STAT_JUMP) ) {
+				sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
 				enemy_standard_hit();
 				++colint[sprite];
 				if (colint[sprite] > 2) colint[sprite] = 0;
@@ -278,13 +276,11 @@ void enemy_standard(void){
 	//if ( spr_chktime(&sprite) ) {
 		if ( !BIT_CHK(s_state, STAT_JUMP) ) {
 			//WALKING OR FALLING
-			sprite_speed_alt[sprite] = 0;
 			enemy_walk();
-	/* 		//JUMP BEFORE ENTER PIPES
+	 		//JUMP BEFORE ENTER PIPES
 			if ( lin[sprite] == GAME_LIN_FLOOR && ( col[sprite] < 5 || col[sprite] > 25) ) {
 				BIT_SET(s_state, STAT_JUMP);
 			}
-	*/
 		} else {
 			//JUMPING
 			sprite_speed_alt[sprite] = ENEMY_JUMP_SPEED;
@@ -304,7 +300,6 @@ void enemy_standard(void){
 
 void enemy_slipice(void){
 	//COINS N SLIPICE
-	//if ( spr_chktime(&sprite) && phase_left > 0 ) {
 	if ( phase_left > 0 ) {
 		if (BIT_CHK(state[sprite], STAT_ANGRY) ) {
 			//ANGRY OR FREEZING
@@ -349,7 +344,6 @@ void enemy_slipice(void){
 void enemy_fireball_red(void){
 	
 	//BOUNCE EVERYWHERE
-	//if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 	if ( phase_left > 0) {
 		if ( game_check_time( spr_timer[sprite], TIME_FIREBALL_RED) ) {
 			spr_timer[sprite] = zx_clock();
@@ -391,7 +385,6 @@ void enemy_fireball_red(void){
 
 void enemy_fireball_green(void){
 	// FIREBALL_GREEN
-	//if ( spr_chktime(&sprite) && (phase_left > 0) ) {
 	if ( phase_left > 0 ) {
 		index1 = abs(jump_lin[sprite] - lin[sprite]);
 		if (index1 > 8) {
@@ -418,36 +411,33 @@ void enemy_fireball_green(void){
 
 void enemy_fighterfly(void){
 	// FIGHTERFLY
+	if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
+		if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_13);
+		//TODO TIMER ...
+		if ( game_check_time( spr_timer[sprite], 26 ) ) {
+			BIT_SET(s_state, STAT_JUMP);
+			jump_lin[sprite] = lin[sprite];
+			spr_timer[sprite]=0;
+		}
+	}
+	if ( BIT_CHK(s_state, STAT_JUMP) ) {
+		//FIREFLY MAX JUMP
+		if ( jump_lin[sprite] - lin[sprite] >= 8) {
+			spr_set_fall();
+		}
 	
-	//if ( spr_chktime(&sprite) ) {
-		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
-			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_13);
-			//TODO TIMER ...
-			if ( game_check_time( spr_timer[sprite], 26 ) ) {
-				BIT_SET(s_state, STAT_JUMP);
-				jump_lin[sprite] = lin[sprite];
-				spr_timer[sprite]=0;
-			}
+		spr_move_horizontal();
+		spr_move_up();
+	} else {
+		if (spr_timer[sprite]==0) {
+			spr_timer[sprite] = zx_clock();
 		}
-		if ( BIT_CHK(s_state, STAT_JUMP) ) {
-			//FIREFLY MAX JUMP
-			if ( jump_lin[sprite] - lin[sprite] >= 8) {
-				spr_set_fall();
-			}
-		
+		if (BIT_CHK(s_state, STAT_FALL)) {
+			enemy_walk();
 			spr_move_horizontal();
-			spr_move_up();
-		} else {
-			if (spr_timer[sprite]==0) {
-				spr_timer[sprite] = zx_clock();
-			}
-			if (BIT_CHK(s_state, STAT_FALL)) {
-				enemy_walk();
-				spr_move_horizontal();
-			}
 		}
-		enemy_trip();
-	//}
+	}
+	enemy_trip();
 }
 
 void enemy_trip(void){
@@ -461,6 +451,7 @@ void enemy_trip(void){
 			col[sprite] =  ENEMY_SCOL_R;
 			BIT_SET(s_state, STAT_DIRL);
 			BIT_CLR(s_state, STAT_DIRR);
+			BIT_CLR(s_state, STAT_JUMP);
 			sound_enter_enemy();
 			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_04);
 		}
@@ -471,6 +462,7 @@ void enemy_trip(void){
 			col[sprite] =  ENEMY_SCOL_L;
 			BIT_SET(s_state, STAT_DIRR);
 			BIT_CLR(s_state, STAT_DIRL);
+			BIT_CLR(s_state, STAT_JUMP);
 			sound_enter_enemy();
 			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_04);
 		}
@@ -516,7 +508,6 @@ void enemy_upgrade(unsigned char f_class, unsigned int f_tile){
 	class[sprite] = f_class;
 	tile[sprite] = f_tile + 6;
 	BIT_SET(state[sprite], STAT_UPGR);
-	//BIT_CLR(state[sprite], STAT_ANGRY);
 }
 
 void enemy_walk(void){
@@ -551,10 +542,11 @@ void enemy_walk(void){
 		
 	} else {
 		//OVER PLATFORM
-		sprite_speed_alt[sprite] = 0;
+		
 		if ( BIT_CHK(s_state, STAT_FALL) ) {
 			BIT_CLR(s_state, STAT_FALL);
 			jump_lin[sprite] = 0;
+			sprite_speed_alt[sprite] = 0;
 		}
 		
 		if ( !BIT_CHK(s_state, STAT_HIT) && !BIT_CHK(state_a[sprite], STAT_TURN) ) {
@@ -563,20 +555,16 @@ void enemy_walk(void){
 				spr_timer_c[sprite] = zx_clock();
 				enemy_collition();
 			}
-			//TODO TEST PERFORMANCE
-			//enemy_collition();
 			spr_move_horizontal(); 
 		}
 		
 		if (BIT_CHK(state_a[sprite], STAT_TURN)) {
-			if ( game_check_time( spr_timer[sprite], 8 ) ) {
-				spr_timer[sprite] = zx_clock();
-				if (colint[sprite] < 2) {
-					++colint[sprite]; 
-				} else {
-					BIT_CLR(state_a[sprite], STAT_TURN);
-					tile[sprite] = spr_tile(sprite);
-				}
+			spr_timer[sprite] = zx_clock();
+			if (colint[sprite] < 2) {
+				++colint[sprite]; 
+			} else {
+				BIT_CLR(state_a[sprite], STAT_TURN);
+				tile[sprite] = spr_tile(sprite);
 			}
 		}
 	}
@@ -590,7 +578,7 @@ void enemy_init(unsigned char f_sprite,unsigned  char f_lin,unsigned  char f_col
 	tmp = 0;
 	state[f_sprite] = 0;
 	state_a[f_sprite] = 0;
-	jump_lin[f_sprite] = 0;//f_lin + 16;
+	jump_lin[f_sprite] = 0;
 	if (f_dir == 1){
 		BIT_SET(state[f_sprite], STAT_DIRR);
 	} else {
@@ -616,9 +604,10 @@ void enemy_kill(unsigned char f_sprite){
 	}
 	
 	BIT_SET(state[f_sprite], STAT_JUMP);
-	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED;
 	BIT_SET(state[f_sprite], STAT_KILL);
-	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED;
+	
+	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED; //TODO CHECK DIFF SPEEDS
+	
 	player_score_add(80 << hit_count); //BONUS!
 	++hit_count;
 	spr_timer[f_sprite] = zx_clock();
