@@ -30,9 +30,6 @@
 #include "pietro_zx.h"
 #include "macros.h"
 
-#ifdef __SCCZ80
-static unsigned char NIRVANAP_isr[3] @ (56698+328*NIRVANAP_TOTAL_ROWS);
-#endif
 
 unsigned int game_calc_index( unsigned char f_lin , unsigned char f_col ) {
 	return f_col + ((f_lin >> 3) << 5);
@@ -175,7 +172,7 @@ void game_phase_init(void) {
 	game_print_footer();
 }
 
-void game_print_header() {
+void game_print_header(void) {
 	game_phase_print_score_back();
 	zx_print_ink(INK_WHITE);
 //	if (game_two_player) zx_print_int(0,25 , 0);
@@ -184,7 +181,7 @@ void game_print_header() {
 }
 
 
-void game_phase_print(unsigned char f_row) {
+void game_phase_print(unsigned char f_row) __z88dk_fastcall {
 	zx_print_str(f_row, 11, "PHASE");
 	if (phase_curr < 31) {
 		if (!game_bonus) {
@@ -404,7 +401,7 @@ void game_bonus_summary(void) {
 	}
 }
 
-void game_bonus_summary_player(unsigned char f_index)  {
+void game_bonus_summary_player(unsigned char f_index) __z88dk_fastcall {
 	NIRVANAP_halt(); // synchronize with interrupts
 	if (f_index==0) {
 		s_lin1 = 6;
@@ -446,7 +443,7 @@ void game_kill_all_sprites(void) { //TODO MOVE TO PIETRO_SPRITE.C
 	}
 }
 
-unsigned char game_check_maze(int f_index) {
+unsigned char game_check_maze(int f_index) __z88dk_fastcall {
 	return lvl_1[f_index] < VAL_COL && lvl_1[f_index+1] < VAL_COL;
 }
 
@@ -525,7 +522,7 @@ unsigned char game_enemy_rnd(void) {
 }
 
 
-unsigned char game_enemy_add1(unsigned char f_class) {
+unsigned char game_enemy_add1(unsigned char f_class) __z88dk_fastcall {
 	if	(
 		(f_class == SHELLCREEPER_BLUE) ||
 		(f_class == SIDESTEPPER_MAGENTA) ||
@@ -588,7 +585,7 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 	return 0;
 }
 
-unsigned char game_enemy_add_get_index( unsigned char f_search) {
+unsigned char game_enemy_add_get_index( unsigned char f_search) __z88dk_fastcall {
 	for (enemies = 0; enemies <= 5 ; ++enemies ) {
 		if ( class[enemies] == (unsigned char)f_search ) {
 			return enemies;
@@ -613,7 +610,7 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 	}
 }
 
-void game_unfreeze_all() {
+void game_unfreeze_all(void) {
 	for (index1 = 192; index1 <= 512+32; index1++ ) {
 		if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE ) {
 			lvl_1[index1] = GAME_MAP_PLATFORM;
@@ -621,7 +618,7 @@ void game_unfreeze_all() {
 	}
 }
 
-void game_freeze_all() {
+void game_freeze_all(void) {
 	for (index1 = 192; index1 <= 512+32; index1++ ) {
 		if (lvl_1[index1] == GAME_MAP_PLATFORM ) {
 			lvl_1[index1] = GAME_MAP_PLATFORM_FREEZE;
@@ -638,7 +635,7 @@ void game_print_score(void) {
 }
 
 
-void game_paint_attrib(unsigned char e_r1) {
+void game_paint_attrib(unsigned char e_r1) __z88dk_fastcall {
 	for ( tmp0=e_r1; tmp0 <= 19; ++tmp0){
 		game_paint_attrib_lin(1,31,(tmp0<<3)+8);
 	}
@@ -816,7 +813,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 	return	(unsigned char) ( s_lin1 -	f_start	 ) / 2;
 }
 
-void game_end() {
+void game_end(void) {
 	unsigned char f_p1, f_p2;
 	game_kill_all_sprites();
 	spr_draw_clear();
@@ -894,7 +891,7 @@ void game_end() {
 #define HOF_P1_COL    6
 #define HOF_P2_COL   22
 
-HOF_ENTRY *game_hall_check(unsigned char p)
+HOF_ENTRY *game_hall_check(unsigned char p) __z88dk_fastcall
 {	
 	if (player_score[p] > hof[9].score) {
 		hof[9].score = player_score[p];
@@ -987,7 +984,7 @@ void game_hall_enter(void) {
 	game_menu_back(0);
 }
 
-void game_menu_back(unsigned char f_start)
+void game_menu_back(unsigned char f_start) __z88dk_fastcall
 {
 	game_menu_sel = 0;
 	s_lin1 = f_start;
@@ -995,7 +992,7 @@ void game_menu_back(unsigned char f_start)
 	entry_time = zx_clock(); 
 }
 
-void game_hall_enter_phs(unsigned char p)
+void game_hall_enter_phs(unsigned char p) __z88dk_fastcall
 {
 	if (p == 0)
 	{
@@ -1053,7 +1050,7 @@ void game_hall_print_p(unsigned char index, unsigned char frame)
 	}
 }
 
-unsigned char game_hall_edit_p(unsigned char index)
+unsigned char game_hall_edit_p(unsigned char index) __z88dk_fastcall
 {
 	--index;
 	

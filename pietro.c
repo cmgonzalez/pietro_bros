@@ -112,13 +112,7 @@ int main(void) {
 	k1.left	 = in_key_scancode('o');
 	k1.right  = in_key_scancode('p');
 
-#ifdef __SDCC
 	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
-#endif
-
-#ifdef __SCCZ80
-	joyfunc1 = in_stick_sinclair1;
-#endif
 
 	//Keyboard Handling P2
 
@@ -126,13 +120,7 @@ int main(void) {
 	k2.left	 = in_key_scancode('q');
 	k2.right  = in_key_scancode('w');
 
-#ifdef __SDCC
 	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
-#endif
-
-#ifdef __SCCZ80
-	joyfunc2 = in_stick_sinclair2;
-#endif
 
 	//Delay (NO NIRVANA)
 

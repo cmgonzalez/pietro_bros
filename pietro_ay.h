@@ -27,23 +27,10 @@
 
 // AY Control
 
-#ifdef __SDCC
-
 extern void              ay_reset(void) __preserves_regs(b,c);
 extern unsigned char     ay_is_playing(void) __preserves_regs(b,c,d,e);
 extern void              ay_midi_play(void *song) __preserves_regs(b,c) __z88dk_fastcall;
 extern void              ay_fx_play(void *effect) __preserves_regs(b,c) __z88dk_fastcall;
-
-#endif
-
-#ifdef __SCCZ80
-
-extern void              ay_reset(void);
-extern unsigned char     ay_is_playing(void);
-extern void __FASTCALL__ ay_midi_play(void *song);
-extern void __FASTCALL__ ay_fx_play(void *effect);
-
-#endif
 
 // AY Midi Music
 

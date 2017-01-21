@@ -22,14 +22,8 @@ extern unsigned char spec128;
 
 extern unsigned char btiles[];
 extern char *joynames[];
-#ifdef __SDCC
 extern uint16_t (*joyfunc1)(udk_t *);
 extern uint16_t (*joyfunc2)(udk_t *);
-#endif
-#ifdef __SCCZ80
-extern void *joyfunc1;
-extern void *joyfunc2;
-#endif
 extern udk_t k1;
 extern udk_t k2;
 extern unsigned char dirs;

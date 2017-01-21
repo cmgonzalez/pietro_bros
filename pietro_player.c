@@ -159,7 +159,7 @@ void player_kill(void) {
 	}
 }
 
-void player_restart(unsigned char f_sprite){
+void player_restart(unsigned char f_sprite) __z88dk_fastcall {
 	ay_fx_play(ay_effect_15);
 	if (f_sprite == SPR_P1) {
 		player_init( SPR_P1,0,14,TILE_P1_STANR);
@@ -468,7 +468,7 @@ void player_push(void){
 	s_col0 = tmp0;
 }
 
-void player_hit_slipice(unsigned char f_enemies) {
+void player_hit_slipice(unsigned char f_enemies) __z88dk_fastcall {
 	player_score_add(50);
 	sound_coin();
 	sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
@@ -578,8 +578,8 @@ void player_coin(unsigned char f_enemies, unsigned char f_score) {
 }
 
 
-void player_score_add(unsigned int f_score){
-	player_score[index_player] = player_score[index_player] + f_score;
+void player_score_add(unsigned int f_score) __z88dk_fastcall {
+	player_score[index_player] += f_score;
 	//CHECK FOR TOP SCORE
 	if ( player_score[index_player] > game_score_top ) {
 		game_score_top = player_score[index_player];
