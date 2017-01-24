@@ -233,7 +233,7 @@ void enemy_turn(void){
 			
 			//FLIPPED ENEMY
 			if ( BIT_CHK(s_state,STAT_HIT) && !BIT_CHK(s_state,STAT_FALL) && !BIT_CHK(s_state,STAT_JUMP) ) {
-				sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
+				sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Flipped enemy */
 				enemy_standard_hit();
 				++colint[sprite];
 				if (colint[sprite] > 2) colint[sprite] = 0;
@@ -347,7 +347,7 @@ void enemy_fireball_red(void){
 	if ( phase_left > 0) {
 		if ( game_check_time( spr_timer[sprite], TIME_FIREBALL_RED) ) {
 			spr_timer[sprite] = zx_clock();
-			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
+			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Kill by timeout */
 			BIT_SET(s_state, STAT_KILL);
 		} else {
 			
@@ -403,7 +403,7 @@ void enemy_fireball_green(void){
 		if ( ( col[sprite] ==  0 && BIT_CHK(s_state, STAT_DIRL) ) ||
 			 ( col[sprite] == 30 && BIT_CHK(s_state, STAT_DIRR)) ) {
 			spr_timer[sprite] = zx_clock();
-			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
+			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Kill by timeout */
 			BIT_SET(s_state, STAT_KILL);
 		}
 	}

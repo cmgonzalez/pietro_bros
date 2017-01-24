@@ -29,7 +29,7 @@ extern void          player_turn(void);
 extern unsigned char player_move_input(void);
 extern void          player_hit_slipice(unsigned char f_enemies);
 extern unsigned char player_hit_brick(void);
-extern void          player_hit_pow(void);
+extern unsigned char player_hit_pow(void);
 extern void          player_coin(unsigned char f_enemies,unsigned char f_score);
 extern void          player_score_add(unsigned int f_score);
 extern unsigned char player_lost_life(void);

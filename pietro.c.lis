@@ -685,139 +685,144 @@
 685   0000              	GLOBAL _index_player
 686   0000              	GLOBAL _sprite_other_player
 687   0000              	GLOBAL _sprite
-688   0000              	GLOBAL _player_next_extra
-689   0000              	GLOBAL _player_score
-690   0000              	GLOBAL _last_time
-691   0000              	GLOBAL _sliding
-692   0000              	GLOBAL _spr_timer_c
-693   0000              	GLOBAL _spr_timer
-694   0000              	GLOBAL _jump_lin
-695   0000              	GLOBAL _hit_col
-696   0000              	GLOBAL _hit_lin
-697   0000              	GLOBAL _colint
-698   0000              	GLOBAL _col
-699   0000              	GLOBAL _lin
-700   0000              	GLOBAL _tile
-701   0000              	GLOBAL _state_a
-702   0000              	GLOBAL _state
-703   0000              	GLOBAL _class
-704   0000              	GLOBAL _tbuffer
-705   0000              	GLOBAL _dirs
-706   0000              	GLOBAL _k2
-707   0000              	GLOBAL _k1
-708   0000              	GLOBAL _joyfunc2
-709   0000              	GLOBAL _joyfunc1
-710   0000              	GLOBAL _joynames
-711   0000              	GLOBAL _btiles
-712   0000              	GLOBAL _spec128
-713   0000              	GLOBAL _hall_valids
-714   0000              ;--------------------------------------------------------
-715   0000              ; special function registers
-716   0000              ;--------------------------------------------------------
+688   0000              	GLOBAL _player_joy
+689   0000              	GLOBAL _player_next_extra
+690   0000              	GLOBAL _player_score
+691   0000              	GLOBAL _last_time
+692   0000              	GLOBAL _sliding
+693   0000              	GLOBAL _spr_timer_c
+694   0000              	GLOBAL _spr_timer
+695   0000              	GLOBAL _jump_lin
+696   0000              	GLOBAL _hit_col
+697   0000              	GLOBAL _hit_lin
+698   0000              	GLOBAL _colint
+699   0000              	GLOBAL _col
+700   0000              	GLOBAL _lin
+701   0000              	GLOBAL _tile
+702   0000              	GLOBAL _state_a
+703   0000              	GLOBAL _state
+704   0000              	GLOBAL _class
+705   0000              	GLOBAL _tbuffer
+706   0000              	GLOBAL _dirs
+707   0000              	GLOBAL _k2
+708   0000              	GLOBAL _k1
+709   0000              	GLOBAL _joyfunc2
+710   0000              	GLOBAL _joyfunc1
+711   0000              	GLOBAL _joynames
+712   0000              	GLOBAL _btiles
+713   0000              	GLOBAL _spec128
+714   0000              	GLOBAL _hall_valids
+715   0000              ;--------------------------------------------------------
+716   0000              ; special function registers
 717   0000              ;--------------------------------------------------------
-718   0000              ; ram data
-719   0000              ;--------------------------------------------------------
-720   0000              	SECTION bss_compiler
-721   0000              defc _NIRVANAP_isr	=	0xf5d2
-722   0000              ;--------------------------------------------------------
-723   0000              ; ram data
-724   0000              ;--------------------------------------------------------
-725   0000              
-726   0000              IF 0
-727   0000              
-728   0000              ; .area _INITIALIZED removed by z88dk
-729   0000              
+718   0000              ;--------------------------------------------------------
+719   0000              ; ram data
+720   0000              ;--------------------------------------------------------
+721   0000              	SECTION bss_compiler
+722   0000              defc _NIRVANAP_isr	=	0xf5d2
+723   0000              ;--------------------------------------------------------
+724   0000              ; ram data
+725   0000              ;--------------------------------------------------------
+726   0000              
+727   0000              IF 0
+728   0000              
+729   0000              ; .area _INITIALIZED removed by z88dk
 730   0000              
-731   0000              ENDIF
-732   0000              
-733   0000              ;--------------------------------------------------------
-734   0000              ; absolute external ram data
-735   0000              ;--------------------------------------------------------
-736   0000              	SECTION IGNORE
-737   0000              ;--------------------------------------------------------
-738   0000              ; global & static initialisations
-739   0000              ;--------------------------------------------------------
-740   0000              	SECTION code_crt_init
-741   0000              ;--------------------------------------------------------
-742   0000              ; Home
-743   0000              ;--------------------------------------------------------
-744   0000              	SECTION IGNORE
-745   0000              ;--------------------------------------------------------
-746   0000              ; code
-747   0000              ;--------------------------------------------------------
-748   0000              	SECTION code_compiler
-749   0000              ;	---------------------------------
-750   0000              ; Function main
-751   0000              ; ---------------------------------
-752   0000              _main:
-753   0000  CD 00 00    	call	_ay_reset
-754   0003  21 47 46    	ld	hl,0x4647
-755   0006  22 00 00    	ld	(_attrib),hl
-756   0009  21 06 07    	ld	hl,0x0706
-757   000C  22 02 00    	ld	(_attrib + 2),hl
-758   000F  21 02 06    	ld	hl,0x0602
-759   0012  22 00 00    	ld	(_attrib_hl),hl
-760   0015  21 04 05    	ld	hl,0x0504
-761   0018  22 02 00    	ld	(_attrib_hl + 2),hl
-762   001B  3A 00 00    	ld	a,(_spec128)
-763   001E  B7          	or	a,a
-764   001F  28 04       	jr	Z,l_main_00107
-765   0021  0E 0C       	ld	c,0x0c
-766   0023  18 02       	jr	l_main_00108
-767   0025              l_main_00107:
-768   0025  0E 03       	ld	c,0x03
-769   0027              l_main_00108:
-770   0027  21 00 00    	ld	hl,_game_sound
-771   002A  71          	ld	(hl),c
-772   002B  21 00 00    	ld	hl,_game_type
-773   002E  36 00       	ld	(hl),0x00
-774   0030  21 6D 00    	ld	hl,0x006d
-775   0033  CD 00 00    	call	_in_key_scancode_fastcall
-776   0036  22 00 00    	ld	(_k1),hl
-777   0039  21 6F 00    	ld	hl,0x006f
-778   003C  CD 00 00    	call	_in_key_scancode_fastcall
-779   003F  22 04 00    	ld	(_k1 + 0x0004),hl
-780   0042  21 70 00    	ld	hl,0x0070
-781   0045  CD 00 00    	call	_in_key_scancode_fastcall
-782   0048  22 02 00    	ld	(_k1 + 0x0002),hl
-783   004B  21 00 00    	ld	hl,_in_stick_sinclair1
-784   004E  22 00 00    	ld	(_joyfunc1),hl
-785   0051  21 78 00    	ld	hl,0x0078
-786   0054  CD 00 00    	call	_in_key_scancode_fastcall
-787   0057  22 00 00    	ld	(_k2),hl
-788   005A  21 71 00    	ld	hl,0x0071
-789   005D  CD 00 00    	call	_in_key_scancode_fastcall
-790   0060  22 04 00    	ld	(_k2 + 0x0004),hl
-791   0063  21 77 00    	ld	hl,0x0077
-792   0066  CD 00 00    	call	_in_key_scancode_fastcall
-793   0069  22 02 00    	ld	(_k2 + 0x0002),hl
-794   006C  21 00 00    	ld	hl,_in_stick_sinclair2
-795   006F  22 00 00    	ld	(_joyfunc2),hl
-796   0072  21 00 00    	ld	hl,0x0000
-797   0075  CD 00 00    	call	_zx_border_fastcall
-798   0078  CD 00 00    	call	_in_wait_nokey
-799   007B  01 34 12    	ld	bc,0x1234
-800   007E              l_main_00103:
-801   007E  CD 00 00    	call	_in_test_key
-802   0081  7C          	ld	a, h
-803   0082  B5          	or	a,l
-804   0083  20 03       	jr	NZ,l_main_00101
-805   0085  03          	inc	bc
-806   0086  18 F6       	jr	l_main_00103
-807   0088              l_main_00101:
-808   0088  69          	ld	l, c
-809   0089  60          	ld	h, b
-810   008A  CD 00 00    	call	_srand_fastcall
-811   008D  CD 00 00    	call	_spr_cortina_brick
-812   0090  CD 00 00    	call	_game_start_timer
-813   0093  21 00 00    	ld	hl,_btiles
-814   0096  CD 00 00    	call	_NIRVANAP_tiles_fastcall
-815   0099  CD 00 00    	call	_NIRVANAP_start
-816   009C  2A 00 00    	ld	hl,(_curr_time)
-817   009F  22 00 00    	ld	(_frame_time),hl
-818   00A2  CD 00 00    	call	_game_menu
-819   00A5  CD 00 00    	call	_NIRVANAP_stop
-820   00A8  21 00 00    	ld	hl,0x0000
-821   00AB  C9          	ret
-822   00AC              	SECTION IGNORE
-823   0000              
+731   0000              
+732   0000              ENDIF
+733   0000              
+734   0000              ;--------------------------------------------------------
+735   0000              ; absolute external ram data
+736   0000              ;--------------------------------------------------------
+737   0000              	SECTION IGNORE
+738   0000              ;--------------------------------------------------------
+739   0000              ; global & static initialisations
+740   0000              ;--------------------------------------------------------
+741   0000              	SECTION code_crt_init
+742   0000              ;--------------------------------------------------------
+743   0000              ; Home
+744   0000              ;--------------------------------------------------------
+745   0000              	SECTION IGNORE
+746   0000              ;--------------------------------------------------------
+747   0000              ; code
+748   0000              ;--------------------------------------------------------
+749   0000              	SECTION code_compiler
+750   0000              ;	---------------------------------
+751   0000              ; Function main
+752   0000              ; ---------------------------------
+753   0000              _main:
+754   0000  CD 00 00    	call	_ay_reset
+755   0003  21 47 46    	ld	hl,0x4647
+756   0006  22 00 00    	ld	(_attrib),hl
+757   0009  21 06 07    	ld	hl,0x0706
+758   000C  22 02 00    	ld	(_attrib + 2),hl
+759   000F  21 02 06    	ld	hl,0x0602
+760   0012  22 00 00    	ld	(_attrib_hl),hl
+761   0015  21 04 05    	ld	hl,0x0504
+762   0018  22 02 00    	ld	(_attrib_hl + 2),hl
+763   001B  3A 00 00    	ld	a,(_spec128)
+764   001E  B7          	or	a,a
+765   001F  28 04       	jr	Z,l_main_00107
+766   0021  0E 0C       	ld	c,0x0c
+767   0023  18 02       	jr	l_main_00108
+768   0025              l_main_00107:
+769   0025  0E 03       	ld	c,0x03
+770   0027              l_main_00108:
+771   0027  21 00 00    	ld	hl,_game_sound
+772   002A  71          	ld	(hl),c
+773   002B  21 00 00    	ld	hl,_game_type
+774   002E  36 00       	ld	(hl),0x00
+775   0030  21 00 00    	ld	hl,0x0000
+776   0033  22 00 00    	ld	(_player_joy), hl
+777   0036  2E 01       	ld	l,0x01
+778   0038  22 02 00    	ld	(_player_joy + 0x0002),hl
+779   003B  2E 6D       	ld	l,0x6d
+780   003D  CD 00 00    	call	_in_key_scancode_fastcall
+781   0040  22 00 00    	ld	(_k1),hl
+782   0043  21 6F 00    	ld	hl,0x006f
+783   0046  CD 00 00    	call	_in_key_scancode_fastcall
+784   0049  22 04 00    	ld	(_k1 + 0x0004),hl
+785   004C  21 70 00    	ld	hl,0x0070
+786   004F  CD 00 00    	call	_in_key_scancode_fastcall
+787   0052  22 02 00    	ld	(_k1 + 0x0002),hl
+788   0055  21 7A 00    	ld	hl,0x007a
+789   0058  CD 00 00    	call	_in_key_scancode_fastcall
+790   005B  22 00 00    	ld	(_k2),hl
+791   005E  21 71 00    	ld	hl,0x0071
+792   0061  CD 00 00    	call	_in_key_scancode_fastcall
+793   0064  22 04 00    	ld	(_k2 + 0x0004),hl
+794   0067  21 77 00    	ld	hl,0x0077
+795   006A  CD 00 00    	call	_in_key_scancode_fastcall
+796   006D  22 02 00    	ld	(_k2 + 0x0002),hl
+797   0070  21 00 00    	ld	hl,_in_stick_sinclair1
+798   0073  22 00 00    	ld	(_joyfunc1),hl
+799   0076  21 00 00    	ld	hl,_in_stick_sinclair2
+800   0079  22 00 00    	ld	(_joyfunc2),hl
+801   007C  21 00 00    	ld	hl,0x0000
+802   007F  CD 00 00    	call	_zx_border_fastcall
+803   0082  CD 00 00    	call	_in_wait_nokey
+804   0085  01 34 12    	ld	bc,0x1234
+805   0088              l_main_00103:
+806   0088  CD 00 00    	call	_in_test_key
+807   008B  7C          	ld	a, h
+808   008C  B5          	or	a,l
+809   008D  20 03       	jr	NZ,l_main_00101
+810   008F  03          	inc	bc
+811   0090  18 F6       	jr	l_main_00103
+812   0092              l_main_00101:
+813   0092  69          	ld	l, c
+814   0093  60          	ld	h, b
+815   0094  CD 00 00    	call	_srand_fastcall
+816   0097  CD 00 00    	call	_spr_cortina_brick
+817   009A  CD 00 00    	call	_game_start_timer
+818   009D  21 00 00    	ld	hl,_btiles
+819   00A0  CD 00 00    	call	_NIRVANAP_tiles_fastcall
+820   00A3  CD 00 00    	call	_NIRVANAP_start
+821   00A6  2A 00 00    	ld	hl,(_curr_time)
+822   00A9  22 00 00    	ld	(_frame_time),hl
+823   00AC  CD 00 00    	call	_game_menu
+824   00AF  CD 00 00    	call	_NIRVANAP_stop
+825   00B2  21 00 00    	ld	hl,0x0000
+826   00B5  C9          	ret
+827   00B6              	SECTION IGNORE
+828   0000              

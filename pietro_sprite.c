@@ -42,16 +42,16 @@ unsigned char spr_move_up( void ){
 	if (sprite >= SPR_P2 || class[sprite] == FIREBALL_RED) {
 		if ((lin[sprite] & 7) == 0) {
 			index1 = game_calc_index( lin[sprite] - LIN_INC , col[sprite]);
-			if ( !game_check_maze( index1 ) ) {
+			index2 = index1 + 1;
+			if ( !game_check_maze( index1 ) ) { // || !game_check_maze( index2 ) ) {
+				/* Only Players can hit objects */
 				if (sprite >= SPR_P2 ) {
-					index2 = index1 + 1;
-					if(!player_hit_brick()) {
-						player_hit_pow();
-					};
-					return 1;
+					if (  !player_hit_pow() ) {
+						player_hit_brick();
+					}
 				}
-				spr_set_fall();
-				return 0;
+				spr_set_fall();	
+				return 1;	
 			}
 		}	
 	}
@@ -194,7 +194,7 @@ void spr_anim_fall( unsigned char f_sprite) {
 //	if ( spr_chktime(&sprite) ) {
 		
 		if (lin[f_sprite] < GAME_LIN_FLOOR) {
-			
+zx_print_int(20,0,sprite_speed_alt[sprite]);
 			/* Move sprite down screen n draw*/
 			s_col0 = col[f_sprite];
 			s_lin0 = lin[f_sprite];

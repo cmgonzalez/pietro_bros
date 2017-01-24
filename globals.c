@@ -25,23 +25,14 @@ unsigned char spec128;
 //# CONTROL VARIABLES                                                                           #
 //#                                                                                             #
 //###############################################################################################
-char *joynames[] = { "Keyboard QAOPM", "Kempston", "Sinclair 1", "Sinclair 2" };
 
-#ifdef __SDCC
+char *joynames[] = { "SJ1", "SJ2", "KB1", "KB2", "KEM", "CUR", "FUL" };
 uint16_t (*joyfunc1)(udk_t *);			// pointer to joystick function Player 1 
 uint16_t (*joyfunc2)(udk_t *);			// pointer to joystick function Player 1
-#endif
-
-#ifdef __SCCZ80
-void *joyfunc1;							// pointer to joystick function Player 1
-void *joyfunc2;							// pointer to joystick function Player 1
-#endif
-
 udk_t k1;
 udk_t k2;
 unsigned char dirs;
-
-unsigned char tbuffer[7];			// temporary buffer
+unsigned char tbuffer[7];			    // temporary buffer
 
 //SPRITES GAME ARRAYS
 unsigned char class[8];					//CLASS OF SPRITE
@@ -62,6 +53,7 @@ unsigned char hit_col[2];				//HIT BRICK COL
 unsigned char sliding[2];				//SLIDING COUNTER
 unsigned int  player_score[2];			//SCORE ARRAYS
 unsigned int  player_next_extra[2];		//SCORE ARRAYS
+unsigned int  player_joy[2];			//JOYSTICK ARRAYS
 
 unsigned char	index_player;
 unsigned char	sprite_other_player;

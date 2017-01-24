@@ -665,41 +665,53 @@ void game_menu_config(void) {
 	while (cont) {
 		while ((joyfunc1)(&k1) != 0);
 		//MENU
-		zx_print_str(14,10,spec128 ? "SOUND AY  " : "SOUND 48  ");
-		zx_print_str(16,10,"GAME      ");
+        zx_print_str(14,10,spec128 ? "SOUND AY  " : "SOUND 48  ");
+		zx_print_str(15,10,"GAME      ");
+		zx_print_str(16,10,"P1 CTRL   ");
+		zx_print_str(17,10,"P2 CTRL   ");
 		zx_print_str(18,10,"BACK      ");
 		
-		zx_print_str(14,20,(game_sound & (GAME_SOUND_48_FX_ON | GAME_SOUND_AY_FX_ON)) ? "ON " : "OFF");
-		
+		/*Sound 48/AY*/
+        zx_print_str(14,20,(game_sound & (GAME_SOUND_48_FX_ON | GAME_SOUND_AY_FX_ON)) ? "ON " : "OFF");
+	
+		/*Game Type*/
 		switch ( game_type ) {	//0->3
 		case 0:
-			zx_print_str(16,20,"A  ");
+			zx_print_str(15,20,"A  ");
 			break;
 		case 1:
-			zx_print_str(16,20,"B  ");
+			zx_print_str(15,20,"B  ");
 			break;
 		case 2:
-			zx_print_str(16,20,"RND");
+			zx_print_str(15,20,"RND");
 			break;
 		}
+		/*P1 Control*/
+		zx_print_str(16,20,"SJ1");
+		/*P2 Control*/
+		zx_print_str(17,20,"SJ2");
 		
-		game_menu_sel = game_menu_handle(10, 2, 14, 18, 0);
+		game_menu_sel = game_menu_handle(10, 1, 14, 18, 0);
+		ay_fx_play(ay_effect_10);
+		sound_coin();
+
 		switch ( game_menu_sel ) {
-		case 0: //SOUND 48
-			ay_fx_play(ay_effect_10);
-			sound_coin();
-			game_sound ^= spec128 ? GAME_SOUND_AY_FX_ON : GAME_SOUND_48_FX_ON;
+		case 0: //Sound 48/AY
+            game_sound ^= spec128 ? GAME_SOUND_AY_FX_ON : GAME_SOUND_48_FX_ON;
 			break;
-		case 1: //GAME TYPE
-			ay_fx_play(ay_effect_10);
-			sound_coin();
+		case 1: //Game type
 			++game_type;
 			if (game_type > GAME_RANDOM_TYPE) game_type = 0;
 			break;
-		case 2: //BACK
+		case 2: //P1 Controls
+			break;
+		case 3: //P2 Controls
+			break;
+		case 4: //Back
 			game_menu_sel = 0;
 			game_menu_paint();
 			cont = 0;
+			z80_delay_ms(250);
 			break;
 		}
 	}
@@ -707,8 +719,10 @@ void game_menu_config(void) {
 
 void game_menu(void) {
 	/*PLAY MIDI TITLE*/
-	ay_midi_play(pb_midi_title);
+	
 	game_menu_paint();
+	ay_reset();
+	ay_midi_play(pb_midi_title);
 	while (1) { //ETHERNAL LOOP
 		while ((joyfunc1)(&k1) != 0);
 		tmp_uc = game_menu_handle(12, 2, 14, 18, 1000);
@@ -730,14 +744,17 @@ void game_menu(void) {
 
 
 void game_menu_paint(void) {
+	spr_draw_clear();
+	game_paint_attrib(0);
 	//Draws menu
-	game_paint_attrib(11);
-	game_fill_row(0,32);
+	
+	//game_fill_row(0,32);
 	//Blue frame top
 	game_menu_e(16, 0,30,156,1);
 	//Green frame bottom
 	game_menu_e(80, 0,30,159,255); //game_menu_e(159,-1);
 	//Pietro logo
+	
 	tmp = 24;
 	intrinsic_di();
 	for (tmp_uc =0; tmp_uc < 10 ; ++tmp_uc) {
@@ -745,8 +762,6 @@ void game_menu_paint(void) {
 		NIRVANAP_drawT_raw(192 + 12	 + tmp_uc , tmp + 32 , 5 + (tmp_uc*2) );
 		//NIRVANAP_drawT(180 + 24	 + tmp_uc , tmp + 48 , 5 + (tmp_uc*2) );
 	}
-	NIRVANAP_drawT_raw(	 3, 128,  4 ); //pietro
-	NIRVANAP_drawT_raw( 59, 128, 25 ); //turtle
 	
 	intrinsic_ei();
 	NIRVANAP_halt();
@@ -759,6 +774,10 @@ void game_menu_paint(void) {
 	zx_print_str(22,7, "CODED BY CGONZALEZ");
 	zx_print_str(23,7, "   VERSION  1.4  ");
 	tmp_uc = 0; //fix menu return
+	game_paint_attrib(11);
+	NIRVANAP_drawT_raw(	 3, 128,  4 ); //pietro
+	NIRVANAP_drawT_raw( 59, 128, 25 ); //turtle
+	
 }
 
 void game_menu_e(unsigned char f_col,unsigned char e_c0,unsigned char e_c1,unsigned char e_start,unsigned char f_sign) {
@@ -813,7 +832,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 		}
 		
 	};
-	return	(unsigned char) ( s_lin1 -	f_start	 ) / 2;
+	return	(unsigned char) ( s_lin1 -	f_start	 ) / f_inc;
 }
 
 void game_end() {

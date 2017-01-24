@@ -297,7 +297,7 @@ unsigned char player_move(void){
 		index_d = game_calc_index( lin[sprite] + 16 , col[sprite] );
 		if (s_lin0 == GAME_LIN_FLOOR) index_d = 0;
 
-		if ( index_d > 0 && lvl_1[index_d] < VAL_COL  ) {
+		if ( index_d > 0 && lvl_1[index_d] < VAL_COL && lvl_1[index_d+1] < VAL_COL  ) {
 			sprite_speed_alt[sprite] = PLAYER_FALL_SPEED;
 			BIT_SET(s_state, STAT_FALL);
 		}
@@ -324,7 +324,9 @@ unsigned char player_move(void){
 	} else {
 		if ( BIT_CHK(s_state, STAT_JUMP) ) {
 			/* Jump Handling */
+			
 			tmp = jump_lin[sprite] - lin[sprite];
+			
 			if ( tmp < PLAYER_MAX_JUMP ) {
 				spr_move_up();
 				/* TODO CHECK THIS */
@@ -336,6 +338,7 @@ unsigned char player_move(void){
 			if (tmp  > 32 || tmp & 7) { //mod 8
 				player_move_horizontal();
 			}
+			
 		} else {
 			if ( BIT_CHK(s_state, STAT_FALL) ){
 				/* Falling Handling */
@@ -478,11 +481,7 @@ void player_hit_slipice(unsigned char f_enemies) {
 
 
 unsigned char player_hit_brick(void){
-	if ( ( hit_lin[index_player] == 0 ) && 
-		 ( lin[sprite] > 16 ) && 
-		 ( lvl_1[ index1 ] >= GAME_MAP_PLATFORM || lvl_1[ index2 ] >= GAME_MAP_PLATFORM ) 
-		) {
-		
+	if ( ( hit_lin[index_player] == 0 ) && ( lin[sprite] > 16 )	) {
 		for (enemies = 0; enemies < 6 ; ++enemies){
 			//HIT ENEMIES
 			if (
@@ -533,8 +532,8 @@ void player_hit_brick_clear(void){
 	}
 }
 
-void player_hit_pow(void){
-	if ( lvl_1[ index1 ] == IDX_POW || lvl_1[ index2 ] == IDX_POW && game_pow != 0) {
+unsigned char player_hit_pow(void){
+	if ( game_pow != 0 && ( lvl_1[ index1 ] == IDX_POW || lvl_1[ index2 ] == IDX_POW ) ) {
 		game_pow--;
 		zx_border(INK_RED);
 		for (enemies = 0; enemies < 6 ; ++enemies){
@@ -553,8 +552,9 @@ void player_hit_pow(void){
 			lvl_1[POW_INDEX + 33] = 0;
 		}
 		zx_border(INK_BLACK);
-		spr_set_fall();
+		return 1;
 	}
+	return 0;
 }
 
 

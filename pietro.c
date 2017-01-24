@@ -18,7 +18,7 @@
 	Pietro Bros - Cristian Gonzalez - cmgonzalez@gmail.com
 
 	This program can be compiled in Windows (with z88dk installed on c:\z88dk) as follows:
-	  
+	
 	zcompile.bat 
 	 
 	options 
@@ -106,35 +106,34 @@ int main(void) {
 	
 	game_type = 0;
 	
+	player_joy[0] = 0; /* SJ1 */
+	player_joy[1] = 1; /* SJ2 */
+	
 	//Keyboard Handling P1
 	
 	k1.fire	 = in_key_scancode('m');
 	k1.left	 = in_key_scancode('o');
 	k1.right  = in_key_scancode('p');
 
-#ifdef __SDCC
-	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
-#endif
-
-#ifdef __SCCZ80
-	joyfunc1 = in_stick_sinclair1;
-#endif
-
-	//Keyboard Handling P2
-
-	k2.fire	 = in_key_scancode('x');
+	k2.fire	 = in_key_scancode('z');
 	k2.left	 = in_key_scancode('q');
 	k2.right  = in_key_scancode('w');
+	
+	/* 
+	 in_stick_sinclair1 
+	 in_stick_sinclair2
+	 in_stick_kemptson
+	 in_stick_fuller
+	 in_stick_cursor
+	 in_stick_keyboard
+	*/
 
-#ifdef __SDCC
+	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
+	//Keyboard Handling P2
+
+	
 	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
-#endif
 
-#ifdef __SCCZ80
-	joyfunc2 = in_stick_sinclair2;
-#endif
-
-	//Delay (NO NIRVANA)
 
 	zx_border(INK_BLACK);
 	

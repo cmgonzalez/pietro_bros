@@ -50,6 +50,7 @@ extern unsigned char sliding[2];
 extern unsigned int  last_time[8];
 extern unsigned int  player_score[2];
 extern unsigned int  player_next_extra[2];
+extern unsigned int  player_joy[2];
 
 extern unsigned char	sprite;
 extern unsigned char	sprite_other_player;
