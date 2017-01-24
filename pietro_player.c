@@ -89,7 +89,7 @@ unsigned char player_collition(void) {
 				} else {
 					/* Player Killed */
 					ay_fx_play(ay_effect_18);
-					player_kill();
+					if (!GAME_GOD_MODE) player_kill();
 				}
 			}
 		}
@@ -471,14 +471,6 @@ void player_push(void){
 	s_col0 = tmp0;
 }
 
-void player_hit_slipice(unsigned char f_enemies) {
-	player_score_add(50);
-	sound_coin();
-	sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
-	BIT_SET(state[f_enemies], STAT_KILL);
-	spr_timer[f_enemies] = zx_clock();
-}
-
 
 unsigned char player_hit_brick(void){
 	if ( ( hit_lin[index_player] == 0 ) && ( lin[sprite] > 16 )	) {
@@ -561,11 +553,13 @@ unsigned char player_hit_pow(void){
 void player_coin(unsigned char f_enemies, unsigned char f_score) {
 	if (class[f_enemies] == SLIPICE) {
 		ay_fx_play(ay_effect_12); //SLIPICE
+		sprite_speed_alt[f_enemies] = SPRITE_FALL_SPEED;
 	} else {
-		ay_fx_play(ay_effect_10); //COIN SOUND
+		ay_fx_play(ay_effect_10); //COIN1 or COIN2
+		sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
+		sound_coin();
 	}
-	sound_coin();
-	sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
+	
 	BIT_SET(state[f_enemies], STAT_KILL);
 	spr_timer[f_enemies] = zx_clock();
 	if (game_bonus){

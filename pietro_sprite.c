@@ -194,7 +194,7 @@ void spr_anim_fall( unsigned char f_sprite) {
 //	if ( spr_chktime(&sprite) ) {
 		
 		if (lin[f_sprite] < GAME_LIN_FLOOR) {
-zx_print_int(20,0,sprite_speed_alt[sprite]);
+
 			/* Move sprite down screen n draw*/
 			s_col0 = col[f_sprite];
 			s_lin0 = lin[f_sprite];

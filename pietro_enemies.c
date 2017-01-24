@@ -602,10 +602,10 @@ void enemy_kill(unsigned char f_sprite){
 		BIT_SET(state[f_sprite], STAT_DIRR);
 		BIT_CLR(state[f_sprite], STAT_DIRL);
 	}
-	
+	BIT_CLR(state[f_sprite], STAT_FALL);
 	BIT_SET(state[f_sprite], STAT_JUMP);
 	BIT_SET(state[f_sprite], STAT_KILL);
-	
+	if (class[f_sprite] == FIGHTERFLY) class[f_sprite] = SHELLCREEPER_GREEN; /* Hack */
 	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED; //TODO CHECK DIFF SPEEDS
 	
 	player_score_add(80 << hit_count); //BONUS!

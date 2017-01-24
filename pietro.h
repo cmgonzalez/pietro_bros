@@ -176,6 +176,7 @@
 #define GAME_MAP_PLATFORM							18
 #define GAME_MAP_PLATFORM_FREEZE					20
 #define GAME_MAP_TOTAL_POS							672
+#define GAME_GOD_MODE								1
 /* Sprites Speeds */
 #endif
 #include "globals.h"

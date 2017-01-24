@@ -27,7 +27,6 @@ extern void          player_restart(unsigned char f_sprite);
 extern unsigned char player_move(void);
 extern void          player_turn(void);
 extern unsigned char player_move_input(void);
-extern void          player_hit_slipice(unsigned char f_enemies);
 extern unsigned char player_hit_brick(void);
 extern unsigned char player_hit_pow(void);
 extern void          player_coin(unsigned char f_enemies,unsigned char f_score);

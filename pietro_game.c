@@ -536,7 +536,6 @@ unsigned char game_enemy_add1(unsigned char f_class) {
 		return 0;
 	}
 	//force for test an enemy
-	//f_class = SIDESTEPPER_MAGENTA;
 	++phase_pop;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
@@ -659,8 +658,6 @@ void game_paint_attrib_lin_h(unsigned char f_start,unsigned char f_end,unsigned 
 void game_menu_config(void) {
 	char cont;
 	game_paint_attrib(11);
-	NIRVANAP_drawT(	 3, 128,  4 ); //MARIO
-	NIRVANAP_drawT( 59, 128, 25 ); //TURTLE
 	cont=1;
 	while (cont) {
 		while ((joyfunc1)(&k1) != 0);
@@ -692,7 +689,7 @@ void game_menu_config(void) {
 		zx_print_str(17,20,"SJ2");
 		
 		game_menu_sel = game_menu_handle(10, 1, 14, 18, 0);
-		ay_fx_play(ay_effect_10);
+		ay_fx_play(ay_effect_10); 
 		sound_coin();
 
 		switch ( game_menu_sel ) {
@@ -711,7 +708,7 @@ void game_menu_config(void) {
 			game_menu_sel = 0;
 			game_menu_paint();
 			cont = 0;
-			z80_delay_ms(250);
+			//z80_delay_ms(250);
 			break;
 		}
 	}
@@ -719,7 +716,7 @@ void game_menu_config(void) {
 
 void game_menu(void) {
 	/*PLAY MIDI TITLE*/
-	
+	game_menu_top_paint();
 	game_menu_paint();
 	ay_reset();
 	ay_midi_play(pb_midi_title);
@@ -742,8 +739,7 @@ void game_menu(void) {
 	}
 }
 
-
-void game_menu_paint(void) {
+void game_menu_top_paint(void) {
 	spr_draw_clear();
 	game_paint_attrib(0);
 	//Draws menu
@@ -762,22 +758,28 @@ void game_menu_paint(void) {
 		NIRVANAP_drawT_raw(192 + 12	 + tmp_uc , tmp + 32 , 5 + (tmp_uc*2) );
 		//NIRVANAP_drawT(180 + 24	 + tmp_uc , tmp + 48 , 5 + (tmp_uc*2) );
 	}
-	
 	intrinsic_ei();
+	
+}
+
+void game_menu_paint(void) {
 	NIRVANAP_halt();
 	NIRVANAP_fillC(INK_RED | PAPER_RED , tmp + 40 , 26);//POINT
 	//Menu
+	
+	game_fill_row(0,32);
+	game_fill_row(0,32);	
 	zx_print_str(14,10, "  1 PLAYER   ");
+	game_fill_row(15,32);
 	zx_print_str(16,10, "  2 PLAYER   ");
+	game_fill_row(17,32);
 	zx_print_str(18,10, "   CONFIG    ");
+	game_fill_row(19,32);
 	zx_print_ink(INK_BLUE);
 	zx_print_str(22,7, "CODED BY CGONZALEZ");
 	zx_print_str(23,7, "   VERSION  1.4  ");
 	tmp_uc = 0; //fix menu return
 	game_paint_attrib(11);
-	NIRVANAP_drawT_raw(	 3, 128,  4 ); //pietro
-	NIRVANAP_drawT_raw( 59, 128, 25 ); //turtle
-	
 }
 
 void game_menu_e(unsigned char f_col,unsigned char e_c0,unsigned char e_c1,unsigned char e_start,unsigned char f_sign) {
@@ -1010,6 +1012,7 @@ void game_menu_back(unsigned char f_start)
 {
 	game_menu_sel = 0;
 	s_lin1 = f_start;
+	game_menu_top_paint();
 	game_menu_paint();
 	entry_time = zx_clock(); 
 }
