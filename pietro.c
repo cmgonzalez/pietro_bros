@@ -111,18 +111,19 @@ int main(void) {
 	
 	//Keyboard Handling P1
 	
-	k1.fire	 = in_key_scancode('m');
-	k1.left	 = in_key_scancode('o');
-	k1.right = in_key_scancode('p');
-	k1.up    = k1.down = 0xffff; /* Have to be defined of the keyboard joystick wont work */
+	k1.fire	= IN_KEY_SCANCODE_m;
+	k1.left	= IN_KEY_SCANCODE_o;
+	k1.right = IN_KEY_SCANCODE_p;
+	k1.up    = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise up is always true
+	k1.down  = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise down is always true
 	
-	k2.fire	 = in_key_scancode('z');
-	k2.left	 = in_key_scancode('q');
-	k2.right = in_key_scancode('w');
-	k2.up    = k2.down = 0xffff; /* Have to be defined of the keyboard joystick wont work */
+	k2.fire	= IN_KEY_SCANCODE_z;
+	k2.left	= IN_KEY_SCANCODE_q;
+	k2.right = IN_KEY_SCANCODE_w;
+	k2.up    = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise up is always true
+	k2.down  = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise down is always true
 	
 	game_joystick_set_menu();
-
 
 	zx_border(INK_BLACK);
 	

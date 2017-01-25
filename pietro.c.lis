@@ -782,58 +782,52 @@
 782   0033  22 00 00    	ld	(_player_joy), hl
 783   0036  2E 01       	ld	l,0x01
 784   0038  22 02 00    	ld	(_player_joy + 0x0002),hl
-785   003B  2E 6D       	ld	l,0x6d
-786   003D  CD 00 00    	call	_in_key_scancode_fastcall
-787   0040  22 00 00    	ld	(_k1),hl
-788   0043  21 6F 00    	ld	hl,0x006f
-789   0046  CD 00 00    	call	_in_key_scancode_fastcall
-790   0049  22 04 00    	ld	(_k1 + 0x0004),hl
-791   004C  21 70 00    	ld	hl,0x0070
-792   004F  CD 00 00    	call	_in_key_scancode_fastcall
-793   0052  22 02 00    	ld	(_k1 + 0x0002),hl
-794   0055  21 FF FF    	ld	hl,0xffff
-795   0058  22 06 00    	ld	(_k1 + 0x0006),hl
-796   005B  2E FF       	ld	l,0xff
-797   005D  22 08 00    	ld	(_k1 + 0x0008),hl
-798   0060  21 7A 00    	ld	hl,0x007a
-799   0063  CD 00 00    	call	_in_key_scancode_fastcall
-800   0066  22 00 00    	ld	(_k2),hl
-801   0069  21 71 00    	ld	hl,0x0071
-802   006C  CD 00 00    	call	_in_key_scancode_fastcall
-803   006F  22 04 00    	ld	(_k2 + 0x0004),hl
-804   0072  21 77 00    	ld	hl,0x0077
-805   0075  CD 00 00    	call	_in_key_scancode_fastcall
-806   0078  22 02 00    	ld	(_k2 + 0x0002),hl
-807   007B  21 FF FF    	ld	hl,0xffff
-808   007E  22 06 00    	ld	(_k2 + 0x0006),hl
-809   0081  2E FF       	ld	l,0xff
-810   0083  22 08 00    	ld	(_k2 + 0x0008),hl
-811   0086  CD 00 00    	call	_game_joystick_set_menu
-812   0089  21 00 00    	ld	hl,0x0000
-813   008C  CD 00 00    	call	_zx_border_fastcall
-814   008F  CD 00 00    	call	_in_wait_nokey
-815   0092  01 34 12    	ld	bc,0x1234
-816   0095              l_main_00103:
-817   0095  CD 00 00    	call	_in_test_key
-818   0098  7C          	ld	a, h
-819   0099  B5          	or	a,l
-820   009A  20 03       	jr	NZ,l_main_00101
-821   009C  03          	inc	bc
-822   009D  18 F6       	jr	l_main_00103
-823   009F              l_main_00101:
-824   009F  69          	ld	l, c
-825   00A0  60          	ld	h, b
-826   00A1  CD 00 00    	call	_srand_fastcall
-827   00A4  CD 00 00    	call	_spr_cortina_brick
-828   00A7  CD 00 00    	call	_game_start_timer
-829   00AA  21 00 00    	ld	hl,_btiles
-830   00AD  CD 00 00    	call	_NIRVANAP_tiles_fastcall
-831   00B0  CD 00 00    	call	_NIRVANAP_start
-832   00B3  2A 00 00    	ld	hl,(_curr_time)
-833   00B6  22 00 00    	ld	(_frame_time),hl
-834   00B9  CD 00 00    	call	_game_menu
-835   00BC  CD 00 00    	call	_NIRVANAP_stop
-836   00BF  21 00 00    	ld	hl,0x0000
-837   00C2  C9          	ret
-838   00C3              	SECTION IGNORE
-839   0000              
+785   003B  21 7F 04    	ld	hl,0x047f
+786   003E  22 00 00    	ld	(_k1), hl
+787   0041  21 DF 02    	ld	hl,0x02df
+788   0044  22 04 00    	ld	(_k1 + 0x0004),hl
+789   0047  26 01       	ld	h,0x01
+790   0049  22 02 00    	ld	(_k1 + 0x0002),hl
+791   004C  21 FF FF    	ld	hl,0xffff
+792   004F  22 08 00    	ld	(_k1 + 0x0008),hl
+793   0052  2E FF       	ld	l,0xff
+794   0054  22 06 00    	ld	(_k1 + 0x0006),hl
+795   0057  21 FE 02    	ld	hl,0x02fe
+796   005A  22 00 00    	ld	(_k2), hl
+797   005D  21 FB 01    	ld	hl,0x01fb
+798   0060  22 04 00    	ld	(_k2 + 0x0004),hl
+799   0063  26 02       	ld	h,0x02
+800   0065  22 02 00    	ld	(_k2 + 0x0002),hl
+801   0068  21 FF FF    	ld	hl,0xffff
+802   006B  22 08 00    	ld	(_k2 + 0x0008),hl
+803   006E  2E FF       	ld	l,0xff
+804   0070  22 06 00    	ld	(_k2 + 0x0006),hl
+805   0073  CD 00 00    	call	_game_joystick_set_menu
+806   0076  21 00 00    	ld	hl,0x0000
+807   0079  CD 00 00    	call	_zx_border_fastcall
+808   007C  CD 00 00    	call	_in_wait_nokey
+809   007F  01 34 12    	ld	bc,0x1234
+810   0082              l_main_00103:
+811   0082  CD 00 00    	call	_in_test_key
+812   0085  7C          	ld	a, h
+813   0086  B5          	or	a,l
+814   0087  20 03       	jr	NZ,l_main_00101
+815   0089  03          	inc	bc
+816   008A  18 F6       	jr	l_main_00103
+817   008C              l_main_00101:
+818   008C  69          	ld	l, c
+819   008D  60          	ld	h, b
+820   008E  CD 00 00    	call	_srand_fastcall
+821   0091  CD 00 00    	call	_spr_cortina_brick
+822   0094  CD 00 00    	call	_game_start_timer
+823   0097  21 00 00    	ld	hl,_btiles
+824   009A  CD 00 00    	call	_NIRVANAP_tiles_fastcall
+825   009D  CD 00 00    	call	_NIRVANAP_start
+826   00A0  2A 00 00    	ld	hl,(_curr_time)
+827   00A3  22 00 00    	ld	(_frame_time),hl
+828   00A6  CD 00 00    	call	_game_menu
+829   00A9  CD 00 00    	call	_NIRVANAP_stop
+830   00AC  21 00 00    	ld	hl,0x0000
+831   00AF  C9          	ret
+832   00B0              	SECTION IGNORE
+833   0000              
