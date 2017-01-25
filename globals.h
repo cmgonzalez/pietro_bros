@@ -18,6 +18,13 @@
 #define GLOBALS_H
 #include <input.h>
 
+typedef struct {
+	unsigned char name[4];
+	unsigned int  score;
+} HOF_ENTRY;
+
+typedef uint16_t (*JOYFUNC)(udk_t *);  
+
 extern unsigned char spec128;
 
 extern unsigned char btiles[];
@@ -25,8 +32,6 @@ extern char *joynames[];
 #ifdef __SDCC
 extern uint16_t (*joyfunc1)(udk_t *);
 extern uint16_t (*joyfunc2)(udk_t *);
-
-
 #endif
 #ifdef __SCCZ80
 extern void *joyfunc1;
@@ -134,13 +139,6 @@ extern unsigned char score_osd_lin[2];
 extern unsigned char score_osd_col[2];
 extern unsigned int  score_osd_time[2];
 extern unsigned int  score_osd_tile[2];
-
-typedef struct {
-	unsigned char name[4];
-	unsigned int  score;
-} HOF_ENTRY;
-
-typedef uint16_t (*JOYFUNC)(udk_t *);  
 
 extern HOF_ENTRY hof[10];
 extern const unsigned char hall_valids[42];

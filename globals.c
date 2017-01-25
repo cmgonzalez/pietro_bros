@@ -35,13 +35,13 @@ unsigned char dirs;
 unsigned char tbuffer[7];			    // temporary buffer
 
 const JOYFUNC control_method[7] = {
-   in_stick_sinclair1,
-   in_stick_sinclair2,
-   in_stick_keyboard,
-   in_stick_keyboard,
-   in_stick_kempston,
-   in_stick_cursor,
-   in_stick_fuller
+   (JOYFUNC)(in_stick_sinclair1),
+   (JOYFUNC)(in_stick_sinclair2),
+   (JOYFUNC)(in_stick_keyboard),
+   (JOYFUNC)(in_stick_keyboard),
+   (JOYFUNC)(in_stick_kempston),
+   (JOYFUNC)(in_stick_cursor),
+   (JOYFUNC)(in_stick_fuller)
 };
 
 
