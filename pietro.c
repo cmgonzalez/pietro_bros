@@ -113,26 +113,15 @@ int main(void) {
 	
 	k1.fire	 = in_key_scancode('m');
 	k1.left	 = in_key_scancode('o');
-	k1.right  = in_key_scancode('p');
-
+	k1.right = in_key_scancode('p');
+	k1.up    = k1.down = 0xffff; /* Have to be defined of the keyboard joystick wont work */
+	
 	k2.fire	 = in_key_scancode('z');
 	k2.left	 = in_key_scancode('q');
-	k2.right  = in_key_scancode('w');
+	k2.right = in_key_scancode('w');
+	k2.up    = k2.down = 0xffff; /* Have to be defined of the keyboard joystick wont work */
 	
-	/* 
-	 in_stick_sinclair1 
-	 in_stick_sinclair2
-	 in_stick_kemptson
-	 in_stick_fuller
-	 in_stick_cursor
-	 in_stick_keyboard
-	*/
-
-	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
-	//Keyboard Handling P2
-
-	
-	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
+	game_joystick_set_menu();
 
 
 	zx_border(INK_BLACK);

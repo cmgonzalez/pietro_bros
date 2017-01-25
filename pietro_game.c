@@ -245,6 +245,7 @@ void game_loop(void) {
 	loop_count=0;
 	dirs = 0x00;
 	game_unfreeze_all();
+	game_joystick_set();
 	while (!game_over) {
 		/*player 1 turn*/
 		player_set1();
@@ -317,6 +318,7 @@ void game_loop(void) {
 	ay_reset();
 	game_menu_sel = 0;
 	game_menu_paint();
+	game_joystick_set_menu();
 }
 
 void game_score_osd(void) {
@@ -684,9 +686,9 @@ void game_menu_config(void) {
 			break;
 		}
 		/*P1 Control*/
-		zx_print_str(16,20,"SJ1");
+		zx_print_str(16,20,joynames[player_joy[0]]);
 		/*P2 Control*/
-		zx_print_str(17,20,"SJ2");
+		zx_print_str(17,20,joynames[player_joy[1]]);
 		
 		game_menu_sel = game_menu_handle(10, 1, 14, 18, 0);
 		ay_fx_play(ay_effect_10); 
@@ -701,8 +703,10 @@ void game_menu_config(void) {
 			if (game_type > GAME_RANDOM_TYPE) game_type = 0;
 			break;
 		case 2: //P1 Controls
+			game_joystick_change(0);
 			break;
 		case 3: //P2 Controls
+			game_joystick_change(1);
 			break;
 		case 4: //Back
 			game_menu_sel = 0;
@@ -713,6 +717,35 @@ void game_menu_config(void) {
 		}
 	}
 }
+
+void game_joystick_change(unsigned char f_player_index){
+		++player_joy[f_player_index];
+		if (player_joy[f_player_index] == 7) player_joy[f_player_index] = 0; /* Rotate Joystick*/
+		
+		if (f_player_index == 0 && player_joy[f_player_index] == 1) ++player_joy[0];  /* player 1 cant have SJ2*/
+		if (f_player_index == 1 && player_joy[f_player_index] == 0) ++player_joy[1];  /* player 2 cant have SJ1*/
+		
+		
+		if (player_joy[0] == player_joy[1]) {
+			if (f_player_index == 0) {
+				player_joy[1] = 1; /* default */
+			} else {
+				player_joy[0] = 0; /* default */
+			}
+		} 
+}
+
+void game_joystick_set_menu(void){
+	/* Default Values for menu */
+	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);	
+	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
+}
+
+void game_joystick_set(void){
+	joyfunc1 = control_method[ player_joy[0] ];
+	joyfunc2 = control_method[ player_joy[1] ];
+}
+
 
 void game_menu(void) {
 	/*PLAY MIDI TITLE*/

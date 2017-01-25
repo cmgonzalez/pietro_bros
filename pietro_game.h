@@ -83,4 +83,8 @@ extern HOF_ENTRY  *game_hall_check(unsigned char p);
 extern unsigned char game_hall_edit_p(unsigned char index);
 extern void			 game_hall_print_p(unsigned char index, unsigned char frame);
 
+extern void          game_joystick_change(unsigned char f_player_index);
+extern void          game_joystick_set(void);
+extern void          game_joystick_set_menu(void);
+
 #endif

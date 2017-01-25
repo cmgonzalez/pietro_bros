@@ -34,13 +34,24 @@ udk_t k2;
 unsigned char dirs;
 unsigned char tbuffer[7];			    // temporary buffer
 
+const JOYFUNC control_method[7] = {
+   in_stick_sinclair1,
+   in_stick_sinclair2,
+   in_stick_keyboard,
+   in_stick_keyboard,
+   in_stick_kempston,
+   in_stick_cursor,
+   in_stick_fuller
+};
+
+
 //SPRITES GAME ARRAYS
 unsigned char class[8];					//CLASS OF SPRITE
 unsigned char state[8];					//SPRITE STATES SEE DEFINES UPPER BIT VALUES
 unsigned char state_a[8];				//SPRITE STATES ALT SEE DEFINES UPPER BIT VALUES
 unsigned char tile[8];					//TILE
 unsigned char lin[8];					//LINE
-unsigned char col[8];					//COLUMN
+unsigned char col[8];					//COLUMNlisto 
 unsigned char colint[8];				//INTERNAL COLUMN/TILE INCREMENT
 unsigned int  spr_timer[8];				//SPRITE GENERAL TIMER MILISECONDS
 unsigned int  spr_timer_c[8];			//SPRITE COLITIONS CHECK TIMER MILISECONDS
