@@ -242,6 +242,7 @@ void game_loop(void) {
 	phase_curr = 0; //TESTING - Default 0
 	game_phase_init();
 	/* game loop start */
+	sprite_lin_inc_mul = 0;
 	loop_count=0;
 	dirs = 0x00;
 	game_unfreeze_all();

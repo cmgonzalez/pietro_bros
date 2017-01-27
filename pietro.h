@@ -99,7 +99,6 @@
 #define SCR_ROWS									23  /* Rows max */
 #define SCR_LINS									184 /* Lins max */
 #define PAPER										000 /* Screen paper */
-#define LIN_INC										4
 #define GAME_LIN_FLOOR								152
 #define GAME_LIN_TOP_PLATFORM						48
 #define ST_STAND_R									0
@@ -110,10 +109,6 @@
 #define IDX_POW										17
 #define POW_INDEX									527
 /* Starting positions*/
-#define ENEMY_SCOL_R								26
-#define ENEMY_SLIN_R								16
-#define ENEMY_SCOL_L								4
-#define ENEMY_SLIN_L								16
 #define DIR_LEFT									255
 #define DIR_RIGHT									1
 /*Stats (bit position number)*/
@@ -133,36 +128,40 @@
 #define STAT_LDIRR									4
 #define STAT_INERT									5
 #define STAT_RESTART								6
+#define STAT_HITBRICK								7
+/* General */
+#define SPRITE_FALL_SPEED							3  /* Speed for falling from the screen after a kill */
+#define SPRITE_RESTART_SPEED						8
+#define SPRITE_LIN_INC								2
+#define SPRITE_HEIGHT								16
 /* Player */
 #define PLAYER_SLIDE_NORMAL							4
 #define PLAYER_SLIDE_ICE							16
-#define PLAYER_MAX_JUMP								48
+#define PLAYER_MAX_JUMP								10  /* Max Jump Time 10 frames */
 #define PLAYER_HIT_BRICK_TIME						4
 #define PLAYER_VCOL_MARGIN							14 //VERTICAL COLLISION MARGIN
 #define PLAYER_HCOL_MARGIN							2  //HORIZONTAL COLLISION MARGIN
 #define PLAYER_HCOL_MARGIN_INT						4  //HORIZONTAL COLLISION MARGIN INTERNAL (1 COL = 3 INT)
 #define PLAYER_SPEED								2
-#define PLAYER_JUMP_SPEED							1
+#define PLAYER_JUMP_SPEED							2
 #define PLAYER_FALL_SPEED							2
 #define PLAYER_INERT_TIME							8  /* Time for Player Inertia */
 #define PLAYER_ANIM_HIT_TIME						40 /* Time for Player Hit Sprite display after kill */
-#define SPRITE_FALL_SPEED							3
-#define SPRITE_RESTART_SPEED						8
-#define ENEMY_KILLED_SPEED							8
-
-#define ENEMY_FIREBALL_START_COL_L					3
-#define ENEMY_FIREBALL_START_COL_R					28
-
-#define ENEMY_FIREBALL_START_TOP					16
-#define ENEMY_FIREBALL_START_MID					56
-#define ENEMY_FIREBALL_START_BOT					132
-
-
 /* Enemies */
 #define ENEMIES_MAX									6   //MAX QUANTITY OF ENEMIES ON SCREEN (0->6)
 #define ENEMIES_MAXJUMP								12 //MAX JUMP WHEN HIT
 #define ENEMY_JUMP_SPEED							1
-#define ENEMY_FALL_SPEED							2
+#define ENEMY_FALL_SPEED							1
+#define ENEMY_KILLED_SPEED							8
+#define ENEMY_FIREBALL_START_COL_L					3
+#define ENEMY_FIREBALL_START_COL_R					28
+#define ENEMY_FIREBALL_START_TOP					16
+#define ENEMY_FIREBALL_START_MID					56
+#define ENEMY_FIREBALL_START_BOT					132
+#define ENEMY_SCOL_R								26
+#define ENEMY_SLIN_R								16
+#define ENEMY_SCOL_L								4
+#define ENEMY_SLIN_L								16
 /* Game times */
 #define TIME_WATER_SPLASH							15
 #define TIME_EVENT									100
@@ -181,4 +180,6 @@
 #define GAME_GOD_MODE								1
 /* Sprites Speeds */
 #endif
+
 #include "globals.h"
+extern void          test_func(void);

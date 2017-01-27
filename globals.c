@@ -26,7 +26,7 @@ unsigned char spec128;
 //#                                                                                             #
 //###############################################################################################
 
-char *joynames[] = { "SJ1", "SJ2", "KB1", "KB2", "KEM", "CUR", "FUL" };
+const char *joynames[] = { "SJ1", "SJ2", "KB1", "KB2", "KEM", "CUR", "FUL" };
 uint16_t (*joyfunc1)(udk_t *);			// pointer to joystick function Player 1 
 uint16_t (*joyfunc2)(udk_t *);			// pointer to joystick function Player 1
 udk_t k1;
@@ -61,6 +61,7 @@ unsigned char jump_lin[8];				//START JUMP LINE
 // PLAYER ONLY 
 unsigned char hit_lin[2];				//HIT BRICK LINE
 unsigned char hit_col[2];				//HIT BRICK COL
+unsigned char player_jump_c[2];			//JUMP CNT TIME y = a*t^2 + b*t + c https://www.wired.com/2016/12/lets-go-physics-jumping-super-mario-run/
 unsigned char sliding[2];				//SLIDING COUNTER
 unsigned int  player_score[2];			//SCORE ARRAYS
 unsigned int  player_next_extra[2];		//SCORE ARRAYS
@@ -79,6 +80,7 @@ unsigned char	s_lin0;
 unsigned char	s_lin1;
 unsigned char	s_col0;
 unsigned char	s_col1;
+unsigned char	sprite_lin_inc_mul;
 unsigned int	loop_count;
 unsigned int	index1;
 unsigned int	index2;

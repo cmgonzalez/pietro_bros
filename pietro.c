@@ -70,6 +70,8 @@
 #include "pietro_ay.h"
 #include "pietro_game.h"
 #include "pietro_sprite.h"
+#include "pietro_player.h"
+#include "pietro_enemies.h"
 #include "pietro_zx.h"
 #include "macros.h"
 
@@ -79,8 +81,7 @@ int main(void) {
 	//INTERRUPTS ARE DISABLED
 	
 	//RESET AY CHIP
-	
-	ay_reset();
+	ay_reset(); 
 	
 	//ATTRIB NORMAL
 	
@@ -90,7 +91,6 @@ int main(void) {
 	attrib[3]= PAPER_BLACK | INK_WHITE;
 	
 	//ATTRIB HIGHLIGHT
-	
 	attrib_hl[0]= PAPER_BLACK | INK_RED;
 	attrib_hl[1]= PAPER_BLACK | INK_YELLOW;
 	attrib_hl[2]= PAPER_BLACK | INK_GREEN;
@@ -146,4 +146,43 @@ int main(void) {
 	//GAME EXIT
 	NIRVANAP_stop();
 	return 0;
+}
+
+void test_func(void) {
+			//tmp = jump_lin[sprite] - lin[sprite];
+		
+		sprite_lin_inc_mul = 2;
+		if (player_jump_c[sprite] > 4 ) sprite_lin_inc_mul = 1;
+		if (player_jump_c[sprite] > 8 ) sprite_lin_inc_mul = 0;
+		if (player_jump_c[sprite] > 12) sprite_lin_inc_mul = 1;
+		if (player_jump_c[sprite] > 14) sprite_lin_inc_mul = 2;
+		
+		
+		
+		if ( BIT_CHK(s_state, STAT_JUMP) ) {
+			/* Jump Handling */
+			
+			if ( player_jump_c[sprite] < PLAYER_MAX_JUMP ) {
+				spr_move_up();
+			} else {
+				spr_set_fall();		
+			}
+		} else {
+			if ( BIT_CHK(s_state, STAT_FALL) ){
+				/* Falling Handling */
+				if ( spr_move_down() ) {
+					BIT_CLR( state_a[sprite] , STAT_HITBRICK );
+					player_jump_c[sprite] = 0;
+					jump_lin[sprite] = 0;
+					player_calc_slide(lin[sprite],col[sprite]);
+					if ( BIT_CHK(s_state, STAT_DIRL) == BIT_CHK(s_state, STAT_DIRR) ) {
+						sliding[index_player] = 0;
+					}
+				}
+				
+			}
+		}
+		sprite_lin_inc_mul = 0;
+		++player_jump_c[sprite];
+		player_move_horizontal();
 }

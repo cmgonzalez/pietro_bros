@@ -352,7 +352,7 @@ void enemy_fireball_red(void){
 		} else {
 			
 			if ( BIT_CHK(s_state, STAT_JUMP)) {
-				spr_move_up();
+				if ( spr_move_up() ) spr_set_fall();
 				tmp = 0;
 			} else {
 				spr_move_down();
@@ -531,13 +531,13 @@ void enemy_walk(void){
 			jump_lin[sprite] = lin[sprite];
 		}
 		if ( BIT_CHK(s_state, STAT_FALL) ) {
-			lin[sprite] = lin[sprite] + LIN_INC;
+			lin[sprite] = lin[sprite] + SPRITE_LIN_INC;
 		} else {
-			lin[sprite] = lin[sprite] - LIN_INC;
+			lin[sprite] = lin[sprite] - SPRITE_LIN_INC;
 		}
 		if (class[sprite] != FIGHTERFLY) {
 			sprite_speed_alt[sprite] = ENEMY_FALL_SPEED;
-			if ( lin[sprite] - jump_lin[sprite] <= 16 ) spr_move_horizontal(); 
+			if ( lin[sprite] - jump_lin[sprite] <= 8 ) spr_move_horizontal(); 
 		}
 		
 	} else {
