@@ -89,7 +89,7 @@ unsigned char player_collition(void) {
 				} else {
 					/* Player Killed */
 					ay_fx_play(ay_effect_18);
-					player_kill();
+					if (!GAME_GOD_MODE) player_kill();
 				}
 			}
 		}
@@ -297,7 +297,7 @@ unsigned char player_move(void){
 		index_d = game_calc_index( lin[sprite] + 16 , col[sprite] );
 		if (s_lin0 == GAME_LIN_FLOOR) index_d = 0;
 
-		if ( index_d > 0 && lvl_1[index_d] < VAL_COL  ) {
+		if ( index_d > 0 && lvl_1[index_d] < VAL_COL && lvl_1[index_d+1] < VAL_COL  ) {
 			sprite_speed_alt[sprite] = PLAYER_FALL_SPEED;
 			BIT_SET(s_state, STAT_FALL);
 		}
@@ -322,36 +322,8 @@ unsigned char player_move(void){
 			}
 		}
 	} else {
-		if ( BIT_CHK(s_state, STAT_JUMP) ) {
-			/* Jump Handling */
-			tmp = jump_lin[sprite] - lin[sprite];
-			if ( tmp < PLAYER_MAX_JUMP ) {
-				spr_move_up();
-				/* TODO CHECK THIS */
-				if ( jump_lin[sprite] - lin[sprite] >= PLAYER_MAX_JUMP ) spr_timer[sprite] = zx_clock() - 24;
-			} else {
-				if (game_check_time(spr_timer[sprite] , PLAYER_HIT_BRICK_TIME) ) spr_set_fall();			
-			}
-			/* Parabolic ;) Jump Part 1 */
-			if (tmp  > 32 || tmp & 7) { //mod 8
-				player_move_horizontal();
-			}
-		} else {
-			if ( BIT_CHK(s_state, STAT_FALL) ){
-				/* Falling Handling */
-				spr_move_down();
-				/* Parabolic ;) Jump Part 2 */
-				tmp = jump_lin[sprite] - lin[sprite];	
-				if (tmp  > 32 || tmp & 7) { //mod 8
-					player_move_horizontal();
-				}
-				/* Determine Sliding */
-				player_calc_slide(lin[sprite],col[sprite]);
-				if ( BIT_CHK(s_state, STAT_DIRL) == BIT_CHK(s_state, STAT_DIRR) ) {
-					sliding[index_player] = 0;
-				}
-			}
-		}
+		test_func();
+
 	}
 	
 	/* Restored hitted platforms */
@@ -401,7 +373,12 @@ unsigned char player_move_input(void) {
 			if ( dirs & IN_STICK_FIRE ) {			
 				if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_03);
 				sound_jump();
-				colint[sprite]=0;
+				
+				if ( BIT_CHK( state[sprite] ,  STAT_DIRR ) ) {
+					colint[sprite]=0;
+				} else {
+					colint[sprite]=2;	
+				}
 				BIT_SET(s_state, STAT_JUMP);
 				BIT_CLR(s_state, STAT_FALL);
 				BIT_CLR(state_a[sprite],STAT_INERT);
@@ -409,6 +386,7 @@ unsigned char player_move_input(void) {
 				state[sprite] = s_state; //TODO FIXME!
 				tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset, sprite, 12);
 				sprite_speed_alt[sprite] = PLAYER_JUMP_SPEED;
+				player_jump_c[index_player] = 0;
 				return 1;
 			}
 			
@@ -468,21 +446,8 @@ void player_push(void){
 	s_col0 = tmp0;
 }
 
-void player_hit_slipice(unsigned char f_enemies) __z88dk_fastcall {
-	player_score_add(50);
-	sound_coin();
-	sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
-	BIT_SET(state[f_enemies], STAT_KILL);
-	spr_timer[f_enemies] = zx_clock();
-}
-
-
 unsigned char player_hit_brick(void){
-	if ( ( hit_lin[index_player] == 0 ) && 
-		 ( lin[sprite] > 16 ) && 
-		 ( lvl_1[ index1 ] >= GAME_MAP_PLATFORM || lvl_1[ index2 ] >= GAME_MAP_PLATFORM ) 
-		) {
-		
+	if ( ( hit_lin[index_player] == 0 ) && ( lin[sprite] > 16 )	) {
 		for (enemies = 0; enemies < 6 ; ++enemies){
 			//HIT ENEMIES
 			if (
@@ -511,6 +476,8 @@ unsigned char player_hit_brick(void){
 			jump_lin[sprite_other_player] = lin[sprite_other_player] + 20;
 			NIRVANAP_halt();
 		}
+		BIT_SET( state_a[sprite] , STAT_HITBRICK );
+		player_jump_c[sprite] = PLAYER_MAX_JUMP-4;
 		spr_timer[sprite] = zx_clock();
 		hit_lin[index_player] = lin[sprite];
 		hit_col[index_player] = col[sprite];
@@ -529,12 +496,11 @@ void player_hit_brick_clear(void){
 		spr_brick_anim(0);
 		hit_lin[index_player] = 0;
 		hit_col[index_player] = 0;
-		spr_set_fall();
 	}
 }
 
-void player_hit_pow(void){
-	if ( lvl_1[ index1 ] == IDX_POW || lvl_1[ index2 ] == IDX_POW && game_pow != 0) {
+unsigned char player_hit_pow(void){
+	if ( game_pow != 0 && ( lvl_1[ index1 ] == IDX_POW || lvl_1[ index2 ] == IDX_POW ) ) {
 		game_pow--;
 		zx_border(INK_RED);
 		for (enemies = 0; enemies < 6 ; ++enemies){
@@ -553,19 +519,24 @@ void player_hit_pow(void){
 			lvl_1[POW_INDEX + 33] = 0;
 		}
 		zx_border(INK_BLACK);
-		spr_set_fall();
+		BIT_SET( state_a[sprite] , STAT_HITBRICK );
+		player_jump_c[sprite] = PLAYER_MAX_JUMP-4;
+		return 1;
 	}
+	return 0;
 }
 
 
 void player_coin(unsigned char f_enemies, unsigned char f_score) {
 	if (class[f_enemies] == SLIPICE) {
 		ay_fx_play(ay_effect_12); //SLIPICE
+		sprite_speed_alt[f_enemies] = SPRITE_FALL_SPEED;
 	} else {
-		ay_fx_play(ay_effect_10); //COIN SOUND
+		ay_fx_play(ay_effect_10); //COIN1 or COIN2
+		sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
+		sound_coin();
 	}
-	sound_coin();
-	sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
+	
 	BIT_SET(state[f_enemies], STAT_KILL);
 	spr_timer[f_enemies] = zx_clock();
 	if (game_bonus){

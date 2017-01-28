@@ -239,9 +239,11 @@ void game_loop(void) {
 	phase_curr = 0; //TESTING - Default 0
 	game_phase_init();
 	/* game loop start */
+	sprite_lin_inc_mul = 0;
 	loop_count=0;
 	dirs = 0x00;
 	game_unfreeze_all();
+	game_joystick_set();
 	while (!game_over) {
 		/*player 1 turn*/
 		player_set1();
@@ -314,6 +316,7 @@ void game_loop(void) {
 	ay_reset();
 	game_menu_sel = 0;
 	game_menu_paint();
+	game_joystick_set_menu();
 }
 
 void game_score_osd(void) {
@@ -533,7 +536,6 @@ unsigned char game_enemy_add1(unsigned char f_class) __z88dk_fastcall {
 		return 0;
 	}
 	//force for test an enemy
-	//f_class = SIDESTEPPER_MAGENTA;
 	++phase_pop;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
@@ -656,56 +658,99 @@ void game_paint_attrib_lin_h(unsigned char f_start,unsigned char f_end,unsigned 
 void game_menu_config(void) {
 	char cont;
 	game_paint_attrib(11);
-	NIRVANAP_drawT(	 3, 128,  4 ); //MARIO
-	NIRVANAP_drawT( 59, 128, 25 ); //TURTLE
 	cont=1;
 	while (cont) {
 		while ((joyfunc1)(&k1) != 0);
 		//MENU
-		zx_print_str(14,10,spec128 ? "SOUND AY  " : "SOUND 48  ");
-		zx_print_str(16,10,"GAME      ");
+        zx_print_str(14,10,spec128 ? "SOUND AY  " : "SOUND 48  ");
+		zx_print_str(15,10,"GAME      ");
+		zx_print_str(16,10,"P1 CTRL   ");
+		zx_print_str(17,10,"P2 CTRL   ");
 		zx_print_str(18,10,"BACK      ");
 		
-		zx_print_str(14,20,(game_sound & (GAME_SOUND_48_FX_ON | GAME_SOUND_AY_FX_ON)) ? "ON " : "OFF");
-		
+		/*Sound 48/AY*/
+        zx_print_str(14,20,(game_sound & (GAME_SOUND_48_FX_ON | GAME_SOUND_AY_FX_ON)) ? "ON " : "OFF");
+	
+		/*Game Type*/
 		switch ( game_type ) {	//0->3
 		case 0:
-			zx_print_str(16,20,"A  ");
+			zx_print_str(15,20,"A  ");
 			break;
 		case 1:
-			zx_print_str(16,20,"B  ");
+			zx_print_str(15,20,"B  ");
 			break;
 		case 2:
-			zx_print_str(16,20,"RND");
+			zx_print_str(15,20,"RND");
 			break;
 		}
+		/*P1 Control*/
+		zx_print_str(16,20,joynames[player_joy[0]]);
+		/*P2 Control*/
+		zx_print_str(17,20,joynames[player_joy[1]]);
 		
-		game_menu_sel = game_menu_handle(10, 2, 14, 18, 0);
+		game_menu_sel = game_menu_handle(10, 1, 14, 18, 0);
+		ay_fx_play(ay_effect_10); 
+		sound_coin();
+
 		switch ( game_menu_sel ) {
-		case 0: //SOUND 48
-			ay_fx_play(ay_effect_10);
-			sound_coin();
-			game_sound ^= spec128 ? GAME_SOUND_AY_FX_ON : GAME_SOUND_48_FX_ON;
+		case 0: //Sound 48/AY
+            game_sound ^= spec128 ? GAME_SOUND_AY_FX_ON : GAME_SOUND_48_FX_ON;
 			break;
-		case 1: //GAME TYPE
-			ay_fx_play(ay_effect_10);
-			sound_coin();
+		case 1: //Game type
 			++game_type;
 			if (game_type > GAME_RANDOM_TYPE) game_type = 0;
 			break;
-		case 2: //BACK
+		case 2: //P1 Controls
+			game_joystick_change(0);
+			break;
+		case 3: //P2 Controls
+			game_joystick_change(1);
+			break;
+		case 4: //Back
 			game_menu_sel = 0;
 			game_menu_paint();
 			cont = 0;
+			//z80_delay_ms(250);
 			break;
 		}
 	}
 }
 
+void game_joystick_change(unsigned char f_player_index){
+		++player_joy[f_player_index];
+		if (player_joy[f_player_index] == 7) player_joy[f_player_index] = 0; /* Rotate Joystick*/
+		
+		if (f_player_index == 0 && player_joy[f_player_index] == 1) ++player_joy[0];  /* player 1 cant have SJ2*/
+		if (f_player_index == 1 && player_joy[f_player_index] == 0) ++player_joy[1];  /* player 2 cant have SJ1*/
+		
+		
+		if (player_joy[0] == player_joy[1]) {
+			if (f_player_index == 0) {
+				player_joy[1] = 1; /* default */
+			} else {
+				player_joy[0] = 0; /* default */
+			}
+		} 
+}
+
+void game_joystick_set_menu(void){
+	/* Default Values for menu */
+	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);	
+	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
+}
+
+void game_joystick_set(void){
+	joyfunc1 = control_method[ player_joy[0] ];
+	joyfunc2 = control_method[ player_joy[1] ];
+}
+
+
 void game_menu(void) {
 	/*PLAY MIDI TITLE*/
-	ay_midi_play(pb_midi_title);
+	game_menu_top_paint();
 	game_menu_paint();
+	ay_reset();
+	ay_midi_play(pb_midi_title);
 	while (1) { //ETHERNAL LOOP
 		while ((joyfunc1)(&k1) != 0);
 		tmp_uc = game_menu_handle(12, 2, 14, 18, 1000);
@@ -725,16 +770,18 @@ void game_menu(void) {
 	}
 }
 
-
-void game_menu_paint(void) {
+void game_menu_top_paint(void) {
+	spr_draw_clear();
+	game_paint_attrib(0);
 	//Draws menu
-	game_paint_attrib(11);
-	game_fill_row(0,32);
+	
+	//game_fill_row(0,32);
 	//Blue frame top
 	game_menu_e(16, 0,30,156,1);
 	//Green frame bottom
 	game_menu_e(80, 0,30,159,255); //game_menu_e(159,-1);
 	//Pietro logo
+	
 	tmp = 24;
 	intrinsic_di();
 	for (tmp_uc =0; tmp_uc < 10 ; ++tmp_uc) {
@@ -742,20 +789,28 @@ void game_menu_paint(void) {
 		NIRVANAP_drawT_raw(192 + 12	 + tmp_uc , tmp + 32 , 5 + (tmp_uc*2) );
 		//NIRVANAP_drawT(180 + 24	 + tmp_uc , tmp + 48 , 5 + (tmp_uc*2) );
 	}
-	NIRVANAP_drawT_raw(	 3, 128,  4 ); //pietro
-	NIRVANAP_drawT_raw( 59, 128, 25 ); //turtle
-	
 	intrinsic_ei();
+	
+}
+
+void game_menu_paint(void) {
 	NIRVANAP_halt();
 	NIRVANAP_fillC(INK_RED | PAPER_RED , tmp + 40 , 26);//POINT
 	//Menu
+	
+	game_fill_row(0,32);
+	game_fill_row(0,32);	
 	zx_print_str(14,10, "  1 PLAYER   ");
+	game_fill_row(15,32);
 	zx_print_str(16,10, "  2 PLAYER   ");
+	game_fill_row(17,32);
 	zx_print_str(18,10, "   CONFIG    ");
+	game_fill_row(19,32);
 	zx_print_ink(INK_BLUE);
 	zx_print_str(22,7, "CODED BY CGONZALEZ");
 	zx_print_str(23,7, "   VERSION  1.4  ");
 	tmp_uc = 0; //fix menu return
+	game_paint_attrib(11);
 }
 
 void game_menu_e(unsigned char f_col,unsigned char e_c0,unsigned char e_c1,unsigned char e_start,unsigned char f_sign) {
@@ -810,7 +865,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 		}
 		
 	};
-	return	(unsigned char) ( s_lin1 -	f_start	 ) / 2;
+	return	(unsigned char) ( s_lin1 -	f_start	 ) / f_inc;
 }
 
 void game_end(void) {
@@ -988,6 +1043,7 @@ void game_menu_back(unsigned char f_start) __z88dk_fastcall
 {
 	game_menu_sel = 0;
 	s_lin1 = f_start;
+	game_menu_top_paint();
 	game_menu_paint();
 	entry_time = zx_clock(); 
 }

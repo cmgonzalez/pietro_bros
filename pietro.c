@@ -18,7 +18,7 @@
 	Pietro Bros - Cristian Gonzalez - cmgonzalez@gmail.com
 
 	This program can be compiled in Windows (with z88dk installed on c:\z88dk) as follows:
-	  
+	
 	zcompile.bat 
 	 
 	options 
@@ -70,6 +70,8 @@
 #include "pietro_ay.h"
 #include "pietro_game.h"
 #include "pietro_sprite.h"
+#include "pietro_player.h"
+#include "pietro_enemies.h"
 #include "pietro_zx.h"
 #include "macros.h"
 
@@ -79,8 +81,7 @@ int main(void) {
 	//INTERRUPTS ARE DISABLED
 	
 	//RESET AY CHIP
-	
-	ay_reset();
+	ay_reset(); 
 	
 	//ATTRIB NORMAL
 	
@@ -90,7 +91,6 @@ int main(void) {
 	attrib[3]= PAPER_BLACK | INK_WHITE;
 	
 	//ATTRIB HIGHLIGHT
-	
 	attrib_hl[0]= PAPER_BLACK | INK_RED;
 	attrib_hl[1]= PAPER_BLACK | INK_YELLOW;
 	attrib_hl[2]= PAPER_BLACK | INK_GREEN;
@@ -106,23 +106,24 @@ int main(void) {
 	
 	game_type = 0;
 	
+	player_joy[0] = 0; /* SJ1 */
+	player_joy[1] = 1; /* SJ2 */
+	
 	//Keyboard Handling P1
 	
-	k1.fire	 = in_key_scancode('m');
-	k1.left	 = in_key_scancode('o');
-	k1.right  = in_key_scancode('p');
-
-	joyfunc1 = (uint16_t (*)(udk_t *))(in_stick_sinclair1);
-
-	//Keyboard Handling P2
-
-	k2.fire	 = in_key_scancode('x');
-	k2.left	 = in_key_scancode('q');
-	k2.right  = in_key_scancode('w');
-
-	joyfunc2 = (uint16_t (*)(udk_t *))(in_stick_sinclair2);
-
-	//Delay (NO NIRVANA)
+	k1.fire	= IN_KEY_SCANCODE_m;
+	k1.left	= IN_KEY_SCANCODE_o;
+	k1.right = IN_KEY_SCANCODE_p;
+	k1.up    = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise up is always true
+	k1.down  = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise down is always true
+	
+	k2.fire	= IN_KEY_SCANCODE_z;
+	k2.left	= IN_KEY_SCANCODE_q;
+	k2.right = IN_KEY_SCANCODE_w;
+	k2.up    = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise up is always true
+	k2.down  = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise down is always true
+	
+	game_joystick_set_menu();
 
 	zx_border(INK_BLACK);
 	
@@ -145,4 +146,43 @@ int main(void) {
 	//GAME EXIT
 	NIRVANAP_stop();
 	return 0;
+}
+
+void test_func(void) {
+			//tmp = jump_lin[sprite] - lin[sprite];
+		
+		sprite_lin_inc_mul = 2;
+		if (player_jump_c[sprite] > 4 ) sprite_lin_inc_mul = 1;
+		if (player_jump_c[sprite] > 8 ) sprite_lin_inc_mul = 0;
+		if (player_jump_c[sprite] > 12) sprite_lin_inc_mul = 1;
+		if (player_jump_c[sprite] > 14) sprite_lin_inc_mul = 2;
+		
+		
+		
+		if ( BIT_CHK(s_state, STAT_JUMP) ) {
+			/* Jump Handling */
+			
+			if ( player_jump_c[sprite] < PLAYER_MAX_JUMP ) {
+				spr_move_up();
+			} else {
+				spr_set_fall();		
+			}
+		} else {
+			if ( BIT_CHK(s_state, STAT_FALL) ){
+				/* Falling Handling */
+				if ( spr_move_down() ) {
+					BIT_CLR( state_a[sprite] , STAT_HITBRICK );
+					player_jump_c[sprite] = 0;
+					jump_lin[sprite] = 0;
+					player_calc_slide(lin[sprite],col[sprite]);
+					if ( BIT_CHK(s_state, STAT_DIRL) == BIT_CHK(s_state, STAT_DIRR) ) {
+						sliding[index_player] = 0;
+					}
+				}
+				
+			}
+		}
+		sprite_lin_inc_mul = 0;
+		++player_jump_c[sprite];
+		player_move_horizontal();
 }

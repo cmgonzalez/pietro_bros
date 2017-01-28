@@ -233,7 +233,7 @@ void enemy_turn(void){
 			
 			//FLIPPED ENEMY
 			if ( BIT_CHK(s_state,STAT_HIT) && !BIT_CHK(s_state,STAT_FALL) && !BIT_CHK(s_state,STAT_JUMP) ) {
-				sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
+				sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Flipped enemy */
 				enemy_standard_hit();
 				++colint[sprite];
 				if (colint[sprite] > 2) colint[sprite] = 0;
@@ -347,12 +347,12 @@ void enemy_fireball_red(void){
 	if ( phase_left > 0) {
 		if ( game_check_time( spr_timer[sprite], TIME_FIREBALL_RED) ) {
 			spr_timer[sprite] = zx_clock();
-			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
+			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Kill by timeout */
 			BIT_SET(s_state, STAT_KILL);
 		} else {
 			
 			if ( BIT_CHK(s_state, STAT_JUMP)) {
-				spr_move_up();
+				if ( spr_move_up() ) spr_set_fall();
 				tmp = 0;
 			} else {
 				spr_move_down();
@@ -403,7 +403,7 @@ void enemy_fireball_green(void){
 		if ( ( col[sprite] ==  0 && BIT_CHK(s_state, STAT_DIRL) ) ||
 			 ( col[sprite] == 30 && BIT_CHK(s_state, STAT_DIRR)) ) {
 			spr_timer[sprite] = zx_clock();
-			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED;
+			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Kill by timeout */
 			BIT_SET(s_state, STAT_KILL);
 		}
 	}
@@ -531,13 +531,13 @@ void enemy_walk(void){
 			jump_lin[sprite] = lin[sprite];
 		}
 		if ( BIT_CHK(s_state, STAT_FALL) ) {
-			lin[sprite] = lin[sprite] + LIN_INC;
+			lin[sprite] = lin[sprite] + SPRITE_LIN_INC;
 		} else {
-			lin[sprite] = lin[sprite] - LIN_INC;
+			lin[sprite] = lin[sprite] - SPRITE_LIN_INC;
 		}
 		if (class[sprite] != FIGHTERFLY) {
 			sprite_speed_alt[sprite] = ENEMY_FALL_SPEED;
-			if ( lin[sprite] - jump_lin[sprite] <= 16 ) spr_move_horizontal(); 
+			if ( lin[sprite] - jump_lin[sprite] <= 8 ) spr_move_horizontal(); 
 		}
 		
 	} else {
@@ -602,10 +602,10 @@ void enemy_kill(unsigned char f_sprite) __z88dk_fastcall {
 		BIT_SET(state[f_sprite], STAT_DIRR);
 		BIT_CLR(state[f_sprite], STAT_DIRL);
 	}
-	
+	BIT_CLR(state[f_sprite], STAT_FALL);
 	BIT_SET(state[f_sprite], STAT_JUMP);
 	BIT_SET(state[f_sprite], STAT_KILL);
-	
+	if (class[f_sprite] == FIGHTERFLY) class[f_sprite] = SHELLCREEPER_GREEN; /* Hack */
 	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED; //TODO CHECK DIFF SPEEDS
 	
 	player_score_add(80 << hit_count); //BONUS!

@@ -46,6 +46,8 @@ extern void			 game_print_score(void);
 extern void			 game_menu_back(unsigned char f_start) __z88dk_fastcall;
 extern void			 game_menu_e(unsigned char f_col, unsigned char e_c0,unsigned char e_c1,unsigned char e_start,unsigned char f_sign);
 extern unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsigned char f_start, unsigned char f_end, unsigned int timeout);
+extern void          game_menu_top_paint(void);
+extern void 		 game_menu_paint(void);
 extern void			 game_paint_attrib(unsigned char e_r1) __z88dk_fastcall;
 extern void			 game_paint_attrib_lin(unsigned char f_start,unsigned char f_end,unsigned char f_lin);
 extern void			 game_paint_attrib_lin_h(unsigned char f_start,unsigned char f_end,unsigned char f_lin);
@@ -67,5 +69,9 @@ extern void			 game_hall_enter_phs(unsigned char p) __z88dk_fastcall;
 extern HOF_ENTRY  *game_hall_check(unsigned char p) __z88dk_fastcall;
 extern unsigned char game_hall_edit_p(unsigned char index) __z88dk_fastcall;
 extern void			 game_hall_print_p(unsigned char index, unsigned char frame);
+
+extern void          game_joystick_change(unsigned char f_player_index);
+extern void          game_joystick_set(void);
+extern void          game_joystick_set_menu(void);
 
 #endif

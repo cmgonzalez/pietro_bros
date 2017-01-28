@@ -25,23 +25,25 @@ unsigned char spec128;
 //# CONTROL VARIABLES                                                                           #
 //#                                                                                             #
 //###############################################################################################
-char *joynames[] = { "Keyboard QAOPM", "Kempston", "Sinclair 1", "Sinclair 2" };
 
-#ifdef __SDCC
+const char *joynames[] = { "SJ1", "SJ2", "KB1", "KB2", "KEM", "CUR", "FUL" };
 uint16_t (*joyfunc1)(udk_t *);			// pointer to joystick function Player 1 
 uint16_t (*joyfunc2)(udk_t *);			// pointer to joystick function Player 1
-#endif
-
-#ifdef __SCCZ80
-void *joyfunc1;							// pointer to joystick function Player 1
-void *joyfunc2;							// pointer to joystick function Player 1
-#endif
-
 udk_t k1;
 udk_t k2;
 unsigned char dirs;
+unsigned char tbuffer[7];			    // temporary buffer
 
-unsigned char tbuffer[7];			// temporary buffer
+const JOYFUNC control_method[7] = {
+   (JOYFUNC)(in_stick_sinclair1),
+   (JOYFUNC)(in_stick_sinclair2),
+   (JOYFUNC)(in_stick_keyboard),
+   (JOYFUNC)(in_stick_keyboard),
+   (JOYFUNC)(in_stick_kempston),
+   (JOYFUNC)(in_stick_cursor),
+   (JOYFUNC)(in_stick_fuller)
+};
+
 
 //SPRITES GAME ARRAYS
 unsigned char class[8];					//CLASS OF SPRITE
@@ -49,7 +51,7 @@ unsigned char state[8];					//SPRITE STATES SEE DEFINES UPPER BIT VALUES
 unsigned char state_a[8];				//SPRITE STATES ALT SEE DEFINES UPPER BIT VALUES
 unsigned char tile[8];					//TILE
 unsigned char lin[8];					//LINE
-unsigned char col[8];					//COLUMN
+unsigned char col[8];					//COLUMNlisto 
 unsigned char colint[8];				//INTERNAL COLUMN/TILE INCREMENT
 unsigned int  spr_timer[8];				//SPRITE GENERAL TIMER MILISECONDS
 unsigned int  spr_timer_c[8];			//SPRITE COLITIONS CHECK TIMER MILISECONDS
@@ -59,9 +61,11 @@ unsigned char jump_lin[8];				//START JUMP LINE
 // PLAYER ONLY 
 unsigned char hit_lin[2];				//HIT BRICK LINE
 unsigned char hit_col[2];				//HIT BRICK COL
+unsigned char player_jump_c[2];			//JUMP CNT TIME y = a*t^2 + b*t + c https://www.wired.com/2016/12/lets-go-physics-jumping-super-mario-run/
 unsigned char sliding[2];				//SLIDING COUNTER
 unsigned int  player_score[2];			//SCORE ARRAYS
 unsigned int  player_next_extra[2];		//SCORE ARRAYS
+unsigned int  player_joy[2];			//JOYSTICK ARRAYS
 
 unsigned char	index_player;
 unsigned char	sprite_other_player;
@@ -76,6 +80,7 @@ unsigned char	s_lin0;
 unsigned char	s_lin1;
 unsigned char	s_col0;
 unsigned char	s_col1;
+unsigned char	sprite_lin_inc_mul;
 unsigned int	loop_count;
 unsigned int	index1;
 unsigned int	index2;

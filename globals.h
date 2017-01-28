@@ -18,10 +18,17 @@
 #define GLOBALS_H
 #include <input.h>
 
+typedef struct {
+	unsigned char name[4];
+	unsigned int  score;
+} HOF_ENTRY;
+
+typedef uint16_t (*JOYFUNC)(udk_t *);  
+
 extern unsigned char spec128;
 
 extern unsigned char btiles[];
-extern char *joynames[];
+
 extern uint16_t (*joyfunc1)(udk_t *);
 extern uint16_t (*joyfunc2)(udk_t *);
 extern udk_t k1;
@@ -37,6 +44,7 @@ extern unsigned char col[8];
 extern unsigned char colint[8];
 extern unsigned char hit_lin[2];
 extern unsigned char hit_col[2];
+extern unsigned char player_jump_c[2];
 extern unsigned char jump_lin[8];
 extern unsigned int  spr_timer[8];
 extern unsigned int  spr_timer_c[8];
@@ -44,6 +52,7 @@ extern unsigned char sliding[2];
 extern unsigned int  last_time[8];
 extern unsigned int  player_score[2];
 extern unsigned int  player_next_extra[2];
+extern unsigned int  player_joy[2];
 
 extern unsigned char	sprite;
 extern unsigned char	sprite_other_player;
@@ -57,6 +66,7 @@ extern unsigned char	s_lin0;
 extern unsigned char	s_lin1;
 extern unsigned char	s_col0;
 extern unsigned char	s_col1;
+extern unsigned char	sprite_lin_inc_mul;
 extern unsigned int		loop_count;
 extern unsigned int		index1;
 extern unsigned int		index2;
@@ -126,14 +136,11 @@ extern unsigned char score_osd_col[2];
 extern unsigned int  score_osd_time[2];
 extern unsigned int  score_osd_tile[2];
 
-typedef struct {
-	   unsigned char name[4];
-		unsigned int  score;
-} HOF_ENTRY;
-
 extern HOF_ENTRY hof[10];
 extern const unsigned char hall_valids[42];
-extern unsigned char initials[8];
 
+extern const JOYFUNC control_method[7];
+extern unsigned char initials[8];
+extern const char *joynames[];
 
 #endif
