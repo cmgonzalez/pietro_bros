@@ -39,3 +39,22 @@ Merry Christmas, Cheers!
 2016 Cristian M. Gonzalez
 
 Version 1.2
+
+
+BUILD INSTRUCTIONS:
+
+* Configure Nirvana+
+
+Using latest z88dk, edit z88dk/libsrc/_DEVELOPMENT/target/zx/clib_target_cfg.asm
+to set "__NIRVANAP_TOTAL_ROWS" equal to 19 and set "__spectrum" to 3 if
+building the pentagon version.
+
+* Build ZX Library
+
+Open shell, cd to z88dk/libsrc/_DEVELOPMENT and run "Wimake zx" on windows or
+"make TARGET=zx" on other machines.
+
+* Build Pietro Bros
+
+cd to this directory, type "make".  The tap file will be generated into the
+bin subdirectory.
