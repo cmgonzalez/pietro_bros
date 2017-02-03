@@ -13,7 +13,7 @@ CFLAGS = -SO3 --max-allocs-per-node100000 --opt-code-size
 
 .PHONY: depend clean
 
-default: loader.tap pietro_scr.bin pietro.font nirvanap.bin $(OUTF)
+default: loader.tap pietro_scr.bin pietro.font $(OUTF)
 	-ls -l *.bin
 	-rm -f *.bin *.tap *.font pietro_bros zcc_proj.lst zcc_opt.def
 
@@ -26,13 +26,10 @@ pietro_scr.bin: src_tap/pietro_scr.bin
 pietro.font: src_font/pietro.font
 	cp src_font/pietro.font pietro.font
 
-nirvanap.bin: src_nirvana/nirvana+.asm
-	src_nirvana/pasmo src_nirvana/nirvana+.asm nirvanap.bin
-
 $(OUTF): $(OBJS) mmap.inc
 	-rm -f $(OUTG)
 	zcc +zx -vn -m -zorg=23552 -startup=31 -clib=sdcc_iy $(OBJS) $(ASRC) -o pietro_bros -pragma-include:zpragma.inc
-	appmake +inject -b nirvanap.bin -o nirvanap_final.bin -i pietro_bros_NIRVANA_HOLE.bin --offset 6627
+	appmake +inject -b pietro_bros_NIRVANAP.bin -o nirvanap_final.bin -i pietro_bros_NIRVANA_HOLE.bin --offset 6627
 	appmake +zx -b pietro_bros_MCLOAD.bin -o mcload.tap --blockname mcload --org 16384 --noloader
 	appmake +zx -b pietro_bros_LOADER.bin -o mcloader.tap --org 23296 --noloader --noheader
 	appmake +zx -b pietro_scr.bin -o pietro_scr.tap --org 16384 --noloader --noheader

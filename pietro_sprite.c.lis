@@ -2,7 +2,7 @@
 2     0000              
 3     0000              ;--------------------------------------------------------
 4     0000              ; File Created by SDCC : free open source ANSI-C Compiler
-5     0000              ; Version 3.6.5 #9824 (MSVC)
+5     0000              ; Version 3.6.5 #9833 (MSVC)
 6     0000              ;--------------------------------------------------------
 7     0000              ; Processed by Z88DK
 8     0000              ;--------------------------------------------------------
@@ -434,20 +434,20 @@
 434   0000              	GLOBAL _in_key_pressed_fastcall
 435   0000              	GLOBAL _in_key_pressed
 436   0000              	GLOBAL _in_inkey
-437   0000              	GLOBAL _NIRVANAP_chars_fastcall
-438   0000              	GLOBAL _NIRVANAP_chars
-439   0000              	GLOBAL _NIRVANAP_wides_fastcall
-440   0000              	GLOBAL _NIRVANAP_wides
-441   0000              	GLOBAL _NIRVANAP_tiles_fastcall
-442   0000              	GLOBAL _NIRVANAP_tiles
-443   0000              	GLOBAL _NIRVANAP_drawW_raw_callee
-444   0000              	GLOBAL _NIRVANAP_drawW_raw
-445   0000              	GLOBAL _NIRVANAP_drawW_callee
-446   0000              	GLOBAL _NIRVANAP_drawW
-447   0000              	GLOBAL _NIRVANAP_spriteT_callee
-448   0000              	GLOBAL _NIRVANAP_spriteT
-449   0000              	GLOBAL _NIRVANAP_fillC_callee
-450   0000              	GLOBAL _NIRVANAP_fillC
+437   0000              	GLOBAL _NIRVANAP_drawTW_raw_callee
+438   0000              	GLOBAL _NIRVANAP_drawTW_raw
+439   0000              	GLOBAL _NIRVANAP_drawTW_callee
+440   0000              	GLOBAL _NIRVANAP_drawTW
+441   0000              	GLOBAL _NIRVANAP_drawW_raw_callee
+442   0000              	GLOBAL _NIRVANAP_drawW_raw
+443   0000              	GLOBAL _NIRVANAP_drawW_callee
+444   0000              	GLOBAL _NIRVANAP_drawW
+445   0000              	GLOBAL _NIRVANAP_spriteT_callee
+446   0000              	GLOBAL _NIRVANAP_spriteT
+447   0000              	GLOBAL _NIRVANAP_fillC_callee
+448   0000              	GLOBAL _NIRVANAP_fillC
+449   0000              	GLOBAL _NIRVANAP_readC_callee
+450   0000              	GLOBAL _NIRVANAP_readC
 451   0000              	GLOBAL _NIRVANAP_paintC_callee
 452   0000              	GLOBAL _NIRVANAP_paintC
 453   0000              	GLOBAL _NIRVANAP_printC_callee
@@ -593,2076 +593,2079 @@
 593   0000              	GLOBAL _joyfunc1
 594   0000              	GLOBAL _btiles
 595   0000              	GLOBAL _spec128
-596   0000              	GLOBAL _control_method
-597   0000              	GLOBAL _hall_valids
-598   0000              ;--------------------------------------------------------
-599   0000              ; special function registers
-600   0000              ;--------------------------------------------------------
-601   0000              ;--------------------------------------------------------
-602   0000              ; ram data
-603   0000              ;--------------------------------------------------------
-604   0000              	SECTION bss_compiler
-605   0000              defc _NIRVANAP_isr	=	0xf5d2
-606   0000              ;--------------------------------------------------------
-607   0000              ; ram data
-608   0000              ;--------------------------------------------------------
-609   0000              
-610   0000              IF 0
-611   0000              
-612   0000              ; .area _INITIALIZED removed by z88dk
-613   0000              
+596   0000              	GLOBAL _NIRVANAP_CHAR_TABLE
+597   0000              	GLOBAL _NIRVANAP_WIDE_IMAGES
+598   0000              	GLOBAL _NIRVANAP_TILE_IMAGES
+599   0000              	GLOBAL _NIRVANAP_ISR_HOOK
+600   0000              	GLOBAL _control_method
+601   0000              	GLOBAL _hall_valids
+602   0000              ;--------------------------------------------------------
+603   0000              ; special function registers
+604   0000              ;--------------------------------------------------------
+605   0000              ;--------------------------------------------------------
+606   0000              ; ram data
+607   0000              ;--------------------------------------------------------
+608   0000              	SECTION bss_compiler
+609   0000              ;--------------------------------------------------------
+610   0000              ; ram data
+611   0000              ;--------------------------------------------------------
+612   0000              
+613   0000              IF 0
 614   0000              
-615   0000              ENDIF
+615   0000              ; .area _INITIALIZED removed by z88dk
 616   0000              
-617   0000              ;--------------------------------------------------------
-618   0000              ; absolute external ram data
-619   0000              ;--------------------------------------------------------
-620   0000              	SECTION IGNORE
-621   0000              ;--------------------------------------------------------
-622   0000              ; global & static initialisations
-623   0000              ;--------------------------------------------------------
-624   0000              	SECTION code_crt_init
-625   0000              ;--------------------------------------------------------
-626   0000              ; Home
-627   0000              ;--------------------------------------------------------
-628   0000              	SECTION IGNORE
-629   0000              ;--------------------------------------------------------
-630   0000              ; code
-631   0000              ;--------------------------------------------------------
-632   0000              	SECTION code_compiler
-633   0000              ;	---------------------------------
-634   0000              ; Function spr_chktime
-635   0000              ; ---------------------------------
-636   0000              _spr_chktime:
-637   0000  CD 00 00    	call	___sdcc_enter_ix
-638   0003  F5          	push	af
-639   0004  DD 75 FE    	ld	(ix-2),l
-640   0007  DD 74 FF    	ld	(ix-1),h
-641   000A  E1          	pop	hl
-642   000B  01 00 00    	ld	bc,_sprite_speed_alt+0
-643   000E  5E          	ld	e,(hl)
-644   000F  E5          	push	hl
-645   0010  6B          	ld	l,e
-646   0011  26 00       	ld	h,0x00
-647   0013  09          	add	hl,bc
-648   0014  7E          	ld	a,(hl)
-649   0015  B7          	or	a, a
-650   0016  20 13       	jr	NZ,l_spr_chktime_00102
-651   0018  01 00 00    	ld	bc,_sprite_speed+0
-652   001B  16 00       	ld	d,0x00
-653   001D  21 00 00    	ld	hl,_class
-654   0020  19          	add	hl, de
-655   0021  6E          	ld	l, (hl)
-656   0022  26 00       	ld	h,0x00
-657   0024  09          	add	hl,bc
-658   0025  7E          	ld	a,(hl)
-659   0026  32 00 00    	ld	(_tmp),a
-660   0029  18 03       	jr	l_spr_chktime_00103
-661   002B              l_spr_chktime_00102:
-662   002B  32 00 00    	ld	(_tmp),a
-663   002E              l_spr_chktime_00103:
-664   002E  3A 00 00    	ld	a,(_tmp)
-665   0031  4F          	ld	c,a
-666   0032  06 00       	ld	b,0x00
-667   0034  60          	ld	h,b
-668   0035  6B          	ld	l, e
-669   0036  29          	add	hl, hl
-670   0037  11 00 00    	ld	de,_last_time
-671   003A  19          	add	hl,de
-672   003B  5E          	ld	e,(hl)
-673   003C  23          	inc	hl
-674   003D  56          	ld	d,(hl)
-675   003E  C5          	push	bc
-676   003F  D5          	push	de
-677   0040  CD 00 00    	call	_game_check_time
-678   0043  F1          	pop	af
-679   0044  F1          	pop	af
-680   0045  7D          	ld	a,l
-681   0046  B7          	or	a, a
-682   0047  28 15       	jr	Z,l_spr_chktime_00105
-683   0049  E1          	pop	hl
-684   004A  E5          	push	hl
-685   004B  6E          	ld	l,(hl)
-686   004C  26 00       	ld	h,0x00
-687   004E  29          	add	hl, hl
-688   004F  01 00 00    	ld	bc,_last_time
-689   0052  09          	add	hl,bc
-690   0053  ED 5B 00 00 	ld	de,(_curr_time)
-691   0057  73          	ld	(hl),e
-692   0058  23          	inc	hl
-693   0059  72          	ld	(hl),d
-694   005A  2E 01       	ld	l,0x01
-695   005C  18 02       	jr	l_spr_chktime_00106
-696   005E              l_spr_chktime_00105:
-697   005E  2E 00       	ld	l,0x00
-698   0060              l_spr_chktime_00106:
-699   0060  F1          	pop	af
-700   0061  DD E1       	pop	ix
-701   0063  C9          	ret
-702   0064              	SECTION code_compiler
-703   0064              ;	---------------------------------
-704   0064              ; Function spr_move_up
-705   0064              ; ---------------------------------
-706   0064              _spr_move_up:
-707   0064  2A 00 00    	ld	hl,(_sprite)
-708   0067  26 00       	ld	h,0x00
-709   0069  01 00 00    	ld	bc,_lin
-710   006C  09          	add	hl,bc
-711   006D  4E          	ld	c,(hl)
-712   006E  21 00 00    	ld	hl,_sprite_lin_inc_mul
-713   0071  46          	ld	b,(hl)
-714   0072  1E 02       	ld	e,0x02
-715   0074  04          	inc	b
-716   0075  18 02       	jr	l_spr_move_up_00141
-717   0077              l_spr_move_up_00140:
-718   0077  CB 23       	sla	e
-719   0079              l_spr_move_up_00141:
-720   0079  10 FC       	djnz	l_spr_move_up_00140
-721   007B  79          	ld	a,c
-722   007C  93          	sub	a, e
-723   007D  32 00 00    	ld	(_tmp1),a
-724   0080  21 00 00    	ld	hl,_sprite
-725   0083  7E          	ld	a,(hl)
-726   0084  D6 06       	sub	a,0x06
-727   0086  30 0C       	jr	NC,l_spr_move_up_00108
-728   0088  4E          	ld	c,(hl)
-729   0089  06 00       	ld	b,0x00
-730   008B  21 00 00    	ld	hl,_class
-731   008E  09          	add	hl,bc
-732   008F  7E          	ld	a,(hl)
-733   0090  D6 0A       	sub	a,0x0a
-734   0092  20 42       	jr	NZ,l_spr_move_up_00109
-735   0094              l_spr_move_up_00108:
-736   0094  3A 00 00    	ld	a,(_sprite)
-737   0097  C6 00       	add	a,+((_col) & 0xFF)
-738   0099  4F          	ld	c,a
-739   009A  3E 00       	ld	a,+((_col) / 256)
-740   009C  CE 00       	adc	a,0x00
-741   009E  47          	ld	b,a
-742   009F  0A          	ld	a,(bc)
-743   00A0  F5          	push	af
-744   00A1  33          	inc	sp
-745   00A2  3A 00 00    	ld	a,(_tmp1)
-746   00A5  F5          	push	af
-747   00A6  33          	inc	sp
-748   00A7  CD 00 00    	call	_game_calc_index
-749   00AA  F1          	pop	af
-750   00AB  22 00 00    	ld	(_index1),hl
-751   00AE  CD 00 00    	call	_game_check_maze
-752   00B1  7D          	ld	a,l
-753   00B2  B7          	or	a, a
-754   00B3  20 21       	jr	NZ,l_spr_move_up_00109
-755   00B5  21 00 00    	ld	hl,_sprite
-756   00B8  7E          	ld	a,(hl)
-757   00B9  D6 06       	sub	a,0x06
-758   00BB  38 15       	jr	C,l_spr_move_up_00104
-759   00BD  4E          	ld	c,(hl)
-760   00BE  06 00       	ld	b,0x00
-761   00C0  21 00 00    	ld	hl,_state_a
-762   00C3  09          	add	hl,bc
-763   00C4  7E          	ld	a,(hl)
-764   00C5  07          	rlca
-765   00C6  38 0A       	jr	C,l_spr_move_up_00104
-766   00C8  CD 00 00    	call	_player_hit_pow
-767   00CB  7D          	ld	a,l
-768   00CC  B7          	or	a, a
-769   00CD  20 03       	jr	NZ,l_spr_move_up_00104
-770   00CF  CD 00 00    	call	_player_hit_brick
-771   00D2              l_spr_move_up_00104:
-772   00D2  2E 01       	ld	l,0x01
-773   00D4  18 3B       	jr	l_spr_move_up_00114
-774   00D6              l_spr_move_up_00109:
-775   00D6  3A 00 00    	ld	a,(_sprite)
-776   00D9  C6 00       	add	a,+((_lin) & 0xFF)
-777   00DB  4F          	ld	c,a
-778   00DC  3E 00       	ld	a,+((_lin) / 256)
-779   00DE  CE 00       	adc	a,0x00
-780   00E0  47          	ld	b,a
-781   00E1  3A 00 00    	ld	a,(_tmp1)
-782   00E4  02          	ld	(bc),a
-783   00E5  3A 00 00    	ld	a,(_sprite)
-784   00E8  C6 00       	add	a,+((_lin) & 0xFF)
-785   00EA  4F          	ld	c,a
-786   00EB  3E 00       	ld	a,+((_lin) / 256)
-787   00ED  CE 00       	adc	a,0x00
-788   00EF  47          	ld	b,a
-789   00F0  0A          	ld	a,(bc)
-790   00F1  5F          	ld	e,a
-791   00F2  B7          	or	a, a
-792   00F3  28 05       	jr	Z,l_spr_move_up_00111
-793   00F5  3E 98       	ld	a,0x98
-794   00F7  93          	sub	a, e
-795   00F8  30 15       	jr	NC,l_spr_move_up_00112
-796   00FA              l_spr_move_up_00111:
-797   00FA  AF          	xor	a, a
-798   00FB  02          	ld	(bc),a
-799   00FC  3A 00 00    	ld	a,(_s_col0)
-800   00FF  F5          	push	af
-801   0100  33          	inc	sp
-802   0101  3A 00 00    	ld	a,(_s_lin0)
-803   0104  57          	ld	d,a
-804   0105  1E 12       	ld	e,0x12
-805   0107  D5          	push	de
-806   0108  CD 00 00    	call	_NIRVANAP_fillT_callee
-807   010B  2E 01       	ld	l,0x01
-808   010D  18 02       	jr	l_spr_move_up_00114
-809   010F              l_spr_move_up_00112:
-810   010F  2E 00       	ld	l,0x00
-811   0111              l_spr_move_up_00114:
-812   0111  C9          	ret
-813   0112              	SECTION code_compiler
-814   0112              ;	---------------------------------
-815   0112              ; Function spr_move_down
-816   0112              ; ---------------------------------
-817   0112              _spr_move_down:
-818   0112  2A 00 00    	ld	hl,(_sprite)
-819   0115  26 00       	ld	h,0x00
-820   0117  01 00 00    	ld	bc,_lin
-821   011A  09          	add	hl,bc
-822   011B  4E          	ld	c,(hl)
-823   011C  21 00 00    	ld	hl,_sprite_lin_inc_mul
-824   011F  46          	ld	b,(hl)
-825   0120  1E 02       	ld	e,0x02
-826   0122  04          	inc	b
-827   0123  18 02       	jr	l_spr_move_down_00122
-828   0125              l_spr_move_down_00121:
-829   0125  CB 23       	sla	e
-830   0127              l_spr_move_down_00122:
-831   0127  10 FC       	djnz	l_spr_move_down_00121
-832   0129  79          	ld	a,c
-833   012A  83          	add	a, e
-834   012B  32 00 00    	ld	(_tmp1),a
-835   012E  3A 00 00    	ld	a,(_sprite)
-836   0131  C6 00       	add	a,+((_col) & 0xFF)
-837   0133  4F          	ld	c,a
-838   0134  3E 00       	ld	a,+((_col) / 256)
-839   0136  CE 00       	adc	a,0x00
-840   0138  47          	ld	b,a
-841   0139  0A          	ld	a,(bc)
-842   013A  57          	ld	d,a
-843   013B  3A 00 00    	ld	a,(_tmp1)
-844   013E  C6 0E       	add	a,0x0e
-845   0140  5F          	ld	e, a
-846   0141  D5          	push	de
-847   0142  CD 00 00    	call	_game_calc_index
-848   0145  F1          	pop	af
-849   0146  22 00 00    	ld	(_index1),hl
-850   0149  CD 00 00    	call	_game_check_maze
-851   014C  3A 00 00    	ld	a,(_sprite)
-852   014F  C6 00       	add	a,+((_lin) & 0xFF)
-853   0151  4D          	ld	c,l
-854   0152  5F          	ld	e,a
-855   0153  3E 00       	ld	a,+((_lin) / 256)
-856   0155  CE 00       	adc	a,0x00
-857   0157  57          	ld	d,a
-858   0158  79          	ld	a,c
-859   0159  B7          	or	a, a
-860   015A  20 41       	jr	NZ,l_spr_move_down_00104
-861   015C  3A 00 00    	ld	a,(_tmp1)
-862   015F  0F          	rrca
-863   0160  0F          	rrca
-864   0161  0F          	rrca
-865   0162  E6 1F       	and	a,0x1f
-866   0164  07          	rlca
-867   0165  07          	rlca
-868   0166  07          	rlca
-869   0167  E6 F8       	and	a,0xf8
-870   0169  12          	ld	(de),a
-871   016A  21 00 00    	ld	hl,_s_state
-872   016D  CB 8E       	res	1, (hl)
-873   016F  21 00 00    	ld	hl,_sprite
-874   0172  7E          	ld	a,(hl)
-875   0173  D6 06       	sub	a,0x06
-876   0175  38 22       	jr	C,l_spr_move_down_00102
-877   0177  3E 00       	ld	a,+((_tile) & 0xFF)
-878   0179  86          	add	a, (hl)
-879   017A  4F          	ld	c,a
-880   017B  3E 00       	ld	a,+((_tile) / 256)
-881   017D  CE 00       	adc	a,0x00
-882   017F  47          	ld	b,a
-883   0180  3A 00 00    	ld	a,(_tile_offset)
-884   0183  5F          	ld	e,a
-885   0184  16 00       	ld	d,0x00
-886   0186  13          	inc	de
-887   0187  13          	inc	de
-888   0188  13          	inc	de
-889   0189  2A 00 00    	ld	hl,(_sprite)
-890   018C  C5          	push	bc
-891   018D  26 0C       	ld	h,0x0c
-892   018F  E5          	push	hl
-893   0190  D5          	push	de
-894   0191  CD D6 06    	call	_spr_tile_dir
-895   0194  F1          	pop	af
-896   0195  F1          	pop	af
-897   0196  C1          	pop	bc
-898   0197  7D          	ld	a, l
-899   0198  02          	ld	(bc),a
-900   0199              l_spr_move_down_00102:
-901   0199  2E 01       	ld	l,0x01
-902   019B  18 24       	jr	l_spr_move_down_00107
-903   019D              l_spr_move_down_00104:
-904   019D  3A 00 00    	ld	a,(_tmp1)
-905   01A0  12          	ld	(de),a
-906   01A1  3A 00 00    	ld	a,(_sprite)
-907   01A4  C6 00       	add	a,+((_lin) & 0xFF)
-908   01A6  4F          	ld	c,a
-909   01A7  3E 00       	ld	a,+((_lin) / 256)
-910   01A9  CE 00       	adc	a,0x00
-911   01AB  47          	ld	b,a
-912   01AC  0A          	ld	a,(bc)
-913   01AD  5F          	ld	e,a
-914   01AE  3E 98       	ld	a,0x98
-915   01B0  93          	sub	a, e
-916   01B1  30 0C       	jr	NC,l_spr_move_down_00106
-917   01B3  21 00 00    	ld	hl,_s_state
-918   01B6  CB 8E       	res	1, (hl)
-919   01B8  3E 98       	ld	a,0x98
-920   01BA  02          	ld	(bc),a
-921   01BB  2E 01       	ld	l,0x01
-922   01BD  18 02       	jr	l_spr_move_down_00107
-923   01BF              l_spr_move_down_00106:
-924   01BF  2E 00       	ld	l,0x00
-925   01C1              l_spr_move_down_00107:
-926   01C1  C9          	ret
-927   01C2              	SECTION code_compiler
-928   01C2              ;	---------------------------------
-929   01C2              ; Function spr_move_horizontal
-930   01C2              ; ---------------------------------
-931   01C2              _spr_move_horizontal:
-932   01C2  3A 00 00    	ld	a,(_sprite)
-933   01C5  C6 00       	add	a,+((_state) & 0xFF)
-934   01C7  4F          	ld	c,a
-935   01C8  3E 00       	ld	a,+((_state) / 256)
-936   01CA  CE 00       	adc	a,0x00
-937   01CC  47          	ld	b,a
-938   01CD  0A          	ld	a,(bc)
-939   01CE  CB 57       	bit	2, a
-940   01D0  28 05       	jr	Z,l_spr_move_horizontal_00104
-941   01D2  CD DE 01    	call	_spr_move_right
-942   01D5  18 06       	jr	l_spr_move_horizontal_00106
-943   01D7              l_spr_move_horizontal_00104:
-944   01D7  CB 5F       	bit	3, a
-945   01D9  C8          	ret	Z
-946   01DA  CD 1C 02    	call	_spr_move_left
-947   01DD              l_spr_move_horizontal_00106:
-948   01DD  C9          	ret
-949   01DE              	SECTION code_compiler
-950   01DE              ;	---------------------------------
-951   01DE              ; Function spr_move_right
-952   01DE              ; ---------------------------------
-953   01DE              _spr_move_right:
-954   01DE  01 00 00    	ld	bc,_colint+0
-955   01E1  79          	ld	a,c
-956   01E2  21 00 00    	ld	hl,_sprite
-957   01E5  86          	add	a, (hl)
-958   01E6  5F          	ld	e,a
-959   01E7  78          	ld	a,b
-960   01E8  CE 00       	adc	a,0x00
-961   01EA  57          	ld	d,a
-962   01EB  1A          	ld	a,(de)
-963   01EC  3C          	inc	a
-964   01ED  12          	ld	(de),a
-965   01EE  79          	ld	a,c
-966   01EF  86          	add	a, (hl)
-967   01F0  4F          	ld	c,a
-968   01F1  78          	ld	a,b
-969   01F2  CE 00       	adc	a,0x00
-970   01F4  47          	ld	b,a
-971   01F5  0A          	ld	a,(bc)
-972   01F6  D6 03       	sub	a,0x03
-973   01F8  20 1F       	jr	NZ,l_spr_move_right_00104
-974   01FA  AF          	xor	a, a
-975   01FB  02          	ld	(bc),a
-976   01FC  01 00 00    	ld	bc,_col+0
-977   01FF  79          	ld	a,c
-978   0200  86          	add	a, (hl)
-979   0201  5F          	ld	e,a
-980   0202  78          	ld	a,b
-981   0203  CE 00       	adc	a,0x00
-982   0205  57          	ld	d,a
-983   0206  1A          	ld	a,(de)
-984   0207  3C          	inc	a
-985   0208  12          	ld	(de),a
-986   0209  79          	ld	a,c
-987   020A  86          	add	a, (hl)
-988   020B  4F          	ld	c,a
-989   020C  78          	ld	a,b
-990   020D  CE 00       	adc	a,0x00
-991   020F  47          	ld	b,a
-992   0210  0A          	ld	a,(bc)
-993   0211  5F          	ld	e,a
-994   0212  3E 1E       	ld	a,0x1e
-995   0214  93          	sub	a, e
-996   0215  30 02       	jr	NC,l_spr_move_right_00104
-997   0217  AF          	xor	a, a
-998   0218  02          	ld	(bc),a
-999   0219              l_spr_move_right_00104:
-1000  0219  2E 00       	ld	l,0x00
-1001  021B  C9          	ret
-1002  021C              	SECTION code_compiler
-1003  021C              ;	---------------------------------
-1004  021C              ; Function spr_move_left
-1005  021C              ; ---------------------------------
-1006  021C              _spr_move_left:
-1007  021C  01 00 00    	ld	bc,_colint+0
-1008  021F  79          	ld	a,c
-1009  0220  21 00 00    	ld	hl,_sprite
-1010  0223  86          	add	a, (hl)
-1011  0224  5F          	ld	e,a
-1012  0225  78          	ld	a,b
-1013  0226  CE 00       	adc	a,0x00
-1014  0228  57          	ld	d,a
-1015  0229  1A          	ld	a,(de)
-1016  022A  C6 FF       	add	a,0xff
-1017  022C  12          	ld	(de),a
-1018  022D  79          	ld	a,c
-1019  022E  86          	add	a, (hl)
-1020  022F  4F          	ld	c,a
-1021  0230  78          	ld	a,b
-1022  0231  CE 00       	adc	a,0x00
-1023  0233  47          	ld	b,a
-1024  0234  0A          	ld	a,(bc)
-1025  0235  3C          	inc	a
-1026  0236  20 1F       	jr	NZ,l_spr_move_left_00104
-1027  0238  3E 02       	ld	a,0x02
-1028  023A  02          	ld	(bc),a
-1029  023B  01 00 00    	ld	bc,_col+0
-1030  023E  79          	ld	a,c
-1031  023F  86          	add	a, (hl)
-1032  0240  5F          	ld	e,a
-1033  0241  78          	ld	a,b
-1034  0242  CE 00       	adc	a,0x00
-1035  0244  57          	ld	d,a
-1036  0245  1A          	ld	a,(de)
-1037  0246  C6 FF       	add	a,0xff
-1038  0248  12          	ld	(de),a
-1039  0249  79          	ld	a,c
-1040  024A  86          	add	a, (hl)
-1041  024B  4F          	ld	c,a
-1042  024C  78          	ld	a,b
-1043  024D  CE 00       	adc	a,0x00
-1044  024F  47          	ld	b,a
-1045  0250  0A          	ld	a,(bc)
-1046  0251  3C          	inc	a
-1047  0252  20 03       	jr	NZ,l_spr_move_left_00104
-1048  0254  3E 1E       	ld	a,0x1e
-1049  0256  02          	ld	(bc),a
-1050  0257              l_spr_move_left_00104:
-1051  0257  2E 00       	ld	l,0x00
-1052  0259  C9          	ret
-1053  025A              	SECTION code_compiler
-1054  025A              ;	---------------------------------
-1055  025A              ; Function spr_redraw
-1056  025A              ; ---------------------------------
-1057  025A              _spr_redraw:
-1058  025A  3E 00       	ld	a,+((_tile) & 0xFF)
-1059  025C  21 00 00    	ld	hl,_sprite
-1060  025F  86          	add	a, (hl)
-1061  0260  4F          	ld	c,a
-1062  0261  3E 00       	ld	a,+((_tile) / 256)
-1063  0263  CE 00       	adc	a,0x00
-1064  0265  47          	ld	b,a
-1065  0266  0A          	ld	a,(bc)
-1066  0267  4F          	ld	c,a
-1067  0268  5E          	ld	e,(hl)
-1068  0269  16 00       	ld	d,0x00
-1069  026B  21 00 00    	ld	hl,_colint
-1070  026E  19          	add	hl,de
-1071  026F  7E          	ld	a,(hl)
-1072  0270  81          	add	a,c
-1073  0271  32 00 00    	ld	(_s_tile1),a
-1074  0274  2A 00 00    	ld	hl,(_sprite)
-1075  0277  26 00       	ld	h,0x00
-1076  0279  01 00 00    	ld	bc,_lin
-1077  027C  09          	add	hl,bc
-1078  027D  46          	ld	b,(hl)
-1079  027E  3A 00 00    	ld	a,(_s_lin0)
-1080  0281  90          	sub	a, b
-1081  0282  20 10       	jr	NZ,l_spr_redraw_00111
-1082  0284  2A 00 00    	ld	hl,(_sprite)
-1083  0287  26 00       	ld	h,0x00
-1084  0289  11 00 00    	ld	de,_col
-1085  028C  19          	add	hl,de
-1086  028D  56          	ld	d, (hl)
-1087  028E  3A 00 00    	ld	a,(_s_col0)
-1088  0291  92          	sub	a, d
-1089  0292  28 68       	jr	Z,l_spr_redraw_00112
-1090  0294              l_spr_redraw_00111:
-1091  0294  3E 10       	ld	a,0x10
-1092  0296  21 00 00    	ld	hl,_s_lin0
-1093  0299  96          	sub	a, (hl)
-1094  029A  38 0C       	jr	C,l_spr_redraw_00102
-1095  029C  3A 00 00    	ld	a,(_s_col0)
-1096  029F  F5          	push	af
-1097  02A0  33          	inc	sp
-1098  02A1  21 00 08    	ld	hl,0x0800
-1099  02A4  E5          	push	hl
-1100  02A5  CD 00 00    	call	_NIRVANAP_fillT_callee
-1101  02A8              l_spr_redraw_00102:
-1102  02A8  3E 00       	ld	a,+((_col) & 0xFF)
-1103  02AA  21 00 00    	ld	hl,_sprite
-1104  02AD  86          	add	a, (hl)
-1105  02AE  4F          	ld	c,a
-1106  02AF  3E 00       	ld	a,+((_col) / 256)
-1107  02B1  CE 00       	adc	a,0x00
-1108  02B3  47          	ld	b,a
-1109  02B4  0A          	ld	a,(bc)
-1110  02B5  57          	ld	d,a
-1111  02B6  4E          	ld	c,(hl)
-1112  02B7  06 00       	ld	b,0x00
-1113  02B9  21 00 00    	ld	hl,_lin
-1114  02BC  09          	add	hl,bc
-1115  02BD  5E          	ld	e, (hl)
-1116  02BE  D5          	push	de
-1117  02BF  2A FF FF    	ld	hl,(_s_tile1 - 1)
-1118  02C2  3A 00 00    	ld	a,(_sprite)
-1119  02C5  6F          	ld	l,a
-1120  02C6  E5          	push	hl
-1121  02C7  CD 00 00    	call	_NIRVANAP_spriteT_callee
-1122  02CA  CD 05 05    	call	_spr_check_over
-1123  02CD  7D          	ld	a,l
-1124  02CE  B7          	or	a, a
-1125  02CF  20 41       	jr	NZ,l_spr_redraw_00113
-1126  02D1  3A 00 00    	ld	a,(_sprite)
-1127  02D4  C6 00       	add	a,+((_state) & 0xFF)
-1128  02D6  4F          	ld	c,a
-1129  02D7  3E 00       	ld	a,+((_state) / 256)
-1130  02D9  CE 00       	adc	a,0x00
-1131  02DB  47          	ld	b,a
-1132  02DC  0A          	ld	a,(bc)
-1133  02DD  CB 47       	bit	0, a
-1134  02DF  28 09       	jr	Z,l_spr_redraw_00104
-1135  02E1  2E 10       	ld	l,0x10
-1136  02E3  CD 98 08    	call	_spr_back_fix
-1137  02E6  2E 00       	ld	l,0x00
-1138  02E8  18 2A       	jr	l_spr_redraw_00115
-1139  02EA              l_spr_redraw_00104:
-1140  02EA  CB 4F       	bit	1, a
-1141  02EC  28 09       	jr	Z,l_spr_redraw_00106
-1142  02EE  2E 00       	ld	l,0x00
-1143  02F0  CD 98 08    	call	_spr_back_fix
-1144  02F3  2E 00       	ld	l,0x00
-1145  02F5  18 1D       	jr	l_spr_redraw_00115
-1146  02F7              l_spr_redraw_00106:
-1147  02F7  CD 56 08    	call	_spr_back_clr
-1148  02FA  18 16       	jr	l_spr_redraw_00113
-1149  02FC              l_spr_redraw_00112:
-1150  02FC  3A 00 00    	ld	a,(_s_tile1)
-1151  02FF  21 00 00    	ld	hl,_s_tile0
-1152  0302  96          	sub	a, (hl)
-1153  0303  28 0D       	jr	Z,l_spr_redraw_00113
-1154  0305  58          	ld	e,b
-1155  0306  D5          	push	de
-1156  0307  2A FF FF    	ld	hl,(_s_tile1 - 1)
-1157  030A  3A 00 00    	ld	a,(_sprite)
-1158  030D  6F          	ld	l,a
-1159  030E  E5          	push	hl
-1160  030F  CD 00 00    	call	_NIRVANAP_spriteT_callee
-1161  0312              l_spr_redraw_00113:
-1162  0312  2E 00       	ld	l,0x00
-1163  0314              l_spr_redraw_00115:
-1164  0314  C9          	ret
-1165  0315              	SECTION code_compiler
-1166  0315              ;	---------------------------------
-1167  0315              ; Function spr_killed
-1168  0315              ; ---------------------------------
-1169  0315              _spr_killed:
-1170  0315  45          	ld	b,l
-1171  0316  11 00 00    	ld	de,_class+0
-1172  0319  26 00       	ld	h,0x00
-1173  031B  19          	add	hl,de
-1174  031C  7E          	ld	a,(hl)
-1175  031D  4F          	ld	c,a
-1176  031E  D6 07       	sub	a,0x07
-1177  0320  28 13       	jr	Z,l_spr_killed_00101
-1178  0322  79          	ld	a,c
-1179  0323  FE 08       	cp	a,0x08
-1180  0325  28 28       	jr	Z,l_spr_killed_00103
-1181  0327  FE 0A       	cp	a,0x0a
-1182  0329  28 31       	jr	Z,l_spr_killed_00104
-1183  032B  FE 0B       	cp	a,0x0b
-1184  032D  28 42       	jr	Z,l_spr_killed_00105
-1185  032F  D6 0C       	sub	a,0x0c
-1186  0331  28 0F       	jr	Z,l_spr_killed_00102
-1187  0333  18 51       	jr	l_spr_killed_00106
-1188  0335              l_spr_killed_00101:
-1189  0335  21 81 00    	ld	hl,0x0081
-1190  0338  E5          	push	hl
-1191  0339  C5          	push	bc
-1192  033A  33          	inc	sp
-1193  033B  CD 7C 04    	call	_spr_anim_kill
-1194  033E  F1          	pop	af
-1195  033F  33          	inc	sp
-1196  0340  18 48       	jr	l_spr_killed_00107
-1197  0342              l_spr_killed_00102:
-1198  0342  21 BA 00    	ld	hl,0x00ba
-1199  0345  E5          	push	hl
-1200  0346  C5          	push	bc
-1201  0347  33          	inc	sp
-1202  0348  CD 7C 04    	call	_spr_anim_kill
-1203  034B  F1          	pop	af
-1204  034C  33          	inc	sp
-1205  034D  18 3B       	jr	l_spr_killed_00107
-1206  034F              l_spr_killed_00103:
-1207  034F  21 BA 00    	ld	hl,0x00ba
-1208  0352  E5          	push	hl
-1209  0353  C5          	push	bc
-1210  0354  33          	inc	sp
-1211  0355  CD 7C 04    	call	_spr_anim_kill
-1212  0358  F1          	pop	af
-1213  0359  33          	inc	sp
-1214  035A  18 2E       	jr	l_spr_killed_00107
-1215  035C              l_spr_killed_00104:
-1216  035C  C5          	push	bc
-1217  035D  68          	ld	l,b
-1218  035E  CD 01 06    	call	_spr_tile
-1219  0361  EB          	ex	de,hl
-1220  0362  C1          	pop	bc
-1221  0363  EB          	ex	de,hl
-1222  0364  23          	inc	hl
-1223  0365  23          	inc	hl
-1224  0366  23          	inc	hl
-1225  0367  E5          	push	hl
-1226  0368  C5          	push	bc
-1227  0369  33          	inc	sp
-1228  036A  CD 7C 04    	call	_spr_anim_kill
-1229  036D  F1          	pop	af
-1230  036E  33          	inc	sp
-1231  036F  18 19       	jr	l_spr_killed_00107
-1232  0371              l_spr_killed_00105:
-1233  0371  C5          	push	bc
-1234  0372  68          	ld	l,b
-1235  0373  CD 01 06    	call	_spr_tile
-1236  0376  EB          	ex	de,hl
-1237  0377  C1          	pop	bc
-1238  0378  EB          	ex	de,hl
-1239  0379  23          	inc	hl
-1240  037A  23          	inc	hl
-1241  037B  23          	inc	hl
-1242  037C  E5          	push	hl
-1243  037D  C5          	push	bc
-1244  037E  33          	inc	sp
-1245  037F  CD 7C 04    	call	_spr_anim_kill
-1246  0382  F1          	pop	af
-1247  0383  33          	inc	sp
-1248  0384  18 04       	jr	l_spr_killed_00107
-1249  0386              l_spr_killed_00106:
-1250  0386  68          	ld	l,b
-1251  0387  CD 8D 03    	call	_spr_anim_fall
-1252  038A              l_spr_killed_00107:
-1253  038A  2E 00       	ld	l,0x00
-1254  038C  C9          	ret
-1255  038D              	SECTION code_compiler
-1256  038D              ;	---------------------------------
-1257  038D              ; Function spr_anim_fall
-1258  038D              ; ---------------------------------
-1259  038D              _spr_anim_fall:
-1260  038D  CD 00 00    	call	___sdcc_enter_ix
-1261  0390  F5          	push	af
-1262  0391  45          	ld	b,l
-1263  0392  3E 00       	ld	a,+((_lin) & 0xFF)
-1264  0394  80          	add	a, b
-1265  0395  DD 77 FE    	ld	(ix-2),a
-1266  0398  3E 00       	ld	a,+((_lin) / 256)
-1267  039A  CE 00       	adc	a,0x00
-1268  039C  DD 77 FF    	ld	(ix-1),a
-1269  039F  E1          	pop	hl
-1270  03A0  7E          	ld	a,(hl)
-1271  03A1  E5          	push	hl
-1272  03A2  4F          	ld	c,a
-1273  03A3  D6 98       	sub	a,0x98
-1274  03A5  30 34       	jr	NC,l_spr_anim_fall_00114
-1275  03A7  11 00 00    	ld	de,_col+0
-1276  03AA  68          	ld	l,b
-1277  03AB  26 00       	ld	h,0x00
-1278  03AD  19          	add	hl,de
-1279  03AE  7E          	ld	a,(hl)
-1280  03AF  32 00 00    	ld	(_s_col0),a
-1281  03B2  21 00 00    	ld	hl,_s_lin0
-1282  03B5  71          	ld	(hl),c
-1283  03B6  0C          	inc	c
-1284  03B7  0C          	inc	c
-1285  03B8  0C          	inc	c
-1286  03B9  0C          	inc	c
-1287  03BA  E1          	pop	hl
-1288  03BB  E5          	push	hl
-1289  03BC  71          	ld	(hl),c
-1290  03BD  11 00 00    	ld	de,_tile+0
-1291  03C0  68          	ld	l,b
-1292  03C1  26 00       	ld	h,0x00
-1293  03C3  19          	add	hl,de
-1294  03C4  56          	ld	d,(hl)
-1295  03C5  3A 00 00    	ld	a,(_s_col0)
-1296  03C8  F5          	push	af
-1297  03C9  33          	inc	sp
-1298  03CA  79          	ld	a,c
-1299  03CB  5A          	ld	e,d
-1300  03CC  57          	ld	d,a
-1301  03CD  D5          	push	de
-1302  03CE  C5          	push	bc
-1303  03CF  33          	inc	sp
-1304  03D0  CD 00 00    	call	_NIRVANAP_spriteT_callee
-1305  03D3  2E 00       	ld	l,0x00
-1306  03D5  CD 98 08    	call	_spr_back_fix
-1307  03D8  C3 78 04    	jp	l_spr_anim_fall_00116
-1308  03DB              l_spr_anim_fall_00114:
-1309  03DB  3E 00       	ld	a,+((_col) & 0xFF)
-1310  03DD  80          	add	a, b
-1311  03DE  5F          	ld	e,a
-1312  03DF  3E 00       	ld	a,+((_col) / 256)
-1313  03E1  CE 00       	adc	a,0x00
-1314  03E3  57          	ld	d,a
-1315  03E4  1A          	ld	a,(de)
-1316  03E5  32 00 00    	ld	(_s_col1),a
-1317  03E8  6F          	ld	l,a
-1318  03E9  C5          	push	bc
-1319  03EA  D5          	push	de
-1320  03EB  CD D9 0B    	call	_spr_water_splash_draw
-1321  03EE  D1          	pop	de
-1322  03EF  C1          	pop	bc
-1323  03F0  78          	ld	a,b
-1324  03F1  D6 06       	sub	a,0x06
-1325  03F3  38 5F       	jr	C,l_spr_anim_fall_00107
-1326  03F5  C5          	push	bc
-1327  03F6  D5          	push	de
-1328  03F7  CD 00 00    	call	_player_lost_life
-1329  03FA  D1          	pop	de
-1330  03FB  C1          	pop	bc
-1331  03FC  7D          	ld	a,l
-1332  03FD  B7          	or	a, a
-1333  03FE  28 16       	jr	Z,l_spr_anim_fall_00102
-1334  0400  76          	halt
-1335  0401  E1          	pop	hl
-1336  0402  1A          	ld	a,(de)
-1337  0403  56          	ld	d,(hl)
-1338  0404  E5          	push	hl
-1339  0405  C5          	push	bc
-1340  0406  5A          	ld	e,d
-1341  0407  57          	ld	d,a
-1342  0408  D5          	push	de
-1343  0409  AF          	xor	a, a
-1344  040A  F5          	push	af
-1345  040B  33          	inc	sp
-1346  040C  CD 00 00    	call	_NIRVANAP_fillT_callee
-1347  040F  C1          	pop	bc
-1348  0410  68          	ld	l,b
-1349  0411  CD 00 00    	call	_player_restart
-1350  0414  18 4D       	jr	l_spr_anim_fall_00108
-1351  0416              l_spr_anim_fall_00102:
-1352  0416  C5          	push	bc
-1353  0417  D5          	push	de
-1354  0418  CD 00 00    	call	_game_print_footer
-1355  041B  D1          	pop	de
-1356  041C  C1          	pop	bc
-1357  041D  E1          	pop	hl
-1358  041E  1A          	ld	a,(de)
-1359  041F  E5          	push	hl
-1360  0420  66          	ld	h,(hl)
-1361  0421  C5          	push	bc
-1362  0422  D5          	push	de
-1363  0423  6C          	ld	l,h
-1364  0424  67          	ld	h,a
-1365  0425  E5          	push	hl
-1366  0426  AF          	xor	a, a
-1367  0427  F5          	push	af
-1368  0428  33          	inc	sp
-1369  0429  CD 00 00    	call	_NIRVANAP_fillT_callee
-1370  042C  D1          	pop	de
-1371  042D  C1          	pop	bc
-1372  042E  AF          	xor	a, a
-1373  042F  E1          	pop	hl
-1374  0430  12          	ld	(de),a
-1375  0431  E5          	push	hl
-1376  0432  36 00       	ld	(hl),0x00
-1377  0434  11 00 00    	ld	de,_class+0
-1378  0437  68          	ld	l,b
-1379  0438  26 00       	ld	h,0x00
-1380  043A  19          	add	hl,de
-1381  043B  36 00       	ld	(hl),0x00
-1382  043D  11 00 00    	ld	de,_state+0
-1383  0440  68          	ld	l,b
-1384  0441  26 00       	ld	h,0x00
-1385  0443  19          	add	hl,de
-1386  0444  36 00       	ld	(hl),0x00
-1387  0446  21 00 00    	ld	hl,0x0000
-1388  0449  E5          	push	hl
-1389  044A  3E A9       	ld	a,0xa9
-1390  044C  48          	ld	c,b
-1391  044D  47          	ld	b,a
-1392  044E  C5          	push	bc
-1393  044F  CD 00 00    	call	_NIRVANAP_spriteT_callee
-1394  0452  18 0F       	jr	l_spr_anim_fall_00108
-1395  0454              l_spr_anim_fall_00107:
-1396  0454  68          	ld	l,b
-1397  0455  CD 54 05    	call	_spr_destroy
-1398  0458  3A 00 00    	ld	a,(_phase_left)
-1399  045B  B7          	or	a, a
-1400  045C  20 05       	jr	NZ,l_spr_anim_fall_00108
-1401  045E  21 00 00    	ld	hl,_phase_end
-1402  0461  36 01       	ld	(hl),0x01
-1403  0463              l_spr_anim_fall_00108:
-1404  0463  3E 04       	ld	a,0x04
-1405  0465  21 00 00    	ld	hl,_s_col1
-1406  0468  96          	sub	a, (hl)
-1407  0469  38 03       	jr	C,l_spr_anim_fall_00110
-1408  046B  CD 1C 0A    	call	_spr_back_fix3
-1409  046E              l_spr_anim_fall_00110:
-1410  046E  3A 00 00    	ld	a,(_s_col1)
-1411  0471  D6 1A       	sub	a,0x1a
-1412  0473  38 03       	jr	C,l_spr_anim_fall_00116
-1413  0475  CD 5E 0A    	call	_spr_back_fix4
-1414  0478              l_spr_anim_fall_00116:
-1415  0478  F1          	pop	af
-1416  0479  DD E1       	pop	ix
-1417  047B  C9          	ret
-1418  047C              	SECTION code_compiler
-1419  047C              ;	---------------------------------
-1420  047C              ; Function spr_anim_kill
-1421  047C              ; ---------------------------------
-1422  047C              _spr_anim_kill:
-1423  047C  CD 00 00    	call	___sdcc_enter_ix
-1424  047F  F5          	push	af
-1425  0480  DD 4E 04    	ld	c,(ix+4)
-1426  0483  06 00       	ld	b,0x00
-1427  0485  CB 21       	sla	c
-1428  0487  CB 10       	rl	b
-1429  0489  21 00 00    	ld	hl,_last_time
-1430  048C  09          	add	hl,bc
-1431  048D  E3          	ex	(sp), hl
-1432  048E  E1          	pop	hl
-1433  048F  ED 5B 00 00 	ld	de,(_curr_time)
-1434  0493  E5          	push	hl
-1435  0494  73          	ld	(hl),e
-1436  0495  23          	inc	hl
-1437  0496  72          	ld	(hl),d
-1438  0497  2A 00 00    	ld	hl,(_curr_time)
-1439  049A  5D          	ld	e,l
-1440  049B  21 00 00    	ld	hl,_spr_timer
-1441  049E  09          	add	hl,bc
-1442  049F  4E          	ld	c,(hl)
-1443  04A0  7B          	ld	a,e
-1444  04A1  91          	sub	a, c
-1445  04A2  32 00 00    	ld	(_tmp0),a
-1446  04A5  21 00 00    	ld	hl,_tmp
-1447  04A8  36 02       	ld	(hl),0x02
-1448  04AA  3E 28       	ld	a,0x28
-1449  04AC  21 00 00    	ld	hl,_tmp0
-1450  04AF  96          	sub	a, (hl)
-1451  04B0  38 05       	jr	C,l_spr_anim_kill_00102
-1452  04B2  21 00 00    	ld	hl,_tmp
-1453  04B5  36 01       	ld	(hl),0x01
-1454  04B7              l_spr_anim_kill_00102:
-1455  04B7  3E 14       	ld	a,0x14
-1456  04B9  21 00 00    	ld	hl,_tmp0
-1457  04BC  96          	sub	a, (hl)
-1458  04BD  38 05       	jr	C,l_spr_anim_kill_00104
-1459  04BF  21 00 00    	ld	hl,_tmp
-1460  04C2  36 00       	ld	(hl),0x00
-1461  04C4              l_spr_anim_kill_00104:
-1462  04C4  3E 3C       	ld	a,0x3c
-1463  04C6  21 00 00    	ld	hl,_tmp0
-1464  04C9  96          	sub	a, (hl)
-1465  04CA  38 2F       	jr	C,l_spr_anim_kill_00106
-1466  04CC  3E 00       	ld	a,+((_col) & 0xFF)
-1467  04CE  DD 86 04    	add	a,(ix+4)
-1468  04D1  4F          	ld	c,a
-1469  04D2  3E 00       	ld	a,+((_col) / 256)
-1470  04D4  CE 00       	adc	a,0x00
-1471  04D6  47          	ld	b,a
-1472  04D7  0A          	ld	a,(bc)
-1473  04D8  47          	ld	b,a
-1474  04D9  3E 00       	ld	a,+((_lin) & 0xFF)
-1475  04DB  DD 86 04    	add	a,(ix+4)
-1476  04DE  5F          	ld	e,a
-1477  04DF  3E 00       	ld	a,+((_lin) / 256)
-1478  04E1  CE 00       	adc	a,0x00
-1479  04E3  57          	ld	d,a
-1480  04E4  1A          	ld	a,(de)
-1481  04E5  57          	ld	d,a
-1482  04E6  DD 7E 05    	ld	a,(ix+5)
-1483  04E9  21 00 00    	ld	hl,_tmp
-1484  04EC  86          	add	a, (hl)
-1485  04ED  4A          	ld	c, d
-1486  04EE  C5          	push	bc
-1487  04EF  F5          	push	af
-1488  04F0  33          	inc	sp
-1489  04F1  DD 7E 04    	ld	a,(ix+4)
-1490  04F4  F5          	push	af
-1491  04F5  33          	inc	sp
-1492  04F6  CD 00 00    	call	_NIRVANAP_spriteT_callee
-1493  04F9  18 06       	jr	l_spr_anim_kill_00108
-1494  04FB              l_spr_anim_kill_00106:
-1495  04FB  DD 6E 04    	ld	l,(ix+4)
-1496  04FE  CD 54 05    	call	_spr_destroy
-1497  0501              l_spr_anim_kill_00108:
-1498  0501  F1          	pop	af
-1499  0502  DD E1       	pop	ix
-1500  0504  C9          	ret
-1501  0505              	SECTION code_compiler
-1502  0505              ;	---------------------------------
-1503  0505              ; Function spr_check_over
-1504  0505              ; ---------------------------------
-1505  0505              _spr_check_over:
-1506  0505  21 00 00    	ld	hl,_s_col0
-1507  0508  7E          	ld	a,(hl)
-1508  0509  D6 04       	sub	a,0x04
-1509  050B  3E 00       	ld	a,0x00
-1510  050D  17          	rla
-1511  050E  4F          	ld	c,a
-1512  050F  3E 1A       	ld	a,0x1a
-1513  0511  96          	sub	a, (hl)
-1514  0512  3E 00       	ld	a,0x00
-1515  0514  17          	rla
-1516  0515  47          	ld	b,a
-1517  0516  3A 00 00    	ld	a,(_s_lin0)
-1518  0519  D6 88       	sub	a,0x88
-1519  051B  38 16       	jr	C,l_spr_check_over_00112
-1520  051D  79          	ld	a,c
-1521  051E  B7          	or	a, a
-1522  051F  28 07       	jr	Z,l_spr_check_over_00102
-1523  0521  CD 1C 0A    	call	_spr_back_fix3
-1524  0524  2E 01       	ld	l,0x01
-1525  0526  18 2B       	jr	l_spr_check_over_00114
-1526  0528              l_spr_check_over_00102:
-1527  0528  78          	ld	a,b
-1528  0529  B7          	or	a, a
-1529  052A  28 25       	jr	Z,l_spr_check_over_00113
-1530  052C  CD 5E 0A    	call	_spr_back_fix4
-1531  052F  2E 01       	ld	l,0x01
-1532  0531  18 20       	jr	l_spr_check_over_00114
-1533  0533              l_spr_check_over_00112:
-1534  0533  3E 28       	ld	a,0x28
-1535  0535  21 00 00    	ld	hl,_s_lin0
-1536  0538  96          	sub	a, (hl)
-1537  0539  38 16       	jr	C,l_spr_check_over_00113
-1538  053B  79          	ld	a,c
-1539  053C  B7          	or	a, a
-1540  053D  28 07       	jr	Z,l_spr_check_over_00106
-1541  053F  CD 9A 09    	call	_spr_back_fix1
-1542  0542  2E 01       	ld	l,0x01
-1543  0544  18 0D       	jr	l_spr_check_over_00114
-1544  0546              l_spr_check_over_00106:
-1545  0546  78          	ld	a,b
-1546  0547  B7          	or	a, a
-1547  0548  28 07       	jr	Z,l_spr_check_over_00113
-1548  054A  CD DB 09    	call	_spr_back_fix2
-1549  054D  2E 01       	ld	l,0x01
-1550  054F  18 02       	jr	l_spr_check_over_00114
-1551  0551              l_spr_check_over_00113:
-1552  0551  2E 00       	ld	l,0x00
-1553  0553              l_spr_check_over_00114:
-1554  0553  C9          	ret
-1555  0554              	SECTION code_compiler
-1556  0554              ;	---------------------------------
-1557  0554              ; Function spr_destroy
-1558  0554              ; ---------------------------------
-1559  0554              _spr_destroy:
-1560  0554  CD 00 00    	call	___sdcc_enter_ix
-1561  0557  F5          	push	af
-1562  0558  4D          	ld	c,l
-1563  0559  21 00 00    	ld	hl,_spr_count
-1564  055C  35          	dec	(hl)
-1565  055D  3E 00       	ld	a,+((_lin) & 0xFF)
-1566  055F  81          	add	a, c
-1567  0560  DD 77 FE    	ld	(ix-2),a
-1568  0563  3E 00       	ld	a,+((_lin) / 256)
-1569  0565  CE 00       	adc	a,0x00
-1570  0567  DD 77 FF    	ld	(ix-1),a
-1571  056A  E1          	pop	hl
-1572  056B  7E          	ld	a,(hl)
-1573  056C  E5          	push	hl
-1574  056D  32 00 00    	ld	(_s_lin0),a
-1575  0570  3E 00       	ld	a,+((_col) & 0xFF)
-1576  0572  81          	add	a, c
-1577  0573  5F          	ld	e,a
-1578  0574  3E 00       	ld	a,+((_col) / 256)
-1579  0576  CE 00       	adc	a,0x00
-1580  0578  57          	ld	d,a
-1581  0579  1A          	ld	a,(de)
-1582  057A  32 00 00    	ld	(_s_col0),a
-1583  057D  06 00       	ld	b,0x00
-1584  057F  21 00 00    	ld	hl,_tile
-1585  0582  09          	add	hl, bc
-1586  0583  36 A9       	ld	(hl),0xa9
-1587  0585  AF          	xor	a, a
-1588  0586  E1          	pop	hl
-1589  0587  12          	ld	(de),a
-1590  0588  E5          	push	hl
-1591  0589  36 00       	ld	(hl),0x00
-1592  058B  11 00 00    	ld	de,_class+0
-1593  058E  69          	ld	l,c
-1594  058F  26 00       	ld	h,0x00
-1595  0591  19          	add	hl,de
-1596  0592  36 00       	ld	(hl),0x00
-1597  0594  11 00 00    	ld	de,_state+0
-1598  0597  69          	ld	l,c
-1599  0598  26 00       	ld	h,0x00
-1600  059A  19          	add	hl,de
-1601  059B  36 00       	ld	(hl),0x00
-1602  059D  21 00 00    	ld	hl,0x0000
-1603  05A0  E5          	push	hl
-1604  05A1  3E A9       	ld	a,0xa9
-1605  05A3  F5          	push	af
-1606  05A4  33          	inc	sp
-1607  05A5  79          	ld	a,c
-1608  05A6  F5          	push	af
-1609  05A7  33          	inc	sp
-1610  05A8  CD 00 00    	call	_NIRVANAP_spriteT_callee
-1611  05AB  76          	halt
-1612  05AC  2A FF FF    	ld	hl,(_s_col0 - 1)
-1613  05AF  3A 00 00    	ld	a,(_s_lin0)
-1614  05B2  6F          	ld	l,a
-1615  05B3  E5          	push	hl
-1616  05B4  AF          	xor	a, a
-1617  05B5  F5          	push	af
-1618  05B6  33          	inc	sp
-1619  05B7  CD 00 00    	call	_NIRVANAP_fillT_callee
-1620  05BA  3A 00 00    	ld	a,(_game_over)
-1621  05BD  B7          	or	a, a
-1622  05BE  20 03       	jr	NZ,l_spr_destroy_00103
-1623  05C0  CD 05 05    	call	_spr_check_over
-1624  05C3              l_spr_destroy_00103:
-1625  05C3  F1          	pop	af
-1626  05C4  DD E1       	pop	ix
-1627  05C6  C9          	ret
-1628  05C7              	SECTION code_compiler
-1629  05C7              ;	---------------------------------
-1630  05C7              ; Function spr_set_fall
-1631  05C7              ; ---------------------------------
-1632  05C7              _spr_set_fall:
-1633  05C7  21 00 00    	ld	hl,_s_state
-1634  05CA  CB 86       	res	0, (hl)
-1635  05CC  CB CE       	set	1, (hl)
-1636  05CE  21 00 00    	ld	hl,_sprite
-1637  05D1  7E          	ld	a,(hl)
-1638  05D2  D6 06       	sub	a,0x06
-1639  05D4  38 0E       	jr	C,l_spr_set_fall_00104
-1640  05D6  3E 00       	ld	a,+((_sprite_speed_alt) & 0xFF)
-1641  05D8  86          	add	a, (hl)
-1642  05D9  4F          	ld	c,a
-1643  05DA  3E 00       	ld	a,+((_sprite_speed_alt) / 256)
-1644  05DC  CE 00       	adc	a,0x00
-1645  05DE  47          	ld	b,a
-1646  05DF  3E 02       	ld	a,0x02
-1647  05E1  02          	ld	(bc),a
-1648  05E2  18 1C       	jr	l_spr_set_fall_00106
-1649  05E4              l_spr_set_fall_00104:
-1650  05E4  2A 00 00    	ld	hl,(_sprite)
-1651  05E7  26 00       	ld	h,0x00
-1652  05E9  01 00 00    	ld	bc,_class
-1653  05EC  09          	add	hl,bc
-1654  05ED  4E          	ld	c,(hl)
-1655  05EE  3E 08       	ld	a,0x08
-1656  05F0  91          	sub	a,c
-1657  05F1  D8          	ret	C
-1658  05F2  3A 00 00    	ld	a,(_sprite)
-1659  05F5  C6 00       	add	a,+((_sprite_speed_alt) & 0xFF)
-1660  05F7  4F          	ld	c,a
-1661  05F8  3E 00       	ld	a,+((_sprite_speed_alt) / 256)
-1662  05FA  CE 00       	adc	a,0x00
-1663  05FC  47          	ld	b,a
-1664  05FD  3E 01       	ld	a,0x01
-1665  05FF  02          	ld	(bc),a
-1666  0600              l_spr_set_fall_00106:
-1667  0600  C9          	ret
-1668  0601              	SECTION code_compiler
-1669  0601              ;	---------------------------------
-1670  0601              ; Function spr_tile
-1671  0601              ; ---------------------------------
-1672  0601              _spr_tile:
-1673  0601  55          	ld	d,l
-1674  0602  01 00 00    	ld	bc,_state+0
-1675  0605  26 00       	ld	h,0x00
-1676  0607  09          	add	hl,bc
-1677  0608  CB 76       	bit	6,(hl)
-1678  060A  28 07       	jr	Z,l_spr_tile_00102
-1679  060C  21 00 00    	ld	hl,_tmp
-1680  060F  36 03       	ld	(hl),0x03
-1681  0611  18 05       	jr	l_spr_tile_00103
-1682  0613              l_spr_tile_00102:
-1683  0613  21 00 00    	ld	hl,_tmp
-1684  0616  36 00       	ld	(hl),0x00
-1685  0618              l_spr_tile_00103:
-1686  0618  01 00 00    	ld	bc,_state_a+0
-1687  061B  6A          	ld	l,d
-1688  061C  26 00       	ld	h,0x00
-1689  061E  09          	add	hl,bc
-1690  061F  CB 4E       	bit	1,(hl)
-1691  0621  28 05       	jr	Z,l_spr_tile_00105
-1692  0623  21 00 00    	ld	hl,_tmp
-1693  0626  36 09       	ld	(hl),0x09
-1694  0628              l_spr_tile_00105:
-1695  0628  01 00 00    	ld	bc,_class+0
-1696  062B  6A          	ld	l,d
-1697  062C  26 00       	ld	h,0x00
-1698  062E  09          	add	hl,bc
-1699  062F  7E          	ld	a,(hl)
-1700  0630  5F          	ld	e,a
-1701  0631  D6 01       	sub	a,0x01
-1702  0633  DA D2 06    	jp	C,l_spr_tile_00118
-1703  0636  3E 0C       	ld	a,0x0c
-1704  0638  93          	sub	a, e
-1705  0639  DA D2 06    	jp	C,l_spr_tile_00118
-1706  063C  1D          	dec	e
-1707  063D  ED 4B 00 00 	ld	bc,(_tmp)
-1708  0641  06 00       	ld	b,0x00
-1709  0643  D5          	push	de
-1710  0644  16 00       	ld	d,0x00
-1711  0646  21 4E 06    	ld	hl,l_spr_tile_00139
-1712  0649  19          	add	hl,de
-1713  064A  19          	add	hl,de
-1714  064B  19          	add	hl,de
-1715  064C  D1          	pop	de
-1716  064D  E9          	jp	(hl)
-1717  064E              l_spr_tile_00139:
-1718  064E  C3 72 06    	jp	l_spr_tile_00106
-1719  0651  C3 82 06    	jp	l_spr_tile_00107
-1720  0654  C3 92 06    	jp	l_spr_tile_00108
-1721  0657  C3 A2 06    	jp	l_spr_tile_00109
-1722  065A  C3 A8 06    	jp	l_spr_tile_00110
-1723  065D  C3 AE 06    	jp	l_spr_tile_00111
-1724  0660  C3 B4 06    	jp	l_spr_tile_00112
-1725  0663  C3 B9 06    	jp	l_spr_tile_00113
-1726  0666  C3 C3 06    	jp	l_spr_tile_00115
-1727  0669  C3 C8 06    	jp	l_spr_tile_00116
-1728  066C  C3 CD 06    	jp	l_spr_tile_00117
-1729  066F  C3 BE 06    	jp	l_spr_tile_00114
-1730  0672              l_spr_tile_00106:
-1731  0672  3E 03       	ld	a,0x03
-1732  0674  5A          	ld	e,d
-1733  0675  57          	ld	d,a
-1734  0676  D5          	push	de
-1735  0677  21 30 00    	ld	hl,0x0030
-1736  067A  E5          	push	hl
-1737  067B  CD D6 06    	call	_spr_tile_dir
-1738  067E  F1          	pop	af
-1739  067F  F1          	pop	af
-1740  0680  18 53       	jr	l_spr_tile_00119
-1741  0682              l_spr_tile_00107:
-1742  0682  3E 03       	ld	a,0x03
-1743  0684  5A          	ld	e,d
-1744  0685  57          	ld	d,a
-1745  0686  D5          	push	de
-1746  0687  21 3C 00    	ld	hl,0x003c
-1747  068A  E5          	push	hl
-1748  068B  CD D6 06    	call	_spr_tile_dir
-1749  068E  F1          	pop	af
-1750  068F  F1          	pop	af
-1751  0690  18 43       	jr	l_spr_tile_00119
-1752  0692              l_spr_tile_00108:
-1753  0692  3E 03       	ld	a,0x03
-1754  0694  5A          	ld	e,d
-1755  0695  57          	ld	d,a
-1756  0696  D5          	push	de
-1757  0697  21 48 00    	ld	hl,0x0048
-1758  069A  E5          	push	hl
-1759  069B  CD D6 06    	call	_spr_tile_dir
-1760  069E  F1          	pop	af
-1761  069F  F1          	pop	af
-1762  06A0  18 33       	jr	l_spr_tile_00119
-1763  06A2              l_spr_tile_00109:
-1764  06A2  21 54 00    	ld	hl,0x0054
-1765  06A5  09          	add	hl,bc
-1766  06A6  18 2D       	jr	l_spr_tile_00119
-1767  06A8              l_spr_tile_00110:
-1768  06A8  21 60 00    	ld	hl,0x0060
-1769  06AB  09          	add	hl,bc
-1770  06AC  18 27       	jr	l_spr_tile_00119
-1771  06AE              l_spr_tile_00111:
-1772  06AE  21 6C 00    	ld	hl,0x006c
-1773  06B1  09          	add	hl,bc
-1774  06B2  18 21       	jr	l_spr_tile_00119
-1775  06B4              l_spr_tile_00112:
-1776  06B4  21 7B 00    	ld	hl,0x007b
-1777  06B7  18 1C       	jr	l_spr_tile_00119
-1778  06B9              l_spr_tile_00113:
-1779  06B9  21 B4 00    	ld	hl,0x00b4
-1780  06BC  18 17       	jr	l_spr_tile_00119
-1781  06BE              l_spr_tile_00114:
-1782  06BE  21 B7 00    	ld	hl,0x00b7
-1783  06C1  18 12       	jr	l_spr_tile_00119
-1784  06C3              l_spr_tile_00115:
-1785  06C3  21 78 00    	ld	hl,0x0078
-1786  06C6  18 0D       	jr	l_spr_tile_00119
-1787  06C8              l_spr_tile_00116:
-1788  06C8  21 90 00    	ld	hl,0x0090
-1789  06CB  18 08       	jr	l_spr_tile_00119
-1790  06CD              l_spr_tile_00117:
-1791  06CD  21 96 00    	ld	hl,0x0096
-1792  06D0  18 03       	jr	l_spr_tile_00119
-1793  06D2              l_spr_tile_00118:
-1794  06D2  21 00 00    	ld	hl,0x0000
-1795  06D5              l_spr_tile_00119:
-1796  06D5  C9          	ret
-1797  06D6              	SECTION code_compiler
-1798  06D6              ;	---------------------------------
-1799  06D6              ; Function spr_tile_dir
-1800  06D6              ; ---------------------------------
-1801  06D6              _spr_tile_dir:
-1802  06D6  CD 00 00    	call	___sdcc_enter_ix
-1803  06D9  3E 00       	ld	a,+((_state) & 0xFF)
-1804  06DB  DD 86 06    	add	a,(ix+6)
-1805  06DE  4F          	ld	c,a
-1806  06DF  3E 00       	ld	a,+((_state) / 256)
-1807  06E1  CE 00       	adc	a,0x00
-1808  06E3  47          	ld	b,a
-1809  06E4  0A          	ld	a,(bc)
-1810  06E5  4F          	ld	c,a
-1811  06E6  CB 67       	bit	4,a
-1812  06E8  28 0C       	jr	Z,l_spr_tile_dir_00102
-1813  06EA  DD 6E 04    	ld	l,(ix+4)
-1814  06ED  DD 66 05    	ld	h,(ix+5)
-1815  06F0  11 06 00    	ld	de,0x0006
-1816  06F3  19          	add	hl,de
-1817  06F4  18 53       	jr	l_spr_tile_dir_00113
-1818  06F6              l_spr_tile_dir_00102:
-1819  06F6  3E 00       	ld	a,+((_state_a) & 0xFF)
-1820  06F8  DD 86 06    	add	a,(ix+6)
-1821  06FB  5F          	ld	e,a
-1822  06FC  3E 00       	ld	a,+((_state_a) / 256)
-1823  06FE  CE 00       	adc	a,0x00
-1824  0700  57          	ld	d,a
-1825  0701  1A          	ld	a,(de)
-1826  0702  47          	ld	b,a
-1827  0703  CB 4F       	bit	1,a
-1828  0705  28 0C       	jr	Z,l_spr_tile_dir_00104
-1829  0707  DD 6E 04    	ld	l,(ix+4)
-1830  070A  DD 66 05    	ld	h,(ix+5)
-1831  070D  11 09 00    	ld	de,0x0009
-1832  0710  19          	add	hl,de
-1833  0711  18 36       	jr	l_spr_tile_dir_00113
-1834  0713              l_spr_tile_dir_00104:
-1835  0713  CB 51       	bit	2, c
-1836  0715  28 08       	jr	Z,l_spr_tile_dir_00106
-1837  0717  DD 6E 04    	ld	l,(ix+4)
-1838  071A  DD 66 05    	ld	h,(ix+5)
-1839  071D  18 2A       	jr	l_spr_tile_dir_00113
-1840  071F              l_spr_tile_dir_00106:
-1841  071F  DD 5E 07    	ld	e,(ix+7)
-1842  0722  16 00       	ld	d,0x00
-1843  0724  DD 6E 04    	ld	l,(ix+4)
-1844  0727  DD 66 05    	ld	h,(ix+5)
-1845  072A  19          	add	hl,de
-1846  072B  EB          	ex	de,hl
-1847  072C  CB 59       	bit	3, c
-1848  072E  28 03       	jr	Z,l_spr_tile_dir_00108
-1849  0730  EB          	ex	de,hl
-1850  0731  18 16       	jr	l_spr_tile_dir_00113
-1851  0733              l_spr_tile_dir_00108:
-1852  0733  CB 60       	bit	4, b
-1853  0735  28 08       	jr	Z,l_spr_tile_dir_00110
-1854  0737  DD 6E 04    	ld	l,(ix+4)
-1855  073A  DD 66 05    	ld	h,(ix+5)
-1856  073D  18 0A       	jr	l_spr_tile_dir_00113
-1857  073F              l_spr_tile_dir_00110:
-1858  073F  CB 58       	bit	3, b
-1859  0741  28 03       	jr	Z,l_spr_tile_dir_00112
-1860  0743  EB          	ex	de,hl
-1861  0744  18 03       	jr	l_spr_tile_dir_00113
-1862  0746              l_spr_tile_dir_00112:
-1863  0746  21 A9 00    	ld	hl,0x00a9
-1864  0749              l_spr_tile_dir_00113:
-1865  0749  DD E1       	pop	ix
-1866  074B  C9          	ret
-1867  074C              	SECTION code_compiler
-1868  074C              ;	---------------------------------
-1869  074C              ; Function spr_draw_back
-1870  074C              ; ---------------------------------
-1871  074C              _spr_draw_back:
-1872  074C  CD 00 00    	call	_NIRVANAP_stop
-1873  074F  21 00 00    	ld	hl,0x0000
-1874  0752  CD 00 00    	call	_zx_cls_fastcall
-1875  0755  F3          	di
-1876  0756  21 00 00    	ld	hl,_s_lin1
-1877  0759  36 10       	ld	(hl),0x10
-1878  075B              l_spr_draw_back_00107:
-1879  075B  21 00 00    	ld	hl,_s_col1
-1880  075E  36 00       	ld	(hl),0x00
-1881  0760              l_spr_draw_back_00105:
-1882  0760  2A FF FF    	ld	hl,(_s_col1 - 1)
-1883  0763  3A 00 00    	ld	a,(_s_lin1)
-1884  0766  6F          	ld	l,a
-1885  0767  E5          	push	hl
-1886  0768  CD 00 00    	call	_game_calc_index
-1887  076B  F1          	pop	af
-1888  076C  22 00 00    	ld	(_tmp_ui),hl
-1889  076F  01 00 00    	ld	bc,_lvl_1
-1890  0772  09          	add	hl,bc
-1891  0773  7E          	ld	a,(hl)
-1892  0774  D6 12       	sub	a,0x12
-1893  0776  38 10       	jr	C,l_spr_draw_back_00106
-1894  0778  2A FF FF    	ld	hl,(_s_col1 - 1)
-1895  077B  3A 00 00    	ld	a,(_s_lin1)
-1896  077E  6F          	ld	l,a
-1897  077F  3A 00 00    	ld	a,(_game_brick_tile)
-1898  0782  E5          	push	hl
-1899  0783  F5          	push	af
-1900  0784  33          	inc	sp
-1901  0785  CD 00 00    	call	_NIRVANAP_drawT_raw_callee
-1902  0788              l_spr_draw_back_00106:
-1903  0788  21 00 00    	ld	hl,_s_col1
-1904  078B  7E          	ld	a,(hl)
-1905  078C  3C          	inc	a
-1906  078D  3C          	inc	a
-1907  078E  77          	ld	(hl),a
-1908  078F  D6 20       	sub	a,0x20
-1909  0791  38 CD       	jr	C,l_spr_draw_back_00105
-1910  0793  21 00 00    	ld	hl,_s_lin1
-1911  0796  7E          	ld	a,(hl)
-1912  0797  C6 08       	add	a,0x08
-1913  0799  77          	ld	(hl),a
-1914  079A  D6 B6       	sub	a,0xb6
-1915  079C  38 BD       	jr	C,l_spr_draw_back_00107
-1916  079E  FB          	ei
-1917  079F  CD 00 00    	call	_NIRVANAP_start
-1918  07A2  CD 9A 09    	call	_spr_back_fix1
-1919  07A5  CD DB 09    	call	_spr_back_fix2
-1920  07A8  CD 1C 0A    	call	_spr_back_fix3
-1921  07AB  CD 5E 0A    	call	_spr_back_fix4
-1922  07AE  CD 18 08    	call	_spr_draw_pow
-1923  07B1  76          	halt
-1924  07B2  21 00 00    	ld	hl,_screen_ink
-1925  07B5  36 06       	ld	(hl),0x06
-1926  07B7  21 00 00    	ld	hl,_screen_paper
-1927  07BA  36 10       	ld	(hl),0x10
-1928  07BC  21 14 23    	ld	hl,0x2314
-1929  07BF  E5          	push	hl
-1930  07C0  CD 00 00    	call	_game_fill_row
-1931  07C3  21 15 23    	ld	hl,0x2315
-1932  07C6  E5          	push	hl
-1933  07C7  CD 00 00    	call	_game_fill_row
-1934  07CA  21 00 00    	ld	hl,_screen_paper
-1935  07CD  36 00       	ld	(hl),0x00
-1936  07CF  21 00 00    	ld	hl,_screen_ink
-1937  07D2  36 00       	ld	(hl),0x00
-1938  07D4  21 0C 20    	ld	hl,0x200c
-1939  07D7  E5          	push	hl
-1940  07D8  CD 00 00    	call	_game_fill_row
-1941  07DB  CD 00 00    	call	_game_print_footer
-1942  07DE  C9          	ret
-1943  07DF              	SECTION code_compiler
-1944  07DF              ;	---------------------------------
-1945  07DF              ; Function spr_draw_clear
-1946  07DF              ; ---------------------------------
-1947  07DF              _spr_draw_clear:
-1948  07DF  F3          	di
-1949  07E0  21 00 00    	ld	hl,0x0000
-1950  07E3  CD 00 00    	call	_zx_cls_fastcall
-1951  07E6  21 00 00    	ld	hl,_s_lin1
-1952  07E9  36 10       	ld	(hl),0x10
-1953  07EB              l_spr_draw_clear_00105:
-1954  07EB  21 00 00    	ld	hl,_s_col1
-1955  07EE  36 00       	ld	(hl),0x00
-1956  07F0              l_spr_draw_clear_00103:
-1957  07F0  3A 00 00    	ld	a,(_s_col1)
-1958  07F3  F5          	push	af
-1959  07F4  33          	inc	sp
-1960  07F5  3A 00 00    	ld	a,(_s_lin1)
-1961  07F8  57          	ld	d,a
-1962  07F9  1E A9       	ld	e,0xa9
-1963  07FB  D5          	push	de
-1964  07FC  CD 00 00    	call	_NIRVANAP_drawT_raw_callee
-1965  07FF  21 00 00    	ld	hl,_s_col1
-1966  0802  7E          	ld	a,(hl)
-1967  0803  3C          	inc	a
-1968  0804  3C          	inc	a
-1969  0805  77          	ld	(hl),a
-1970  0806  D6 20       	sub	a,0x20
-1971  0808  38 E6       	jr	C,l_spr_draw_clear_00103
-1972  080A  21 00 00    	ld	hl,_s_lin1
-1973  080D  7E          	ld	a,(hl)
-1974  080E  C6 10       	add	a,0x10
-1975  0810  77          	ld	(hl),a
-1976  0811  3E A2       	ld	a,0xa2
-1977  0813  96          	sub	a, (hl)
-1978  0814  30 D5       	jr	NC,l_spr_draw_clear_00105
-1979  0816  FB          	ei
-1980  0817  C9          	ret
-1981  0818              	SECTION code_compiler
-1982  0818              ;	---------------------------------
-1983  0818              ; Function spr_draw_pow
-1984  0818              ; ---------------------------------
-1985  0818              _spr_draw_pow:
-1986  0818  3A 00 00    	ld	a,(_game_pow)
-1987  081B  B7          	or	a, a
-1988  081C  28 37       	jr	Z,l_spr_draw_pow_00109
-1989  081E  D6 03       	sub	a,0x03
-1990  0820  20 05       	jr	NZ,l_spr_draw_pow_00102
-1991  0822  21 00 00    	ld	hl,_s_tile1
-1992  0825  36 BF       	ld	(hl),0xbf
-1993  0827              l_spr_draw_pow_00102:
-1994  0827  3A 00 00    	ld	a,(_game_pow)
-1995  082A  D6 02       	sub	a,0x02
-1996  082C  20 05       	jr	NZ,l_spr_draw_pow_00104
-1997  082E  21 00 00    	ld	hl,_s_tile1
-1998  0831  36 CB       	ld	(hl),0xcb
-1999  0833              l_spr_draw_pow_00104:
-2000  0833  3A 00 00    	ld	a,(_game_pow)
-2001  0836  3D          	dec	a
-2002  0837  20 05       	jr	NZ,l_spr_draw_pow_00106
-2003  0839  21 00 00    	ld	hl,_s_tile1
-2004  083C  36 D7       	ld	(hl),0xd7
-2005  083E              l_spr_draw_pow_00106:
-2006  083E  76          	halt
-2007  083F  21 80 0F    	ld	hl,0x0f80
-2008  0842  E5          	push	hl
-2009  0843  AF          	xor	a, a
-2010  0844  F5          	push	af
-2011  0845  33          	inc	sp
-2012  0846  CD 00 00    	call	_NIRVANAP_fillT_callee
-2013  0849  3A 00 00    	ld	a,(_s_tile1)
-2014  084C  21 80 0F    	ld	hl,0x0f80
-2015  084F  E5          	push	hl
-2016  0850  F5          	push	af
-2017  0851  33          	inc	sp
-2018  0852  CD 00 00    	call	_NIRVANAP_drawT_callee
-2019  0855              l_spr_draw_pow_00109:
-2020  0855  C9          	ret
-2021  0856              	SECTION code_compiler
-2022  0856              ;	---------------------------------
-2023  0856              ; Function spr_back_clr
-2024  0856              ; ---------------------------------
-2025  0856              _spr_back_clr:
-2026  0856  2A FF FF    	ld	hl,(_s_col0 - 1)
-2027  0859  3A 00 00    	ld	a,(_s_lin0)
-2028  085C  6F          	ld	l,a
-2029  085D  E5          	push	hl
-2030  085E  AF          	xor	a, a
-2031  085F  F5          	push	af
-2032  0860  33          	inc	sp
-2033  0861  CD 00 00    	call	_NIRVANAP_fillC_callee
-2034  0864  21 00 00    	ld	hl,_s_col0
-2035  0867  46          	ld	b,(hl)
-2036  0868  04          	inc	b
-2037  0869  C5          	push	bc
-2038  086A  33          	inc	sp
-2039  086B  2A FF FF    	ld	hl,(_s_lin0 - 1)
-2040  086E  AF          	xor	a,a
-2041  086F  6F          	ld	l,a
-2042  0870  E5          	push	hl
-2043  0871  CD 00 00    	call	_NIRVANAP_fillC_callee
-2044  0874  3A 00 00    	ld	a,(_s_lin0)
-2045  0877  C6 08       	add	a,0x08
-2046  0879  4F          	ld	c, a
-2047  087A  3A 00 00    	ld	a, (_s_col0)
-2048  087D  47          	ld	b,a
-2049  087E  C5          	push	bc
-2050  087F  AF          	xor	a, a
-2051  0880  F5          	push	af
-2052  0881  33          	inc	sp
-2053  0882  CD 00 00    	call	_NIRVANAP_fillC_callee
-2054  0885  21 00 00    	ld	hl,_s_col0
-2055  0888  56          	ld	d,(hl)
-2056  0889  14          	inc	d
-2057  088A  3A 00 00    	ld	a,(_s_lin0)
-2058  088D  C6 08       	add	a,0x08
-2059  088F  5F          	ld	e, a
-2060  0890  D5          	push	de
-2061  0891  AF          	xor	a, a
-2062  0892  F5          	push	af
-2063  0893  33          	inc	sp
-2064  0894  CD 00 00    	call	_NIRVANAP_fillC_callee
-2065  0897  C9          	ret
-2066  0898              	SECTION code_compiler
-2067  0898              ;	---------------------------------
-2068  0898              ; Function spr_back_fix
-2069  0898              ; ---------------------------------
-2070  0898              _spr_back_fix:
-2071  0898  CD 00 00    	call	___sdcc_enter_ix
-2072  089B  3B          	dec	sp
-2073  089C  DD 75 FF    	ld	(ix-1),l
-2074  089F  3A 00 00    	ld	a,(_s_lin0)
-2075  08A2  DD 86 FF    	add	a,(ix-1)
-2076  08A5  4F          	ld	c, a
-2077  08A6  3A 00 00    	ld	a, (_s_col0)
-2078  08A9  47          	ld	b,a
-2079  08AA  C5          	push	bc
-2080  08AB  CD 00 00    	call	_game_calc_index
-2081  08AE  F1          	pop	af
-2082  08AF  22 00 00    	ld	(_index1),hl
-2083  08B2  01 00 00    	ld	bc,_lvl_1
-2084  08B5  09          	add	hl,bc
-2085  08B6  7E          	ld	a,(hl)
-2086  08B7  4F          	ld	c,a
-2087  08B8  D6 12       	sub	a,0x12
-2088  08BA  28 09       	jr	Z,l_spr_back_fix_00118
-2089  08BC  79          	ld	a,c
-2090  08BD  D6 14       	sub	a,0x14
-2091  08BF  28 04       	jr	Z,l_spr_back_fix_00118
-2092  08C1  0E 00       	ld	c,0x00
-2093  08C3  18 02       	jr	l_spr_back_fix_00119
-2094  08C5              l_spr_back_fix_00118:
-2095  08C5  0E 01       	ld	c,0x01
-2096  08C7              l_spr_back_fix_00119:
-2097  08C7  21 00 00    	ld	hl,_tmp
-2098  08CA  71          	ld	(hl),c
-2099  08CB  ED 4B 00 00 	ld	bc,(_index1)
-2100  08CF  03          	inc	bc
-2101  08D0  21 00 00    	ld	hl,_lvl_1
-2102  08D3  09          	add	hl,bc
-2103  08D4  7E          	ld	a,(hl)
-2104  08D5  4F          	ld	c,a
-2105  08D6  D6 12       	sub	a,0x12
-2106  08D8  28 09       	jr	Z,l_spr_back_fix_00121
-2107  08DA  79          	ld	a,c
-2108  08DB  D6 14       	sub	a,0x14
-2109  08DD  28 04       	jr	Z,l_spr_back_fix_00121
-2110  08DF  0E 00       	ld	c,0x00
-2111  08E1  18 02       	jr	l_spr_back_fix_00122
-2112  08E3              l_spr_back_fix_00121:
-2113  08E3  0E 01       	ld	c,0x01
-2114  08E5              l_spr_back_fix_00122:
-2115  08E5  21 00 00    	ld	hl,_tmp0
-2116  08E8  71          	ld	(hl),c
-2117  08E9  CD 56 08    	call	_spr_back_clr
-2118  08EC  3A 00 00    	ld	a,(_tmp)
-2119  08EF  B7          	or	a, a
-2120  08F0  20 07       	jr	NZ,l_spr_back_fix_00107
-2121  08F2  3A 00 00    	ld	a,(_tmp0)
-2122  08F5  B7          	or	a, a
-2123  08F6  CA 79 09    	jp	Z,l_spr_back_fix_00108
-2124  08F9              l_spr_back_fix_00107:
-2125  08F9  3A 00 00    	ld	a,(_s_col0)
-2126  08FC  32 00 00    	ld	(_s_col1),a
-2127  08FF  01 00 00    	ld	bc,_lvl_1
-2128  0902  2A 00 00    	ld	hl,(_index1)
-2129  0905  09          	add	hl,bc
-2130  0906  6E          	ld	l, (hl)
-2131  0907  26 00       	ld	h,0x00
-2132  0909  29          	add	hl, hl
-2133  090A  11 00 00    	ld	de,_spr_idx
-2134  090D  19          	add	hl,de
-2135  090E  7E          	ld	a,(hl)
-2136  090F  32 00 00    	ld	(_s_tile1),a
-2137  0912  4F          	ld	c,a
-2138  0913  3A 00 00    	ld	a,(_s_lin0)
-2139  0916  DD 86 FF    	add	a,(ix-1)
-2140  0919  21 00 00    	ld	hl,_s_lin1
-2141  091C  77          	ld	(hl),a
-2142  091D  0F          	rrca
-2143  091E  0F          	rrca
-2144  091F  0F          	rrca
-2145  0920  E6 1F       	and	a,0x1f
-2146  0922  77          	ld	(hl),a
-2147  0923  07          	rlca
-2148  0924  07          	rlca
-2149  0925  07          	rlca
-2150  0926  E6 F8       	and	a,0xf8
-2151  0928  77          	ld	(hl),a
-2152  0929  3A 00 00    	ld	a,(_tmp)
-2153  092C  B7          	or	a, a
-2154  092D  20 22       	jr	NZ,l_spr_back_fix_00102
-2155  092F  3A 00 00    	ld	a,(_tmp0)
-2156  0932  B7          	or	a, a
-2157  0933  28 1C       	jr	Z,l_spr_back_fix_00102
-2158  0935  3A 00 00    	ld	a,(_s_col0)
-2159  0938  3C          	inc	a
-2160  0939  32 00 00    	ld	(_s_col1),a
-2161  093C  ED 5B 00 00 	ld	de,(_index1)
-2162  0940  13          	inc	de
-2163  0941  21 00 00    	ld	hl,_lvl_1
-2164  0944  19          	add	hl,de
-2165  0945  6E          	ld	l,(hl)
-2166  0946  26 00       	ld	h,0x00
-2167  0948  29          	add	hl, hl
-2168  0949  11 00 00    	ld	de,_spr_idx
-2169  094C  19          	add	hl,de
-2170  094D  7E          	ld	a,(hl)
-2171  094E  32 00 00    	ld	(_s_tile1),a
-2172  0951              l_spr_back_fix_00102:
-2173  0951  3A 00 00    	ld	a,(_tmp)
-2174  0954  B7          	or	a, a
-2175  0955  28 12       	jr	Z,l_spr_back_fix_00105
-2176  0957  3A 00 00    	ld	a,(_tmp0)
-2177  095A  B7          	or	a, a
-2178  095B  20 0C       	jr	NZ,l_spr_back_fix_00105
-2179  095D  3A 00 00    	ld	a,(_s_col0)
-2180  0960  C6 FF       	add	a,0xff
-2181  0962  32 00 00    	ld	(_s_col1),a
-2182  0965  21 00 00    	ld	hl,_s_tile1
-2183  0968  71          	ld	(hl),c
-2184  0969              l_spr_back_fix_00105:
-2185  0969  2A FF FF    	ld	hl,(_s_col1 - 1)
-2186  096C  3A 00 00    	ld	a,(_s_lin1)
-2187  096F  6F          	ld	l,a
-2188  0970  3A 00 00    	ld	a,(_s_tile1)
-2189  0973  E5          	push	hl
-2190  0974  F5          	push	af
-2191  0975  33          	inc	sp
-2192  0976  CD 00 00    	call	_NIRVANAP_drawT_callee
-2193  0979              l_spr_back_fix_00108:
-2194  0979  21 00 00    	ld	hl,_s_lin0
-2195  097C  7E          	ld	a,(hl)
-2196  097D  D6 70       	sub	a,0x70
-2197  097F  38 15       	jr	C,l_spr_back_fix_00115
-2198  0981  3E 90       	ld	a,0x90
-2199  0983  96          	sub	a, (hl)
-2200  0984  38 10       	jr	C,l_spr_back_fix_00115
-2201  0986  21 00 00    	ld	hl,_s_col0
-2202  0989  7E          	ld	a,(hl)
-2203  098A  D6 0E       	sub	a,0x0e
-2204  098C  38 08       	jr	C,l_spr_back_fix_00115
-2205  098E  3E 10       	ld	a,0x10
-2206  0990  96          	sub	a, (hl)
-2207  0991  38 03       	jr	C,l_spr_back_fix_00115
-2208  0993  CD 18 08    	call	_spr_draw_pow
-2209  0996              l_spr_back_fix_00115:
-2210  0996  33          	inc	sp
-2211  0997  DD E1       	pop	ix
-2212  0999  C9          	ret
-2213  099A              	SECTION code_compiler
-2214  099A              ;	---------------------------------
-2215  099A              ; Function spr_back_fix1
-2216  099A              ; ---------------------------------
-2217  099A              _spr_back_fix1:
-2218  099A  76          	halt
-2219  099B  21 10 00    	ld	hl,0x0010
-2220  099E  E5          	push	hl
-2221  099F  3E A5       	ld	a,0xa5
-2222  09A1  F5          	push	af
-2223  09A2  33          	inc	sp
-2224  09A3  CD 00 00    	call	_NIRVANAP_drawT_callee
-2225  09A6  21 20 00    	ld	hl,0x0020
-2226  09A9  E5          	push	hl
-2227  09AA  3E B1       	ld	a,0xb1
-2228  09AC  F5          	push	af
-2229  09AD  33          	inc	sp
-2230  09AE  CD 00 00    	call	_NIRVANAP_drawT_callee
-2231  09B1  21 10 02    	ld	hl,0x0210
-2232  09B4  E5          	push	hl
-2233  09B5  3E B3       	ld	a,0xb3
-2234  09B7  F5          	push	af
-2235  09B8  33          	inc	sp
-2236  09B9  CD 00 00    	call	_NIRVANAP_drawT_callee
-2237  09BC  21 20 02    	ld	hl,0x0220
-2238  09BF  E5          	push	hl
-2239  09C0  AF          	xor	a, a
-2240  09C1  F5          	push	af
-2241  09C2  33          	inc	sp
-2242  09C3  CD 00 00    	call	_NIRVANAP_fillT_callee
-2243  09C6  21 10 04    	ld	hl,0x0410
-2244  09C9  E5          	push	hl
-2245  09CA  AF          	xor	a, a
-2246  09CB  F5          	push	af
-2247  09CC  33          	inc	sp
-2248  09CD  CD 00 00    	call	_NIRVANAP_fillT_callee
-2249  09D0  21 20 04    	ld	hl,0x0420
-2250  09D3  E5          	push	hl
-2251  09D4  AF          	xor	a, a
-2252  09D5  F5          	push	af
-2253  09D6  33          	inc	sp
-2254  09D7  CD 00 00    	call	_NIRVANAP_fillT_callee
-2255  09DA  C9          	ret
-2256  09DB              	SECTION code_compiler
-2257  09DB              ;	---------------------------------
-2258  09DB              ; Function spr_back_fix2
-2259  09DB              ; ---------------------------------
-2260  09DB              _spr_back_fix2:
-2261  09DB  76          	halt
-2262  09DC  21 10 1C    	ld	hl,0x1c10
-2263  09DF  E5          	push	hl
-2264  09E0  3E A7       	ld	a,0xa7
-2265  09E2  F5          	push	af
-2266  09E3  33          	inc	sp
-2267  09E4  CD 00 00    	call	_NIRVANAP_drawT_callee
-2268  09E7  21 10 1E    	ld	hl,0x1e10
-2269  09EA  E5          	push	hl
-2270  09EB  3E A6       	ld	a,0xa6
-2271  09ED  F5          	push	af
-2272  09EE  33          	inc	sp
-2273  09EF  CD 00 00    	call	_NIRVANAP_drawT_callee
-2274  09F2  21 20 1E    	ld	hl,0x1e20
-2275  09F5  E5          	push	hl
-2276  09F6  3E B2       	ld	a,0xb2
-2277  09F8  F5          	push	af
-2278  09F9  33          	inc	sp
-2279  09FA  CD 00 00    	call	_NIRVANAP_drawT_callee
-2280  09FD  21 20 1C    	ld	hl,0x1c20
-2281  0A00  E5          	push	hl
-2282  0A01  AF          	xor	a, a
-2283  0A02  F5          	push	af
-2284  0A03  33          	inc	sp
-2285  0A04  CD 00 00    	call	_NIRVANAP_fillT_callee
-2286  0A07  21 10 1A    	ld	hl,0x1a10
-2287  0A0A  E5          	push	hl
-2288  0A0B  AF          	xor	a, a
-2289  0A0C  F5          	push	af
-2290  0A0D  33          	inc	sp
-2291  0A0E  CD 00 00    	call	_NIRVANAP_fillT_callee
-2292  0A11  21 20 1A    	ld	hl,0x1a20
-2293  0A14  E5          	push	hl
-2294  0A15  AF          	xor	a, a
-2295  0A16  F5          	push	af
-2296  0A17  33          	inc	sp
-2297  0A18  CD 00 00    	call	_NIRVANAP_fillT_callee
-2298  0A1B  C9          	ret
-2299  0A1C              	SECTION code_compiler
-2300  0A1C              ;	---------------------------------
-2301  0A1C              ; Function spr_back_fix3
-2302  0A1C              ; ---------------------------------
-2303  0A1C              _spr_back_fix3:
-2304  0A1C  76          	halt
-2305  0A1D  21 88 00    	ld	hl,0x0088
-2306  0A20  E5          	push	hl
-2307  0A21  3E A3       	ld	a,0xa3
-2308  0A23  F5          	push	af
-2309  0A24  33          	inc	sp
-2310  0A25  CD 00 00    	call	_NIRVANAP_drawT_callee
-2311  0A28  21 98 00    	ld	hl,0x0098
-2312  0A2B  E5          	push	hl
-2313  0A2C  3E AF       	ld	a,0xaf
-2314  0A2E  F5          	push	af
-2315  0A2F  33          	inc	sp
-2316  0A30  CD 00 00    	call	_NIRVANAP_drawT_callee
-2317  0A33  21 88 02    	ld	hl,0x0288
-2318  0A36  E5          	push	hl
-2319  0A37  3E A4       	ld	a,0xa4
-2320  0A39  F5          	push	af
-2321  0A3A  33          	inc	sp
-2322  0A3B  CD 00 00    	call	_NIRVANAP_drawT_callee
-2323  0A3E  21 98 02    	ld	hl,0x0298
-2324  0A41  E5          	push	hl
-2325  0A42  3E B0       	ld	a,0xb0
-2326  0A44  F5          	push	af
-2327  0A45  33          	inc	sp
-2328  0A46  CD 00 00    	call	_NIRVANAP_drawT_callee
-2329  0A49  21 88 04    	ld	hl,0x0488
-2330  0A4C  E5          	push	hl
-2331  0A4D  AF          	xor	a, a
-2332  0A4E  F5          	push	af
-2333  0A4F  33          	inc	sp
-2334  0A50  CD 00 00    	call	_NIRVANAP_fillT_callee
-2335  0A53  21 98 04    	ld	hl,0x0498
-2336  0A56  E5          	push	hl
-2337  0A57  AF          	xor	a, a
-2338  0A58  F5          	push	af
-2339  0A59  33          	inc	sp
-2340  0A5A  CD 00 00    	call	_NIRVANAP_fillT_callee
-2341  0A5D  C9          	ret
-2342  0A5E              	SECTION code_compiler
-2343  0A5E              ;	---------------------------------
-2344  0A5E              ; Function spr_back_fix4
-2345  0A5E              ; ---------------------------------
-2346  0A5E              _spr_back_fix4:
-2347  0A5E  76          	halt
-2348  0A5F  21 88 1E    	ld	hl,0x1e88
-2349  0A62  E5          	push	hl
-2350  0A63  3E A3       	ld	a,0xa3
-2351  0A65  F5          	push	af
-2352  0A66  33          	inc	sp
-2353  0A67  CD 00 00    	call	_NIRVANAP_drawT_callee
-2354  0A6A  21 98 1E    	ld	hl,0x1e98
-2355  0A6D  E5          	push	hl
-2356  0A6E  3E AF       	ld	a,0xaf
-2357  0A70  F5          	push	af
-2358  0A71  33          	inc	sp
-2359  0A72  CD 00 00    	call	_NIRVANAP_drawT_callee
-2360  0A75  21 88 1C    	ld	hl,0x1c88
-2361  0A78  E5          	push	hl
-2362  0A79  3E A2       	ld	a,0xa2
-2363  0A7B  F5          	push	af
-2364  0A7C  33          	inc	sp
-2365  0A7D  CD 00 00    	call	_NIRVANAP_drawT_callee
-2366  0A80  21 98 1C    	ld	hl,0x1c98
-2367  0A83  E5          	push	hl
-2368  0A84  3E AE       	ld	a,0xae
-2369  0A86  F5          	push	af
-2370  0A87  33          	inc	sp
-2371  0A88  CD 00 00    	call	_NIRVANAP_drawT_callee
-2372  0A8B  21 88 1A    	ld	hl,0x1a88
-2373  0A8E  E5          	push	hl
-2374  0A8F  AF          	xor	a, a
-2375  0A90  F5          	push	af
-2376  0A91  33          	inc	sp
-2377  0A92  CD 00 00    	call	_NIRVANAP_fillT_callee
-2378  0A95  21 98 1A    	ld	hl,0x1a98
-2379  0A98  E5          	push	hl
-2380  0A99  AF          	xor	a, a
-2381  0A9A  F5          	push	af
-2382  0A9B  33          	inc	sp
-2383  0A9C  CD 00 00    	call	_NIRVANAP_fillT_callee
-2384  0A9F  C9          	ret
-2385  0AA0              	SECTION code_compiler
-2386  0AA0              ;	---------------------------------
-2387  0AA0              ; Function spr_brick_anim
-2388  0AA0              ; ---------------------------------
-2389  0AA0              _spr_brick_anim:
-2390  0AA0  CD 00 00    	call	___sdcc_enter_ix
-2391  0AA3  F5          	push	af
-2392  0AA4  DD 75 FE    	ld	(ix-2),l
-2393  0AA7  01 00 00    	ld	bc,_lvl_1+0
-2394  0AAA  2A 00 00    	ld	hl,(_index1)
-2395  0AAD  09          	add	hl,bc
-2396  0AAE  7E          	ld	a,(hl)
-2397  0AAF  DD 77 FF    	ld	(ix-1),a
-2398  0AB2  2A 00 00    	ld	hl,(_index2)
-2399  0AB5  09          	add	hl,bc
-2400  0AB6  DD 7E FF    	ld	a,(ix-1)
-2401  0AB9  D6 12       	sub	a,0x12
-2402  0ABB  4D          	ld	c,l
-2403  0ABC  44          	ld	b,h
-2404  0ABD  28 05       	jr	Z,l_spr_brick_anim_00101
-2405  0ABF  0A          	ld	a,(bc)
-2406  0AC0  D6 12       	sub	a,0x12
-2407  0AC2  20 06       	jr	NZ,l_spr_brick_anim_00102
-2408  0AC4              l_spr_brick_anim_00101:
-2409  0AC4  3A 00 00    	ld	a,(_game_brick_tile)
-2410  0AC7  32 00 00    	ld	(_tmp0),a
-2411  0ACA              l_spr_brick_anim_00102:
-2412  0ACA  DD 7E FF    	ld	a,(ix-1)
-2413  0ACD  D6 14       	sub	a,0x14
-2414  0ACF  28 05       	jr	Z,l_spr_brick_anim_00104
-2415  0AD1  0A          	ld	a,(bc)
-2416  0AD2  D6 14       	sub	a,0x14
-2417  0AD4  20 05       	jr	NZ,l_spr_brick_anim_00105
-2418  0AD6              l_spr_brick_anim_00104:
-2419  0AD6  21 00 00    	ld	hl,_tmp0
-2420  0AD9  36 8B       	ld	(hl),0x8b
-2421  0ADB              l_spr_brick_anim_00105:
-2422  0ADB  DD 7E FE    	ld	a,(ix-2)
-2423  0ADE  B7          	or	a, a
-2424  0ADF  28 11       	jr	Z,l_spr_brick_anim_00108
-2425  0AE1  2A 00 00    	ld	hl,(_index_player)
-2426  0AE4  26 00       	ld	h,0x00
-2427  0AE6  11 00 00    	ld	de,_hit_lin
-2428  0AE9  19          	add	hl,de
-2429  0AEA  7E          	ld	a,(hl)
-2430  0AEB  C6 F6       	add	a,0xf6
-2431  0AED  32 00 00    	ld	(_tmp),a
-2432  0AF0  18 0F       	jr	l_spr_brick_anim_00109
-2433  0AF2              l_spr_brick_anim_00108:
-2434  0AF2  2A 00 00    	ld	hl,(_index_player)
-2435  0AF5  26 00       	ld	h,0x00
-2436  0AF7  11 00 00    	ld	de,_hit_lin
-2437  0AFA  19          	add	hl,de
-2438  0AFB  7E          	ld	a,(hl)
-2439  0AFC  C6 F8       	add	a,0xf8
-2440  0AFE  32 00 00    	ld	(_tmp),a
-2441  0B01              l_spr_brick_anim_00109:
-2442  0B01  21 00 00    	ld	hl,_tmp_uc
-2443  0B04  36 00       	ld	(hl),0x00
-2444  0B06  DD 7E FF    	ld	a,(ix-1)
-2445  0B09  D6 12       	sub	a,0x12
-2446  0B0B  38 12       	jr	C,l_spr_brick_anim_00111
-2447  0B0D  0A          	ld	a,(bc)
-2448  0B0E  B7          	or	a, a
-2449  0B0F  20 0E       	jr	NZ,l_spr_brick_anim_00111
-2450  0B11  2A 00 00    	ld	hl,(_index_player)
-2451  0B14  26 00       	ld	h,0x00
-2452  0B16  11 00 00    	ld	de,_hit_col
-2453  0B19  19          	add	hl,de
-2454  0B1A  7E          	ld	a,(hl)
-2455  0B1B  3C          	inc	a
-2456  0B1C  32 00 00    	ld	(_tmp_uc),a
-2457  0B1F              l_spr_brick_anim_00111:
-2458  0B1F  DD 7E FF    	ld	a,(ix-1)
-2459  0B22  B7          	or	a, a
-2460  0B23  20 14       	jr	NZ,l_spr_brick_anim_00114
-2461  0B25  0A          	ld	a,(bc)
-2462  0B26  D6 12       	sub	a,0x12
-2463  0B28  38 0F       	jr	C,l_spr_brick_anim_00114
-2464  0B2A  3A 00 00    	ld	a,(_index_player)
-2465  0B2D  C6 00       	add	a,+((_hit_col) & 0xFF)
-2466  0B2F  4F          	ld	c,a
-2467  0B30  3E 00       	ld	a,+((_hit_col) / 256)
-2468  0B32  CE 00       	adc	a,0x00
-2469  0B34  47          	ld	b,a
-2470  0B35  0A          	ld	a,(bc)
-2471  0B36  32 00 00    	ld	(_tmp_uc),a
-2472  0B39              l_spr_brick_anim_00114:
-2473  0B39  76          	halt
-2474  0B3A  DD 7E FE    	ld	a,(ix-2)
-2475  0B3D  B7          	or	a, a
-2476  0B3E  20 1C       	jr	NZ,l_spr_brick_anim_00117
-2477  0B40  2A 00 00    	ld	hl,(_index_player)
-2478  0B43  26 00       	ld	h,0x00
-2479  0B45  5D          	ld	e,l
-2480  0B46  01 00 00    	ld	bc,_hit_col
-2481  0B49  09          	add	hl,bc
-2482  0B4A  46          	ld	b,(hl)
-2483  0B4B  16 00       	ld	d,0x00
-2484  0B4D  21 00 00    	ld	hl,_hit_lin
-2485  0B50  19          	add	hl,de
-2486  0B51  7E          	ld	a,(hl)
-2487  0B52  C6 F0       	add	a,0xf0
-2488  0B54  4F          	ld	c,a
-2489  0B55  C5          	push	bc
-2490  0B56  AF          	xor	a, a
-2491  0B57  F5          	push	af
-2492  0B58  33          	inc	sp
-2493  0B59  CD 00 00    	call	_NIRVANAP_fillT_callee
-2494  0B5C              l_spr_brick_anim_00117:
-2495  0B5C  3A 00 00    	ld	a,(_index_player)
-2496  0B5F  C6 00       	add	a,+((_hit_col) & 0xFF)
-2497  0B61  4F          	ld	c,a
-2498  0B62  3E 00       	ld	a,+((_hit_col) / 256)
-2499  0B64  CE 00       	adc	a,0x00
-2500  0B66  47          	ld	b,a
-2501  0B67  0A          	ld	a,(bc)
-2502  0B68  F5          	push	af
-2503  0B69  33          	inc	sp
-2504  0B6A  2A FF FF    	ld	hl,(_tmp - 1)
-2505  0B6D  3A 00 00    	ld	a,(_tmp0)
-2506  0B70  6F          	ld	l,a
-2507  0B71  E5          	push	hl
-2508  0B72  CD 00 00    	call	_NIRVANAP_drawT_callee
-2509  0B75  3A 00 00    	ld	a,(_tmp_uc)
-2510  0B78  B7          	or	a, a
-2511  0B79  28 0B       	jr	Z,l_spr_brick_anim_00120
-2512  0B7B  F5          	push	af
-2513  0B7C  33          	inc	sp
-2514  0B7D  2A FF FF    	ld	hl,(_tmp - 1)
-2515  0B80  AF          	xor	a,a
-2516  0B81  6F          	ld	l,a
-2517  0B82  E5          	push	hl
-2518  0B83  CD 00 00    	call	_NIRVANAP_fillC_callee
-2519  0B86              l_spr_brick_anim_00120:
-2520  0B86  F1          	pop	af
-2521  0B87  DD E1       	pop	ix
-2522  0B89  C9          	ret
-2523  0B8A              	SECTION code_compiler
-2524  0B8A              ;	---------------------------------
-2525  0B8A              ; Function spr_cortina_brick
-2526  0B8A              ; ---------------------------------
-2527  0B8A              _spr_cortina_brick:
-2528  0B8A  21 00 00    	ld	hl,_screen_ink
-2529  0B8D  36 06       	ld	(hl),0x06
-2530  0B8F  21 00 00    	ld	hl,_screen_paper
-2531  0B92  36 10       	ld	(hl),0x10
-2532  0B94  21 00 00    	ld	hl,_tmp
-2533  0B97  36 00       	ld	(hl),0x00
-2534  0B99  21 00 00    	ld	hl,_tmp0
-2535  0B9C  36 17       	ld	(hl),0x17
-2536  0B9E              l_spr_cortina_brick_00101:
-2537  0B9E  21 00 00    	ld	hl,_tmp
-2538  0BA1  7E          	ld	a,(hl)
-2539  0BA2  D6 0D       	sub	a,0x0d
-2540  0BA4  30 20       	jr	NC,l_spr_cortina_brick_00103
-2541  0BA6  6E          	ld	l,(hl)
-2542  0BA7  26 23       	ld	h,0x23
-2543  0BA9  E5          	push	hl
-2544  0BAA  CD 00 00    	call	_game_fill_row
-2545  0BAD  2A 00 00    	ld	hl,(_tmp0)
-2546  0BB0  26 23       	ld	h,0x23
-2547  0BB2  E5          	push	hl
-2548  0BB3  CD 00 00    	call	_game_fill_row
-2549  0BB6  21 00 00    	ld	hl,_tmp0
-2550  0BB9  35          	dec	(hl)
-2551  0BBA  21 00 00    	ld	hl,_tmp
-2552  0BBD  34          	inc	(hl)
-2553  0BBE  21 19 00    	ld	hl,0x0019
-2554  0BC1  CD 00 00    	call	_z80_delay_ms_fastcall
-2555  0BC4  18 D8       	jr	l_spr_cortina_brick_00101
-2556  0BC6              l_spr_cortina_brick_00103:
-2557  0BC6  21 00 00    	ld	hl,0x0000
-2558  0BC9  CD 00 00    	call	_zx_cls_fastcall
-2559  0BCC  21 00 00    	ld	hl,_screen_paper
-2560  0BCF  36 00       	ld	(hl),0x00
-2561  0BD1  C9          	ret
-2562  0BD2              	SECTION code_compiler
-2563  0BD2              ;	---------------------------------
-2564  0BD2              ; Function spr_cortina_pipes
-2565  0BD2              ; ---------------------------------
-2566  0BD2              _spr_cortina_pipes:
-2567  0BD2  76          	halt
-2568  0BD3  21 00 00    	ld	hl,0x0000
-2569  0BD6  C3 00 00    	jp  _zx_cls_fastcall
-2570  0BD9              	SECTION code_compiler
-2571  0BD9              ;	---------------------------------
-2572  0BD9              ; Function spr_water_splash_draw
-2573  0BD9              ; ---------------------------------
-2574  0BD9              _spr_water_splash_draw:
-2575  0BD9  45          	ld	b,l
-2576  0BDA  3A 00 00    	ld	a,(_spr_water_clear)
-2577  0BDD  3C          	inc	a
-2578  0BDE  C0          	ret	NZ
-2579  0BDF  21 00 00    	ld	hl,_screen_paper
-2580  0BE2  36 10       	ld	(hl),0x10
-2581  0BE4  21 00 00    	ld	hl,_screen_ink
-2582  0BE7  36 05       	ld	(hl),0x05
-2583  0BE9  C5          	push	bc
-2584  0BEA  21 00 00    	ld	hl,___str_0
-2585  0BED  E5          	push	hl
-2586  0BEE  C5          	push	bc
-2587  0BEF  33          	inc	sp
-2588  0BF0  3E 14       	ld	a,0x14
-2589  0BF2  F5          	push	af
-2590  0BF3  33          	inc	sp
-2591  0BF4  CD 00 00    	call	_zx_print_str
-2592  0BF7  C1          	pop	bc
-2593  0BF8  21 00 00    	ld	hl,_screen_ink
-2594  0BFB  36 07       	ld	(hl),0x07
-2595  0BFD  C5          	push	bc
-2596  0BFE  21 03 00    	ld	hl,___str_1
-2597  0C01  E5          	push	hl
-2598  0C02  C5          	push	bc
-2599  0C03  33          	inc	sp
-2600  0C04  3E 15       	ld	a,0x15
-2601  0C06  F5          	push	af
-2602  0C07  33          	inc	sp
-2603  0C08  CD 00 00    	call	_zx_print_str
-2604  0C0B  C1          	pop	bc
-2605  0C0C  21 00 00    	ld	hl,_spr_water_clear
-2606  0C0F  70          	ld	(hl),b
-2607  0C10  2A 00 00    	ld	hl,(_curr_time)
-2608  0C13  22 00 00    	ld	(_spr_water_time),hl
-2609  0C16  21 00 00    	ld	hl,_screen_paper
-2610  0C19  36 00       	ld	(hl),0x00
-2611  0C1B  C9          	ret
-2612  0C1C              	SECTION rodata_compiler
-2613  0000              ___str_0:
-2614  0000  28 29       	DEFM "()"
-2615  0002  00          	DEFB 0x00
-2616  0003              	SECTION rodata_compiler
-2617  0003              ___str_1:
-2618  0003  2A 2B       	DEFM "*+"
-2619  0005  00          	DEFB 0x00
-2620  0006              	SECTION code_compiler
-2621  0C1C              ;	---------------------------------
-2622  0C1C              ; Function spr_water_splash_clear
-2623  0C1C              ; ---------------------------------
-2624  0C1C              _spr_water_splash_clear:
-2625  0C1C  3A 00 00    	ld	a,(_spr_water_clear)
-2626  0C1F  D6 20       	sub	a,0x20
-2627  0C21  D0          	ret	NC
-2628  0C22  21 0F 00    	ld	hl,0x000f
-2629  0C25  E5          	push	hl
-2630  0C26  2A 00 00    	ld	hl,(_spr_water_time)
-2631  0C29  E5          	push	hl
-2632  0C2A  CD 00 00    	call	_game_check_time
-2633  0C2D  F1          	pop	af
-2634  0C2E  F1          	pop	af
-2635  0C2F  7D          	ld	a,l
-2636  0C30  B7          	or	a, a
-2637  0C31  C8          	ret	Z
-2638  0C32  21 00 00    	ld	hl,_screen_ink
-2639  0C35  36 06       	ld	(hl),0x06
-2640  0C37  21 00 00    	ld	hl,_screen_paper
-2641  0C3A  36 10       	ld	(hl),0x10
-2642  0C3C  3A 00 00    	ld	a,(_spr_water_clear)
-2643  0C3F  21 06 00    	ld	hl,___str_2
-2644  0C42  E5          	push	hl
-2645  0C43  57          	ld	d,a
-2646  0C44  1E 14       	ld	e,0x14
-2647  0C46  D5          	push	de
-2648  0C47  CD 00 00    	call	_zx_print_str
-2649  0C4A  3A 00 00    	ld	a,(_spr_water_clear)
-2650  0C4D  21 06 00    	ld	hl,___str_2
-2651  0C50  E5          	push	hl
-2652  0C51  57          	ld	d,a
-2653  0C52  1E 15       	ld	e,0x15
-2654  0C54  D5          	push	de
-2655  0C55  CD 00 00    	call	_zx_print_str
-2656  0C58  21 00 00    	ld	hl,_screen_ink
-2657  0C5B  36 07       	ld	(hl),0x07
-2658  0C5D  21 00 00    	ld	hl,_screen_paper
-2659  0C60  36 00       	ld	(hl),0x00
-2660  0C62  21 00 00    	ld	hl,_spr_water_clear
-2661  0C65  36 FF       	ld	(hl),0xff
-2662  0C67  C9          	ret
-2663  0C68              	SECTION rodata_compiler
-2664  0006              ___str_2:
-2665  0006  23 23       	DEFM "##"
-2666  0008  00          	DEFB 0x00
-2667  0009              	SECTION IGNORE
-2668  0000              
+617   0000              
+618   0000              ENDIF
+619   0000              
+620   0000              ;--------------------------------------------------------
+621   0000              ; absolute external ram data
+622   0000              ;--------------------------------------------------------
+623   0000              	SECTION IGNORE
+624   0000              ;--------------------------------------------------------
+625   0000              ; global & static initialisations
+626   0000              ;--------------------------------------------------------
+627   0000              	SECTION code_crt_init
+628   0000              ;--------------------------------------------------------
+629   0000              ; Home
+630   0000              ;--------------------------------------------------------
+631   0000              	SECTION IGNORE
+632   0000              ;--------------------------------------------------------
+633   0000              ; code
+634   0000              ;--------------------------------------------------------
+635   0000              	SECTION code_compiler
+636   0000              ;	---------------------------------
+637   0000              ; Function spr_chktime
+638   0000              ; ---------------------------------
+639   0000              _spr_chktime:
+640   0000  CD 00 00    	call	___sdcc_enter_ix
+641   0003  F5          	push	af
+642   0004  DD 75 FE    	ld	(ix-2),l
+643   0007  DD 74 FF    	ld	(ix-1),h
+644   000A  E1          	pop	hl
+645   000B  01 00 00    	ld	bc,_sprite_speed_alt+0
+646   000E  5E          	ld	e,(hl)
+647   000F  E5          	push	hl
+648   0010  6B          	ld	l,e
+649   0011  26 00       	ld	h,0x00
+650   0013  09          	add	hl,bc
+651   0014  7E          	ld	a,(hl)
+652   0015  B7          	or	a, a
+653   0016  20 13       	jr	NZ,l_spr_chktime_00102
+654   0018  01 00 00    	ld	bc,_sprite_speed+0
+655   001B  16 00       	ld	d,0x00
+656   001D  21 00 00    	ld	hl,_class
+657   0020  19          	add	hl, de
+658   0021  6E          	ld	l, (hl)
+659   0022  26 00       	ld	h,0x00
+660   0024  09          	add	hl,bc
+661   0025  7E          	ld	a,(hl)
+662   0026  32 00 00    	ld	(_tmp),a
+663   0029  18 03       	jr	l_spr_chktime_00103
+664   002B              l_spr_chktime_00102:
+665   002B  32 00 00    	ld	(_tmp),a
+666   002E              l_spr_chktime_00103:
+667   002E  3A 00 00    	ld	a,(_tmp)
+668   0031  4F          	ld	c,a
+669   0032  06 00       	ld	b,0x00
+670   0034  60          	ld	h,b
+671   0035  6B          	ld	l, e
+672   0036  29          	add	hl, hl
+673   0037  11 00 00    	ld	de,_last_time
+674   003A  19          	add	hl,de
+675   003B  5E          	ld	e,(hl)
+676   003C  23          	inc	hl
+677   003D  56          	ld	d,(hl)
+678   003E  C5          	push	bc
+679   003F  D5          	push	de
+680   0040  CD 00 00    	call	_game_check_time
+681   0043  F1          	pop	af
+682   0044  F1          	pop	af
+683   0045  7D          	ld	a,l
+684   0046  B7          	or	a, a
+685   0047  28 15       	jr	Z,l_spr_chktime_00105
+686   0049  E1          	pop	hl
+687   004A  E5          	push	hl
+688   004B  6E          	ld	l,(hl)
+689   004C  26 00       	ld	h,0x00
+690   004E  29          	add	hl, hl
+691   004F  01 00 00    	ld	bc,_last_time
+692   0052  09          	add	hl,bc
+693   0053  ED 5B 00 00 	ld	de,(_curr_time)
+694   0057  73          	ld	(hl),e
+695   0058  23          	inc	hl
+696   0059  72          	ld	(hl),d
+697   005A  2E 01       	ld	l,0x01
+698   005C  18 02       	jr	l_spr_chktime_00106
+699   005E              l_spr_chktime_00105:
+700   005E  2E 00       	ld	l,0x00
+701   0060              l_spr_chktime_00106:
+702   0060  F1          	pop	af
+703   0061  DD E1       	pop	ix
+704   0063  C9          	ret
+705   0064              	SECTION code_compiler
+706   0064              ;	---------------------------------
+707   0064              ; Function spr_move_up
+708   0064              ; ---------------------------------
+709   0064              _spr_move_up:
+710   0064  2A 00 00    	ld	hl,(_sprite)
+711   0067  26 00       	ld	h,0x00
+712   0069  01 00 00    	ld	bc,_lin
+713   006C  09          	add	hl,bc
+714   006D  4E          	ld	c,(hl)
+715   006E  21 00 00    	ld	hl,_sprite_lin_inc_mul
+716   0071  46          	ld	b,(hl)
+717   0072  1E 02       	ld	e,0x02
+718   0074  04          	inc	b
+719   0075  18 02       	jr	l_spr_move_up_00141
+720   0077              l_spr_move_up_00140:
+721   0077  CB 23       	sla	e
+722   0079              l_spr_move_up_00141:
+723   0079  10 FC       	djnz	l_spr_move_up_00140
+724   007B  79          	ld	a,c
+725   007C  93          	sub	a, e
+726   007D  32 00 00    	ld	(_tmp1),a
+727   0080  21 00 00    	ld	hl,_sprite
+728   0083  7E          	ld	a,(hl)
+729   0084  D6 06       	sub	a,0x06
+730   0086  30 0C       	jr	NC,l_spr_move_up_00108
+731   0088  4E          	ld	c,(hl)
+732   0089  06 00       	ld	b,0x00
+733   008B  21 00 00    	ld	hl,_class
+734   008E  09          	add	hl,bc
+735   008F  7E          	ld	a,(hl)
+736   0090  D6 0A       	sub	a,0x0a
+737   0092  20 42       	jr	NZ,l_spr_move_up_00109
+738   0094              l_spr_move_up_00108:
+739   0094  3A 00 00    	ld	a,(_sprite)
+740   0097  C6 00       	add	a,+((_col) & 0xFF)
+741   0099  4F          	ld	c,a
+742   009A  3E 00       	ld	a,+((_col) / 256)
+743   009C  CE 00       	adc	a,0x00
+744   009E  47          	ld	b,a
+745   009F  0A          	ld	a,(bc)
+746   00A0  F5          	push	af
+747   00A1  33          	inc	sp
+748   00A2  3A 00 00    	ld	a,(_tmp1)
+749   00A5  F5          	push	af
+750   00A6  33          	inc	sp
+751   00A7  CD 00 00    	call	_game_calc_index
+752   00AA  F1          	pop	af
+753   00AB  22 00 00    	ld	(_index1),hl
+754   00AE  CD 00 00    	call	_game_check_maze
+755   00B1  7D          	ld	a,l
+756   00B2  B7          	or	a, a
+757   00B3  20 21       	jr	NZ,l_spr_move_up_00109
+758   00B5  21 00 00    	ld	hl,_sprite
+759   00B8  7E          	ld	a,(hl)
+760   00B9  D6 06       	sub	a,0x06
+761   00BB  38 15       	jr	C,l_spr_move_up_00104
+762   00BD  4E          	ld	c,(hl)
+763   00BE  06 00       	ld	b,0x00
+764   00C0  21 00 00    	ld	hl,_state_a
+765   00C3  09          	add	hl,bc
+766   00C4  7E          	ld	a,(hl)
+767   00C5  07          	rlca
+768   00C6  38 0A       	jr	C,l_spr_move_up_00104
+769   00C8  CD 00 00    	call	_player_hit_pow
+770   00CB  7D          	ld	a,l
+771   00CC  B7          	or	a, a
+772   00CD  20 03       	jr	NZ,l_spr_move_up_00104
+773   00CF  CD 00 00    	call	_player_hit_brick
+774   00D2              l_spr_move_up_00104:
+775   00D2  2E 01       	ld	l,0x01
+776   00D4  18 3B       	jr	l_spr_move_up_00114
+777   00D6              l_spr_move_up_00109:
+778   00D6  3A 00 00    	ld	a,(_sprite)
+779   00D9  C6 00       	add	a,+((_lin) & 0xFF)
+780   00DB  4F          	ld	c,a
+781   00DC  3E 00       	ld	a,+((_lin) / 256)
+782   00DE  CE 00       	adc	a,0x00
+783   00E0  47          	ld	b,a
+784   00E1  3A 00 00    	ld	a,(_tmp1)
+785   00E4  02          	ld	(bc),a
+786   00E5  3A 00 00    	ld	a,(_sprite)
+787   00E8  C6 00       	add	a,+((_lin) & 0xFF)
+788   00EA  4F          	ld	c,a
+789   00EB  3E 00       	ld	a,+((_lin) / 256)
+790   00ED  CE 00       	adc	a,0x00
+791   00EF  47          	ld	b,a
+792   00F0  0A          	ld	a,(bc)
+793   00F1  5F          	ld	e,a
+794   00F2  B7          	or	a, a
+795   00F3  28 05       	jr	Z,l_spr_move_up_00111
+796   00F5  3E 98       	ld	a,0x98
+797   00F7  93          	sub	a, e
+798   00F8  30 15       	jr	NC,l_spr_move_up_00112
+799   00FA              l_spr_move_up_00111:
+800   00FA  AF          	xor	a, a
+801   00FB  02          	ld	(bc),a
+802   00FC  3A 00 00    	ld	a,(_s_col0)
+803   00FF  F5          	push	af
+804   0100  33          	inc	sp
+805   0101  3A 00 00    	ld	a,(_s_lin0)
+806   0104  57          	ld	d,a
+807   0105  1E 12       	ld	e,0x12
+808   0107  D5          	push	de
+809   0108  CD 00 00    	call	_NIRVANAP_fillT_callee
+810   010B  2E 01       	ld	l,0x01
+811   010D  18 02       	jr	l_spr_move_up_00114
+812   010F              l_spr_move_up_00112:
+813   010F  2E 00       	ld	l,0x00
+814   0111              l_spr_move_up_00114:
+815   0111  C9          	ret
+816   0112              	SECTION code_compiler
+817   0112              ;	---------------------------------
+818   0112              ; Function spr_move_down
+819   0112              ; ---------------------------------
+820   0112              _spr_move_down:
+821   0112  2A 00 00    	ld	hl,(_sprite)
+822   0115  26 00       	ld	h,0x00
+823   0117  01 00 00    	ld	bc,_lin
+824   011A  09          	add	hl,bc
+825   011B  4E          	ld	c,(hl)
+826   011C  21 00 00    	ld	hl,_sprite_lin_inc_mul
+827   011F  46          	ld	b,(hl)
+828   0120  1E 02       	ld	e,0x02
+829   0122  04          	inc	b
+830   0123  18 02       	jr	l_spr_move_down_00122
+831   0125              l_spr_move_down_00121:
+832   0125  CB 23       	sla	e
+833   0127              l_spr_move_down_00122:
+834   0127  10 FC       	djnz	l_spr_move_down_00121
+835   0129  79          	ld	a,c
+836   012A  83          	add	a, e
+837   012B  32 00 00    	ld	(_tmp1),a
+838   012E  3A 00 00    	ld	a,(_sprite)
+839   0131  C6 00       	add	a,+((_col) & 0xFF)
+840   0133  4F          	ld	c,a
+841   0134  3E 00       	ld	a,+((_col) / 256)
+842   0136  CE 00       	adc	a,0x00
+843   0138  47          	ld	b,a
+844   0139  0A          	ld	a,(bc)
+845   013A  57          	ld	d,a
+846   013B  3A 00 00    	ld	a,(_tmp1)
+847   013E  C6 0E       	add	a,0x0e
+848   0140  5F          	ld	e, a
+849   0141  D5          	push	de
+850   0142  CD 00 00    	call	_game_calc_index
+851   0145  F1          	pop	af
+852   0146  22 00 00    	ld	(_index1),hl
+853   0149  CD 00 00    	call	_game_check_maze
+854   014C  3A 00 00    	ld	a,(_sprite)
+855   014F  C6 00       	add	a,+((_lin) & 0xFF)
+856   0151  4D          	ld	c,l
+857   0152  5F          	ld	e,a
+858   0153  3E 00       	ld	a,+((_lin) / 256)
+859   0155  CE 00       	adc	a,0x00
+860   0157  57          	ld	d,a
+861   0158  79          	ld	a,c
+862   0159  B7          	or	a, a
+863   015A  20 41       	jr	NZ,l_spr_move_down_00104
+864   015C  3A 00 00    	ld	a,(_tmp1)
+865   015F  0F          	rrca
+866   0160  0F          	rrca
+867   0161  0F          	rrca
+868   0162  E6 1F       	and	a,0x1f
+869   0164  07          	rlca
+870   0165  07          	rlca
+871   0166  07          	rlca
+872   0167  E6 F8       	and	a,0xf8
+873   0169  12          	ld	(de),a
+874   016A  21 00 00    	ld	hl,_s_state
+875   016D  CB 8E       	res	1, (hl)
+876   016F  21 00 00    	ld	hl,_sprite
+877   0172  7E          	ld	a,(hl)
+878   0173  D6 06       	sub	a,0x06
+879   0175  38 22       	jr	C,l_spr_move_down_00102
+880   0177  3E 00       	ld	a,+((_tile) & 0xFF)
+881   0179  86          	add	a, (hl)
+882   017A  4F          	ld	c,a
+883   017B  3E 00       	ld	a,+((_tile) / 256)
+884   017D  CE 00       	adc	a,0x00
+885   017F  47          	ld	b,a
+886   0180  3A 00 00    	ld	a,(_tile_offset)
+887   0183  5F          	ld	e,a
+888   0184  16 00       	ld	d,0x00
+889   0186  13          	inc	de
+890   0187  13          	inc	de
+891   0188  13          	inc	de
+892   0189  2A 00 00    	ld	hl,(_sprite)
+893   018C  C5          	push	bc
+894   018D  26 0C       	ld	h,0x0c
+895   018F  E5          	push	hl
+896   0190  D5          	push	de
+897   0191  CD D6 06    	call	_spr_tile_dir
+898   0194  F1          	pop	af
+899   0195  F1          	pop	af
+900   0196  C1          	pop	bc
+901   0197  7D          	ld	a, l
+902   0198  02          	ld	(bc),a
+903   0199              l_spr_move_down_00102:
+904   0199  2E 01       	ld	l,0x01
+905   019B  18 24       	jr	l_spr_move_down_00107
+906   019D              l_spr_move_down_00104:
+907   019D  3A 00 00    	ld	a,(_tmp1)
+908   01A0  12          	ld	(de),a
+909   01A1  3A 00 00    	ld	a,(_sprite)
+910   01A4  C6 00       	add	a,+((_lin) & 0xFF)
+911   01A6  4F          	ld	c,a
+912   01A7  3E 00       	ld	a,+((_lin) / 256)
+913   01A9  CE 00       	adc	a,0x00
+914   01AB  47          	ld	b,a
+915   01AC  0A          	ld	a,(bc)
+916   01AD  5F          	ld	e,a
+917   01AE  3E 98       	ld	a,0x98
+918   01B0  93          	sub	a, e
+919   01B1  30 0C       	jr	NC,l_spr_move_down_00106
+920   01B3  21 00 00    	ld	hl,_s_state
+921   01B6  CB 8E       	res	1, (hl)
+922   01B8  3E 98       	ld	a,0x98
+923   01BA  02          	ld	(bc),a
+924   01BB  2E 01       	ld	l,0x01
+925   01BD  18 02       	jr	l_spr_move_down_00107
+926   01BF              l_spr_move_down_00106:
+927   01BF  2E 00       	ld	l,0x00
+928   01C1              l_spr_move_down_00107:
+929   01C1  C9          	ret
+930   01C2              	SECTION code_compiler
+931   01C2              ;	---------------------------------
+932   01C2              ; Function spr_move_horizontal
+933   01C2              ; ---------------------------------
+934   01C2              _spr_move_horizontal:
+935   01C2  3A 00 00    	ld	a,(_sprite)
+936   01C5  C6 00       	add	a,+((_state) & 0xFF)
+937   01C7  4F          	ld	c,a
+938   01C8  3E 00       	ld	a,+((_state) / 256)
+939   01CA  CE 00       	adc	a,0x00
+940   01CC  47          	ld	b,a
+941   01CD  0A          	ld	a,(bc)
+942   01CE  CB 57       	bit	2, a
+943   01D0  28 05       	jr	Z,l_spr_move_horizontal_00104
+944   01D2  CD DE 01    	call	_spr_move_right
+945   01D5  18 06       	jr	l_spr_move_horizontal_00106
+946   01D7              l_spr_move_horizontal_00104:
+947   01D7  CB 5F       	bit	3, a
+948   01D9  C8          	ret	Z
+949   01DA  CD 1C 02    	call	_spr_move_left
+950   01DD              l_spr_move_horizontal_00106:
+951   01DD  C9          	ret
+952   01DE              	SECTION code_compiler
+953   01DE              ;	---------------------------------
+954   01DE              ; Function spr_move_right
+955   01DE              ; ---------------------------------
+956   01DE              _spr_move_right:
+957   01DE  01 00 00    	ld	bc,_colint+0
+958   01E1  79          	ld	a,c
+959   01E2  21 00 00    	ld	hl,_sprite
+960   01E5  86          	add	a, (hl)
+961   01E6  5F          	ld	e,a
+962   01E7  78          	ld	a,b
+963   01E8  CE 00       	adc	a,0x00
+964   01EA  57          	ld	d,a
+965   01EB  1A          	ld	a,(de)
+966   01EC  3C          	inc	a
+967   01ED  12          	ld	(de),a
+968   01EE  79          	ld	a,c
+969   01EF  86          	add	a, (hl)
+970   01F0  4F          	ld	c,a
+971   01F1  78          	ld	a,b
+972   01F2  CE 00       	adc	a,0x00
+973   01F4  47          	ld	b,a
+974   01F5  0A          	ld	a,(bc)
+975   01F6  D6 03       	sub	a,0x03
+976   01F8  20 1F       	jr	NZ,l_spr_move_right_00104
+977   01FA  AF          	xor	a, a
+978   01FB  02          	ld	(bc),a
+979   01FC  01 00 00    	ld	bc,_col+0
+980   01FF  79          	ld	a,c
+981   0200  86          	add	a, (hl)
+982   0201  5F          	ld	e,a
+983   0202  78          	ld	a,b
+984   0203  CE 00       	adc	a,0x00
+985   0205  57          	ld	d,a
+986   0206  1A          	ld	a,(de)
+987   0207  3C          	inc	a
+988   0208  12          	ld	(de),a
+989   0209  79          	ld	a,c
+990   020A  86          	add	a, (hl)
+991   020B  4F          	ld	c,a
+992   020C  78          	ld	a,b
+993   020D  CE 00       	adc	a,0x00
+994   020F  47          	ld	b,a
+995   0210  0A          	ld	a,(bc)
+996   0211  5F          	ld	e,a
+997   0212  3E 1E       	ld	a,0x1e
+998   0214  93          	sub	a, e
+999   0215  30 02       	jr	NC,l_spr_move_right_00104
+1000  0217  AF          	xor	a, a
+1001  0218  02          	ld	(bc),a
+1002  0219              l_spr_move_right_00104:
+1003  0219  2E 00       	ld	l,0x00
+1004  021B  C9          	ret
+1005  021C              	SECTION code_compiler
+1006  021C              ;	---------------------------------
+1007  021C              ; Function spr_move_left
+1008  021C              ; ---------------------------------
+1009  021C              _spr_move_left:
+1010  021C  01 00 00    	ld	bc,_colint+0
+1011  021F  79          	ld	a,c
+1012  0220  21 00 00    	ld	hl,_sprite
+1013  0223  86          	add	a, (hl)
+1014  0224  5F          	ld	e,a
+1015  0225  78          	ld	a,b
+1016  0226  CE 00       	adc	a,0x00
+1017  0228  57          	ld	d,a
+1018  0229  1A          	ld	a,(de)
+1019  022A  C6 FF       	add	a,0xff
+1020  022C  12          	ld	(de),a
+1021  022D  79          	ld	a,c
+1022  022E  86          	add	a, (hl)
+1023  022F  4F          	ld	c,a
+1024  0230  78          	ld	a,b
+1025  0231  CE 00       	adc	a,0x00
+1026  0233  47          	ld	b,a
+1027  0234  0A          	ld	a,(bc)
+1028  0235  3C          	inc	a
+1029  0236  20 1F       	jr	NZ,l_spr_move_left_00104
+1030  0238  3E 02       	ld	a,0x02
+1031  023A  02          	ld	(bc),a
+1032  023B  01 00 00    	ld	bc,_col+0
+1033  023E  79          	ld	a,c
+1034  023F  86          	add	a, (hl)
+1035  0240  5F          	ld	e,a
+1036  0241  78          	ld	a,b
+1037  0242  CE 00       	adc	a,0x00
+1038  0244  57          	ld	d,a
+1039  0245  1A          	ld	a,(de)
+1040  0246  C6 FF       	add	a,0xff
+1041  0248  12          	ld	(de),a
+1042  0249  79          	ld	a,c
+1043  024A  86          	add	a, (hl)
+1044  024B  4F          	ld	c,a
+1045  024C  78          	ld	a,b
+1046  024D  CE 00       	adc	a,0x00
+1047  024F  47          	ld	b,a
+1048  0250  0A          	ld	a,(bc)
+1049  0251  3C          	inc	a
+1050  0252  20 03       	jr	NZ,l_spr_move_left_00104
+1051  0254  3E 1E       	ld	a,0x1e
+1052  0256  02          	ld	(bc),a
+1053  0257              l_spr_move_left_00104:
+1054  0257  2E 00       	ld	l,0x00
+1055  0259  C9          	ret
+1056  025A              	SECTION code_compiler
+1057  025A              ;	---------------------------------
+1058  025A              ; Function spr_redraw
+1059  025A              ; ---------------------------------
+1060  025A              _spr_redraw:
+1061  025A  3E 00       	ld	a,+((_tile) & 0xFF)
+1062  025C  21 00 00    	ld	hl,_sprite
+1063  025F  86          	add	a, (hl)
+1064  0260  4F          	ld	c,a
+1065  0261  3E 00       	ld	a,+((_tile) / 256)
+1066  0263  CE 00       	adc	a,0x00
+1067  0265  47          	ld	b,a
+1068  0266  0A          	ld	a,(bc)
+1069  0267  4F          	ld	c,a
+1070  0268  5E          	ld	e,(hl)
+1071  0269  16 00       	ld	d,0x00
+1072  026B  21 00 00    	ld	hl,_colint
+1073  026E  19          	add	hl,de
+1074  026F  7E          	ld	a,(hl)
+1075  0270  81          	add	a,c
+1076  0271  32 00 00    	ld	(_s_tile1),a
+1077  0274  2A 00 00    	ld	hl,(_sprite)
+1078  0277  26 00       	ld	h,0x00
+1079  0279  01 00 00    	ld	bc,_lin
+1080  027C  09          	add	hl,bc
+1081  027D  46          	ld	b,(hl)
+1082  027E  3A 00 00    	ld	a,(_s_lin0)
+1083  0281  90          	sub	a, b
+1084  0282  20 10       	jr	NZ,l_spr_redraw_00111
+1085  0284  2A 00 00    	ld	hl,(_sprite)
+1086  0287  26 00       	ld	h,0x00
+1087  0289  11 00 00    	ld	de,_col
+1088  028C  19          	add	hl,de
+1089  028D  56          	ld	d, (hl)
+1090  028E  3A 00 00    	ld	a,(_s_col0)
+1091  0291  92          	sub	a, d
+1092  0292  28 68       	jr	Z,l_spr_redraw_00112
+1093  0294              l_spr_redraw_00111:
+1094  0294  3E 10       	ld	a,0x10
+1095  0296  21 00 00    	ld	hl,_s_lin0
+1096  0299  96          	sub	a, (hl)
+1097  029A  38 0C       	jr	C,l_spr_redraw_00102
+1098  029C  3A 00 00    	ld	a,(_s_col0)
+1099  029F  F5          	push	af
+1100  02A0  33          	inc	sp
+1101  02A1  21 00 08    	ld	hl,0x0800
+1102  02A4  E5          	push	hl
+1103  02A5  CD 00 00    	call	_NIRVANAP_fillT_callee
+1104  02A8              l_spr_redraw_00102:
+1105  02A8  3E 00       	ld	a,+((_col) & 0xFF)
+1106  02AA  21 00 00    	ld	hl,_sprite
+1107  02AD  86          	add	a, (hl)
+1108  02AE  4F          	ld	c,a
+1109  02AF  3E 00       	ld	a,+((_col) / 256)
+1110  02B1  CE 00       	adc	a,0x00
+1111  02B3  47          	ld	b,a
+1112  02B4  0A          	ld	a,(bc)
+1113  02B5  57          	ld	d,a
+1114  02B6  4E          	ld	c,(hl)
+1115  02B7  06 00       	ld	b,0x00
+1116  02B9  21 00 00    	ld	hl,_lin
+1117  02BC  09          	add	hl,bc
+1118  02BD  5E          	ld	e, (hl)
+1119  02BE  D5          	push	de
+1120  02BF  2A FF FF    	ld	hl,(_s_tile1 - 1)
+1121  02C2  3A 00 00    	ld	a,(_sprite)
+1122  02C5  6F          	ld	l,a
+1123  02C6  E5          	push	hl
+1124  02C7  CD 00 00    	call	_NIRVANAP_spriteT_callee
+1125  02CA  CD 05 05    	call	_spr_check_over
+1126  02CD  7D          	ld	a,l
+1127  02CE  B7          	or	a, a
+1128  02CF  20 41       	jr	NZ,l_spr_redraw_00113
+1129  02D1  3A 00 00    	ld	a,(_sprite)
+1130  02D4  C6 00       	add	a,+((_state) & 0xFF)
+1131  02D6  4F          	ld	c,a
+1132  02D7  3E 00       	ld	a,+((_state) / 256)
+1133  02D9  CE 00       	adc	a,0x00
+1134  02DB  47          	ld	b,a
+1135  02DC  0A          	ld	a,(bc)
+1136  02DD  CB 47       	bit	0, a
+1137  02DF  28 09       	jr	Z,l_spr_redraw_00104
+1138  02E1  2E 10       	ld	l,0x10
+1139  02E3  CD 98 08    	call	_spr_back_fix
+1140  02E6  2E 00       	ld	l,0x00
+1141  02E8  18 2A       	jr	l_spr_redraw_00115
+1142  02EA              l_spr_redraw_00104:
+1143  02EA  CB 4F       	bit	1, a
+1144  02EC  28 09       	jr	Z,l_spr_redraw_00106
+1145  02EE  2E 00       	ld	l,0x00
+1146  02F0  CD 98 08    	call	_spr_back_fix
+1147  02F3  2E 00       	ld	l,0x00
+1148  02F5  18 1D       	jr	l_spr_redraw_00115
+1149  02F7              l_spr_redraw_00106:
+1150  02F7  CD 56 08    	call	_spr_back_clr
+1151  02FA  18 16       	jr	l_spr_redraw_00113
+1152  02FC              l_spr_redraw_00112:
+1153  02FC  3A 00 00    	ld	a,(_s_tile1)
+1154  02FF  21 00 00    	ld	hl,_s_tile0
+1155  0302  96          	sub	a, (hl)
+1156  0303  28 0D       	jr	Z,l_spr_redraw_00113
+1157  0305  58          	ld	e,b
+1158  0306  D5          	push	de
+1159  0307  2A FF FF    	ld	hl,(_s_tile1 - 1)
+1160  030A  3A 00 00    	ld	a,(_sprite)
+1161  030D  6F          	ld	l,a
+1162  030E  E5          	push	hl
+1163  030F  CD 00 00    	call	_NIRVANAP_spriteT_callee
+1164  0312              l_spr_redraw_00113:
+1165  0312  2E 00       	ld	l,0x00
+1166  0314              l_spr_redraw_00115:
+1167  0314  C9          	ret
+1168  0315              	SECTION code_compiler
+1169  0315              ;	---------------------------------
+1170  0315              ; Function spr_killed
+1171  0315              ; ---------------------------------
+1172  0315              _spr_killed:
+1173  0315  45          	ld	b,l
+1174  0316  11 00 00    	ld	de,_class+0
+1175  0319  26 00       	ld	h,0x00
+1176  031B  19          	add	hl,de
+1177  031C  7E          	ld	a,(hl)
+1178  031D  4F          	ld	c,a
+1179  031E  D6 07       	sub	a,0x07
+1180  0320  28 13       	jr	Z,l_spr_killed_00101
+1181  0322  79          	ld	a,c
+1182  0323  FE 08       	cp	a,0x08
+1183  0325  28 28       	jr	Z,l_spr_killed_00103
+1184  0327  FE 0A       	cp	a,0x0a
+1185  0329  28 31       	jr	Z,l_spr_killed_00104
+1186  032B  FE 0B       	cp	a,0x0b
+1187  032D  28 42       	jr	Z,l_spr_killed_00105
+1188  032F  D6 0C       	sub	a,0x0c
+1189  0331  28 0F       	jr	Z,l_spr_killed_00102
+1190  0333  18 51       	jr	l_spr_killed_00106
+1191  0335              l_spr_killed_00101:
+1192  0335  21 81 00    	ld	hl,0x0081
+1193  0338  E5          	push	hl
+1194  0339  C5          	push	bc
+1195  033A  33          	inc	sp
+1196  033B  CD 7C 04    	call	_spr_anim_kill
+1197  033E  F1          	pop	af
+1198  033F  33          	inc	sp
+1199  0340  18 48       	jr	l_spr_killed_00107
+1200  0342              l_spr_killed_00102:
+1201  0342  21 BA 00    	ld	hl,0x00ba
+1202  0345  E5          	push	hl
+1203  0346  C5          	push	bc
+1204  0347  33          	inc	sp
+1205  0348  CD 7C 04    	call	_spr_anim_kill
+1206  034B  F1          	pop	af
+1207  034C  33          	inc	sp
+1208  034D  18 3B       	jr	l_spr_killed_00107
+1209  034F              l_spr_killed_00103:
+1210  034F  21 BA 00    	ld	hl,0x00ba
+1211  0352  E5          	push	hl
+1212  0353  C5          	push	bc
+1213  0354  33          	inc	sp
+1214  0355  CD 7C 04    	call	_spr_anim_kill
+1215  0358  F1          	pop	af
+1216  0359  33          	inc	sp
+1217  035A  18 2E       	jr	l_spr_killed_00107
+1218  035C              l_spr_killed_00104:
+1219  035C  C5          	push	bc
+1220  035D  68          	ld	l,b
+1221  035E  CD 01 06    	call	_spr_tile
+1222  0361  EB          	ex	de,hl
+1223  0362  C1          	pop	bc
+1224  0363  EB          	ex	de,hl
+1225  0364  23          	inc	hl
+1226  0365  23          	inc	hl
+1227  0366  23          	inc	hl
+1228  0367  E5          	push	hl
+1229  0368  C5          	push	bc
+1230  0369  33          	inc	sp
+1231  036A  CD 7C 04    	call	_spr_anim_kill
+1232  036D  F1          	pop	af
+1233  036E  33          	inc	sp
+1234  036F  18 19       	jr	l_spr_killed_00107
+1235  0371              l_spr_killed_00105:
+1236  0371  C5          	push	bc
+1237  0372  68          	ld	l,b
+1238  0373  CD 01 06    	call	_spr_tile
+1239  0376  EB          	ex	de,hl
+1240  0377  C1          	pop	bc
+1241  0378  EB          	ex	de,hl
+1242  0379  23          	inc	hl
+1243  037A  23          	inc	hl
+1244  037B  23          	inc	hl
+1245  037C  E5          	push	hl
+1246  037D  C5          	push	bc
+1247  037E  33          	inc	sp
+1248  037F  CD 7C 04    	call	_spr_anim_kill
+1249  0382  F1          	pop	af
+1250  0383  33          	inc	sp
+1251  0384  18 04       	jr	l_spr_killed_00107
+1252  0386              l_spr_killed_00106:
+1253  0386  68          	ld	l,b
+1254  0387  CD 8D 03    	call	_spr_anim_fall
+1255  038A              l_spr_killed_00107:
+1256  038A  2E 00       	ld	l,0x00
+1257  038C  C9          	ret
+1258  038D              	SECTION code_compiler
+1259  038D              ;	---------------------------------
+1260  038D              ; Function spr_anim_fall
+1261  038D              ; ---------------------------------
+1262  038D              _spr_anim_fall:
+1263  038D  CD 00 00    	call	___sdcc_enter_ix
+1264  0390  F5          	push	af
+1265  0391  45          	ld	b,l
+1266  0392  3E 00       	ld	a,+((_lin) & 0xFF)
+1267  0394  80          	add	a, b
+1268  0395  DD 77 FE    	ld	(ix-2),a
+1269  0398  3E 00       	ld	a,+((_lin) / 256)
+1270  039A  CE 00       	adc	a,0x00
+1271  039C  DD 77 FF    	ld	(ix-1),a
+1272  039F  E1          	pop	hl
+1273  03A0  7E          	ld	a,(hl)
+1274  03A1  E5          	push	hl
+1275  03A2  4F          	ld	c,a
+1276  03A3  D6 98       	sub	a,0x98
+1277  03A5  30 34       	jr	NC,l_spr_anim_fall_00114
+1278  03A7  11 00 00    	ld	de,_col+0
+1279  03AA  68          	ld	l,b
+1280  03AB  26 00       	ld	h,0x00
+1281  03AD  19          	add	hl,de
+1282  03AE  7E          	ld	a,(hl)
+1283  03AF  32 00 00    	ld	(_s_col0),a
+1284  03B2  21 00 00    	ld	hl,_s_lin0
+1285  03B5  71          	ld	(hl),c
+1286  03B6  0C          	inc	c
+1287  03B7  0C          	inc	c
+1288  03B8  0C          	inc	c
+1289  03B9  0C          	inc	c
+1290  03BA  E1          	pop	hl
+1291  03BB  E5          	push	hl
+1292  03BC  71          	ld	(hl),c
+1293  03BD  11 00 00    	ld	de,_tile+0
+1294  03C0  68          	ld	l,b
+1295  03C1  26 00       	ld	h,0x00
+1296  03C3  19          	add	hl,de
+1297  03C4  56          	ld	d,(hl)
+1298  03C5  3A 00 00    	ld	a,(_s_col0)
+1299  03C8  F5          	push	af
+1300  03C9  33          	inc	sp
+1301  03CA  79          	ld	a,c
+1302  03CB  5A          	ld	e,d
+1303  03CC  57          	ld	d,a
+1304  03CD  D5          	push	de
+1305  03CE  C5          	push	bc
+1306  03CF  33          	inc	sp
+1307  03D0  CD 00 00    	call	_NIRVANAP_spriteT_callee
+1308  03D3  2E 00       	ld	l,0x00
+1309  03D5  CD 98 08    	call	_spr_back_fix
+1310  03D8  C3 78 04    	jp	l_spr_anim_fall_00116
+1311  03DB              l_spr_anim_fall_00114:
+1312  03DB  3E 00       	ld	a,+((_col) & 0xFF)
+1313  03DD  80          	add	a, b
+1314  03DE  5F          	ld	e,a
+1315  03DF  3E 00       	ld	a,+((_col) / 256)
+1316  03E1  CE 00       	adc	a,0x00
+1317  03E3  57          	ld	d,a
+1318  03E4  1A          	ld	a,(de)
+1319  03E5  32 00 00    	ld	(_s_col1),a
+1320  03E8  6F          	ld	l,a
+1321  03E9  C5          	push	bc
+1322  03EA  D5          	push	de
+1323  03EB  CD D9 0B    	call	_spr_water_splash_draw
+1324  03EE  D1          	pop	de
+1325  03EF  C1          	pop	bc
+1326  03F0  78          	ld	a,b
+1327  03F1  D6 06       	sub	a,0x06
+1328  03F3  38 5F       	jr	C,l_spr_anim_fall_00107
+1329  03F5  C5          	push	bc
+1330  03F6  D5          	push	de
+1331  03F7  CD 00 00    	call	_player_lost_life
+1332  03FA  D1          	pop	de
+1333  03FB  C1          	pop	bc
+1334  03FC  7D          	ld	a,l
+1335  03FD  B7          	or	a, a
+1336  03FE  28 16       	jr	Z,l_spr_anim_fall_00102
+1337  0400  76          	halt
+1338  0401  E1          	pop	hl
+1339  0402  1A          	ld	a,(de)
+1340  0403  56          	ld	d,(hl)
+1341  0404  E5          	push	hl
+1342  0405  C5          	push	bc
+1343  0406  5A          	ld	e,d
+1344  0407  57          	ld	d,a
+1345  0408  D5          	push	de
+1346  0409  AF          	xor	a, a
+1347  040A  F5          	push	af
+1348  040B  33          	inc	sp
+1349  040C  CD 00 00    	call	_NIRVANAP_fillT_callee
+1350  040F  C1          	pop	bc
+1351  0410  68          	ld	l,b
+1352  0411  CD 00 00    	call	_player_restart
+1353  0414  18 4D       	jr	l_spr_anim_fall_00108
+1354  0416              l_spr_anim_fall_00102:
+1355  0416  C5          	push	bc
+1356  0417  D5          	push	de
+1357  0418  CD 00 00    	call	_game_print_footer
+1358  041B  D1          	pop	de
+1359  041C  C1          	pop	bc
+1360  041D  E1          	pop	hl
+1361  041E  1A          	ld	a,(de)
+1362  041F  E5          	push	hl
+1363  0420  66          	ld	h,(hl)
+1364  0421  C5          	push	bc
+1365  0422  D5          	push	de
+1366  0423  6C          	ld	l,h
+1367  0424  67          	ld	h,a
+1368  0425  E5          	push	hl
+1369  0426  AF          	xor	a, a
+1370  0427  F5          	push	af
+1371  0428  33          	inc	sp
+1372  0429  CD 00 00    	call	_NIRVANAP_fillT_callee
+1373  042C  D1          	pop	de
+1374  042D  C1          	pop	bc
+1375  042E  AF          	xor	a, a
+1376  042F  E1          	pop	hl
+1377  0430  12          	ld	(de),a
+1378  0431  E5          	push	hl
+1379  0432  36 00       	ld	(hl),0x00
+1380  0434  11 00 00    	ld	de,_class+0
+1381  0437  68          	ld	l,b
+1382  0438  26 00       	ld	h,0x00
+1383  043A  19          	add	hl,de
+1384  043B  36 00       	ld	(hl),0x00
+1385  043D  11 00 00    	ld	de,_state+0
+1386  0440  68          	ld	l,b
+1387  0441  26 00       	ld	h,0x00
+1388  0443  19          	add	hl,de
+1389  0444  36 00       	ld	(hl),0x00
+1390  0446  21 00 00    	ld	hl,0x0000
+1391  0449  E5          	push	hl
+1392  044A  3E A9       	ld	a,0xa9
+1393  044C  48          	ld	c,b
+1394  044D  47          	ld	b,a
+1395  044E  C5          	push	bc
+1396  044F  CD 00 00    	call	_NIRVANAP_spriteT_callee
+1397  0452  18 0F       	jr	l_spr_anim_fall_00108
+1398  0454              l_spr_anim_fall_00107:
+1399  0454  68          	ld	l,b
+1400  0455  CD 54 05    	call	_spr_destroy
+1401  0458  3A 00 00    	ld	a,(_phase_left)
+1402  045B  B7          	or	a, a
+1403  045C  20 05       	jr	NZ,l_spr_anim_fall_00108
+1404  045E  21 00 00    	ld	hl,_phase_end
+1405  0461  36 01       	ld	(hl),0x01
+1406  0463              l_spr_anim_fall_00108:
+1407  0463  3E 04       	ld	a,0x04
+1408  0465  21 00 00    	ld	hl,_s_col1
+1409  0468  96          	sub	a, (hl)
+1410  0469  38 03       	jr	C,l_spr_anim_fall_00110
+1411  046B  CD 1C 0A    	call	_spr_back_fix3
+1412  046E              l_spr_anim_fall_00110:
+1413  046E  3A 00 00    	ld	a,(_s_col1)
+1414  0471  D6 1A       	sub	a,0x1a
+1415  0473  38 03       	jr	C,l_spr_anim_fall_00116
+1416  0475  CD 5E 0A    	call	_spr_back_fix4
+1417  0478              l_spr_anim_fall_00116:
+1418  0478  F1          	pop	af
+1419  0479  DD E1       	pop	ix
+1420  047B  C9          	ret
+1421  047C              	SECTION code_compiler
+1422  047C              ;	---------------------------------
+1423  047C              ; Function spr_anim_kill
+1424  047C              ; ---------------------------------
+1425  047C              _spr_anim_kill:
+1426  047C  CD 00 00    	call	___sdcc_enter_ix
+1427  047F  F5          	push	af
+1428  0480  DD 4E 04    	ld	c,(ix+4)
+1429  0483  06 00       	ld	b,0x00
+1430  0485  CB 21       	sla	c
+1431  0487  CB 10       	rl	b
+1432  0489  21 00 00    	ld	hl,_last_time
+1433  048C  09          	add	hl,bc
+1434  048D  E3          	ex	(sp), hl
+1435  048E  E1          	pop	hl
+1436  048F  ED 5B 00 00 	ld	de,(_curr_time)
+1437  0493  E5          	push	hl
+1438  0494  73          	ld	(hl),e
+1439  0495  23          	inc	hl
+1440  0496  72          	ld	(hl),d
+1441  0497  2A 00 00    	ld	hl,(_curr_time)
+1442  049A  5D          	ld	e,l
+1443  049B  21 00 00    	ld	hl,_spr_timer
+1444  049E  09          	add	hl,bc
+1445  049F  4E          	ld	c,(hl)
+1446  04A0  7B          	ld	a,e
+1447  04A1  91          	sub	a, c
+1448  04A2  32 00 00    	ld	(_tmp0),a
+1449  04A5  21 00 00    	ld	hl,_tmp
+1450  04A8  36 02       	ld	(hl),0x02
+1451  04AA  3E 28       	ld	a,0x28
+1452  04AC  21 00 00    	ld	hl,_tmp0
+1453  04AF  96          	sub	a, (hl)
+1454  04B0  38 05       	jr	C,l_spr_anim_kill_00102
+1455  04B2  21 00 00    	ld	hl,_tmp
+1456  04B5  36 01       	ld	(hl),0x01
+1457  04B7              l_spr_anim_kill_00102:
+1458  04B7  3E 14       	ld	a,0x14
+1459  04B9  21 00 00    	ld	hl,_tmp0
+1460  04BC  96          	sub	a, (hl)
+1461  04BD  38 05       	jr	C,l_spr_anim_kill_00104
+1462  04BF  21 00 00    	ld	hl,_tmp
+1463  04C2  36 00       	ld	(hl),0x00
+1464  04C4              l_spr_anim_kill_00104:
+1465  04C4  3E 3C       	ld	a,0x3c
+1466  04C6  21 00 00    	ld	hl,_tmp0
+1467  04C9  96          	sub	a, (hl)
+1468  04CA  38 2F       	jr	C,l_spr_anim_kill_00106
+1469  04CC  3E 00       	ld	a,+((_col) & 0xFF)
+1470  04CE  DD 86 04    	add	a,(ix+4)
+1471  04D1  4F          	ld	c,a
+1472  04D2  3E 00       	ld	a,+((_col) / 256)
+1473  04D4  CE 00       	adc	a,0x00
+1474  04D6  47          	ld	b,a
+1475  04D7  0A          	ld	a,(bc)
+1476  04D8  47          	ld	b,a
+1477  04D9  3E 00       	ld	a,+((_lin) & 0xFF)
+1478  04DB  DD 86 04    	add	a,(ix+4)
+1479  04DE  5F          	ld	e,a
+1480  04DF  3E 00       	ld	a,+((_lin) / 256)
+1481  04E1  CE 00       	adc	a,0x00
+1482  04E3  57          	ld	d,a
+1483  04E4  1A          	ld	a,(de)
+1484  04E5  57          	ld	d,a
+1485  04E6  DD 7E 05    	ld	a,(ix+5)
+1486  04E9  21 00 00    	ld	hl,_tmp
+1487  04EC  86          	add	a, (hl)
+1488  04ED  4A          	ld	c, d
+1489  04EE  C5          	push	bc
+1490  04EF  F5          	push	af
+1491  04F0  33          	inc	sp
+1492  04F1  DD 7E 04    	ld	a,(ix+4)
+1493  04F4  F5          	push	af
+1494  04F5  33          	inc	sp
+1495  04F6  CD 00 00    	call	_NIRVANAP_spriteT_callee
+1496  04F9  18 06       	jr	l_spr_anim_kill_00108
+1497  04FB              l_spr_anim_kill_00106:
+1498  04FB  DD 6E 04    	ld	l,(ix+4)
+1499  04FE  CD 54 05    	call	_spr_destroy
+1500  0501              l_spr_anim_kill_00108:
+1501  0501  F1          	pop	af
+1502  0502  DD E1       	pop	ix
+1503  0504  C9          	ret
+1504  0505              	SECTION code_compiler
+1505  0505              ;	---------------------------------
+1506  0505              ; Function spr_check_over
+1507  0505              ; ---------------------------------
+1508  0505              _spr_check_over:
+1509  0505  21 00 00    	ld	hl,_s_col0
+1510  0508  7E          	ld	a,(hl)
+1511  0509  D6 04       	sub	a,0x04
+1512  050B  3E 00       	ld	a,0x00
+1513  050D  17          	rla
+1514  050E  4F          	ld	c,a
+1515  050F  3E 1A       	ld	a,0x1a
+1516  0511  96          	sub	a, (hl)
+1517  0512  3E 00       	ld	a,0x00
+1518  0514  17          	rla
+1519  0515  47          	ld	b,a
+1520  0516  3A 00 00    	ld	a,(_s_lin0)
+1521  0519  D6 88       	sub	a,0x88
+1522  051B  38 16       	jr	C,l_spr_check_over_00112
+1523  051D  79          	ld	a,c
+1524  051E  B7          	or	a, a
+1525  051F  28 07       	jr	Z,l_spr_check_over_00102
+1526  0521  CD 1C 0A    	call	_spr_back_fix3
+1527  0524  2E 01       	ld	l,0x01
+1528  0526  18 2B       	jr	l_spr_check_over_00114
+1529  0528              l_spr_check_over_00102:
+1530  0528  78          	ld	a,b
+1531  0529  B7          	or	a, a
+1532  052A  28 25       	jr	Z,l_spr_check_over_00113
+1533  052C  CD 5E 0A    	call	_spr_back_fix4
+1534  052F  2E 01       	ld	l,0x01
+1535  0531  18 20       	jr	l_spr_check_over_00114
+1536  0533              l_spr_check_over_00112:
+1537  0533  3E 28       	ld	a,0x28
+1538  0535  21 00 00    	ld	hl,_s_lin0
+1539  0538  96          	sub	a, (hl)
+1540  0539  38 16       	jr	C,l_spr_check_over_00113
+1541  053B  79          	ld	a,c
+1542  053C  B7          	or	a, a
+1543  053D  28 07       	jr	Z,l_spr_check_over_00106
+1544  053F  CD 9A 09    	call	_spr_back_fix1
+1545  0542  2E 01       	ld	l,0x01
+1546  0544  18 0D       	jr	l_spr_check_over_00114
+1547  0546              l_spr_check_over_00106:
+1548  0546  78          	ld	a,b
+1549  0547  B7          	or	a, a
+1550  0548  28 07       	jr	Z,l_spr_check_over_00113
+1551  054A  CD DB 09    	call	_spr_back_fix2
+1552  054D  2E 01       	ld	l,0x01
+1553  054F  18 02       	jr	l_spr_check_over_00114
+1554  0551              l_spr_check_over_00113:
+1555  0551  2E 00       	ld	l,0x00
+1556  0553              l_spr_check_over_00114:
+1557  0553  C9          	ret
+1558  0554              	SECTION code_compiler
+1559  0554              ;	---------------------------------
+1560  0554              ; Function spr_destroy
+1561  0554              ; ---------------------------------
+1562  0554              _spr_destroy:
+1563  0554  CD 00 00    	call	___sdcc_enter_ix
+1564  0557  F5          	push	af
+1565  0558  4D          	ld	c,l
+1566  0559  21 00 00    	ld	hl,_spr_count
+1567  055C  35          	dec	(hl)
+1568  055D  3E 00       	ld	a,+((_lin) & 0xFF)
+1569  055F  81          	add	a, c
+1570  0560  DD 77 FE    	ld	(ix-2),a
+1571  0563  3E 00       	ld	a,+((_lin) / 256)
+1572  0565  CE 00       	adc	a,0x00
+1573  0567  DD 77 FF    	ld	(ix-1),a
+1574  056A  E1          	pop	hl
+1575  056B  7E          	ld	a,(hl)
+1576  056C  E5          	push	hl
+1577  056D  32 00 00    	ld	(_s_lin0),a
+1578  0570  3E 00       	ld	a,+((_col) & 0xFF)
+1579  0572  81          	add	a, c
+1580  0573  5F          	ld	e,a
+1581  0574  3E 00       	ld	a,+((_col) / 256)
+1582  0576  CE 00       	adc	a,0x00
+1583  0578  57          	ld	d,a
+1584  0579  1A          	ld	a,(de)
+1585  057A  32 00 00    	ld	(_s_col0),a
+1586  057D  06 00       	ld	b,0x00
+1587  057F  21 00 00    	ld	hl,_tile
+1588  0582  09          	add	hl, bc
+1589  0583  36 A9       	ld	(hl),0xa9
+1590  0585  AF          	xor	a, a
+1591  0586  E1          	pop	hl
+1592  0587  12          	ld	(de),a
+1593  0588  E5          	push	hl
+1594  0589  36 00       	ld	(hl),0x00
+1595  058B  11 00 00    	ld	de,_class+0
+1596  058E  69          	ld	l,c
+1597  058F  26 00       	ld	h,0x00
+1598  0591  19          	add	hl,de
+1599  0592  36 00       	ld	(hl),0x00
+1600  0594  11 00 00    	ld	de,_state+0
+1601  0597  69          	ld	l,c
+1602  0598  26 00       	ld	h,0x00
+1603  059A  19          	add	hl,de
+1604  059B  36 00       	ld	(hl),0x00
+1605  059D  21 00 00    	ld	hl,0x0000
+1606  05A0  E5          	push	hl
+1607  05A1  3E A9       	ld	a,0xa9
+1608  05A3  F5          	push	af
+1609  05A4  33          	inc	sp
+1610  05A5  79          	ld	a,c
+1611  05A6  F5          	push	af
+1612  05A7  33          	inc	sp
+1613  05A8  CD 00 00    	call	_NIRVANAP_spriteT_callee
+1614  05AB  76          	halt
+1615  05AC  2A FF FF    	ld	hl,(_s_col0 - 1)
+1616  05AF  3A 00 00    	ld	a,(_s_lin0)
+1617  05B2  6F          	ld	l,a
+1618  05B3  E5          	push	hl
+1619  05B4  AF          	xor	a, a
+1620  05B5  F5          	push	af
+1621  05B6  33          	inc	sp
+1622  05B7  CD 00 00    	call	_NIRVANAP_fillT_callee
+1623  05BA  3A 00 00    	ld	a,(_game_over)
+1624  05BD  B7          	or	a, a
+1625  05BE  20 03       	jr	NZ,l_spr_destroy_00103
+1626  05C0  CD 05 05    	call	_spr_check_over
+1627  05C3              l_spr_destroy_00103:
+1628  05C3  F1          	pop	af
+1629  05C4  DD E1       	pop	ix
+1630  05C6  C9          	ret
+1631  05C7              	SECTION code_compiler
+1632  05C7              ;	---------------------------------
+1633  05C7              ; Function spr_set_fall
+1634  05C7              ; ---------------------------------
+1635  05C7              _spr_set_fall:
+1636  05C7  21 00 00    	ld	hl,_s_state
+1637  05CA  CB 86       	res	0, (hl)
+1638  05CC  CB CE       	set	1, (hl)
+1639  05CE  21 00 00    	ld	hl,_sprite
+1640  05D1  7E          	ld	a,(hl)
+1641  05D2  D6 06       	sub	a,0x06
+1642  05D4  38 0E       	jr	C,l_spr_set_fall_00104
+1643  05D6  3E 00       	ld	a,+((_sprite_speed_alt) & 0xFF)
+1644  05D8  86          	add	a, (hl)
+1645  05D9  4F          	ld	c,a
+1646  05DA  3E 00       	ld	a,+((_sprite_speed_alt) / 256)
+1647  05DC  CE 00       	adc	a,0x00
+1648  05DE  47          	ld	b,a
+1649  05DF  3E 02       	ld	a,0x02
+1650  05E1  02          	ld	(bc),a
+1651  05E2  18 1C       	jr	l_spr_set_fall_00106
+1652  05E4              l_spr_set_fall_00104:
+1653  05E4  2A 00 00    	ld	hl,(_sprite)
+1654  05E7  26 00       	ld	h,0x00
+1655  05E9  01 00 00    	ld	bc,_class
+1656  05EC  09          	add	hl,bc
+1657  05ED  4E          	ld	c,(hl)
+1658  05EE  3E 08       	ld	a,0x08
+1659  05F0  91          	sub	a,c
+1660  05F1  D8          	ret	C
+1661  05F2  3A 00 00    	ld	a,(_sprite)
+1662  05F5  C6 00       	add	a,+((_sprite_speed_alt) & 0xFF)
+1663  05F7  4F          	ld	c,a
+1664  05F8  3E 00       	ld	a,+((_sprite_speed_alt) / 256)
+1665  05FA  CE 00       	adc	a,0x00
+1666  05FC  47          	ld	b,a
+1667  05FD  3E 01       	ld	a,0x01
+1668  05FF  02          	ld	(bc),a
+1669  0600              l_spr_set_fall_00106:
+1670  0600  C9          	ret
+1671  0601              	SECTION code_compiler
+1672  0601              ;	---------------------------------
+1673  0601              ; Function spr_tile
+1674  0601              ; ---------------------------------
+1675  0601              _spr_tile:
+1676  0601  55          	ld	d,l
+1677  0602  01 00 00    	ld	bc,_state+0
+1678  0605  26 00       	ld	h,0x00
+1679  0607  09          	add	hl,bc
+1680  0608  CB 76       	bit	6,(hl)
+1681  060A  28 07       	jr	Z,l_spr_tile_00102
+1682  060C  21 00 00    	ld	hl,_tmp
+1683  060F  36 03       	ld	(hl),0x03
+1684  0611  18 05       	jr	l_spr_tile_00103
+1685  0613              l_spr_tile_00102:
+1686  0613  21 00 00    	ld	hl,_tmp
+1687  0616  36 00       	ld	(hl),0x00
+1688  0618              l_spr_tile_00103:
+1689  0618  01 00 00    	ld	bc,_state_a+0
+1690  061B  6A          	ld	l,d
+1691  061C  26 00       	ld	h,0x00
+1692  061E  09          	add	hl,bc
+1693  061F  CB 4E       	bit	1,(hl)
+1694  0621  28 05       	jr	Z,l_spr_tile_00105
+1695  0623  21 00 00    	ld	hl,_tmp
+1696  0626  36 09       	ld	(hl),0x09
+1697  0628              l_spr_tile_00105:
+1698  0628  01 00 00    	ld	bc,_class+0
+1699  062B  6A          	ld	l,d
+1700  062C  26 00       	ld	h,0x00
+1701  062E  09          	add	hl,bc
+1702  062F  7E          	ld	a,(hl)
+1703  0630  5F          	ld	e,a
+1704  0631  D6 01       	sub	a,0x01
+1705  0633  DA D2 06    	jp	C,l_spr_tile_00118
+1706  0636  3E 0C       	ld	a,0x0c
+1707  0638  93          	sub	a, e
+1708  0639  DA D2 06    	jp	C,l_spr_tile_00118
+1709  063C  1D          	dec	e
+1710  063D  ED 4B 00 00 	ld	bc,(_tmp)
+1711  0641  06 00       	ld	b,0x00
+1712  0643  D5          	push	de
+1713  0644  16 00       	ld	d,0x00
+1714  0646  21 4E 06    	ld	hl,l_spr_tile_00139
+1715  0649  19          	add	hl,de
+1716  064A  19          	add	hl,de
+1717  064B  19          	add	hl,de
+1718  064C  D1          	pop	de
+1719  064D  E9          	jp	(hl)
+1720  064E              l_spr_tile_00139:
+1721  064E  C3 72 06    	jp	l_spr_tile_00106
+1722  0651  C3 82 06    	jp	l_spr_tile_00107
+1723  0654  C3 92 06    	jp	l_spr_tile_00108
+1724  0657  C3 A2 06    	jp	l_spr_tile_00109
+1725  065A  C3 A8 06    	jp	l_spr_tile_00110
+1726  065D  C3 AE 06    	jp	l_spr_tile_00111
+1727  0660  C3 B4 06    	jp	l_spr_tile_00112
+1728  0663  C3 B9 06    	jp	l_spr_tile_00113
+1729  0666  C3 C3 06    	jp	l_spr_tile_00115
+1730  0669  C3 C8 06    	jp	l_spr_tile_00116
+1731  066C  C3 CD 06    	jp	l_spr_tile_00117
+1732  066F  C3 BE 06    	jp	l_spr_tile_00114
+1733  0672              l_spr_tile_00106:
+1734  0672  3E 03       	ld	a,0x03
+1735  0674  5A          	ld	e,d
+1736  0675  57          	ld	d,a
+1737  0676  D5          	push	de
+1738  0677  21 30 00    	ld	hl,0x0030
+1739  067A  E5          	push	hl
+1740  067B  CD D6 06    	call	_spr_tile_dir
+1741  067E  F1          	pop	af
+1742  067F  F1          	pop	af
+1743  0680  18 53       	jr	l_spr_tile_00119
+1744  0682              l_spr_tile_00107:
+1745  0682  3E 03       	ld	a,0x03
+1746  0684  5A          	ld	e,d
+1747  0685  57          	ld	d,a
+1748  0686  D5          	push	de
+1749  0687  21 3C 00    	ld	hl,0x003c
+1750  068A  E5          	push	hl
+1751  068B  CD D6 06    	call	_spr_tile_dir
+1752  068E  F1          	pop	af
+1753  068F  F1          	pop	af
+1754  0690  18 43       	jr	l_spr_tile_00119
+1755  0692              l_spr_tile_00108:
+1756  0692  3E 03       	ld	a,0x03
+1757  0694  5A          	ld	e,d
+1758  0695  57          	ld	d,a
+1759  0696  D5          	push	de
+1760  0697  21 48 00    	ld	hl,0x0048
+1761  069A  E5          	push	hl
+1762  069B  CD D6 06    	call	_spr_tile_dir
+1763  069E  F1          	pop	af
+1764  069F  F1          	pop	af
+1765  06A0  18 33       	jr	l_spr_tile_00119
+1766  06A2              l_spr_tile_00109:
+1767  06A2  21 54 00    	ld	hl,0x0054
+1768  06A5  09          	add	hl,bc
+1769  06A6  18 2D       	jr	l_spr_tile_00119
+1770  06A8              l_spr_tile_00110:
+1771  06A8  21 60 00    	ld	hl,0x0060
+1772  06AB  09          	add	hl,bc
+1773  06AC  18 27       	jr	l_spr_tile_00119
+1774  06AE              l_spr_tile_00111:
+1775  06AE  21 6C 00    	ld	hl,0x006c
+1776  06B1  09          	add	hl,bc
+1777  06B2  18 21       	jr	l_spr_tile_00119
+1778  06B4              l_spr_tile_00112:
+1779  06B4  21 7B 00    	ld	hl,0x007b
+1780  06B7  18 1C       	jr	l_spr_tile_00119
+1781  06B9              l_spr_tile_00113:
+1782  06B9  21 B4 00    	ld	hl,0x00b4
+1783  06BC  18 17       	jr	l_spr_tile_00119
+1784  06BE              l_spr_tile_00114:
+1785  06BE  21 B7 00    	ld	hl,0x00b7
+1786  06C1  18 12       	jr	l_spr_tile_00119
+1787  06C3              l_spr_tile_00115:
+1788  06C3  21 78 00    	ld	hl,0x0078
+1789  06C6  18 0D       	jr	l_spr_tile_00119
+1790  06C8              l_spr_tile_00116:
+1791  06C8  21 90 00    	ld	hl,0x0090
+1792  06CB  18 08       	jr	l_spr_tile_00119
+1793  06CD              l_spr_tile_00117:
+1794  06CD  21 96 00    	ld	hl,0x0096
+1795  06D0  18 03       	jr	l_spr_tile_00119
+1796  06D2              l_spr_tile_00118:
+1797  06D2  21 00 00    	ld	hl,0x0000
+1798  06D5              l_spr_tile_00119:
+1799  06D5  C9          	ret
+1800  06D6              	SECTION code_compiler
+1801  06D6              ;	---------------------------------
+1802  06D6              ; Function spr_tile_dir
+1803  06D6              ; ---------------------------------
+1804  06D6              _spr_tile_dir:
+1805  06D6  CD 00 00    	call	___sdcc_enter_ix
+1806  06D9  3E 00       	ld	a,+((_state) & 0xFF)
+1807  06DB  DD 86 06    	add	a,(ix+6)
+1808  06DE  4F          	ld	c,a
+1809  06DF  3E 00       	ld	a,+((_state) / 256)
+1810  06E1  CE 00       	adc	a,0x00
+1811  06E3  47          	ld	b,a
+1812  06E4  0A          	ld	a,(bc)
+1813  06E5  4F          	ld	c,a
+1814  06E6  CB 67       	bit	4,a
+1815  06E8  28 0C       	jr	Z,l_spr_tile_dir_00102
+1816  06EA  DD 6E 04    	ld	l,(ix+4)
+1817  06ED  DD 66 05    	ld	h,(ix+5)
+1818  06F0  11 06 00    	ld	de,0x0006
+1819  06F3  19          	add	hl,de
+1820  06F4  18 53       	jr	l_spr_tile_dir_00113
+1821  06F6              l_spr_tile_dir_00102:
+1822  06F6  3E 00       	ld	a,+((_state_a) & 0xFF)
+1823  06F8  DD 86 06    	add	a,(ix+6)
+1824  06FB  5F          	ld	e,a
+1825  06FC  3E 00       	ld	a,+((_state_a) / 256)
+1826  06FE  CE 00       	adc	a,0x00
+1827  0700  57          	ld	d,a
+1828  0701  1A          	ld	a,(de)
+1829  0702  47          	ld	b,a
+1830  0703  CB 4F       	bit	1,a
+1831  0705  28 0C       	jr	Z,l_spr_tile_dir_00104
+1832  0707  DD 6E 04    	ld	l,(ix+4)
+1833  070A  DD 66 05    	ld	h,(ix+5)
+1834  070D  11 09 00    	ld	de,0x0009
+1835  0710  19          	add	hl,de
+1836  0711  18 36       	jr	l_spr_tile_dir_00113
+1837  0713              l_spr_tile_dir_00104:
+1838  0713  CB 51       	bit	2, c
+1839  0715  28 08       	jr	Z,l_spr_tile_dir_00106
+1840  0717  DD 6E 04    	ld	l,(ix+4)
+1841  071A  DD 66 05    	ld	h,(ix+5)
+1842  071D  18 2A       	jr	l_spr_tile_dir_00113
+1843  071F              l_spr_tile_dir_00106:
+1844  071F  DD 5E 07    	ld	e,(ix+7)
+1845  0722  16 00       	ld	d,0x00
+1846  0724  DD 6E 04    	ld	l,(ix+4)
+1847  0727  DD 66 05    	ld	h,(ix+5)
+1848  072A  19          	add	hl,de
+1849  072B  EB          	ex	de,hl
+1850  072C  CB 59       	bit	3, c
+1851  072E  28 03       	jr	Z,l_spr_tile_dir_00108
+1852  0730  EB          	ex	de,hl
+1853  0731  18 16       	jr	l_spr_tile_dir_00113
+1854  0733              l_spr_tile_dir_00108:
+1855  0733  CB 60       	bit	4, b
+1856  0735  28 08       	jr	Z,l_spr_tile_dir_00110
+1857  0737  DD 6E 04    	ld	l,(ix+4)
+1858  073A  DD 66 05    	ld	h,(ix+5)
+1859  073D  18 0A       	jr	l_spr_tile_dir_00113
+1860  073F              l_spr_tile_dir_00110:
+1861  073F  CB 58       	bit	3, b
+1862  0741  28 03       	jr	Z,l_spr_tile_dir_00112
+1863  0743  EB          	ex	de,hl
+1864  0744  18 03       	jr	l_spr_tile_dir_00113
+1865  0746              l_spr_tile_dir_00112:
+1866  0746  21 A9 00    	ld	hl,0x00a9
+1867  0749              l_spr_tile_dir_00113:
+1868  0749  DD E1       	pop	ix
+1869  074B  C9          	ret
+1870  074C              	SECTION code_compiler
+1871  074C              ;	---------------------------------
+1872  074C              ; Function spr_draw_back
+1873  074C              ; ---------------------------------
+1874  074C              _spr_draw_back:
+1875  074C  CD 00 00    	call	_NIRVANAP_stop
+1876  074F  21 00 00    	ld	hl,0x0000
+1877  0752  CD 00 00    	call	_zx_cls_fastcall
+1878  0755  F3          	di
+1879  0756  21 00 00    	ld	hl,_s_lin1
+1880  0759  36 10       	ld	(hl),0x10
+1881  075B              l_spr_draw_back_00107:
+1882  075B  21 00 00    	ld	hl,_s_col1
+1883  075E  36 00       	ld	(hl),0x00
+1884  0760              l_spr_draw_back_00105:
+1885  0760  2A FF FF    	ld	hl,(_s_col1 - 1)
+1886  0763  3A 00 00    	ld	a,(_s_lin1)
+1887  0766  6F          	ld	l,a
+1888  0767  E5          	push	hl
+1889  0768  CD 00 00    	call	_game_calc_index
+1890  076B  F1          	pop	af
+1891  076C  22 00 00    	ld	(_tmp_ui),hl
+1892  076F  01 00 00    	ld	bc,_lvl_1
+1893  0772  09          	add	hl,bc
+1894  0773  7E          	ld	a,(hl)
+1895  0774  D6 12       	sub	a,0x12
+1896  0776  38 10       	jr	C,l_spr_draw_back_00106
+1897  0778  2A FF FF    	ld	hl,(_s_col1 - 1)
+1898  077B  3A 00 00    	ld	a,(_s_lin1)
+1899  077E  6F          	ld	l,a
+1900  077F  3A 00 00    	ld	a,(_game_brick_tile)
+1901  0782  E5          	push	hl
+1902  0783  F5          	push	af
+1903  0784  33          	inc	sp
+1904  0785  CD 00 00    	call	_NIRVANAP_drawT_raw_callee
+1905  0788              l_spr_draw_back_00106:
+1906  0788  21 00 00    	ld	hl,_s_col1
+1907  078B  7E          	ld	a,(hl)
+1908  078C  3C          	inc	a
+1909  078D  3C          	inc	a
+1910  078E  77          	ld	(hl),a
+1911  078F  D6 20       	sub	a,0x20
+1912  0791  38 CD       	jr	C,l_spr_draw_back_00105
+1913  0793  21 00 00    	ld	hl,_s_lin1
+1914  0796  7E          	ld	a,(hl)
+1915  0797  C6 08       	add	a,0x08
+1916  0799  77          	ld	(hl),a
+1917  079A  D6 B6       	sub	a,0xb6
+1918  079C  38 BD       	jr	C,l_spr_draw_back_00107
+1919  079E  FB          	ei
+1920  079F  CD 00 00    	call	_NIRVANAP_start
+1921  07A2  CD 9A 09    	call	_spr_back_fix1
+1922  07A5  CD DB 09    	call	_spr_back_fix2
+1923  07A8  CD 1C 0A    	call	_spr_back_fix3
+1924  07AB  CD 5E 0A    	call	_spr_back_fix4
+1925  07AE  CD 18 08    	call	_spr_draw_pow
+1926  07B1  76          	halt
+1927  07B2  21 00 00    	ld	hl,_screen_ink
+1928  07B5  36 06       	ld	(hl),0x06
+1929  07B7  21 00 00    	ld	hl,_screen_paper
+1930  07BA  36 10       	ld	(hl),0x10
+1931  07BC  21 14 23    	ld	hl,0x2314
+1932  07BF  E5          	push	hl
+1933  07C0  CD 00 00    	call	_game_fill_row
+1934  07C3  21 15 23    	ld	hl,0x2315
+1935  07C6  E5          	push	hl
+1936  07C7  CD 00 00    	call	_game_fill_row
+1937  07CA  21 00 00    	ld	hl,_screen_paper
+1938  07CD  36 00       	ld	(hl),0x00
+1939  07CF  21 00 00    	ld	hl,_screen_ink
+1940  07D2  36 00       	ld	(hl),0x00
+1941  07D4  21 0C 20    	ld	hl,0x200c
+1942  07D7  E5          	push	hl
+1943  07D8  CD 00 00    	call	_game_fill_row
+1944  07DB  CD 00 00    	call	_game_print_footer
+1945  07DE  C9          	ret
+1946  07DF              	SECTION code_compiler
+1947  07DF              ;	---------------------------------
+1948  07DF              ; Function spr_draw_clear
+1949  07DF              ; ---------------------------------
+1950  07DF              _spr_draw_clear:
+1951  07DF  F3          	di
+1952  07E0  21 00 00    	ld	hl,0x0000
+1953  07E3  CD 00 00    	call	_zx_cls_fastcall
+1954  07E6  21 00 00    	ld	hl,_s_lin1
+1955  07E9  36 10       	ld	(hl),0x10
+1956  07EB              l_spr_draw_clear_00105:
+1957  07EB  21 00 00    	ld	hl,_s_col1
+1958  07EE  36 00       	ld	(hl),0x00
+1959  07F0              l_spr_draw_clear_00103:
+1960  07F0  3A 00 00    	ld	a,(_s_col1)
+1961  07F3  F5          	push	af
+1962  07F4  33          	inc	sp
+1963  07F5  3A 00 00    	ld	a,(_s_lin1)
+1964  07F8  57          	ld	d,a
+1965  07F9  1E A9       	ld	e,0xa9
+1966  07FB  D5          	push	de
+1967  07FC  CD 00 00    	call	_NIRVANAP_drawT_raw_callee
+1968  07FF  21 00 00    	ld	hl,_s_col1
+1969  0802  7E          	ld	a,(hl)
+1970  0803  3C          	inc	a
+1971  0804  3C          	inc	a
+1972  0805  77          	ld	(hl),a
+1973  0806  D6 20       	sub	a,0x20
+1974  0808  38 E6       	jr	C,l_spr_draw_clear_00103
+1975  080A  21 00 00    	ld	hl,_s_lin1
+1976  080D  7E          	ld	a,(hl)
+1977  080E  C6 10       	add	a,0x10
+1978  0810  77          	ld	(hl),a
+1979  0811  3E A2       	ld	a,0xa2
+1980  0813  96          	sub	a, (hl)
+1981  0814  30 D5       	jr	NC,l_spr_draw_clear_00105
+1982  0816  FB          	ei
+1983  0817  C9          	ret
+1984  0818              	SECTION code_compiler
+1985  0818              ;	---------------------------------
+1986  0818              ; Function spr_draw_pow
+1987  0818              ; ---------------------------------
+1988  0818              _spr_draw_pow:
+1989  0818  3A 00 00    	ld	a,(_game_pow)
+1990  081B  B7          	or	a, a
+1991  081C  28 37       	jr	Z,l_spr_draw_pow_00109
+1992  081E  D6 03       	sub	a,0x03
+1993  0820  20 05       	jr	NZ,l_spr_draw_pow_00102
+1994  0822  21 00 00    	ld	hl,_s_tile1
+1995  0825  36 BF       	ld	(hl),0xbf
+1996  0827              l_spr_draw_pow_00102:
+1997  0827  3A 00 00    	ld	a,(_game_pow)
+1998  082A  D6 02       	sub	a,0x02
+1999  082C  20 05       	jr	NZ,l_spr_draw_pow_00104
+2000  082E  21 00 00    	ld	hl,_s_tile1
+2001  0831  36 CB       	ld	(hl),0xcb
+2002  0833              l_spr_draw_pow_00104:
+2003  0833  3A 00 00    	ld	a,(_game_pow)
+2004  0836  3D          	dec	a
+2005  0837  20 05       	jr	NZ,l_spr_draw_pow_00106
+2006  0839  21 00 00    	ld	hl,_s_tile1
+2007  083C  36 D7       	ld	(hl),0xd7
+2008  083E              l_spr_draw_pow_00106:
+2009  083E  76          	halt
+2010  083F  21 80 0F    	ld	hl,0x0f80
+2011  0842  E5          	push	hl
+2012  0843  AF          	xor	a, a
+2013  0844  F5          	push	af
+2014  0845  33          	inc	sp
+2015  0846  CD 00 00    	call	_NIRVANAP_fillT_callee
+2016  0849  3A 00 00    	ld	a,(_s_tile1)
+2017  084C  21 80 0F    	ld	hl,0x0f80
+2018  084F  E5          	push	hl
+2019  0850  F5          	push	af
+2020  0851  33          	inc	sp
+2021  0852  CD 00 00    	call	_NIRVANAP_drawT_callee
+2022  0855              l_spr_draw_pow_00109:
+2023  0855  C9          	ret
+2024  0856              	SECTION code_compiler
+2025  0856              ;	---------------------------------
+2026  0856              ; Function spr_back_clr
+2027  0856              ; ---------------------------------
+2028  0856              _spr_back_clr:
+2029  0856  2A FF FF    	ld	hl,(_s_col0 - 1)
+2030  0859  3A 00 00    	ld	a,(_s_lin0)
+2031  085C  6F          	ld	l,a
+2032  085D  E5          	push	hl
+2033  085E  AF          	xor	a, a
+2034  085F  F5          	push	af
+2035  0860  33          	inc	sp
+2036  0861  CD 00 00    	call	_NIRVANAP_fillC_callee
+2037  0864  21 00 00    	ld	hl,_s_col0
+2038  0867  46          	ld	b,(hl)
+2039  0868  04          	inc	b
+2040  0869  C5          	push	bc
+2041  086A  33          	inc	sp
+2042  086B  2A FF FF    	ld	hl,(_s_lin0 - 1)
+2043  086E  AF          	xor	a,a
+2044  086F  6F          	ld	l,a
+2045  0870  E5          	push	hl
+2046  0871  CD 00 00    	call	_NIRVANAP_fillC_callee
+2047  0874  3A 00 00    	ld	a,(_s_lin0)
+2048  0877  C6 08       	add	a,0x08
+2049  0879  4F          	ld	c, a
+2050  087A  3A 00 00    	ld	a, (_s_col0)
+2051  087D  47          	ld	b,a
+2052  087E  C5          	push	bc
+2053  087F  AF          	xor	a, a
+2054  0880  F5          	push	af
+2055  0881  33          	inc	sp
+2056  0882  CD 00 00    	call	_NIRVANAP_fillC_callee
+2057  0885  21 00 00    	ld	hl,_s_col0
+2058  0888  56          	ld	d,(hl)
+2059  0889  14          	inc	d
+2060  088A  3A 00 00    	ld	a,(_s_lin0)
+2061  088D  C6 08       	add	a,0x08
+2062  088F  5F          	ld	e, a
+2063  0890  D5          	push	de
+2064  0891  AF          	xor	a, a
+2065  0892  F5          	push	af
+2066  0893  33          	inc	sp
+2067  0894  CD 00 00    	call	_NIRVANAP_fillC_callee
+2068  0897  C9          	ret
+2069  0898              	SECTION code_compiler
+2070  0898              ;	---------------------------------
+2071  0898              ; Function spr_back_fix
+2072  0898              ; ---------------------------------
+2073  0898              _spr_back_fix:
+2074  0898  CD 00 00    	call	___sdcc_enter_ix
+2075  089B  3B          	dec	sp
+2076  089C  DD 75 FF    	ld	(ix-1),l
+2077  089F  3A 00 00    	ld	a,(_s_lin0)
+2078  08A2  DD 86 FF    	add	a,(ix-1)
+2079  08A5  4F          	ld	c, a
+2080  08A6  3A 00 00    	ld	a, (_s_col0)
+2081  08A9  47          	ld	b,a
+2082  08AA  C5          	push	bc
+2083  08AB  CD 00 00    	call	_game_calc_index
+2084  08AE  F1          	pop	af
+2085  08AF  22 00 00    	ld	(_index1),hl
+2086  08B2  01 00 00    	ld	bc,_lvl_1
+2087  08B5  09          	add	hl,bc
+2088  08B6  7E          	ld	a,(hl)
+2089  08B7  4F          	ld	c,a
+2090  08B8  D6 12       	sub	a,0x12
+2091  08BA  28 09       	jr	Z,l_spr_back_fix_00118
+2092  08BC  79          	ld	a,c
+2093  08BD  D6 14       	sub	a,0x14
+2094  08BF  28 04       	jr	Z,l_spr_back_fix_00118
+2095  08C1  0E 00       	ld	c,0x00
+2096  08C3  18 02       	jr	l_spr_back_fix_00119
+2097  08C5              l_spr_back_fix_00118:
+2098  08C5  0E 01       	ld	c,0x01
+2099  08C7              l_spr_back_fix_00119:
+2100  08C7  21 00 00    	ld	hl,_tmp
+2101  08CA  71          	ld	(hl),c
+2102  08CB  ED 4B 00 00 	ld	bc,(_index1)
+2103  08CF  03          	inc	bc
+2104  08D0  21 00 00    	ld	hl,_lvl_1
+2105  08D3  09          	add	hl,bc
+2106  08D4  7E          	ld	a,(hl)
+2107  08D5  4F          	ld	c,a
+2108  08D6  D6 12       	sub	a,0x12
+2109  08D8  28 09       	jr	Z,l_spr_back_fix_00121
+2110  08DA  79          	ld	a,c
+2111  08DB  D6 14       	sub	a,0x14
+2112  08DD  28 04       	jr	Z,l_spr_back_fix_00121
+2113  08DF  0E 00       	ld	c,0x00
+2114  08E1  18 02       	jr	l_spr_back_fix_00122
+2115  08E3              l_spr_back_fix_00121:
+2116  08E3  0E 01       	ld	c,0x01
+2117  08E5              l_spr_back_fix_00122:
+2118  08E5  21 00 00    	ld	hl,_tmp0
+2119  08E8  71          	ld	(hl),c
+2120  08E9  CD 56 08    	call	_spr_back_clr
+2121  08EC  3A 00 00    	ld	a,(_tmp)
+2122  08EF  B7          	or	a, a
+2123  08F0  20 07       	jr	NZ,l_spr_back_fix_00107
+2124  08F2  3A 00 00    	ld	a,(_tmp0)
+2125  08F5  B7          	or	a, a
+2126  08F6  CA 79 09    	jp	Z,l_spr_back_fix_00108
+2127  08F9              l_spr_back_fix_00107:
+2128  08F9  3A 00 00    	ld	a,(_s_col0)
+2129  08FC  32 00 00    	ld	(_s_col1),a
+2130  08FF  01 00 00    	ld	bc,_lvl_1
+2131  0902  2A 00 00    	ld	hl,(_index1)
+2132  0905  09          	add	hl,bc
+2133  0906  6E          	ld	l, (hl)
+2134  0907  26 00       	ld	h,0x00
+2135  0909  29          	add	hl, hl
+2136  090A  11 00 00    	ld	de,_spr_idx
+2137  090D  19          	add	hl,de
+2138  090E  7E          	ld	a,(hl)
+2139  090F  32 00 00    	ld	(_s_tile1),a
+2140  0912  4F          	ld	c,a
+2141  0913  3A 00 00    	ld	a,(_s_lin0)
+2142  0916  DD 86 FF    	add	a,(ix-1)
+2143  0919  21 00 00    	ld	hl,_s_lin1
+2144  091C  77          	ld	(hl),a
+2145  091D  0F          	rrca
+2146  091E  0F          	rrca
+2147  091F  0F          	rrca
+2148  0920  E6 1F       	and	a,0x1f
+2149  0922  77          	ld	(hl),a
+2150  0923  07          	rlca
+2151  0924  07          	rlca
+2152  0925  07          	rlca
+2153  0926  E6 F8       	and	a,0xf8
+2154  0928  77          	ld	(hl),a
+2155  0929  3A 00 00    	ld	a,(_tmp)
+2156  092C  B7          	or	a, a
+2157  092D  20 22       	jr	NZ,l_spr_back_fix_00102
+2158  092F  3A 00 00    	ld	a,(_tmp0)
+2159  0932  B7          	or	a, a
+2160  0933  28 1C       	jr	Z,l_spr_back_fix_00102
+2161  0935  3A 00 00    	ld	a,(_s_col0)
+2162  0938  3C          	inc	a
+2163  0939  32 00 00    	ld	(_s_col1),a
+2164  093C  ED 5B 00 00 	ld	de,(_index1)
+2165  0940  13          	inc	de
+2166  0941  21 00 00    	ld	hl,_lvl_1
+2167  0944  19          	add	hl,de
+2168  0945  6E          	ld	l,(hl)
+2169  0946  26 00       	ld	h,0x00
+2170  0948  29          	add	hl, hl
+2171  0949  11 00 00    	ld	de,_spr_idx
+2172  094C  19          	add	hl,de
+2173  094D  7E          	ld	a,(hl)
+2174  094E  32 00 00    	ld	(_s_tile1),a
+2175  0951              l_spr_back_fix_00102:
+2176  0951  3A 00 00    	ld	a,(_tmp)
+2177  0954  B7          	or	a, a
+2178  0955  28 12       	jr	Z,l_spr_back_fix_00105
+2179  0957  3A 00 00    	ld	a,(_tmp0)
+2180  095A  B7          	or	a, a
+2181  095B  20 0C       	jr	NZ,l_spr_back_fix_00105
+2182  095D  3A 00 00    	ld	a,(_s_col0)
+2183  0960  C6 FF       	add	a,0xff
+2184  0962  32 00 00    	ld	(_s_col1),a
+2185  0965  21 00 00    	ld	hl,_s_tile1
+2186  0968  71          	ld	(hl),c
+2187  0969              l_spr_back_fix_00105:
+2188  0969  2A FF FF    	ld	hl,(_s_col1 - 1)
+2189  096C  3A 00 00    	ld	a,(_s_lin1)
+2190  096F  6F          	ld	l,a
+2191  0970  3A 00 00    	ld	a,(_s_tile1)
+2192  0973  E5          	push	hl
+2193  0974  F5          	push	af
+2194  0975  33          	inc	sp
+2195  0976  CD 00 00    	call	_NIRVANAP_drawT_callee
+2196  0979              l_spr_back_fix_00108:
+2197  0979  21 00 00    	ld	hl,_s_lin0
+2198  097C  7E          	ld	a,(hl)
+2199  097D  D6 70       	sub	a,0x70
+2200  097F  38 15       	jr	C,l_spr_back_fix_00115
+2201  0981  3E 90       	ld	a,0x90
+2202  0983  96          	sub	a, (hl)
+2203  0984  38 10       	jr	C,l_spr_back_fix_00115
+2204  0986  21 00 00    	ld	hl,_s_col0
+2205  0989  7E          	ld	a,(hl)
+2206  098A  D6 0E       	sub	a,0x0e
+2207  098C  38 08       	jr	C,l_spr_back_fix_00115
+2208  098E  3E 10       	ld	a,0x10
+2209  0990  96          	sub	a, (hl)
+2210  0991  38 03       	jr	C,l_spr_back_fix_00115
+2211  0993  CD 18 08    	call	_spr_draw_pow
+2212  0996              l_spr_back_fix_00115:
+2213  0996  33          	inc	sp
+2214  0997  DD E1       	pop	ix
+2215  0999  C9          	ret
+2216  099A              	SECTION code_compiler
+2217  099A              ;	---------------------------------
+2218  099A              ; Function spr_back_fix1
+2219  099A              ; ---------------------------------
+2220  099A              _spr_back_fix1:
+2221  099A  76          	halt
+2222  099B  21 10 00    	ld	hl,0x0010
+2223  099E  E5          	push	hl
+2224  099F  3E A5       	ld	a,0xa5
+2225  09A1  F5          	push	af
+2226  09A2  33          	inc	sp
+2227  09A3  CD 00 00    	call	_NIRVANAP_drawT_callee
+2228  09A6  21 20 00    	ld	hl,0x0020
+2229  09A9  E5          	push	hl
+2230  09AA  3E B1       	ld	a,0xb1
+2231  09AC  F5          	push	af
+2232  09AD  33          	inc	sp
+2233  09AE  CD 00 00    	call	_NIRVANAP_drawT_callee
+2234  09B1  21 10 02    	ld	hl,0x0210
+2235  09B4  E5          	push	hl
+2236  09B5  3E B3       	ld	a,0xb3
+2237  09B7  F5          	push	af
+2238  09B8  33          	inc	sp
+2239  09B9  CD 00 00    	call	_NIRVANAP_drawT_callee
+2240  09BC  21 20 02    	ld	hl,0x0220
+2241  09BF  E5          	push	hl
+2242  09C0  AF          	xor	a, a
+2243  09C1  F5          	push	af
+2244  09C2  33          	inc	sp
+2245  09C3  CD 00 00    	call	_NIRVANAP_fillT_callee
+2246  09C6  21 10 04    	ld	hl,0x0410
+2247  09C9  E5          	push	hl
+2248  09CA  AF          	xor	a, a
+2249  09CB  F5          	push	af
+2250  09CC  33          	inc	sp
+2251  09CD  CD 00 00    	call	_NIRVANAP_fillT_callee
+2252  09D0  21 20 04    	ld	hl,0x0420
+2253  09D3  E5          	push	hl
+2254  09D4  AF          	xor	a, a
+2255  09D5  F5          	push	af
+2256  09D6  33          	inc	sp
+2257  09D7  CD 00 00    	call	_NIRVANAP_fillT_callee
+2258  09DA  C9          	ret
+2259  09DB              	SECTION code_compiler
+2260  09DB              ;	---------------------------------
+2261  09DB              ; Function spr_back_fix2
+2262  09DB              ; ---------------------------------
+2263  09DB              _spr_back_fix2:
+2264  09DB  76          	halt
+2265  09DC  21 10 1C    	ld	hl,0x1c10
+2266  09DF  E5          	push	hl
+2267  09E0  3E A7       	ld	a,0xa7
+2268  09E2  F5          	push	af
+2269  09E3  33          	inc	sp
+2270  09E4  CD 00 00    	call	_NIRVANAP_drawT_callee
+2271  09E7  21 10 1E    	ld	hl,0x1e10
+2272  09EA  E5          	push	hl
+2273  09EB  3E A6       	ld	a,0xa6
+2274  09ED  F5          	push	af
+2275  09EE  33          	inc	sp
+2276  09EF  CD 00 00    	call	_NIRVANAP_drawT_callee
+2277  09F2  21 20 1E    	ld	hl,0x1e20
+2278  09F5  E5          	push	hl
+2279  09F6  3E B2       	ld	a,0xb2
+2280  09F8  F5          	push	af
+2281  09F9  33          	inc	sp
+2282  09FA  CD 00 00    	call	_NIRVANAP_drawT_callee
+2283  09FD  21 20 1C    	ld	hl,0x1c20
+2284  0A00  E5          	push	hl
+2285  0A01  AF          	xor	a, a
+2286  0A02  F5          	push	af
+2287  0A03  33          	inc	sp
+2288  0A04  CD 00 00    	call	_NIRVANAP_fillT_callee
+2289  0A07  21 10 1A    	ld	hl,0x1a10
+2290  0A0A  E5          	push	hl
+2291  0A0B  AF          	xor	a, a
+2292  0A0C  F5          	push	af
+2293  0A0D  33          	inc	sp
+2294  0A0E  CD 00 00    	call	_NIRVANAP_fillT_callee
+2295  0A11  21 20 1A    	ld	hl,0x1a20
+2296  0A14  E5          	push	hl
+2297  0A15  AF          	xor	a, a
+2298  0A16  F5          	push	af
+2299  0A17  33          	inc	sp
+2300  0A18  CD 00 00    	call	_NIRVANAP_fillT_callee
+2301  0A1B  C9          	ret
+2302  0A1C              	SECTION code_compiler
+2303  0A1C              ;	---------------------------------
+2304  0A1C              ; Function spr_back_fix3
+2305  0A1C              ; ---------------------------------
+2306  0A1C              _spr_back_fix3:
+2307  0A1C  76          	halt
+2308  0A1D  21 88 00    	ld	hl,0x0088
+2309  0A20  E5          	push	hl
+2310  0A21  3E A3       	ld	a,0xa3
+2311  0A23  F5          	push	af
+2312  0A24  33          	inc	sp
+2313  0A25  CD 00 00    	call	_NIRVANAP_drawT_callee
+2314  0A28  21 98 00    	ld	hl,0x0098
+2315  0A2B  E5          	push	hl
+2316  0A2C  3E AF       	ld	a,0xaf
+2317  0A2E  F5          	push	af
+2318  0A2F  33          	inc	sp
+2319  0A30  CD 00 00    	call	_NIRVANAP_drawT_callee
+2320  0A33  21 88 02    	ld	hl,0x0288
+2321  0A36  E5          	push	hl
+2322  0A37  3E A4       	ld	a,0xa4
+2323  0A39  F5          	push	af
+2324  0A3A  33          	inc	sp
+2325  0A3B  CD 00 00    	call	_NIRVANAP_drawT_callee
+2326  0A3E  21 98 02    	ld	hl,0x0298
+2327  0A41  E5          	push	hl
+2328  0A42  3E B0       	ld	a,0xb0
+2329  0A44  F5          	push	af
+2330  0A45  33          	inc	sp
+2331  0A46  CD 00 00    	call	_NIRVANAP_drawT_callee
+2332  0A49  21 88 04    	ld	hl,0x0488
+2333  0A4C  E5          	push	hl
+2334  0A4D  AF          	xor	a, a
+2335  0A4E  F5          	push	af
+2336  0A4F  33          	inc	sp
+2337  0A50  CD 00 00    	call	_NIRVANAP_fillT_callee
+2338  0A53  21 98 04    	ld	hl,0x0498
+2339  0A56  E5          	push	hl
+2340  0A57  AF          	xor	a, a
+2341  0A58  F5          	push	af
+2342  0A59  33          	inc	sp
+2343  0A5A  CD 00 00    	call	_NIRVANAP_fillT_callee
+2344  0A5D  C9          	ret
+2345  0A5E              	SECTION code_compiler
+2346  0A5E              ;	---------------------------------
+2347  0A5E              ; Function spr_back_fix4
+2348  0A5E              ; ---------------------------------
+2349  0A5E              _spr_back_fix4:
+2350  0A5E  76          	halt
+2351  0A5F  21 88 1E    	ld	hl,0x1e88
+2352  0A62  E5          	push	hl
+2353  0A63  3E A3       	ld	a,0xa3
+2354  0A65  F5          	push	af
+2355  0A66  33          	inc	sp
+2356  0A67  CD 00 00    	call	_NIRVANAP_drawT_callee
+2357  0A6A  21 98 1E    	ld	hl,0x1e98
+2358  0A6D  E5          	push	hl
+2359  0A6E  3E AF       	ld	a,0xaf
+2360  0A70  F5          	push	af
+2361  0A71  33          	inc	sp
+2362  0A72  CD 00 00    	call	_NIRVANAP_drawT_callee
+2363  0A75  21 88 1C    	ld	hl,0x1c88
+2364  0A78  E5          	push	hl
+2365  0A79  3E A2       	ld	a,0xa2
+2366  0A7B  F5          	push	af
+2367  0A7C  33          	inc	sp
+2368  0A7D  CD 00 00    	call	_NIRVANAP_drawT_callee
+2369  0A80  21 98 1C    	ld	hl,0x1c98
+2370  0A83  E5          	push	hl
+2371  0A84  3E AE       	ld	a,0xae
+2372  0A86  F5          	push	af
+2373  0A87  33          	inc	sp
+2374  0A88  CD 00 00    	call	_NIRVANAP_drawT_callee
+2375  0A8B  21 88 1A    	ld	hl,0x1a88
+2376  0A8E  E5          	push	hl
+2377  0A8F  AF          	xor	a, a
+2378  0A90  F5          	push	af
+2379  0A91  33          	inc	sp
+2380  0A92  CD 00 00    	call	_NIRVANAP_fillT_callee
+2381  0A95  21 98 1A    	ld	hl,0x1a98
+2382  0A98  E5          	push	hl
+2383  0A99  AF          	xor	a, a
+2384  0A9A  F5          	push	af
+2385  0A9B  33          	inc	sp
+2386  0A9C  CD 00 00    	call	_NIRVANAP_fillT_callee
+2387  0A9F  C9          	ret
+2388  0AA0              	SECTION code_compiler
+2389  0AA0              ;	---------------------------------
+2390  0AA0              ; Function spr_brick_anim
+2391  0AA0              ; ---------------------------------
+2392  0AA0              _spr_brick_anim:
+2393  0AA0  CD 00 00    	call	___sdcc_enter_ix
+2394  0AA3  F5          	push	af
+2395  0AA4  DD 75 FF    	ld	(ix-1),l
+2396  0AA7  01 00 00    	ld	bc,_lvl_1+0
+2397  0AAA  2A 00 00    	ld	hl,(_index1)
+2398  0AAD  09          	add	hl,bc
+2399  0AAE  7E          	ld	a,(hl)
+2400  0AAF  DD 77 FE    	ld	(ix-2),a
+2401  0AB2  2A 00 00    	ld	hl,(_index2)
+2402  0AB5  09          	add	hl,bc
+2403  0AB6  DD 7E FE    	ld	a,(ix-2)
+2404  0AB9  D6 12       	sub	a,0x12
+2405  0ABB  4D          	ld	c,l
+2406  0ABC  44          	ld	b,h
+2407  0ABD  28 05       	jr	Z,l_spr_brick_anim_00101
+2408  0ABF  0A          	ld	a,(bc)
+2409  0AC0  D6 12       	sub	a,0x12
+2410  0AC2  20 06       	jr	NZ,l_spr_brick_anim_00102
+2411  0AC4              l_spr_brick_anim_00101:
+2412  0AC4  3A 00 00    	ld	a,(_game_brick_tile)
+2413  0AC7  32 00 00    	ld	(_tmp0),a
+2414  0ACA              l_spr_brick_anim_00102:
+2415  0ACA  DD 7E FE    	ld	a,(ix-2)
+2416  0ACD  D6 14       	sub	a,0x14
+2417  0ACF  28 05       	jr	Z,l_spr_brick_anim_00104
+2418  0AD1  0A          	ld	a,(bc)
+2419  0AD2  D6 14       	sub	a,0x14
+2420  0AD4  20 05       	jr	NZ,l_spr_brick_anim_00105
+2421  0AD6              l_spr_brick_anim_00104:
+2422  0AD6  21 00 00    	ld	hl,_tmp0
+2423  0AD9  36 8B       	ld	(hl),0x8b
+2424  0ADB              l_spr_brick_anim_00105:
+2425  0ADB  DD 7E FF    	ld	a,(ix-1)
+2426  0ADE  B7          	or	a, a
+2427  0ADF  28 11       	jr	Z,l_spr_brick_anim_00108
+2428  0AE1  2A 00 00    	ld	hl,(_index_player)
+2429  0AE4  26 00       	ld	h,0x00
+2430  0AE6  11 00 00    	ld	de,_hit_lin
+2431  0AE9  19          	add	hl,de
+2432  0AEA  7E          	ld	a,(hl)
+2433  0AEB  C6 F6       	add	a,0xf6
+2434  0AED  32 00 00    	ld	(_tmp),a
+2435  0AF0  18 0F       	jr	l_spr_brick_anim_00109
+2436  0AF2              l_spr_brick_anim_00108:
+2437  0AF2  2A 00 00    	ld	hl,(_index_player)
+2438  0AF5  26 00       	ld	h,0x00
+2439  0AF7  11 00 00    	ld	de,_hit_lin
+2440  0AFA  19          	add	hl,de
+2441  0AFB  7E          	ld	a,(hl)
+2442  0AFC  C6 F8       	add	a,0xf8
+2443  0AFE  32 00 00    	ld	(_tmp),a
+2444  0B01              l_spr_brick_anim_00109:
+2445  0B01  21 00 00    	ld	hl,_tmp_uc
+2446  0B04  36 00       	ld	(hl),0x00
+2447  0B06  DD 7E FE    	ld	a,(ix-2)
+2448  0B09  D6 12       	sub	a,0x12
+2449  0B0B  38 12       	jr	C,l_spr_brick_anim_00111
+2450  0B0D  0A          	ld	a,(bc)
+2451  0B0E  B7          	or	a, a
+2452  0B0F  20 0E       	jr	NZ,l_spr_brick_anim_00111
+2453  0B11  2A 00 00    	ld	hl,(_index_player)
+2454  0B14  26 00       	ld	h,0x00
+2455  0B16  11 00 00    	ld	de,_hit_col
+2456  0B19  19          	add	hl,de
+2457  0B1A  7E          	ld	a,(hl)
+2458  0B1B  3C          	inc	a
+2459  0B1C  32 00 00    	ld	(_tmp_uc),a
+2460  0B1F              l_spr_brick_anim_00111:
+2461  0B1F  DD 7E FE    	ld	a,(ix-2)
+2462  0B22  B7          	or	a, a
+2463  0B23  20 14       	jr	NZ,l_spr_brick_anim_00114
+2464  0B25  0A          	ld	a,(bc)
+2465  0B26  D6 12       	sub	a,0x12
+2466  0B28  38 0F       	jr	C,l_spr_brick_anim_00114
+2467  0B2A  3A 00 00    	ld	a,(_index_player)
+2468  0B2D  C6 00       	add	a,+((_hit_col) & 0xFF)
+2469  0B2F  4F          	ld	c,a
+2470  0B30  3E 00       	ld	a,+((_hit_col) / 256)
+2471  0B32  CE 00       	adc	a,0x00
+2472  0B34  47          	ld	b,a
+2473  0B35  0A          	ld	a,(bc)
+2474  0B36  32 00 00    	ld	(_tmp_uc),a
+2475  0B39              l_spr_brick_anim_00114:
+2476  0B39  76          	halt
+2477  0B3A  DD 7E FF    	ld	a,(ix-1)
+2478  0B3D  B7          	or	a, a
+2479  0B3E  20 1C       	jr	NZ,l_spr_brick_anim_00117
+2480  0B40  2A 00 00    	ld	hl,(_index_player)
+2481  0B43  26 00       	ld	h,0x00
+2482  0B45  5D          	ld	e,l
+2483  0B46  01 00 00    	ld	bc,_hit_col
+2484  0B49  09          	add	hl,bc
+2485  0B4A  46          	ld	b,(hl)
+2486  0B4B  16 00       	ld	d,0x00
+2487  0B4D  21 00 00    	ld	hl,_hit_lin
+2488  0B50  19          	add	hl,de
+2489  0B51  7E          	ld	a,(hl)
+2490  0B52  C6 F0       	add	a,0xf0
+2491  0B54  4F          	ld	c,a
+2492  0B55  C5          	push	bc
+2493  0B56  AF          	xor	a, a
+2494  0B57  F5          	push	af
+2495  0B58  33          	inc	sp
+2496  0B59  CD 00 00    	call	_NIRVANAP_fillT_callee
+2497  0B5C              l_spr_brick_anim_00117:
+2498  0B5C  3A 00 00    	ld	a,(_index_player)
+2499  0B5F  C6 00       	add	a,+((_hit_col) & 0xFF)
+2500  0B61  4F          	ld	c,a
+2501  0B62  3E 00       	ld	a,+((_hit_col) / 256)
+2502  0B64  CE 00       	adc	a,0x00
+2503  0B66  47          	ld	b,a
+2504  0B67  0A          	ld	a,(bc)
+2505  0B68  F5          	push	af
+2506  0B69  33          	inc	sp
+2507  0B6A  2A FF FF    	ld	hl,(_tmp - 1)
+2508  0B6D  3A 00 00    	ld	a,(_tmp0)
+2509  0B70  6F          	ld	l,a
+2510  0B71  E5          	push	hl
+2511  0B72  CD 00 00    	call	_NIRVANAP_drawT_callee
+2512  0B75  3A 00 00    	ld	a,(_tmp_uc)
+2513  0B78  B7          	or	a, a
+2514  0B79  28 0B       	jr	Z,l_spr_brick_anim_00120
+2515  0B7B  F5          	push	af
+2516  0B7C  33          	inc	sp
+2517  0B7D  2A FF FF    	ld	hl,(_tmp - 1)
+2518  0B80  AF          	xor	a,a
+2519  0B81  6F          	ld	l,a
+2520  0B82  E5          	push	hl
+2521  0B83  CD 00 00    	call	_NIRVANAP_fillC_callee
+2522  0B86              l_spr_brick_anim_00120:
+2523  0B86  F1          	pop	af
+2524  0B87  DD E1       	pop	ix
+2525  0B89  C9          	ret
+2526  0B8A              	SECTION code_compiler
+2527  0B8A              ;	---------------------------------
+2528  0B8A              ; Function spr_cortina_brick
+2529  0B8A              ; ---------------------------------
+2530  0B8A              _spr_cortina_brick:
+2531  0B8A  21 00 00    	ld	hl,_screen_ink
+2532  0B8D  36 06       	ld	(hl),0x06
+2533  0B8F  21 00 00    	ld	hl,_screen_paper
+2534  0B92  36 10       	ld	(hl),0x10
+2535  0B94  21 00 00    	ld	hl,_tmp
+2536  0B97  36 00       	ld	(hl),0x00
+2537  0B99  21 00 00    	ld	hl,_tmp0
+2538  0B9C  36 17       	ld	(hl),0x17
+2539  0B9E              l_spr_cortina_brick_00101:
+2540  0B9E  21 00 00    	ld	hl,_tmp
+2541  0BA1  7E          	ld	a,(hl)
+2542  0BA2  D6 0D       	sub	a,0x0d
+2543  0BA4  30 20       	jr	NC,l_spr_cortina_brick_00103
+2544  0BA6  6E          	ld	l,(hl)
+2545  0BA7  26 23       	ld	h,0x23
+2546  0BA9  E5          	push	hl
+2547  0BAA  CD 00 00    	call	_game_fill_row
+2548  0BAD  2A 00 00    	ld	hl,(_tmp0)
+2549  0BB0  26 23       	ld	h,0x23
+2550  0BB2  E5          	push	hl
+2551  0BB3  CD 00 00    	call	_game_fill_row
+2552  0BB6  21 00 00    	ld	hl,_tmp0
+2553  0BB9  35          	dec	(hl)
+2554  0BBA  21 00 00    	ld	hl,_tmp
+2555  0BBD  34          	inc	(hl)
+2556  0BBE  21 19 00    	ld	hl,0x0019
+2557  0BC1  CD 00 00    	call	_z80_delay_ms_fastcall
+2558  0BC4  18 D8       	jr	l_spr_cortina_brick_00101
+2559  0BC6              l_spr_cortina_brick_00103:
+2560  0BC6  21 00 00    	ld	hl,0x0000
+2561  0BC9  CD 00 00    	call	_zx_cls_fastcall
+2562  0BCC  21 00 00    	ld	hl,_screen_paper
+2563  0BCF  36 00       	ld	(hl),0x00
+2564  0BD1  C9          	ret
+2565  0BD2              	SECTION code_compiler
+2566  0BD2              ;	---------------------------------
+2567  0BD2              ; Function spr_cortina_pipes
+2568  0BD2              ; ---------------------------------
+2569  0BD2              _spr_cortina_pipes:
+2570  0BD2  76          	halt
+2571  0BD3  21 00 00    	ld	hl,0x0000
+2572  0BD6  C3 00 00    	jp  _zx_cls_fastcall
+2573  0BD9              	SECTION code_compiler
+2574  0BD9              ;	---------------------------------
+2575  0BD9              ; Function spr_water_splash_draw
+2576  0BD9              ; ---------------------------------
+2577  0BD9              _spr_water_splash_draw:
+2578  0BD9  45          	ld	b,l
+2579  0BDA  3A 00 00    	ld	a,(_spr_water_clear)
+2580  0BDD  3C          	inc	a
+2581  0BDE  C0          	ret	NZ
+2582  0BDF  21 00 00    	ld	hl,_screen_paper
+2583  0BE2  36 10       	ld	(hl),0x10
+2584  0BE4  21 00 00    	ld	hl,_screen_ink
+2585  0BE7  36 05       	ld	(hl),0x05
+2586  0BE9  C5          	push	bc
+2587  0BEA  21 00 00    	ld	hl,___str_0
+2588  0BED  E5          	push	hl
+2589  0BEE  C5          	push	bc
+2590  0BEF  33          	inc	sp
+2591  0BF0  3E 14       	ld	a,0x14
+2592  0BF2  F5          	push	af
+2593  0BF3  33          	inc	sp
+2594  0BF4  CD 00 00    	call	_zx_print_str
+2595  0BF7  C1          	pop	bc
+2596  0BF8  21 00 00    	ld	hl,_screen_ink
+2597  0BFB  36 07       	ld	(hl),0x07
+2598  0BFD  C5          	push	bc
+2599  0BFE  21 03 00    	ld	hl,___str_1
+2600  0C01  E5          	push	hl
+2601  0C02  C5          	push	bc
+2602  0C03  33          	inc	sp
+2603  0C04  3E 15       	ld	a,0x15
+2604  0C06  F5          	push	af
+2605  0C07  33          	inc	sp
+2606  0C08  CD 00 00    	call	_zx_print_str
+2607  0C0B  C1          	pop	bc
+2608  0C0C  21 00 00    	ld	hl,_spr_water_clear
+2609  0C0F  70          	ld	(hl),b
+2610  0C10  2A 00 00    	ld	hl,(_curr_time)
+2611  0C13  22 00 00    	ld	(_spr_water_time),hl
+2612  0C16  21 00 00    	ld	hl,_screen_paper
+2613  0C19  36 00       	ld	(hl),0x00
+2614  0C1B  C9          	ret
+2615  0C1C              	SECTION rodata_compiler
+2616  0000              ___str_0:
+2617  0000  28 29       	DEFM "()"
+2618  0002  00          	DEFB 0x00
+2619  0003              	SECTION rodata_compiler
+2620  0003              ___str_1:
+2621  0003  2A 2B       	DEFM "*+"
+2622  0005  00          	DEFB 0x00
+2623  0006              	SECTION code_compiler
+2624  0C1C              ;	---------------------------------
+2625  0C1C              ; Function spr_water_splash_clear
+2626  0C1C              ; ---------------------------------
+2627  0C1C              _spr_water_splash_clear:
+2628  0C1C  3A 00 00    	ld	a,(_spr_water_clear)
+2629  0C1F  D6 20       	sub	a,0x20
+2630  0C21  D0          	ret	NC
+2631  0C22  21 0F 00    	ld	hl,0x000f
+2632  0C25  E5          	push	hl
+2633  0C26  2A 00 00    	ld	hl,(_spr_water_time)
+2634  0C29  E5          	push	hl
+2635  0C2A  CD 00 00    	call	_game_check_time
+2636  0C2D  F1          	pop	af
+2637  0C2E  F1          	pop	af
+2638  0C2F  7D          	ld	a,l
+2639  0C30  B7          	or	a, a
+2640  0C31  C8          	ret	Z
+2641  0C32  21 00 00    	ld	hl,_screen_ink
+2642  0C35  36 06       	ld	(hl),0x06
+2643  0C37  21 00 00    	ld	hl,_screen_paper
+2644  0C3A  36 10       	ld	(hl),0x10
+2645  0C3C  3A 00 00    	ld	a,(_spr_water_clear)
+2646  0C3F  21 06 00    	ld	hl,___str_2
+2647  0C42  E5          	push	hl
+2648  0C43  57          	ld	d,a
+2649  0C44  1E 14       	ld	e,0x14
+2650  0C46  D5          	push	de
+2651  0C47  CD 00 00    	call	_zx_print_str
+2652  0C4A  3A 00 00    	ld	a,(_spr_water_clear)
+2653  0C4D  21 06 00    	ld	hl,___str_2
+2654  0C50  E5          	push	hl
+2655  0C51  57          	ld	d,a
+2656  0C52  1E 15       	ld	e,0x15
+2657  0C54  D5          	push	de
+2658  0C55  CD 00 00    	call	_zx_print_str
+2659  0C58  21 00 00    	ld	hl,_screen_ink
+2660  0C5B  36 07       	ld	(hl),0x07
+2661  0C5D  21 00 00    	ld	hl,_screen_paper
+2662  0C60  36 00       	ld	(hl),0x00
+2663  0C62  21 00 00    	ld	hl,_spr_water_clear
+2664  0C65  36 FF       	ld	(hl),0xff
+2665  0C67  C9          	ret
+2666  0C68              	SECTION rodata_compiler
+2667  0006              ___str_2:
+2668  0006  23 23       	DEFM "##"
+2669  0008  00          	DEFB 0x00
+2670  0009              	SECTION IGNORE
+2671  0000              

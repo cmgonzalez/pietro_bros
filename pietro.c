@@ -138,7 +138,7 @@ int main(void) {
 	//INIT GAME
 	game_start_timer();
 	//INIT NIRVANA
-	NIRVANAP_tiles(btiles);
+	NIRVANAP_tiles(_btiles);
 	NIRVANAP_start();
 	frame_time = zx_clock();
 	//GAME MENU

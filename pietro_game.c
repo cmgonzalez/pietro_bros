@@ -90,8 +90,8 @@ void game_tick(void) {
 }
 
 void game_start_timer(void) {
-	NIRVANAP_isr[0] = 205;                                // call
-	z80_wpoke(&NIRVANAP_isr[1], (unsigned int)game_tick); // game_tick
+	NIRVANAP_ISR_HOOK[0] = 205;                                // call
+	z80_wpoke(&NIRVANAP_ISR_HOOK[1], (unsigned int)game_tick); // game_tick
 }
 
 unsigned char game_phase_calc(void) {

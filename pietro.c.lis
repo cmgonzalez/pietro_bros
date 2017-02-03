@@ -2,7 +2,7 @@
 2     0000              
 3     0000              ;--------------------------------------------------------
 4     0000              ; File Created by SDCC : free open source ANSI-C Compiler
-5     0000              ; Version 3.6.5 #9824 (MSVC)
+5     0000              ; Version 3.6.5 #9833 (MSVC)
 6     0000              ;--------------------------------------------------------
 7     0000              ; Processed by Z88DK
 8     0000              ;--------------------------------------------------------
@@ -349,20 +349,20 @@
 349   0000              	GLOBAL _ay_midi_play
 350   0000              	GLOBAL _ay_is_playing
 351   0000              	GLOBAL _ay_reset
-352   0000              	GLOBAL _NIRVANAP_chars_fastcall
-353   0000              	GLOBAL _NIRVANAP_chars
-354   0000              	GLOBAL _NIRVANAP_wides_fastcall
-355   0000              	GLOBAL _NIRVANAP_wides
-356   0000              	GLOBAL _NIRVANAP_tiles_fastcall
-357   0000              	GLOBAL _NIRVANAP_tiles
-358   0000              	GLOBAL _NIRVANAP_drawW_raw_callee
-359   0000              	GLOBAL _NIRVANAP_drawW_raw
-360   0000              	GLOBAL _NIRVANAP_drawW_callee
-361   0000              	GLOBAL _NIRVANAP_drawW
-362   0000              	GLOBAL _NIRVANAP_spriteT_callee
-363   0000              	GLOBAL _NIRVANAP_spriteT
-364   0000              	GLOBAL _NIRVANAP_fillC_callee
-365   0000              	GLOBAL _NIRVANAP_fillC
+352   0000              	GLOBAL _NIRVANAP_drawTW_raw_callee
+353   0000              	GLOBAL _NIRVANAP_drawTW_raw
+354   0000              	GLOBAL _NIRVANAP_drawTW_callee
+355   0000              	GLOBAL _NIRVANAP_drawTW
+356   0000              	GLOBAL _NIRVANAP_drawW_raw_callee
+357   0000              	GLOBAL _NIRVANAP_drawW_raw
+358   0000              	GLOBAL _NIRVANAP_drawW_callee
+359   0000              	GLOBAL _NIRVANAP_drawW
+360   0000              	GLOBAL _NIRVANAP_spriteT_callee
+361   0000              	GLOBAL _NIRVANAP_spriteT
+362   0000              	GLOBAL _NIRVANAP_fillC_callee
+363   0000              	GLOBAL _NIRVANAP_fillC
+364   0000              	GLOBAL _NIRVANAP_readC_callee
+365   0000              	GLOBAL _NIRVANAP_readC
 366   0000              	GLOBAL _NIRVANAP_paintC_callee
 367   0000              	GLOBAL _NIRVANAP_paintC
 368   0000              	GLOBAL _NIRVANAP_printC_callee
@@ -760,244 +760,247 @@
 760   0000              	GLOBAL _joyfunc1
 761   0000              	GLOBAL _btiles
 762   0000              	GLOBAL _spec128
-763   0000              	GLOBAL _control_method
-764   0000              	GLOBAL _hall_valids
-765   0000              ;--------------------------------------------------------
-766   0000              ; special function registers
-767   0000              ;--------------------------------------------------------
-768   0000              ;--------------------------------------------------------
-769   0000              ; ram data
-770   0000              ;--------------------------------------------------------
-771   0000              	SECTION bss_compiler
-772   0000              defc _NIRVANAP_isr	=	0xf5d2
-773   0000              ;--------------------------------------------------------
-774   0000              ; ram data
-775   0000              ;--------------------------------------------------------
-776   0000              
-777   0000              IF 0
-778   0000              
-779   0000              ; .area _INITIALIZED removed by z88dk
-780   0000              
+763   0000              	GLOBAL _NIRVANAP_CHAR_TABLE
+764   0000              	GLOBAL _NIRVANAP_WIDE_IMAGES
+765   0000              	GLOBAL _NIRVANAP_TILE_IMAGES
+766   0000              	GLOBAL _NIRVANAP_ISR_HOOK
+767   0000              	GLOBAL _control_method
+768   0000              	GLOBAL _hall_valids
+769   0000              ;--------------------------------------------------------
+770   0000              ; special function registers
+771   0000              ;--------------------------------------------------------
+772   0000              ;--------------------------------------------------------
+773   0000              ; ram data
+774   0000              ;--------------------------------------------------------
+775   0000              	SECTION bss_compiler
+776   0000              ;--------------------------------------------------------
+777   0000              ; ram data
+778   0000              ;--------------------------------------------------------
+779   0000              
+780   0000              IF 0
 781   0000              
-782   0000              ENDIF
+782   0000              ; .area _INITIALIZED removed by z88dk
 783   0000              
-784   0000              ;--------------------------------------------------------
-785   0000              ; absolute external ram data
-786   0000              ;--------------------------------------------------------
-787   0000              	SECTION IGNORE
-788   0000              ;--------------------------------------------------------
-789   0000              ; global & static initialisations
-790   0000              ;--------------------------------------------------------
-791   0000              	SECTION code_crt_init
-792   0000              ;--------------------------------------------------------
-793   0000              ; Home
-794   0000              ;--------------------------------------------------------
-795   0000              	SECTION IGNORE
-796   0000              ;--------------------------------------------------------
-797   0000              ; code
-798   0000              ;--------------------------------------------------------
-799   0000              	SECTION code_compiler
-800   0000              ;	---------------------------------
-801   0000              ; Function main
-802   0000              ; ---------------------------------
-803   0000              _main:
-804   0000  CD 00 00    	call	_ay_reset
-805   0003  21 47 46    	ld	hl,0x4647
-806   0006  22 00 00    	ld	(_attrib),hl
-807   0009  21 06 07    	ld	hl,0x0706
-808   000C  22 02 00    	ld	(_attrib + 2),hl
-809   000F  21 02 06    	ld	hl,0x0602
-810   0012  22 00 00    	ld	(_attrib_hl),hl
-811   0015  21 04 05    	ld	hl,0x0504
-812   0018  22 02 00    	ld	(_attrib_hl + 2),hl
-813   001B  3A 00 00    	ld	a,(_spec128)
-814   001E  B7          	or	a,a
-815   001F  28 04       	jr	Z,l_main_00107
-816   0021  0E 0C       	ld	c,0x0c
-817   0023  18 02       	jr	l_main_00108
-818   0025              l_main_00107:
-819   0025  0E 03       	ld	c,0x03
-820   0027              l_main_00108:
-821   0027  21 00 00    	ld	hl,_game_sound
-822   002A  71          	ld	(hl),c
-823   002B  21 00 00    	ld	hl,_game_type
-824   002E  36 00       	ld	(hl),0x00
-825   0030  21 00 00    	ld	hl,0x0000
-826   0033  22 00 00    	ld	(_player_joy), hl
-827   0036  2E 01       	ld	l,0x01
-828   0038  22 02 00    	ld	(_player_joy + 0x0002),hl
-829   003B  21 7F 04    	ld	hl,0x047f
-830   003E  22 00 00    	ld	(_k1), hl
-831   0041  21 DF 02    	ld	hl,0x02df
-832   0044  22 04 00    	ld	(_k1 + 0x0004),hl
-833   0047  26 01       	ld	h,0x01
-834   0049  22 02 00    	ld	(_k1 + 0x0002),hl
-835   004C  21 FF FF    	ld	hl,0xffff
-836   004F  22 08 00    	ld	(_k1 + 0x0008),hl
-837   0052  2E FF       	ld	l,0xff
-838   0054  22 06 00    	ld	(_k1 + 0x0006),hl
-839   0057  21 FE 02    	ld	hl,0x02fe
-840   005A  22 00 00    	ld	(_k2), hl
-841   005D  21 FB 01    	ld	hl,0x01fb
-842   0060  22 04 00    	ld	(_k2 + 0x0004),hl
-843   0063  26 02       	ld	h,0x02
-844   0065  22 02 00    	ld	(_k2 + 0x0002),hl
-845   0068  21 FF FF    	ld	hl,0xffff
-846   006B  22 08 00    	ld	(_k2 + 0x0008),hl
-847   006E  2E FF       	ld	l,0xff
-848   0070  22 06 00    	ld	(_k2 + 0x0006),hl
-849   0073  CD 00 00    	call	_game_joystick_set_menu
-850   0076  21 00 00    	ld	hl,0x0000
-851   0079  CD 00 00    	call	_zx_border_fastcall
-852   007C  CD 00 00    	call	_in_wait_nokey
-853   007F  01 34 12    	ld	bc,0x1234
-854   0082              l_main_00103:
-855   0082  CD 00 00    	call	_in_test_key
-856   0085  7C          	ld	a, h
-857   0086  B5          	or	a,l
-858   0087  20 03       	jr	NZ,l_main_00101
-859   0089  03          	inc	bc
-860   008A  18 F6       	jr	l_main_00103
-861   008C              l_main_00101:
-862   008C  69          	ld	l, c
-863   008D  60          	ld	h, b
-864   008E  CD 00 00    	call	_srand_fastcall
-865   0091  CD 00 00    	call	_spr_cortina_brick
-866   0094  CD 00 00    	call	_game_start_timer
-867   0097  21 00 00    	ld	hl,_btiles
-868   009A  CD 00 00    	call	_NIRVANAP_tiles_fastcall
-869   009D  CD 00 00    	call	_NIRVANAP_start
-870   00A0  2A 00 00    	ld	hl,(_curr_time)
-871   00A3  22 00 00    	ld	(_frame_time),hl
-872   00A6  CD 00 00    	call	_game_menu
-873   00A9  CD 00 00    	call	_NIRVANAP_stop
-874   00AC  21 00 00    	ld	hl,0x0000
-875   00AF  C9          	ret
-876   00B0              	SECTION code_compiler
-877   00B0              ;	---------------------------------
-878   00B0              ; Function test_func
-879   00B0              ; ---------------------------------
-880   00B0              _test_func:
-881   00B0  21 00 00    	ld	hl,_sprite_lin_inc_mul
-882   00B3  36 02       	ld	(hl),0x02
-883   00B5  2A 00 00    	ld	hl,(_sprite)
-884   00B8  26 00       	ld	h,0x00
-885   00BA  01 00 00    	ld	bc,_player_jump_c
-886   00BD  09          	add	hl,bc
-887   00BE  4E          	ld	c,(hl)
-888   00BF  3E 04       	ld	a,0x04
-889   00C1  91          	sub	a, c
-890   00C2  30 05       	jr	NC,l_test_func_00102
-891   00C4  21 00 00    	ld	hl,_sprite_lin_inc_mul
-892   00C7  36 01       	ld	(hl),0x01
-893   00C9              l_test_func_00102:
-894   00C9  3E 08       	ld	a,0x08
-895   00CB  91          	sub	a, c
-896   00CC  30 05       	jr	NC,l_test_func_00104
-897   00CE  21 00 00    	ld	hl,_sprite_lin_inc_mul
-898   00D1  36 00       	ld	(hl),0x00
-899   00D3              l_test_func_00104:
-900   00D3  3E 0C       	ld	a,0x0c
-901   00D5  91          	sub	a, c
-902   00D6  30 05       	jr	NC,l_test_func_00106
-903   00D8  21 00 00    	ld	hl,_sprite_lin_inc_mul
-904   00DB  36 01       	ld	(hl),0x01
-905   00DD              l_test_func_00106:
-906   00DD  3E 0E       	ld	a,0x0e
-907   00DF  91          	sub	a, c
-908   00E0  30 05       	jr	NC,l_test_func_00108
-909   00E2  21 00 00    	ld	hl,_sprite_lin_inc_mul
-910   00E5  36 02       	ld	(hl),0x02
-911   00E7              l_test_func_00108:
-912   00E7  3A 00 00    	ld	a,(_s_state)
-913   00EA  0F          	rrca
-914   00EB  30 0F       	jr	NC,l_test_func_00119
-915   00ED  79          	ld	a,c
-916   00EE  D6 0A       	sub	a,0x0a
-917   00F0  30 05       	jr	NC,l_test_func_00110
-918   00F2  CD 00 00    	call	_spr_move_up
-919   00F5  18 6D       	jr	l_test_func_00120
-920   00F7              l_test_func_00110:
-921   00F7  CD 00 00    	call	_spr_set_fall
-922   00FA  18 68       	jr	l_test_func_00120
-923   00FC              l_test_func_00119:
-924   00FC  3A 00 00    	ld	a,(_s_state)
-925   00FF  E6 02       	and	a,0x02
-926   0101  28 61       	jr	Z,l_test_func_00120
-927   0103  CD 00 00    	call	_spr_move_down
-928   0106  7D          	ld	a,l
-929   0107  B7          	or	a, a
-930   0108  28 5A       	jr	Z,l_test_func_00120
-931   010A  2A 00 00    	ld	hl,(_sprite)
-932   010D  26 00       	ld	h,0x00
-933   010F  01 00 00    	ld	bc,_state_a
-934   0112  09          	add	hl,bc
-935   0113  7E          	ld	a,(hl)
-936   0114  E6 7F       	and	a,0x7f
-937   0116  77          	ld	(hl),a
-938   0117  3E 00       	ld	a,+((_player_jump_c) & 0xFF)
-939   0119  21 00 00    	ld	hl,_sprite
-940   011C  86          	add	a, (hl)
-941   011D  4F          	ld	c,a
-942   011E  3E 00       	ld	a,+((_player_jump_c) / 256)
-943   0120  CE 00       	adc	a,0x00
-944   0122  47          	ld	b,a
-945   0123  AF          	xor	a, a
-946   0124  02          	ld	(bc),a
-947   0125  3E 00       	ld	a,+((_jump_lin) & 0xFF)
-948   0127  86          	add	a, (hl)
-949   0128  4F          	ld	c,a
-950   0129  3E 00       	ld	a,+((_jump_lin) / 256)
-951   012B  CE 00       	adc	a,0x00
-952   012D  47          	ld	b,a
-953   012E  AF          	xor	a, a
-954   012F  02          	ld	(bc),a
-955   0130  3E 00       	ld	a,+((_col) & 0xFF)
-956   0132  86          	add	a, (hl)
-957   0133  4F          	ld	c,a
-958   0134  3E 00       	ld	a,+((_col) / 256)
-959   0136  CE 00       	adc	a,0x00
-960   0138  47          	ld	b,a
-961   0139  0A          	ld	a,(bc)
-962   013A  57          	ld	d,a
-963   013B  4E          	ld	c,(hl)
-964   013C  06 00       	ld	b,0x00
-965   013E  21 00 00    	ld	hl,_lin
-966   0141  09          	add	hl,bc
-967   0142  5E          	ld	e, (hl)
-968   0143  D5          	push	de
-969   0144  CD 00 00    	call	_player_calc_slide
-970   0147  F1          	pop	af
-971   0148  21 00 00    	ld	hl,_s_state
-972   014B  7E          	ld	a,(hl)
-973   014C  E6 08       	and	a,0x08
-974   014E  4F          	ld	c,a
-975   014F  7E          	ld	a,(hl)
-976   0150  E6 04       	and	a,0x04
-977   0152  47          	ld	b,a
-978   0153  79          	ld	a,c
-979   0154  90          	sub	a, b
-980   0155  20 0D       	jr	NZ,l_test_func_00120
-981   0157  3A 00 00    	ld	a,(_index_player)
-982   015A  C6 00       	add	a,+((_sliding) & 0xFF)
-983   015C  4F          	ld	c,a
-984   015D  3E 00       	ld	a,+((_sliding) / 256)
-985   015F  CE 00       	adc	a,0x00
-986   0161  47          	ld	b,a
-987   0162  AF          	xor	a, a
-988   0163  02          	ld	(bc),a
-989   0164              l_test_func_00120:
-990   0164  21 00 00    	ld	hl,_sprite_lin_inc_mul
-991   0167  36 00       	ld	(hl),0x00
-992   0169  3A 00 00    	ld	a,(_sprite)
-993   016C  C6 00       	add	a,+((_player_jump_c) & 0xFF)
-994   016E  4F          	ld	c,a
-995   016F  3E 00       	ld	a,+((_player_jump_c) / 256)
-996   0171  CE 00       	adc	a,0x00
-997   0173  47          	ld	b,a
-998   0174  0A          	ld	a,(bc)
-999   0175  3C          	inc	a
-1000  0176  02          	ld	(bc),a
-1001  0177  C3 00 00    	jp  _player_move_horizontal
-1002  017A              	SECTION IGNORE
-1003  0000              
+784   0000              
+785   0000              ENDIF
+786   0000              
+787   0000              ;--------------------------------------------------------
+788   0000              ; absolute external ram data
+789   0000              ;--------------------------------------------------------
+790   0000              	SECTION IGNORE
+791   0000              ;--------------------------------------------------------
+792   0000              ; global & static initialisations
+793   0000              ;--------------------------------------------------------
+794   0000              	SECTION code_crt_init
+795   0000              ;--------------------------------------------------------
+796   0000              ; Home
+797   0000              ;--------------------------------------------------------
+798   0000              	SECTION IGNORE
+799   0000              ;--------------------------------------------------------
+800   0000              ; code
+801   0000              ;--------------------------------------------------------
+802   0000              	SECTION code_compiler
+803   0000              ;	---------------------------------
+804   0000              ; Function main
+805   0000              ; ---------------------------------
+806   0000              _main:
+807   0000  CD 00 00    	call	_ay_reset
+808   0003  21 47 46    	ld	hl,0x4647
+809   0006  22 00 00    	ld	(_attrib),hl
+810   0009  21 06 07    	ld	hl,0x0706
+811   000C  22 02 00    	ld	(_attrib + 2),hl
+812   000F  21 02 06    	ld	hl,0x0602
+813   0012  22 00 00    	ld	(_attrib_hl),hl
+814   0015  21 04 05    	ld	hl,0x0504
+815   0018  22 02 00    	ld	(_attrib_hl + 2),hl
+816   001B  3A 00 00    	ld	a,(_spec128)
+817   001E  B7          	or	a,a
+818   001F  28 04       	jr	Z,l_main_00107
+819   0021  0E 0C       	ld	c,0x0c
+820   0023  18 02       	jr	l_main_00108
+821   0025              l_main_00107:
+822   0025  0E 03       	ld	c,0x03
+823   0027              l_main_00108:
+824   0027  21 00 00    	ld	hl,_game_sound
+825   002A  71          	ld	(hl),c
+826   002B  21 00 00    	ld	hl,_game_type
+827   002E  36 00       	ld	(hl),0x00
+828   0030  21 00 00    	ld	hl,0x0000
+829   0033  22 00 00    	ld	(_player_joy), hl
+830   0036  2E 01       	ld	l,0x01
+831   0038  22 02 00    	ld	(_player_joy + 0x0002),hl
+832   003B  21 7F 04    	ld	hl,0x047f
+833   003E  22 00 00    	ld	(_k1), hl
+834   0041  21 DF 02    	ld	hl,0x02df
+835   0044  22 04 00    	ld	(_k1 + 0x0004),hl
+836   0047  26 01       	ld	h,0x01
+837   0049  22 02 00    	ld	(_k1 + 0x0002),hl
+838   004C  21 FF FF    	ld	hl,0xffff
+839   004F  22 08 00    	ld	(_k1 + 0x0008),hl
+840   0052  2E FF       	ld	l,0xff
+841   0054  22 06 00    	ld	(_k1 + 0x0006),hl
+842   0057  21 FE 02    	ld	hl,0x02fe
+843   005A  22 00 00    	ld	(_k2), hl
+844   005D  21 FB 01    	ld	hl,0x01fb
+845   0060  22 04 00    	ld	(_k2 + 0x0004),hl
+846   0063  26 02       	ld	h,0x02
+847   0065  22 02 00    	ld	(_k2 + 0x0002),hl
+848   0068  21 FF FF    	ld	hl,0xffff
+849   006B  22 08 00    	ld	(_k2 + 0x0008),hl
+850   006E  2E FF       	ld	l,0xff
+851   0070  22 06 00    	ld	(_k2 + 0x0006),hl
+852   0073  CD 00 00    	call	_game_joystick_set_menu
+853   0076  21 00 00    	ld	hl,0x0000
+854   0079  CD 00 00    	call	_zx_border_fastcall
+855   007C  CD 00 00    	call	_in_wait_nokey
+856   007F  01 34 12    	ld	bc,0x1234
+857   0082              l_main_00103:
+858   0082  CD 00 00    	call	_in_test_key
+859   0085  7C          	ld	a, h
+860   0086  B5          	or	a,l
+861   0087  20 03       	jr	NZ,l_main_00101
+862   0089  03          	inc	bc
+863   008A  18 F6       	jr	l_main_00103
+864   008C              l_main_00101:
+865   008C  69          	ld	l, c
+866   008D  60          	ld	h, b
+867   008E  CD 00 00    	call	_srand_fastcall
+868   0091  CD 00 00    	call	_spr_cortina_brick
+869   0094  CD 00 00    	call	_game_start_timer
+870   0097  21 00 00    	ld	hl,_btiles
+871   009A  22 00 00    	ld	(_NIRVANAP_TILE_IMAGES),hl
+872   009D  CD 00 00    	call	_NIRVANAP_start
+873   00A0  2A 00 00    	ld	hl,(_curr_time)
+874   00A3  22 00 00    	ld	(_frame_time),hl
+875   00A6  CD 00 00    	call	_game_menu
+876   00A9  CD 00 00    	call	_NIRVANAP_stop
+877   00AC  21 00 00    	ld	hl,0x0000
+878   00AF  C9          	ret
+879   00B0              	SECTION code_compiler
+880   00B0              ;	---------------------------------
+881   00B0              ; Function test_func
+882   00B0              ; ---------------------------------
+883   00B0              _test_func:
+884   00B0  21 00 00    	ld	hl,_sprite_lin_inc_mul
+885   00B3  36 02       	ld	(hl),0x02
+886   00B5  2A 00 00    	ld	hl,(_sprite)
+887   00B8  26 00       	ld	h,0x00
+888   00BA  01 00 00    	ld	bc,_player_jump_c
+889   00BD  09          	add	hl,bc
+890   00BE  4E          	ld	c,(hl)
+891   00BF  3E 04       	ld	a,0x04
+892   00C1  91          	sub	a, c
+893   00C2  30 05       	jr	NC,l_test_func_00102
+894   00C4  21 00 00    	ld	hl,_sprite_lin_inc_mul
+895   00C7  36 01       	ld	(hl),0x01
+896   00C9              l_test_func_00102:
+897   00C9  3E 08       	ld	a,0x08
+898   00CB  91          	sub	a, c
+899   00CC  30 05       	jr	NC,l_test_func_00104
+900   00CE  21 00 00    	ld	hl,_sprite_lin_inc_mul
+901   00D1  36 00       	ld	(hl),0x00
+902   00D3              l_test_func_00104:
+903   00D3  3E 0C       	ld	a,0x0c
+904   00D5  91          	sub	a, c
+905   00D6  30 05       	jr	NC,l_test_func_00106
+906   00D8  21 00 00    	ld	hl,_sprite_lin_inc_mul
+907   00DB  36 01       	ld	(hl),0x01
+908   00DD              l_test_func_00106:
+909   00DD  3E 0E       	ld	a,0x0e
+910   00DF  91          	sub	a, c
+911   00E0  30 05       	jr	NC,l_test_func_00108
+912   00E2  21 00 00    	ld	hl,_sprite_lin_inc_mul
+913   00E5  36 02       	ld	(hl),0x02
+914   00E7              l_test_func_00108:
+915   00E7  3A 00 00    	ld	a,(_s_state)
+916   00EA  0F          	rrca
+917   00EB  30 0F       	jr	NC,l_test_func_00119
+918   00ED  79          	ld	a,c
+919   00EE  D6 0A       	sub	a,0x0a
+920   00F0  30 05       	jr	NC,l_test_func_00110
+921   00F2  CD 00 00    	call	_spr_move_up
+922   00F5  18 6D       	jr	l_test_func_00120
+923   00F7              l_test_func_00110:
+924   00F7  CD 00 00    	call	_spr_set_fall
+925   00FA  18 68       	jr	l_test_func_00120
+926   00FC              l_test_func_00119:
+927   00FC  3A 00 00    	ld	a,(_s_state)
+928   00FF  E6 02       	and	a,0x02
+929   0101  28 61       	jr	Z,l_test_func_00120
+930   0103  CD 00 00    	call	_spr_move_down
+931   0106  7D          	ld	a,l
+932   0107  B7          	or	a, a
+933   0108  28 5A       	jr	Z,l_test_func_00120
+934   010A  2A 00 00    	ld	hl,(_sprite)
+935   010D  26 00       	ld	h,0x00
+936   010F  01 00 00    	ld	bc,_state_a
+937   0112  09          	add	hl,bc
+938   0113  7E          	ld	a,(hl)
+939   0114  E6 7F       	and	a,0x7f
+940   0116  77          	ld	(hl),a
+941   0117  3E 00       	ld	a,+((_player_jump_c) & 0xFF)
+942   0119  21 00 00    	ld	hl,_sprite
+943   011C  86          	add	a, (hl)
+944   011D  4F          	ld	c,a
+945   011E  3E 00       	ld	a,+((_player_jump_c) / 256)
+946   0120  CE 00       	adc	a,0x00
+947   0122  47          	ld	b,a
+948   0123  AF          	xor	a, a
+949   0124  02          	ld	(bc),a
+950   0125  3E 00       	ld	a,+((_jump_lin) & 0xFF)
+951   0127  86          	add	a, (hl)
+952   0128  4F          	ld	c,a
+953   0129  3E 00       	ld	a,+((_jump_lin) / 256)
+954   012B  CE 00       	adc	a,0x00
+955   012D  47          	ld	b,a
+956   012E  AF          	xor	a, a
+957   012F  02          	ld	(bc),a
+958   0130  3E 00       	ld	a,+((_col) & 0xFF)
+959   0132  86          	add	a, (hl)
+960   0133  4F          	ld	c,a
+961   0134  3E 00       	ld	a,+((_col) / 256)
+962   0136  CE 00       	adc	a,0x00
+963   0138  47          	ld	b,a
+964   0139  0A          	ld	a,(bc)
+965   013A  57          	ld	d,a
+966   013B  4E          	ld	c,(hl)
+967   013C  06 00       	ld	b,0x00
+968   013E  21 00 00    	ld	hl,_lin
+969   0141  09          	add	hl,bc
+970   0142  5E          	ld	e, (hl)
+971   0143  D5          	push	de
+972   0144  CD 00 00    	call	_player_calc_slide
+973   0147  F1          	pop	af
+974   0148  21 00 00    	ld	hl,_s_state
+975   014B  7E          	ld	a,(hl)
+976   014C  E6 08       	and	a,0x08
+977   014E  4F          	ld	c,a
+978   014F  7E          	ld	a,(hl)
+979   0150  E6 04       	and	a,0x04
+980   0152  47          	ld	b,a
+981   0153  79          	ld	a,c
+982   0154  90          	sub	a, b
+983   0155  20 0D       	jr	NZ,l_test_func_00120
+984   0157  3A 00 00    	ld	a,(_index_player)
+985   015A  C6 00       	add	a,+((_sliding) & 0xFF)
+986   015C  4F          	ld	c,a
+987   015D  3E 00       	ld	a,+((_sliding) / 256)
+988   015F  CE 00       	adc	a,0x00
+989   0161  47          	ld	b,a
+990   0162  AF          	xor	a, a
+991   0163  02          	ld	(bc),a
+992   0164              l_test_func_00120:
+993   0164  21 00 00    	ld	hl,_sprite_lin_inc_mul
+994   0167  36 00       	ld	(hl),0x00
+995   0169  3A 00 00    	ld	a,(_sprite)
+996   016C  C6 00       	add	a,+((_player_jump_c) & 0xFF)
+997   016E  4F          	ld	c,a
+998   016F  3E 00       	ld	a,+((_player_jump_c) / 256)
+999   0171  CE 00       	adc	a,0x00
+1000  0173  47          	ld	b,a
+1001  0174  0A          	ld	a,(bc)
+1002  0175  3C          	inc	a
+1003  0176  02          	ld	(bc),a
+1004  0177  C3 00 00    	jp  _player_move_horizontal
+1005  017A              	SECTION IGNORE
+1006  0000              
