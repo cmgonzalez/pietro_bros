@@ -1,3 +1,5 @@
+==============================================================================
+
 README - Pietro Bros v1.2
 
 Pietro and Luizo were transported to pipe world after eating some rancid 
@@ -40,21 +42,39 @@ Merry Christmas, Cheers!
 
 Version 1.2
 
+==============================================================================
 
 BUILD INSTRUCTIONS:
 
-* Configure Nirvana+
+* Install or update to the current Z88DK
+https://github.com/z88dk/z88dk
 
-Using latest z88dk, edit z88dk/libsrc/_DEVELOPMENT/target/zx/clib_target_cfg.asm
-to set "__NIRVANAP_TOTAL_ROWS" equal to 19 and set "__spectrum" to 3 if
-building the pentagon version.
+* Configure the nirvana+ library
 
-* Build ZX Library
+edit file z88dk/libsrc/_DEVELOPMENT/target/zx/clib_target_cfg.asm
+change ";;define(`__NIRVANAP_TOTAL_ROWS', 23)" to ";;define(`__NIRVANAP_TOTAL_ROWS', 19)"
+change "defc __spectrum = 1" to "defc __spectrum = 3" if you want to build the pentagon version
 
-Open shell, cd to z88dk/libsrc/_DEVELOPMENT and run "Wimake zx" on windows or
-"make TARGET=zx" on other machines.
+* Rebuild the zx library so that nirvana+ changes take effect
 
-* Build Pietro Bros
+open a shell and go to directory z88dk/libsrc/_DEVELOPMENT
+run "Winmake zx" (windows) or "make TARGET=zx" (anything else)
 
-cd to this directory, type "make".  The tap file will be generated into the
-bin subdirectory.
+* Build Pietro!
+
+open a shell in the pietro_bros home directory
+run "zcompile" (windows) or "make" then "make zx7" (anything else)
+
+==============================================================================
+
+RUNTIME MEMORY MAP:
+
+23296 - 23551     Stack (256 bytes)
+23552 - 55786ish  Pietro Game
+56323 - 65378     Nirvana+ Engine (nirvana hole contains program variables)
+
+128K ONLY BANK 6:
+
+49152 - 55587     AY Music and Sound Effects
+
+==============================================================================

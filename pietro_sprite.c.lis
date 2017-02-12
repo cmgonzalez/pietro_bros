@@ -2392,15 +2392,15 @@
 2392  0AA0              _spr_brick_anim:
 2393  0AA0  CD 00 00    	call	___sdcc_enter_ix
 2394  0AA3  F5          	push	af
-2395  0AA4  DD 75 FF    	ld	(ix-1),l
+2395  0AA4  DD 75 FE    	ld	(ix-2),l
 2396  0AA7  01 00 00    	ld	bc,_lvl_1+0
 2397  0AAA  2A 00 00    	ld	hl,(_index1)
 2398  0AAD  09          	add	hl,bc
 2399  0AAE  7E          	ld	a,(hl)
-2400  0AAF  DD 77 FE    	ld	(ix-2),a
+2400  0AAF  DD 77 FF    	ld	(ix-1),a
 2401  0AB2  2A 00 00    	ld	hl,(_index2)
 2402  0AB5  09          	add	hl,bc
-2403  0AB6  DD 7E FE    	ld	a,(ix-2)
+2403  0AB6  DD 7E FF    	ld	a,(ix-1)
 2404  0AB9  D6 12       	sub	a,0x12
 2405  0ABB  4D          	ld	c,l
 2406  0ABC  44          	ld	b,h
@@ -2412,7 +2412,7 @@
 2412  0AC4  3A 00 00    	ld	a,(_game_brick_tile)
 2413  0AC7  32 00 00    	ld	(_tmp0),a
 2414  0ACA              l_spr_brick_anim_00102:
-2415  0ACA  DD 7E FE    	ld	a,(ix-2)
+2415  0ACA  DD 7E FF    	ld	a,(ix-1)
 2416  0ACD  D6 14       	sub	a,0x14
 2417  0ACF  28 05       	jr	Z,l_spr_brick_anim_00104
 2418  0AD1  0A          	ld	a,(bc)
@@ -2422,7 +2422,7 @@
 2422  0AD6  21 00 00    	ld	hl,_tmp0
 2423  0AD9  36 8B       	ld	(hl),0x8b
 2424  0ADB              l_spr_brick_anim_00105:
-2425  0ADB  DD 7E FF    	ld	a,(ix-1)
+2425  0ADB  DD 7E FE    	ld	a,(ix-2)
 2426  0ADE  B7          	or	a, a
 2427  0ADF  28 11       	jr	Z,l_spr_brick_anim_00108
 2428  0AE1  2A 00 00    	ld	hl,(_index_player)
@@ -2444,7 +2444,7 @@
 2444  0B01              l_spr_brick_anim_00109:
 2445  0B01  21 00 00    	ld	hl,_tmp_uc
 2446  0B04  36 00       	ld	(hl),0x00
-2447  0B06  DD 7E FE    	ld	a,(ix-2)
+2447  0B06  DD 7E FF    	ld	a,(ix-1)
 2448  0B09  D6 12       	sub	a,0x12
 2449  0B0B  38 12       	jr	C,l_spr_brick_anim_00111
 2450  0B0D  0A          	ld	a,(bc)
@@ -2458,7 +2458,7 @@
 2458  0B1B  3C          	inc	a
 2459  0B1C  32 00 00    	ld	(_tmp_uc),a
 2460  0B1F              l_spr_brick_anim_00111:
-2461  0B1F  DD 7E FE    	ld	a,(ix-2)
+2461  0B1F  DD 7E FF    	ld	a,(ix-1)
 2462  0B22  B7          	or	a, a
 2463  0B23  20 14       	jr	NZ,l_spr_brick_anim_00114
 2464  0B25  0A          	ld	a,(bc)
@@ -2474,7 +2474,7 @@
 2474  0B36  32 00 00    	ld	(_tmp_uc),a
 2475  0B39              l_spr_brick_anim_00114:
 2476  0B39  76          	halt
-2477  0B3A  DD 7E FF    	ld	a,(ix-1)
+2477  0B3A  DD 7E FE    	ld	a,(ix-2)
 2478  0B3D  B7          	or	a, a
 2479  0B3E  20 1C       	jr	NZ,l_spr_brick_anim_00117
 2480  0B40  2A 00 00    	ld	hl,(_index_player)

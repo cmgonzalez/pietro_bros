@@ -1,6 +1,6 @@
 ;; PIETRO BROS CUSTOM MEMORY MAP
 ;;
-;; Nirvana+ has been compiled to use 19 rows instead of the
+;; Nirvana+ has been assembled to use 19 rows instead of the
 ;; usual 23 and this leaves a hole of more than 1300 bytes
 ;; inside the nirvana+ binary that can be used for other
 ;; things.

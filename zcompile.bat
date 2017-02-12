@@ -1,88 +1,67 @@
 @echo off
-@setlocal 
+@setlocal
+
 set STARTTIME=%time%
 echo Start     %STARTTIME%
-del bin\pietro_release_sdcc_low.tap > nul 2>&1
 
-@rem SET ENVIRONMENT VARIABLES FOR Z88DK
-@rem SET ZCCCFG=C:\z88dk\lib\config
-@rem PATH=C:\z88dk\bin;%PATH%
-
-@rem SET VARIOUS ORG ADDRESSES
-
-set "LADDR=23296"   %= ORG of Loader =%
-set "PADDR=23552"   %= ORG of Pietro binary =%
-set "NADDR=56323"   %= ORG of Nirvana+ binary (fixed) =%
+set "CFLAGS=-SO3 --max-allocs-per-node100000 --opt-code-size"
 
 @rem MAKE BASIC LOADER
-echo Creating  Bas Loaders.
-cd src_tap
-bas2tap -sPietro -a10 loader.bas loader_bas.tap 1>nul
-copy /b loader_bas.tap ..\loader.tap 1>nul
+echo Creating Basic Loader.
+src_tap\bas2tap -sPietro -a10 src_tap\loader.bas loader.tap 1>nul
 
 @rem COPY SCREEN$
-echo Compiling Loading Screen.
-copy /b pietro_scr.bin ..\pietro_scr.bin 1>nul
-cd ..
+echo Copying Loading Screen.
+copy /b src_tap\pietro_scr.bin pietro_scr.bin 1>nul
 
 @rem COPY FONT
-echo Compiling Fonts.
-cd src_font
-copy /b pietro.font ..\pietro.font 1>nul
-cd ..
+echo Copying Fonts.
+copy /b src_font\pietro.font pietro.font 1>nul
 
-@rem ASSEMBLE NIRVANA
-echo Compiling Nirvana+.
-cd src_nirvana
-if "%~1"=="pentagon" (
-  echo Nirvana+ targets the pentagon.
-  pasmo nirvana+PG.asm nirvanap.bin
-) else (
-  pasmo nirvana+.asm nirvanap.bin
-)
-copy /b nirvanap.bin ..\nirvanap.bin 1>nul
-cd ..
+@rem BUILD CONSOLIDATED OBJECT FILE
+echo Building Consolidated Object File
+zcc +zx -v -c -clib=sdcc_iy %CFLAGS% --fsigned-char -o pietro_bros @zproject.lst
 
-@rem COMPILE PROGRAM FASTER
-@rem zorg overrides org set in zpragma.inc
-
-if "%~1"=="fast" (
-  echo Compiling Pietro Bros - Fast Mode.
-  zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node40000 --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
-) else (
-  echo Compiling Pietro Bros - Release Mode.
-  zcc +zx -vn -zorg=%PADDR% -startup=31 -SO3 -clib=sdcc_iy --max-allocs-per-node200000 --opt-code-size --fsigned-char @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
-)
-@rem zcc +zx -vn -zorg=%PADDR% -startup=31 -O3 -clib=new @zproject.lst -o pietro_bros -pragma-include:zpragma.inc
-@rem INJECT SOME CODE AND RAM VARIABLES INTO NIRVANA HOLE
-@rem hole offset = 56718+328*TOTAL_ROWS-56323
-echo Injecting Taps.
-appmake +inject -b nirvanap.bin -o nirvanap_final.bin -i pietro_bros_NIRVANA_HOLE.bin --offset 6627
-@rem CREATE TAPS OUT OF EACH BINARY
-echo Compiling Taps.
+@rem MAKE NORMAL LOADING BINARY
+echo Making Normal Loading Binary
+zcc +zx -v -m -zorg=23552 -startup=31 -clib=sdcc_iy pietro_bros.o pietro_loader.asm -o pietro_bros -pragma-include:zpragma.inc
+appmake +inject -b pietro_bros_NIRVANAP.bin -o nirvanap_final.bin -i pietro_bros_NIRVANA_HOLE.bin --offset 6627
 appmake +zx -b pietro_bros_MCLOAD.bin -o mcload.tap --blockname mcload --org 16384 --noloader
-appmake +zx -b pietro_bros_LOADER.bin -o mcloader.tap --org %LADDR% --noloader --noheader
+appmake +zx -b pietro_bros_LOADER.bin -o mcloader.tap --org 23296 --noloader --noheader
 appmake +zx -b pietro_scr.bin -o pietro_scr.tap --org 16384 --noloader --noheader
-appmake +zx -b nirvanap_final.bin -o nirvanap.tap --org %NADDR% --noloader --noheader
-appmake +zx -b pietro_bros_CODE.bin -o pietro.tap --org %PADDR% --noloader --noheader
+appmake +zx -b nirvanap_final.bin -o nirvanap.tap --org 56323 --noloader --noheader
+appmake +zx -b pietro_bros_CODE.bin -o pietro.tap --org 23552 --noloader --noheader
 appmake +zx -b pietro_bros_BANK_06.bin -o pietro_ay.tap --org 49152 --noloader --noheader
+copy /b loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release.tap
 
-@rem MAKE FINAL TAP
-echo Merging   Taps.
-if "%~1"=="fast" (
-  copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_debug.tap  1>nul
-) else (
-  if "%~1"=="pentagon" (
-    copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_pentagon.tap  1>nul
-  ) else (
-    copy /b /Y loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release.tap  1>nul
-  )
-)
-echo Cleaning
-del loader.tap mcload.tap mcloader.tap nirvanap.tap nirvanap.bin nirvanap_final.bin > nul 2>&1
-del pietro.font pietro.tap pietro_bros pietro_bros_CODE.bin > nul 2>&1
-del pietro_bros_MCLOAD.bin pietro_bros_LOADER.bin pietro_bros_NIRVANA_HOLE.bin > nul 2>&1
-del pietro_scr.bin pietro_scr.tap pietro_bros_BANK_06.bin pietro_ay.tap > nul 2>&1
+@rem MAKE ZX7 COMPRESSED LOADING BINARY
+echo Making ZX7 Compressed Loading Binary
+zx7 -f pietro_scr.bin
+zx7 -f nirvanap_final.bin
+zx7 -f pietro_bros_CODE.bin
+zx7 -f pietro_bros_BANK_06.bin
+FOR %%A IN ("pietro_scr.bin.zx7") DO set LEN_SCREEN=%%~zA
+FOR %%A IN ("nirvanap_final.bin.zx7") DO set LEN_NIRVANAP=%%~zA
+FOR %%A IN ("pietro_bros_CODE.bin.zx7") DO set LEN_PIETRO=%%~zA
+FOR %%A IN ("pietro_bros_BANK_06.bin.zx7") DO set LEN_BANK_06=%%~zA
+echo PUBLIC LEN_SCREEN, LEN_NIRVANAP, LEN_PIETRO, LEN_BANK_06 > zx7_pietro_sizes.asm
+echo defc LEN_SCREEN = %LEN_SCREEN% >> zx7_pietro_sizes.asm
+echo defc LEN_NIRVANAP = %LEN_NIRVANAP% >> zx7_pietro_sizes.asm
+echo defc LEN_PIETRO = %LEN_PIETRO% >> zx7_pietro_sizes.asm
+echo defc LEN_BANK_06 = %LEN_BANK_06% >> zx7_pietro_sizes.asm
+zcc +zx -v -m -zorg=23552 -startup=31 -clib=sdcc_iy -Ca-DPCOMPRESS pietro_bros.o pietro_loader.asm zx7_pietro_sizes.asm -o pietro_bros -pragma-include:zpragma.inc
+appmake +zx -b pietro_bros_MCLOAD.bin -o mcload.tap --blockname mcload --org 16384 --noloader
+appmake +zx -b pietro_bros_LOADER.bin -o mcloader.tap --org 23296 --noloader --noheader
+appmake +zx -b pietro_scr.bin.zx7 -o pietro_scr.tap --org 16384 --noloader --noheader
+appmake +zx -b nirvanap_final.bin.zx7 -o nirvanap.tap --org 56323 --noloader --noheader
+appmake +zx -b pietro_bros_CODE.bin.zx7 -o pietro.tap --org 23552 --noloader --noheader
+appmake +zx -b pietro_bros_BANK_06.bin.zx7 -o pietro_ay.tap --org 49152 --noloader --noheader
+copy /b loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_zx7.tap
+
+@rem CLEANUP
+echo Cleanup
+del *.o *.lis *.bin *.tap *.font *.zx7 pietro_bros zcc_proj.lst zcc_opt.def > nul 2>&1
+
 set ENDTIME=%TIME%
 
 @rem Change formatting for the start and end times
