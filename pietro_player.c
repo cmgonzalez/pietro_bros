@@ -50,11 +50,11 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	} else {
 		index_player = 1;
 		BIT_SET(state_a[f_sprite], STAT_LDIRL);
-	}
-	
+	}	
 	hit_col[index_player] = 0;
 	hit_lin[index_player] = 0;
 	sliding[index_player] = PLAYER_SLIDE_NORMAL;
+	player_jump_c[index_player] = 0;
 	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
 }
 
@@ -64,6 +64,9 @@ void player_calc_slide( unsigned char f_lin , unsigned char f_col ) {
 		sliding[index_player] = PLAYER_SLIDE_ICE;
 	} else {
 		sliding[index_player] = PLAYER_SLIDE_NORMAL;
+	}
+	if ( BIT_CHK(s_state, STAT_DIRL) == BIT_CHK(s_state, STAT_DIRR) ) {
+		sliding[index_player] = 0;
 	}
 }
 
@@ -159,7 +162,7 @@ void player_kill(void) {
 	}
 }
 
-void player_restart(unsigned char f_sprite) __z88dk_fastcall {
+void player_restart(unsigned char f_sprite){
 	ay_fx_play(ay_effect_15);
 	if (f_sprite == SPR_P1) {
 		player_init( SPR_P1,0,14,TILE_P1_STANR);
@@ -209,7 +212,6 @@ void player_turn(void) {
 }
 
 unsigned char player_move(void){
-	
 	/* Player initial Values */
 	s_lin0 = lin[sprite];
 	s_col0 = col[sprite];
@@ -291,7 +293,6 @@ unsigned char player_move(void){
 	
 	s_state = state[sprite];
 
-	
 	if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL)) {
 		/* Check if the player have floor, and set fall if not */
 		index_d = game_calc_index( lin[sprite] + 16 , col[sprite] );
@@ -302,28 +303,36 @@ unsigned char player_move(void){
 			BIT_SET(s_state, STAT_FALL);
 		}
 		/* Slide Handling */
-		if ( !player_check_input() && sliding[index_player] > 0 && !BIT_CHK(s_state, STAT_FALL) ) {
-			/* Sliding */
-			if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
-			sound_slide();
-			player_move_horizontal();
-			sliding[index_player]--;
-			sprite_speed_alt[sprite] = 0;
-			if ( sliding[index_player] == 0 ) { 
-				BIT_SET(state_a[sprite],STAT_INERT);
-				spr_timer[sprite] = 0;
-				//NIRVANAP_fillT(PAPER, s_lin0,s_col0);
-				colint[sprite] = 0;
-				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
-				BIT_CLR(s_state,STAT_DIRR);
-				BIT_CLR(s_state,STAT_DIRL);
+		test_func();
+	} else {
+		/* Jumping or Falling */
+		sprite_lin_inc_mul = 2;
+		if (player_jump_c[index_player] > 3 ) sprite_lin_inc_mul = 1;
+		if (player_jump_c[index_player] > 8 ) sprite_lin_inc_mul = 0;
+		if (player_jump_c[index_player] > 12) sprite_lin_inc_mul = 1;
+		if (player_jump_c[index_player] > 17) sprite_lin_inc_mul = 2;
+		
+		if ( BIT_CHK(s_state, STAT_JUMP) ) {
+			/* Jump Handling */
+			if ( player_jump_c[index_player] < PLAYER_MAX_JUMP ) {
+				spr_move_up();
 			} else {
-				tile[sprite] = spr_tile_dir(TILE_P1_SLIDR + tile_offset,sprite,12);
+				spr_set_fall();		
+			}
+		} else {
+			/* Falling Handling */
+			if ( spr_move_down() ) {
+				BIT_CLR(s_state, STAT_FALL);
+				BIT_CLR( state_a[sprite] , STAT_HITBRICK );
+				player_jump_c[index_player] = 0;
+				jump_lin[sprite] = 0;
+				player_calc_slide(lin[sprite],col[sprite]);
+				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
 			}
 		}
-	} else {
-		test_func();
-
+		sprite_lin_inc_mul = 0;
+		++player_jump_c[index_player];
+		player_move_horizontal();
 	}
 	
 	/* Restored hitted platforms */
@@ -446,6 +455,7 @@ void player_push(void){
 	s_col0 = tmp0;
 }
 
+
 unsigned char player_hit_brick(void){
 	if ( ( hit_lin[index_player] == 0 ) && ( lin[sprite] > 16 )	) {
 		for (enemies = 0; enemies < 6 ; ++enemies){
@@ -477,7 +487,7 @@ unsigned char player_hit_brick(void){
 			NIRVANAP_halt();
 		}
 		BIT_SET( state_a[sprite] , STAT_HITBRICK );
-		player_jump_c[sprite] = PLAYER_MAX_JUMP-4;
+		player_jump_c[index_player] = PLAYER_MAX_JUMP-4;
 		spr_timer[sprite] = zx_clock();
 		hit_lin[index_player] = lin[sprite];
 		hit_col[index_player] = col[sprite];
@@ -520,7 +530,7 @@ unsigned char player_hit_pow(void){
 		}
 		zx_border(INK_BLACK);
 		BIT_SET( state_a[sprite] , STAT_HITBRICK );
-		player_jump_c[sprite] = PLAYER_MAX_JUMP-4;
+		player_jump_c[index_player] = PLAYER_MAX_JUMP-4;
 		return 1;
 	}
 	return 0;
@@ -549,8 +559,8 @@ void player_coin(unsigned char f_enemies, unsigned char f_score) {
 }
 
 
-void player_score_add(unsigned int f_score) __z88dk_fastcall {
-	player_score[index_player] += f_score;
+void player_score_add(unsigned int f_score){
+	player_score[index_player] = player_score[index_player] + f_score;
 	//CHECK FOR TOP SCORE
 	if ( player_score[index_player] > game_score_top ) {
 		game_score_top = player_score[index_player];

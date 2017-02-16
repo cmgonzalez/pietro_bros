@@ -72,6 +72,7 @@
 #include "pietro_sprite.h"
 #include "pietro_player.h"
 #include "pietro_enemies.h"
+#include "pietro_sound.h"
 #include "pietro_zx.h"
 #include "macros.h"
 
@@ -149,40 +150,27 @@ int main(void) {
 }
 
 void test_func(void) {
-			//tmp = jump_lin[sprite] - lin[sprite];
-		
-		sprite_lin_inc_mul = 2;
-		if (player_jump_c[sprite] > 4 ) sprite_lin_inc_mul = 1;
-		if (player_jump_c[sprite] > 8 ) sprite_lin_inc_mul = 0;
-		if (player_jump_c[sprite] > 12) sprite_lin_inc_mul = 1;
-		if (player_jump_c[sprite] > 14) sprite_lin_inc_mul = 2;
-		
-		
-		
-		if ( BIT_CHK(s_state, STAT_JUMP) ) {
-			/* Jump Handling */
-			
-			if ( player_jump_c[sprite] < PLAYER_MAX_JUMP ) {
-				spr_move_up();
-			} else {
-				spr_set_fall();		
+	
+		if ( !player_check_input() ) {
+			if (sliding[index_player] > 0 && !BIT_CHK(s_state, STAT_FALL) ) {
+			/* Sliding */
+			if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
+			sound_slide();
+			player_move_horizontal();
+			sliding[index_player]--;
+			sprite_speed_alt[sprite] = 0;
+			if ( sliding[index_player] == 0 ) { 
+				BIT_SET(state_a[sprite],STAT_INERT);
+				spr_timer[sprite] = 0;
+				//NIRVANAP_fillT(PAPER, s_lin0,s_col0);
+				colint[sprite] = 0;
+				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
+				BIT_CLR(s_state,STAT_DIRR);
+				BIT_CLR(s_state,STAT_DIRL);
 			}
-		} else {
-			if ( BIT_CHK(s_state, STAT_FALL) ){
-				/* Falling Handling */
-				if ( spr_move_down() ) {
-					BIT_CLR( state_a[sprite] , STAT_HITBRICK );
-					player_jump_c[sprite] = 0;
-					jump_lin[sprite] = 0;
-					player_calc_slide(lin[sprite],col[sprite]);
-					if ( BIT_CHK(s_state, STAT_DIRL) == BIT_CHK(s_state, STAT_DIRR) ) {
-						sliding[index_player] = 0;
-					}
-				}
-				
+			} else {
+				tile[sprite] = spr_tile_dir(TILE_P1_SLIDR + tile_offset,sprite,12);
 			}
 		}
-		sprite_lin_inc_mul = 0;
-		++player_jump_c[sprite];
-		player_move_horizontal();
 }
+
