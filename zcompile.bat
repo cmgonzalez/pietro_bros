@@ -4,7 +4,7 @@
 set STARTTIME=%time%
 echo Start     %STARTTIME%
 
-set "CFLAGS=-SO3 --max-allocs-per-node100000 --opt-code-size"
+set "CFLAGS=-SO3 --max-allocs-per-node200000 --opt-code-size"
 
 @rem MAKE BASIC LOADER
 echo Creating Basic Loader.
@@ -35,7 +35,7 @@ appmake +zx -b pietro_bros_BANK_06.bin -o pietro_ay.tap --org 49152 --noloader -
 copy /b loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release.tap
 
 @rem MAKE ZX7 COMPRESSED LOADING BINARY
-echo Making ZX7 Compressed Loading Binary
+echo Making ZX7-Compressed Loading Binary
 zx7 -f pietro_scr.bin
 zx7 -f nirvanap_final.bin
 zx7 -f pietro_bros_CODE.bin
@@ -57,6 +57,9 @@ appmake +zx -b nirvanap_final.bin.zx7 -o nirvanap.tap --org 56323 --noloader --n
 appmake +zx -b pietro_bros_CODE.bin.zx7 -o pietro.tap --org 23552 --noloader --noheader
 appmake +zx -b pietro_bros_BANK_06.bin.zx7 -o pietro_ay.tap --org 49152 --noloader --noheader
 copy /b loader.tap + mcload.tap + mcloader.tap + pietro_scr.tap + nirvanap.tap + pietro.tap + pietro_ay.tap bin\pietro_release_zx7.tap
+
+@rem REPORT BINARY SIZES
+dir *.bin
 
 @rem CLEANUP
 echo Cleanup

@@ -47,23 +47,33 @@ Version 1.2
 BUILD INSTRUCTIONS:
 
 * Install or update to the current Z88DK
-https://github.com/z88dk/z88dk
+
+https://github.com/z88dk/z88dk#installation
+Git clone if you will regularly update z88dk.
+Nightly build if you just want to unzip the current build.
+
+Pietro Bros uses zsdcc so linux users should make sure they also build zsdcc.
+zsdcc is included among the pre-built Windows and OSX binaries already.
 
 * Configure the nirvana+ library
 
-edit file z88dk/libsrc/_DEVELOPMENT/target/zx/clib_target_cfg.asm
-change ";;define(`__NIRVANAP_TOTAL_ROWS', 23)" to ";;define(`__NIRVANAP_TOTAL_ROWS', 19)"
-change "defc __spectrum = 1" to "defc __spectrum = 3" if you want to build the pentagon version
+Edit file "z88dk/libsrc/_DEVELOPMENT/target/zx/config_nirvanap.m4"
+Change "define(`__NIRVANAP_TOTAL_ROWS', 23)" to "define(`__NIRVANAP_TOTAL_ROWS', 19)"
+
+To build the Pentagon version instead of the regular Spectrum version:
+
+Edit file "z88dk/libsrc/_DEVELOPMENT/target/zx/config_target.m4"
+Change "define(`__SPECTRUM', 1)" to "define(`__SPECTRUM', 32)"
 
 * Rebuild the zx library so that nirvana+ changes take effect
 
-open a shell and go to directory z88dk/libsrc/_DEVELOPMENT
-run "Winmake zx" (windows) or "make TARGET=zx" (anything else)
+Open a shell and go to directory "z88dk/libsrc/_DEVELOPMENT"
+Run "Winmake zx" (windows) or "make TARGET=zx" (anything else)
 
-* Build Pietro!
+* Build Pietro Bros!
 
-open a shell in the pietro_bros home directory
-run "zcompile" (windows) or "make" then "make zx7" (anything else)
+Open a shell in the pietro_bros home directory
+Run "zcompile" (windows) or "make" then "make zx7" (anything else)
 
 ==============================================================================
 
@@ -75,6 +85,6 @@ RUNTIME MEMORY MAP:
 
 128K ONLY BANK 6:
 
-49152 - 55587     AY Music and Sound Effects
+49152 - 55587     AY Music, Sound Effects and Players
 
 ==============================================================================

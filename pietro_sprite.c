@@ -22,7 +22,7 @@
 #include "pietro_zx.h"
 #include "macros.h"
 
-unsigned char spr_chktime( unsigned char *sprite ) {
+unsigned char spr_chktime( unsigned char *sprite ) __z88dk_fastcall {
 	//if (FULL_SPEED) return 1;
 	if (sprite_speed_alt[*sprite] == 0) {
 		tmp = sprite_speed[class[*sprite]];
@@ -164,7 +164,7 @@ unsigned char spr_redraw( void ){
 
 }
 
-unsigned char spr_killed( unsigned char f_sprite) {
+unsigned char spr_killed( unsigned char f_sprite) __z88dk_fastcall {
 		switch(class[f_sprite]) {
 		case SLIPICE :
 			spr_anim_kill(f_sprite,TILE_SLIPICE+6);
@@ -188,7 +188,7 @@ unsigned char spr_killed( unsigned char f_sprite) {
 	return 0;
 }
 
-void spr_anim_fall( unsigned char f_sprite) {
+void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 //	if ( spr_chktime(&sprite) ) {
 		
 		if (lin[f_sprite] < GAME_LIN_FLOOR) {
@@ -300,7 +300,7 @@ unsigned char spr_check_over( void ){
 	return 0;
 }
 
-void spr_destroy(unsigned char f_sprite) {
+void spr_destroy(unsigned char f_sprite) __z88dk_fastcall {
 	spr_count--;
 	s_lin0 = lin[f_sprite];
 	s_col0 = col[f_sprite];
@@ -326,7 +326,7 @@ void spr_set_fall( void ) {
 	
 }
 
-int spr_tile(unsigned char f_sprite){
+int spr_tile(unsigned char f_sprite) __z88dk_fastcall {
 	if ( BIT_CHK(state[f_sprite],STAT_ANGRY) ) {
 		tmp = 3;
 	} else {
@@ -464,7 +464,7 @@ void spr_back_clr( void ) {
 	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);	
 }
 
-void spr_back_fix( unsigned char f_inc ) {
+void spr_back_fix( unsigned char f_inc ) __z88dk_fastcall {
 		index1 = game_calc_index ( s_lin0 + f_inc , s_col0);
 		tmp  = lvl_1[index1] == GAME_MAP_PLATFORM || lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE;
 		tmp0 = lvl_1[index1+1] == GAME_MAP_PLATFORM || lvl_1[index1+1] == GAME_MAP_PLATFORM_FREEZE;
@@ -538,7 +538,7 @@ void spr_back_fix4(void) {
 }
 
 
-void spr_brick_anim(unsigned char f_hit) {
+void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
 	
 	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM || lvl_1[ index2 ] == GAME_MAP_PLATFORM) {
 		tmp0 = game_brick_tile;
@@ -619,7 +619,7 @@ void spr_cortina_pipes(void) {
 
 
 
-void spr_water_splash_draw( unsigned char f_col) {
+void spr_water_splash_draw( unsigned char f_col) __z88dk_fastcall {
 	if (spr_water_clear == 255) {
 		/* water splash effect */
 		zx_print_paper(PAPER_RED);
