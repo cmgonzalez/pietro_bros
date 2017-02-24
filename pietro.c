@@ -149,28 +149,9 @@ int main(void) {
 	return 0;
 }
 
-void test_func(void) {
-	
-		if ( !player_check_input() ) {
-			if (sliding[index_player] > 0 && !BIT_CHK(s_state, STAT_FALL) ) {
-			/* Sliding */
-			if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
-			sound_slide();
-			player_move_horizontal();
-			sliding[index_player]--;
-			sprite_speed_alt[sprite] = 0;
-			if ( sliding[index_player] == 0 ) { 
-				BIT_SET(state_a[sprite],STAT_INERT);
-				spr_timer[sprite] = 0;
-				//NIRVANAP_fillT(PAPER, s_lin0,s_col0);
-				colint[sprite] = 0;
-				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
-				BIT_CLR(s_state,STAT_DIRR);
-				BIT_CLR(s_state,STAT_DIRL);
-			}
-			} else {
-				tile[sprite] = spr_tile_dir(TILE_P1_SLIDR + tile_offset,sprite,12);
-			}
-		}
+unsigned char test_func(void) {
+	/* helper funcion with faster compilation for debug n testing */
+	return 0;
+
 }
 

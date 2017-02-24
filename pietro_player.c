@@ -53,7 +53,7 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	}	
 	hit_col[index_player] = 0;
 	hit_lin[index_player] = 0;
-	sliding[index_player] = PLAYER_SLIDE_NORMAL;
+	sliding[index_player] = 0;
 	player_jump_c[index_player] = 0;
 	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
 }
@@ -64,9 +64,6 @@ void player_calc_slide( unsigned char f_lin , unsigned char f_col ) {
 		sliding[index_player] = PLAYER_SLIDE_ICE;
 	} else {
 		sliding[index_player] = PLAYER_SLIDE_NORMAL;
-	}
-	if ( BIT_CHK(s_state, STAT_DIRL) == BIT_CHK(s_state, STAT_DIRR) ) {
-		sliding[index_player] = 0;
 	}
 }
 
@@ -218,6 +215,7 @@ unsigned char player_move(void){
 	s_tile0 = tile[sprite] + colint[sprite];
 	s_state = state[sprite];
 
+
 	/* Killed Player */
 	if ( BIT_CHK(s_state, STAT_KILL) ) {
 		tile[sprite] = TILE_P1_KILL + tile_offset;
@@ -303,7 +301,26 @@ unsigned char player_move(void){
 			BIT_SET(s_state, STAT_FALL);
 		}
 		/* Slide Handling */
-		test_func();
+		if ( !player_check_input() ) {
+			if ( sliding[index_player] > 0 && !BIT_CHK(s_state, STAT_FALL) ) {
+				/* Sliding */
+				if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
+				sound_slide();
+				player_move_horizontal();
+				sliding[index_player]--;
+				sprite_speed_alt[sprite] = 0;
+				tile[sprite] = spr_tile_dir(TILE_P1_SLIDR + tile_offset,sprite,12);
+				if ( sliding[index_player] == 0 ) {
+					/* End Sliding */
+					spr_timer[sprite] = 0;
+					colint[sprite] = 0;
+					tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset, sprite, 12);
+					BIT_CLR(s_state,STAT_DIRR);
+					BIT_CLR(s_state,STAT_DIRL);
+					BIT_CLR(state_a[sprite],STAT_INERT);
+				}
+			}
+		}
 	} else {
 		/* Jumping or Falling */
 		sprite_lin_inc_mul = 2;
@@ -322,12 +339,14 @@ unsigned char player_move(void){
 		} else {
 			/* Falling Handling */
 			if ( spr_move_down() ) {
-				BIT_CLR(s_state, STAT_FALL);
+				BIT_CLR( s_state , STAT_FALL );
 				BIT_CLR( state_a[sprite] , STAT_HITBRICK );
 				player_jump_c[index_player] = 0;
 				jump_lin[sprite] = 0;
-				player_calc_slide(lin[sprite],col[sprite]);
-				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset,sprite,12);
+				sliding[index_player] = 0;
+				colint[sprite] = 0;
+				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset, sprite, 12);
+				if ( BIT_CHK(s_state, STAT_DIRL) || BIT_CHK(s_state, STAT_DIRR) ) player_calc_slide(lin[sprite],col[sprite]);
 			}
 		}
 		sprite_lin_inc_mul = 0;
@@ -354,7 +373,7 @@ unsigned char player_move_input(void) {
 		/* Player is standing at the floor */
 		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
 			/* Calculate current position slide value*/
-			//player_calc_slide();
+			
 			player_calc_slide(s_lin0 ,s_col0);
 		
 			if ( BIT_CHK(state_a[sprite],STAT_INERT) && spr_timer[sprite] == 0) {
@@ -396,6 +415,7 @@ unsigned char player_move_input(void) {
 				tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset, sprite, 12);
 				sprite_speed_alt[sprite] = PLAYER_JUMP_SPEED;
 				player_jump_c[index_player] = 0;
+				sliding[index_player] = 0;
 				return 1;
 			}
 			

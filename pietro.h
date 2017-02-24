@@ -182,4 +182,4 @@
 #endif
 
 #include "globals.h"
-extern void          test_func(void);
+unsigned char test_func(void);
