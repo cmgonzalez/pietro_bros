@@ -716,7 +716,7 @@ void game_menu_config(void) {
 	}
 }
 
-void game_joystick_change(unsigned char f_player_index){
+void game_joystick_change(unsigned char f_player_index) __z88dk_fastcall {
 		++player_joy[f_player_index];
 		if (player_joy[f_player_index] == 7) player_joy[f_player_index] = 0; /* Rotate Joystick*/
 		

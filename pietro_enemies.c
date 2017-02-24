@@ -150,7 +150,7 @@ void enemy_hit(void){
 				break;
 	}
 }
-void enemy_flip_change_dir( unsigned char f_keep ) {
+void enemy_flip_change_dir( unsigned char f_keep ) __z88dk_fastcall {
 	
 	if (BIT_CHK(state[enemies], STAT_DIRR)) {
 		BIT_SET(state_a[enemies], STAT_LDIRR);
@@ -173,7 +173,7 @@ void enemy_flip_change_dir( unsigned char f_keep ) {
 		BIT_CLR(state[enemies], STAT_DIRR);
 	}
 }
-void enemy_flip(unsigned int f_tile){
+void enemy_flip(unsigned int f_tile) __z88dk_fastcall {
 
 	spr_timer[enemies] = zx_clock();
 	BIT_SET(state[enemies], STAT_JUMP);
@@ -204,7 +204,7 @@ void enemy_flip(unsigned int f_tile){
 	
 }
 
-void enemy_flip_sidestepper(unsigned int f_tile){
+void enemy_flip_sidestepper(unsigned int f_tile) __z88dk_fastcall {
 	if ( BIT_CHK(state[enemies], STAT_ANGRY) ) {
 		enemy_flip(f_tile);
 	} else {
@@ -592,7 +592,7 @@ void enemy_init(unsigned char f_sprite,unsigned  char f_lin,unsigned  char f_col
 	sprite_speed_alt[f_sprite] = 0;
 }
 
-void enemy_kill(unsigned char f_sprite){
+void enemy_kill(unsigned char f_sprite) __z88dk_fastcall {
 	NIRVANAP_halt();
 	sound_kill();
 	if ( BIT_CHK(state[sprite], STAT_DIRL) ) {
