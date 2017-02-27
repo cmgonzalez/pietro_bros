@@ -530,6 +530,7 @@ void player_hit_brick_clear(void){
 }
 
 unsigned char player_hit_pow(void){
+	index2 = index1  + 1;
 	if ( game_pow != 0 && ( lvl_1[ index1 ] == IDX_POW || lvl_1[ index2 ] == IDX_POW ) ) {
 		game_pow--;
 		zx_border(INK_RED);
