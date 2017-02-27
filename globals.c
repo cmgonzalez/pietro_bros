@@ -258,8 +258,8 @@ unsigned char sprite_speed[] = {
 	 4, //07 SLIPICE 
 	 3, //08 COIN_1 
 	 4, //09 FIGHTERFLY 
-	 3, //10 FIREBALL_RED 
-	 2, //11 FIREBALL_GREEN 
+	 2, //10 FIREBALL_RED 
+	 1, //11 FIREBALL_GREEN 
 	 3, //12 COIN_2 
 	 0, //13  
 	 0, //14  

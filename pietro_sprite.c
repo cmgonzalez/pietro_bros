@@ -539,7 +539,8 @@ void spr_back_fix4(void) {
 
 
 void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
-	
+	tmp0 = TILE_EMPTY;
+	index2 = index1 + 1;
 	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM || lvl_1[ index2 ] == GAME_MAP_PLATFORM) {
 		tmp0 = game_brick_tile;
 	}
@@ -562,15 +563,17 @@ void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
 		tmp_uc = hit_col[index_player];
 	}
 	/* Draw Plaform */
-	NIRVANAP_halt();
-	if (!f_hit) {
+	if (f_hit) {
+		NIRVANAP_drawT( tmp0 , tmp, hit_col[index_player] );
+	} else {
 		NIRVANAP_fillT( PAPER, hit_lin[index_player]-16, hit_col[index_player]);
+		NIRVANAP_drawT( tmp0 , tmp, hit_col[index_player] );
 	}
-	NIRVANAP_drawT( tmp0 , tmp, hit_col[index_player] );
 	if (tmp_uc != 0) {
 		/* Clear end row Plaform */
 		NIRVANAP_fillC(PAPER, tmp, tmp_uc); 
-	}
+		NIRVANAP_halt();
+	}	
 }
 
 /* Clear Screen With Bricks UDG */
