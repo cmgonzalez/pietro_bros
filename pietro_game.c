@@ -225,7 +225,7 @@ void game_loop(void) {
 	player_next_extra[0] = GAME_EXTRA_LIFE;
 	player_next_extra[1] = GAME_EXTRA_LIFE;
 	spr_water_clear = 255; //255 = no need to clear the brick udg row
-	if (game_type ==0) {
+	if (game_type == 0) {
 		game_time_flipped = TIME_FLIPPED_A;
 		game_time_fireball_start = TIME_FIREBALL_A;
 	} else {
