@@ -345,40 +345,41 @@ void enemy_fireball_red(void){
 	
 	//BOUNCE EVERYWHERE
 	if ( phase_left > 0) {
+			
+		if ( BIT_CHK(s_state, STAT_JUMP)) {
+			if ( spr_move_up() ) spr_set_fall();
+			tmp = 0;
+		} else {
+			if (spr_move_down()){
+				BIT_CLR(s_state, STAT_FALL);
+				BIT_SET(s_state, STAT_JUMP);
+			}
+			tmp = 16;
+		}
+		spr_move_horizontal();
+		
+		if (BIT_CHK(s_state, STAT_DIRR)) {
+			//tmp0 = 2;
+			s_col1 = col[sprite]+2;
+		} else {
+			//tmp0 = -1;
+			s_col1 = col[sprite]-1;
+		}
+		index1 = game_calc_index(lin[sprite], s_col1);
+		
+		//if ( lin[sprite] < GAME_LIN_FLOOR && lvl_1[index1] != 0 || col[sprite] < 2 || col[sprite] > 29) {
+		
+		if ( lvl_1[index1] >= TILE_POW1 || col[sprite] < 2 || col[sprite] > 29) {
+			BIT_FLP(s_state, STAT_DIRR);
+			BIT_FLP(s_state, STAT_DIRL);
+		}
+		
 		if ( game_check_time( spr_timer[sprite], TIME_FIREBALL_RED) ) {
 			spr_timer[sprite] = zx_clock();
 			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Kill by timeout */
 			BIT_SET(s_state, STAT_KILL);
-		} else {
-			
-			if ( BIT_CHK(s_state, STAT_JUMP)) {
-				if ( spr_move_up() ) spr_set_fall();
-				tmp = 0;
-			} else {
-				if (spr_move_down()){
-					BIT_CLR(s_state, STAT_FALL);
-					BIT_SET(s_state, STAT_JUMP);
-				}
-				tmp = 16;
-			}
-			spr_move_horizontal();
-			
-			
-			if (BIT_CHK(s_state, STAT_DIRR)) {
-				//tmp0 = 2;
-				s_col1 = col[sprite]+2;
-			} else {
-				//tmp0 = -1;
-				s_col1 = col[sprite]-1;
-			}
-			index1 = game_calc_index(lin[sprite], s_col1);
-			
-			//if ( lin[sprite] < GAME_LIN_FLOOR && lvl_1[index1] != 0 || col[sprite] < 2 || col[sprite] > 29) {
-			
-			if ( lvl_1[index1] >= TILE_POW1 || col[sprite] < 2 || col[sprite] > 29) {
-				BIT_FLP(s_state, STAT_DIRR);
-				BIT_FLP(s_state, STAT_DIRL);
-			}
+			BIT_CLR(s_state, STAT_JUMP);
+			BIT_CLR(s_state, STAT_FALL);
 		}
 	}
 }
@@ -558,12 +559,13 @@ void enemy_walk(void){
 		//if (class[sprite] != FIGHTERFLY) {
 			sprite_speed_alt[sprite] = ENEMY_FALL_SPEED;
 			tmp = 1;
-			if (lin[sprite] % 8 != 0) {
+			//if (lin[sprite] % 8 != 0) {
+			//if (lin[sprite] & 3 != 0) {				
 				//Check horizontal collision
-				tmp0 = game_check_maze( game_calc_index( lin[sprite], col[sprite] + 1 ) );
-				tmp1 = game_check_maze( game_calc_index( lin[sprite], col[sprite] - 1 ) );
+				tmp0 = game_check_maze( game_calc_index( lin[sprite]+16, col[sprite] + 1 ) );
+				tmp1 = game_check_maze( game_calc_index( lin[sprite]+16, col[sprite] - 1 ) );
 				tmp = !tmp0 && !tmp1;
-			}
+			//}
 			 //move horizontal only the first 8 lines
 			if ( tmp && ( lin[sprite] - jump_lin[sprite] <= 8 ) ) spr_move_horizontal();
 		//}

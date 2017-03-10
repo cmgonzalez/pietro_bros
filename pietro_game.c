@@ -346,6 +346,10 @@ void game_score_osd(void) {
 		
 		if ( game_check_time( score_osd_time[index_player] , 50 ) ) {
 			NIRVANAP_fillT( PAPER, score_osd_lin[index_player], score_osd_col[index_player] );
+			//TODO BACKFIX CALL HERE!
+			s_lin0 = score_osd_lin[index_player];
+			s_col0 = score_osd_col[index_player];
+			spr_check_over();
 			score_osd_col[index_player] = 255;
 		}
 	}
@@ -747,6 +751,7 @@ void game_joystick_set(void){
 
 void game_menu(void) {
 	/*PLAY MIDI TITLE*/
+	game_menu_sel = 0;
 	game_menu_top_paint();
 	game_menu_paint();
 	ay_reset();
@@ -861,7 +866,10 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 		}
 		if (timeout > 0 && game_check_time(entry_time, timeout) && !ay_is_playing() ) {
 			game_hall_of_fame();
-			game_menu_back(f_start);
+			game_menu_sel = 0;
+			//s_lin1 = f_start + (game_menu_sel*f_inc);
+			game_menu_back(0);
+			return 255;
 		}
 		
 	};
@@ -1154,9 +1162,7 @@ void game_hall_of_fame(void) {
 	//OUT OF MEMORY
 	spr_draw_clear();
 	game_paint_attrib(0);
-	
 	game_menu_e(16 ,6, 24,156,1);
-	
 	game_menu_e(GAME_LIN_FLOOR,6, 24,159,255);//game_menu_e(159,-1);
 	//MENU
 	for(s_lin1=0; s_lin1 < 10; ++s_lin1){
