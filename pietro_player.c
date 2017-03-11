@@ -89,7 +89,11 @@ unsigned char player_collition(void) {
 				} else {
 					/* Player Killed */
 					ay_fx_play(ay_effect_18);
-					if (!GAME_GOD_MODE) player_kill();
+					if (GAME_GOD_MODE) {
+						enemy_kill(enemies);
+					} else {
+						player_kill();
+					}
 				}
 			}
 		}

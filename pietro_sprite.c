@@ -597,7 +597,7 @@ void spr_cortina_brick(void) {
 
 
 void spr_cortina_pipes(void) {
-/* TODO OUT OF MEMORY
+
  	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
@@ -614,7 +614,7 @@ void spr_cortina_pipes(void) {
 		if ( s_col1 < 30 ) NIRVANAP_drawT(167, s_lin1, s_col1 + 2); //pipe end left
 		}
 	}
-*/
+
 	NIRVANAP_halt();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 }

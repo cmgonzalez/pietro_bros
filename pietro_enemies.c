@@ -613,7 +613,7 @@ void enemy_init(unsigned char f_sprite,unsigned  char f_lin,unsigned  char f_col
 	} else {
 		BIT_SET(state[f_sprite], STAT_DIRL);
 	}
-	BIT_SET(state[f_sprite], STAT_FALL);
+	//BIT_SET(state[f_sprite], STAT_FALL);
 	colint[f_sprite] = 0;
 	tile[f_sprite] = spr_tile(f_sprite);
 	last_time[f_sprite] = 0;

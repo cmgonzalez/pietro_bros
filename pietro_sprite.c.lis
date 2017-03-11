@@ -1291,7 +1291,7 @@
 1291  03B9  6F          	ld	l,a
 1292  03BA  C5          	push	bc
 1293  03BB  D5          	push	de
-1294  03BC  CD D8 0B    	call	_spr_water_splash_draw
+1294  03BC  CD 8C 0C    	call	_spr_water_splash_draw
 1295  03BF  D1          	pop	de
 1296  03C0  C1          	pop	bc
 1297  03C1  78          	ld	a,b
@@ -2363,7 +2363,7 @@
 2363  0A71              _spr_brick_anim:
 2364  0A71  CD 00 00    	call	___sdcc_enter_ix
 2365  0A74  F5          	push	af
-2366  0A75  DD 75 FF    	ld	(ix-1),l
+2366  0A75  DD 75 FE    	ld	(ix-2),l
 2367  0A78  21 00 00    	ld	hl,_tmp0
 2368  0A7B  36 A9       	ld	(hl),0xa9
 2369  0A7D  2A 00 00    	ld	hl,(_index1)
@@ -2374,10 +2374,10 @@
 2374  0A8A  2A 00 00    	ld	hl,(_index1)
 2375  0A8D  09          	add	hl,bc
 2376  0A8E  7E          	ld	a,(hl)
-2377  0A8F  DD 77 FE    	ld	(ix-2),a
+2377  0A8F  DD 77 FF    	ld	(ix-1),a
 2378  0A92  2A 00 00    	ld	hl,(_index2)
 2379  0A95  09          	add	hl,bc
-2380  0A96  DD 7E FE    	ld	a,(ix-2)
+2380  0A96  DD 7E FF    	ld	a,(ix-1)
 2381  0A99  D6 12       	sub	a,0x12
 2382  0A9B  4D          	ld	c,l
 2383  0A9C  44          	ld	b,h
@@ -2389,7 +2389,7 @@
 2389  0AA4  3A 00 00    	ld	a,(_game_brick_tile)
 2390  0AA7  32 00 00    	ld	(_tmp0),a
 2391  0AAA              l_spr_brick_anim_00102:
-2392  0AAA  DD 7E FE    	ld	a,(ix-2)
+2392  0AAA  DD 7E FF    	ld	a,(ix-1)
 2393  0AAD  D6 14       	sub	a,0x14
 2394  0AAF  28 05       	jr	Z,l_spr_brick_anim_00104
 2395  0AB1  0A          	ld	a,(bc)
@@ -2399,7 +2399,7 @@
 2399  0AB6  21 00 00    	ld	hl,_tmp0
 2400  0AB9  36 8B       	ld	(hl),0x8b
 2401  0ABB              l_spr_brick_anim_00105:
-2402  0ABB  DD 7E FF    	ld	a,(ix-1)
+2402  0ABB  DD 7E FE    	ld	a,(ix-2)
 2403  0ABE  B7          	or	a, a
 2404  0ABF  28 11       	jr	Z,l_spr_brick_anim_00108
 2405  0AC1  2A 00 00    	ld	hl,(_index_player)
@@ -2421,7 +2421,7 @@
 2421  0AE1              l_spr_brick_anim_00109:
 2422  0AE1  21 00 00    	ld	hl,_tmp_uc
 2423  0AE4  36 00       	ld	(hl),0x00
-2424  0AE6  DD 7E FE    	ld	a,(ix-2)
+2424  0AE6  DD 7E FF    	ld	a,(ix-1)
 2425  0AE9  D6 12       	sub	a,0x12
 2426  0AEB  38 12       	jr	C,l_spr_brick_anim_00111
 2427  0AED  0A          	ld	a,(bc)
@@ -2435,7 +2435,7 @@
 2435  0AFB  3C          	inc	a
 2436  0AFC  32 00 00    	ld	(_tmp_uc),a
 2437  0AFF              l_spr_brick_anim_00111:
-2438  0AFF  DD 7E FE    	ld	a,(ix-2)
+2438  0AFF  DD 7E FF    	ld	a,(ix-1)
 2439  0B02  B7          	or	a, a
 2440  0B03  20 14       	jr	NZ,l_spr_brick_anim_00114
 2441  0B05  0A          	ld	a,(bc)
@@ -2450,7 +2450,7 @@
 2450  0B15  0A          	ld	a,(bc)
 2451  0B16  32 00 00    	ld	(_tmp_uc),a
 2452  0B19              l_spr_brick_anim_00114:
-2453  0B19  DD 7E FF    	ld	a,(ix-1)
+2453  0B19  DD 7E FE    	ld	a,(ix-2)
 2454  0B1C  B7          	or	a, a
 2455  0B1D  28 1B       	jr	Z,l_spr_brick_anim_00117
 2456  0B1F  3A 00 00    	ld	a,(_index_player)
@@ -2564,105 +2564,236 @@
 2564  0BD1              ; Function spr_cortina_pipes
 2565  0BD1              ; ---------------------------------
 2566  0BD1              _spr_cortina_pipes:
-2567  0BD1  76          	halt
-2568  0BD2  21 00 00    	ld	hl,0x0000
-2569  0BD5  C3 00 00    	jp  _zx_cls_fastcall
-2570  0BD8              	SECTION code_compiler
-2571  0BD8              ;	---------------------------------
-2572  0BD8              ; Function spr_water_splash_draw
-2573  0BD8              ; ---------------------------------
-2574  0BD8              _spr_water_splash_draw:
-2575  0BD8  45          	ld	b,l
-2576  0BD9  3A 00 00    	ld	a,(_spr_water_clear)
-2577  0BDC  3C          	inc	a
-2578  0BDD  C0          	ret	NZ
-2579  0BDE  21 00 00    	ld	hl,_screen_paper
-2580  0BE1  36 10       	ld	(hl),0x10
-2581  0BE3  21 00 00    	ld	hl,_screen_ink
-2582  0BE6  36 05       	ld	(hl),0x05
-2583  0BE8  C5          	push	bc
-2584  0BE9  21 00 00    	ld	hl,___str_0
-2585  0BEC  E5          	push	hl
-2586  0BED  C5          	push	bc
-2587  0BEE  33          	inc	sp
-2588  0BEF  3E 14       	ld	a,0x14
-2589  0BF1  F5          	push	af
-2590  0BF2  33          	inc	sp
-2591  0BF3  CD 00 00    	call	_zx_print_str
-2592  0BF6  C1          	pop	bc
-2593  0BF7  21 00 00    	ld	hl,_screen_ink
-2594  0BFA  36 07       	ld	(hl),0x07
-2595  0BFC  C5          	push	bc
-2596  0BFD  21 03 00    	ld	hl,___str_1
-2597  0C00  E5          	push	hl
-2598  0C01  C5          	push	bc
-2599  0C02  33          	inc	sp
-2600  0C03  3E 15       	ld	a,0x15
-2601  0C05  F5          	push	af
-2602  0C06  33          	inc	sp
-2603  0C07  CD 00 00    	call	_zx_print_str
-2604  0C0A  C1          	pop	bc
-2605  0C0B  21 00 00    	ld	hl,_spr_water_clear
-2606  0C0E  70          	ld	(hl),b
-2607  0C0F  2A 00 00    	ld	hl,(_curr_time)
-2608  0C12  22 00 00    	ld	(_spr_water_time),hl
-2609  0C15  21 00 00    	ld	hl,_screen_paper
-2610  0C18  36 00       	ld	(hl),0x00
-2611  0C1A  C9          	ret
-2612  0C1B              	SECTION rodata_compiler
-2613  0000              ___str_0:
-2614  0000  28 29       	DEFM "()"
-2615  0002  00          	DEFB 0x00
-2616  0003              	SECTION rodata_compiler
-2617  0003              ___str_1:
-2618  0003  2A 2B       	DEFM "*+"
-2619  0005  00          	DEFB 0x00
-2620  0006              	SECTION code_compiler
-2621  0C1B              ;	---------------------------------
-2622  0C1B              ; Function spr_water_splash_clear
-2623  0C1B              ; ---------------------------------
-2624  0C1B              _spr_water_splash_clear:
-2625  0C1B  3A 00 00    	ld	a,(_spr_water_clear)
-2626  0C1E  D6 20       	sub	a,0x20
-2627  0C20  D0          	ret	NC
-2628  0C21  21 0F 00    	ld	hl,0x000f
-2629  0C24  E5          	push	hl
-2630  0C25  2A 00 00    	ld	hl,(_spr_water_time)
-2631  0C28  E5          	push	hl
-2632  0C29  CD 00 00    	call	_game_check_time
-2633  0C2C  F1          	pop	af
-2634  0C2D  F1          	pop	af
-2635  0C2E  7D          	ld	a,l
-2636  0C2F  B7          	or	a, a
-2637  0C30  C8          	ret	Z
-2638  0C31  21 00 00    	ld	hl,_screen_ink
-2639  0C34  36 06       	ld	(hl),0x06
-2640  0C36  21 00 00    	ld	hl,_screen_paper
-2641  0C39  36 10       	ld	(hl),0x10
-2642  0C3B  3A 00 00    	ld	a,(_spr_water_clear)
-2643  0C3E  21 06 00    	ld	hl,___str_2
-2644  0C41  E5          	push	hl
-2645  0C42  57          	ld	d,a
-2646  0C43  1E 14       	ld	e,0x14
-2647  0C45  D5          	push	de
-2648  0C46  CD 00 00    	call	_zx_print_str
-2649  0C49  3A 00 00    	ld	a,(_spr_water_clear)
-2650  0C4C  21 06 00    	ld	hl,___str_2
-2651  0C4F  E5          	push	hl
-2652  0C50  57          	ld	d,a
-2653  0C51  1E 15       	ld	e,0x15
-2654  0C53  D5          	push	de
-2655  0C54  CD 00 00    	call	_zx_print_str
-2656  0C57  21 00 00    	ld	hl,_screen_ink
-2657  0C5A  36 07       	ld	(hl),0x07
-2658  0C5C  21 00 00    	ld	hl,_screen_paper
-2659  0C5F  36 00       	ld	(hl),0x00
-2660  0C61  21 00 00    	ld	hl,_spr_water_clear
-2661  0C64  36 FF       	ld	(hl),0xff
-2662  0C66  C9          	ret
-2663  0C67              	SECTION rodata_compiler
-2664  0006              ___str_2:
-2665  0006  23 23       	DEFM "##"
-2666  0008  00          	DEFB 0x00
-2667  0009              	SECTION IGNORE
-2668  0000              
+2567  0BD1  CD 00 00    	call	___sdcc_enter_ix
+2568  0BD4  3B          	dec	sp
+2569  0BD5  06 00       	ld	b,0x00
+2570  0BD7              l_spr_cortina_pipes_00130:
+2571  0BD7  48          	ld	c,b
+2572  0BD8  0C          	inc	c
+2573  0BD9  0C          	inc	c
+2574  0BDA  59          	ld	e,c
+2575  0BDB  78          	ld	a,b
+2576  0BDC  D6 1E       	sub	a,0x1e
+2577  0BDE  3E 00       	ld	a,0x00
+2578  0BE0  17          	rla
+2579  0BE1  DD 77 FF    	ld	(ix-1),a
+2580  0BE4  16 10       	ld	d,0x10
+2581  0BE6              l_spr_cortina_pipes_00117:
+2582  0BE6  7A          	ld	a,d
+2583  0BE7  FE 10       	cp	a,0x10
+2584  0BE9  28 08       	jr	Z,l_spr_cortina_pipes_00101
+2585  0BEB  FE 50       	cp	a,0x50
+2586  0BED  28 04       	jr	Z,l_spr_cortina_pipes_00101
+2587  0BEF  D6 90       	sub	a,0x90
+2588  0BF1  20 01       	jr	NZ,l_spr_cortina_pipes_00102
+2589  0BF3              l_spr_cortina_pipes_00101:
+2590  0BF3  76          	halt
+2591  0BF4              l_spr_cortina_pipes_00102:
+2592  0BF4  DD 7E FF    	ld	a,(ix-1)
+2593  0BF7  B7          	or	a, a
+2594  0BF8  28 0D       	jr	Z,l_spr_cortina_pipes_00106
+2595  0BFA  C5          	push	bc
+2596  0BFB  D5          	push	de
+2597  0BFC  7B          	ld	a,e
+2598  0BFD  F5          	push	af
+2599  0BFE  33          	inc	sp
+2600  0BFF  1E B3       	ld	e,0xb3
+2601  0C01  D5          	push	de
+2602  0C02  CD 00 00    	call	_NIRVANAP_drawT_callee
+2603  0C05  D1          	pop	de
+2604  0C06  C1          	pop	bc
+2605  0C07              l_spr_cortina_pipes_00106:
+2606  0C07  7A          	ld	a,d
+2607  0C08  C6 10       	add	a,0x10
+2608  0C0A  C5          	push	bc
+2609  0C0B  D5          	push	de
+2610  0C0C  C5          	push	bc
+2611  0C0D  33          	inc	sp
+2612  0C0E  57          	ld	d,a
+2613  0C0F  1E A9       	ld	e,0xa9
+2614  0C11  D5          	push	de
+2615  0C12  CD 00 00    	call	_NIRVANAP_drawT_callee
+2616  0C15  D1          	pop	de
+2617  0C16  C1          	pop	bc
+2618  0C17  C5          	push	bc
+2619  0C18  D5          	push	de
+2620  0C19  4A          	ld	c, d
+2621  0C1A  C5          	push	bc
+2622  0C1B  3E AC       	ld	a,0xac
+2623  0C1D  F5          	push	af
+2624  0C1E  33          	inc	sp
+2625  0C1F  CD 00 00    	call	_NIRVANAP_drawT_callee
+2626  0C22  D1          	pop	de
+2627  0C23  C1          	pop	bc
+2628  0C24  7A          	ld	a,d
+2629  0C25  C6 20       	add	a,0x20
+2630  0C27  57          	ld	d,a
+2631  0C28  3E B0       	ld	a,0xb0
+2632  0C2A  92          	sub	a, d
+2633  0C2B  30 B9       	jr	NC,l_spr_cortina_pipes_00117
+2634  0C2D  79          	ld	a,c
+2635  0C2E  47          	ld	b,a
+2636  0C2F  D6 20       	sub	a,0x20
+2637  0C31  38 A4       	jr	C,l_spr_cortina_pipes_00130
+2638  0C33  0E 00       	ld	c,0x00
+2639  0C35              l_spr_cortina_pipes_00137:
+2640  0C35  59          	ld	e,c
+2641  0C36  1C          	inc	e
+2642  0C37  1C          	inc	e
+2643  0C38  43          	ld	b,e
+2644  0C39  79          	ld	a,c
+2645  0C3A  D6 1E       	sub	a,0x1e
+2646  0C3C  3E 00       	ld	a,0x00
+2647  0C3E  17          	rla
+2648  0C3F  DD 77 FF    	ld	(ix-1),a
+2649  0C42  16 10       	ld	d,0x10
+2650  0C44              l_spr_cortina_pipes_00121:
+2651  0C44  7A          	ld	a,d
+2652  0C45  FE 10       	cp	a,0x10
+2653  0C47  28 08       	jr	Z,l_spr_cortina_pipes_00109
+2654  0C49  FE 50       	cp	a,0x50
+2655  0C4B  28 04       	jr	Z,l_spr_cortina_pipes_00109
+2656  0C4D  D6 90       	sub	a,0x90
+2657  0C4F  20 01       	jr	NZ,l_spr_cortina_pipes_00110
+2658  0C51              l_spr_cortina_pipes_00109:
+2659  0C51  76          	halt
+2660  0C52              l_spr_cortina_pipes_00110:
+2661  0C52  C5          	push	bc
+2662  0C53  D5          	push	de
+2663  0C54  79          	ld	a,c
+2664  0C55  F5          	push	af
+2665  0C56  33          	inc	sp
+2666  0C57  1E A9       	ld	e,0xa9
+2667  0C59  D5          	push	de
+2668  0C5A  CD 00 00    	call	_NIRVANAP_drawT_callee
+2669  0C5D  D1          	pop	de
+2670  0C5E  C1          	pop	bc
+2671  0C5F  DD 7E FF    	ld	a,(ix-1)
+2672  0C62  B7          	or	a, a
+2673  0C63  28 0D       	jr	Z,l_spr_cortina_pipes_00122
+2674  0C65  C5          	push	bc
+2675  0C66  D5          	push	de
+2676  0C67  4A          	ld	c, d
+2677  0C68  C5          	push	bc
+2678  0C69  3E A7       	ld	a,0xa7
+2679  0C6B  F5          	push	af
+2680  0C6C  33          	inc	sp
+2681  0C6D  CD 00 00    	call	_NIRVANAP_drawT_callee
+2682  0C70  D1          	pop	de
+2683  0C71  C1          	pop	bc
+2684  0C72              l_spr_cortina_pipes_00122:
+2685  0C72  7A          	ld	a,d
+2686  0C73  C6 20       	add	a,0x20
+2687  0C75  57          	ld	d,a
+2688  0C76  3E B0       	ld	a,0xb0
+2689  0C78  92          	sub	a, d
+2690  0C79  30 C9       	jr	NC,l_spr_cortina_pipes_00121
+2691  0C7B  7B          	ld	a,e
+2692  0C7C  4F          	ld	c,a
+2693  0C7D  D6 20       	sub	a,0x20
+2694  0C7F  38 B4       	jr	C,l_spr_cortina_pipes_00137
+2695  0C81  76          	halt
+2696  0C82  21 00 00    	ld	hl,0x0000
+2697  0C85  CD 00 00    	call	_zx_cls_fastcall
+2698  0C88  33          	inc	sp
+2699  0C89  DD E1       	pop	ix
+2700  0C8B  C9          	ret
+2701  0C8C              	SECTION code_compiler
+2702  0C8C              ;	---------------------------------
+2703  0C8C              ; Function spr_water_splash_draw
+2704  0C8C              ; ---------------------------------
+2705  0C8C              _spr_water_splash_draw:
+2706  0C8C  45          	ld	b,l
+2707  0C8D  3A 00 00    	ld	a,(_spr_water_clear)
+2708  0C90  3C          	inc	a
+2709  0C91  C0          	ret	NZ
+2710  0C92  21 00 00    	ld	hl,_screen_paper
+2711  0C95  36 10       	ld	(hl),0x10
+2712  0C97  21 00 00    	ld	hl,_screen_ink
+2713  0C9A  36 05       	ld	(hl),0x05
+2714  0C9C  C5          	push	bc
+2715  0C9D  21 00 00    	ld	hl,___str_0
+2716  0CA0  E5          	push	hl
+2717  0CA1  C5          	push	bc
+2718  0CA2  33          	inc	sp
+2719  0CA3  3E 14       	ld	a,0x14
+2720  0CA5  F5          	push	af
+2721  0CA6  33          	inc	sp
+2722  0CA7  CD 00 00    	call	_zx_print_str
+2723  0CAA  C1          	pop	bc
+2724  0CAB  21 00 00    	ld	hl,_screen_ink
+2725  0CAE  36 07       	ld	(hl),0x07
+2726  0CB0  C5          	push	bc
+2727  0CB1  21 03 00    	ld	hl,___str_1
+2728  0CB4  E5          	push	hl
+2729  0CB5  C5          	push	bc
+2730  0CB6  33          	inc	sp
+2731  0CB7  3E 15       	ld	a,0x15
+2732  0CB9  F5          	push	af
+2733  0CBA  33          	inc	sp
+2734  0CBB  CD 00 00    	call	_zx_print_str
+2735  0CBE  C1          	pop	bc
+2736  0CBF  21 00 00    	ld	hl,_spr_water_clear
+2737  0CC2  70          	ld	(hl),b
+2738  0CC3  2A 00 00    	ld	hl,(_curr_time)
+2739  0CC6  22 00 00    	ld	(_spr_water_time),hl
+2740  0CC9  21 00 00    	ld	hl,_screen_paper
+2741  0CCC  36 00       	ld	(hl),0x00
+2742  0CCE  C9          	ret
+2743  0CCF              	SECTION rodata_compiler
+2744  0000              ___str_0:
+2745  0000  28 29       	DEFM "()"
+2746  0002  00          	DEFB 0x00
+2747  0003              	SECTION rodata_compiler
+2748  0003              ___str_1:
+2749  0003  2A 2B       	DEFM "*+"
+2750  0005  00          	DEFB 0x00
+2751  0006              	SECTION code_compiler
+2752  0CCF              ;	---------------------------------
+2753  0CCF              ; Function spr_water_splash_clear
+2754  0CCF              ; ---------------------------------
+2755  0CCF              _spr_water_splash_clear:
+2756  0CCF  3A 00 00    	ld	a,(_spr_water_clear)
+2757  0CD2  D6 20       	sub	a,0x20
+2758  0CD4  D0          	ret	NC
+2759  0CD5  21 0F 00    	ld	hl,0x000f
+2760  0CD8  E5          	push	hl
+2761  0CD9  2A 00 00    	ld	hl,(_spr_water_time)
+2762  0CDC  E5          	push	hl
+2763  0CDD  CD 00 00    	call	_game_check_time
+2764  0CE0  F1          	pop	af
+2765  0CE1  F1          	pop	af
+2766  0CE2  7D          	ld	a,l
+2767  0CE3  B7          	or	a, a
+2768  0CE4  C8          	ret	Z
+2769  0CE5  21 00 00    	ld	hl,_screen_ink
+2770  0CE8  36 06       	ld	(hl),0x06
+2771  0CEA  21 00 00    	ld	hl,_screen_paper
+2772  0CED  36 10       	ld	(hl),0x10
+2773  0CEF  3A 00 00    	ld	a,(_spr_water_clear)
+2774  0CF2  21 06 00    	ld	hl,___str_2
+2775  0CF5  E5          	push	hl
+2776  0CF6  57          	ld	d,a
+2777  0CF7  1E 14       	ld	e,0x14
+2778  0CF9  D5          	push	de
+2779  0CFA  CD 00 00    	call	_zx_print_str
+2780  0CFD  3A 00 00    	ld	a,(_spr_water_clear)
+2781  0D00  21 06 00    	ld	hl,___str_2
+2782  0D03  E5          	push	hl
+2783  0D04  57          	ld	d,a
+2784  0D05  1E 15       	ld	e,0x15
+2785  0D07  D5          	push	de
+2786  0D08  CD 00 00    	call	_zx_print_str
+2787  0D0B  21 00 00    	ld	hl,_screen_ink
+2788  0D0E  36 07       	ld	(hl),0x07
+2789  0D10  21 00 00    	ld	hl,_screen_paper
+2790  0D13  36 00       	ld	(hl),0x00
+2791  0D15  21 00 00    	ld	hl,_spr_water_clear
+2792  0D18  36 FF       	ld	(hl),0xff
+2793  0D1A  C9          	ret
+2794  0D1B              	SECTION rodata_compiler
+2795  0006              ___str_2:
+2796  0006  23 23       	DEFM "##"
+2797  0008  00          	DEFB 0x00
+2798  0009              	SECTION IGNORE
+2799  0000              
