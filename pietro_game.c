@@ -971,7 +971,15 @@ HOF_ENTRY *game_hall_check(unsigned char p) __z88dk_fastcall
 int compare_scores(const HOF_ENTRY *e1, const HOF_ENTRY *e2)
 {
 	// sort in descending order
-	return e2->score - e1->score;
+	// must be careful with full 16-bit unsigned int comparison
+
+	if (e2->score > e1->score)
+		return 1;
+
+	if (e2->score == e1->score)
+		return 0;
+
+	return -1;
 }
 
 void game_hall_enter(void) {
