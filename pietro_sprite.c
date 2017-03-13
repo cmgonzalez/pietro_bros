@@ -404,10 +404,8 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 }
 
 void spr_draw_back(void) {
-	
-	NIRVANAP_stop();
-	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	intrinsic_di();
+	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	for (s_lin1 = 16; s_lin1 < 182; s_lin1 = s_lin1 + 8) {
 		for (s_col1 = 0; s_col1 < 32; s_col1 = s_col1 + 2) {
 			tmp_ui = game_calc_index(s_lin1,s_col1);
@@ -417,7 +415,6 @@ void spr_draw_back(void) {
 		}
 	}
 	intrinsic_ei();
-	NIRVANAP_start();
 	spr_back_fix1();
 	spr_back_fix2();
 	spr_back_fix3();

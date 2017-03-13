@@ -76,7 +76,7 @@
 #include "pietro_zx.h"
 #include "macros.h"
 
-int main(void) {
+void main(void) {
 	unsigned int counter;
 	
 	//INTERRUPTS ARE DISABLED
@@ -145,8 +145,8 @@ int main(void) {
 	//GAME MENU
 	game_menu();
 	//GAME EXIT
-	NIRVANAP_stop();
-	return 0;
+	//NIRVANAP_stop();
+	//return 0;
 }
 
 unsigned char test_func(void) {
