@@ -862,32 +862,35 @@
 862   0076  21 00 00    	ld	hl,0x0000
 863   0079  CD 00 00    	call	_zx_border_fastcall
 864   007C  CD 00 00    	call	_in_wait_nokey
-865   007F  01 34 12    	ld	bc,0x1234
+865   007F  01 B8 7A    	ld	bc,0x7ab8
 866   0082              l_main_00103:
 867   0082  CD 00 00    	call	_in_test_key
 868   0085  7C          	ld	a, h
 869   0086  B5          	or	a,l
-870   0087  20 03       	jr	NZ,l_main_00101
-871   0089  03          	inc	bc
-872   008A  18 F6       	jr	l_main_00103
-873   008C              l_main_00101:
-874   008C  69          	ld	l, c
-875   008D  60          	ld	h, b
-876   008E  CD 00 00    	call	_srand_fastcall
-877   0091  CD 00 00    	call	_spr_cortina_brick
-878   0094  CD 00 00    	call	_game_start_timer
-879   0097  21 00 00    	ld	hl,_btiles
-880   009A  22 00 00    	ld	(_NIRVANAP_TILE_IMAGES),hl
-881   009D  CD 00 00    	call	_NIRVANAP_start
-882   00A0  2A 00 00    	ld	hl,(_curr_time)
-883   00A3  22 00 00    	ld	(_frame_time),hl
-884   00A6  C3 00 00    	jp  _game_menu
-885   00A9              	SECTION code_compiler
-886   00A9              ;	---------------------------------
-887   00A9              ; Function test_func
-888   00A9              ; ---------------------------------
-889   00A9              _test_func:
-890   00A9  2E 00       	ld	l,0x00
-891   00AB  C9          	ret
-892   00AC              	SECTION IGNORE
-893   0000              
+870   0087  20 08       	jr	NZ,l_main_00101
+871   0089  21 4D 27    	ld	hl,0x274d
+872   008C  09          	add	hl,bc
+873   008D  4D          	ld	c,l
+874   008E  44          	ld	b,h
+875   008F  18 F1       	jr	l_main_00103
+876   0091              l_main_00101:
+877   0091  69          	ld	l, c
+878   0092  60          	ld	h, b
+879   0093  CD 00 00    	call	_srand_fastcall
+880   0096  CD 00 00    	call	_spr_cortina_brick
+881   0099  CD 00 00    	call	_game_start_timer
+882   009C  21 00 00    	ld	hl,_btiles
+883   009F  22 00 00    	ld	(_NIRVANAP_TILE_IMAGES),hl
+884   00A2  CD 00 00    	call	_NIRVANAP_start
+885   00A5  2A 00 00    	ld	hl,(_curr_time)
+886   00A8  22 00 00    	ld	(_frame_time),hl
+887   00AB  C3 00 00    	jp  _game_menu
+888   00AE              	SECTION code_compiler
+889   00AE              ;	---------------------------------
+890   00AE              ; Function test_func
+891   00AE              ; ---------------------------------
+892   00AE              _test_func:
+893   00AE  2E 00       	ld	l,0x00
+894   00B0  C9          	ret
+895   00B1              	SECTION IGNORE
+896   0000              
