@@ -881,16 +881,13 @@
 881   009D  CD 00 00    	call	_NIRVANAP_start
 882   00A0  2A 00 00    	ld	hl,(_curr_time)
 883   00A3  22 00 00    	ld	(_frame_time),hl
-884   00A6  CD 00 00    	call	_game_menu
-885   00A9  CD 00 00    	call	_NIRVANAP_stop
-886   00AC  21 00 00    	ld	hl,0x0000
-887   00AF  C9          	ret
-888   00B0              	SECTION code_compiler
-889   00B0              ;	---------------------------------
-890   00B0              ; Function test_func
-891   00B0              ; ---------------------------------
-892   00B0              _test_func:
-893   00B0  2E 00       	ld	l,0x00
-894   00B2  C9          	ret
-895   00B3              	SECTION IGNORE
-896   0000              
+884   00A6  C3 00 00    	jp  _game_menu
+885   00A9              	SECTION code_compiler
+886   00A9              ;	---------------------------------
+887   00A9              ; Function test_func
+888   00A9              ; ---------------------------------
+889   00A9              _test_func:
+890   00A9  2E 00       	ld	l,0x00
+891   00AB  C9          	ret
+892   00AC              	SECTION IGNORE
+893   0000              
