@@ -230,7 +230,7 @@ IFDEF PCOMPRESS
       ld sp,__CODE_head                             ; move stack underneath program
       ld iy,128                                     ; move IY into ROM in case an im1 interrupt occurs
    
-      ld ix,__CODE_END_tail + 20 - LEN_PIETRO       ; load binary with really large & fixed 20 byte delta (see zx7 docs)
+      ld ix,__CODE_END_tail + 6 - LEN_PIETRO        ; load binary with fixed six byte delta (see zx7 docs)
       ld de,LEN_PIETRO                              ; length of binary
 
       ld a,$ff
@@ -241,7 +241,7 @@ IFDEF PCOMPRESS
    
       jp nc, 0                    ; if tape loading error
    
-      ld hl,__CODE_END_tail + 20 - LEN_PIETRO
+      ld hl,__CODE_END_tail + 6 - LEN_PIETRO
       ld de,__CODE_head
    
       call asm_dzx7_standard      ; perform overlapped decompression
