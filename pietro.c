@@ -110,7 +110,7 @@ void main(void) {
 	player_joy[0] = 0; /* SJ1 */
 	player_joy[1] = 1; /* SJ2 */
 	
-	//Keyboard Handling P1
+	//Keyboard Handling
 	
 	k1.fire	= IN_KEY_SCANCODE_m;
 	k1.left	= IN_KEY_SCANCODE_o;
@@ -131,7 +131,7 @@ void main(void) {
 	//Wait for Keypress and Randomize
 
 	in_wait_nokey();
-	for (counter = 0x1234; !in_test_key(); ++counter) ;
+	for (counter = 31416; !in_test_key(); counter += 10061) ;
 	srand(counter);
 
 	//Init SCREEN
