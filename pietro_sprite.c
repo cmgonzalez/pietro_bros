@@ -27,7 +27,7 @@ unsigned char spr_chktime( unsigned char *sprite ) __z88dk_fastcall {
 	if (sprite_speed_alt[*sprite] == 0) {
 		tmp = sprite_speed[class[*sprite]];
 	} else {
-		tmp = sprite_speed_alt[*sprite];		
+		tmp = sprite_speed_alt[*sprite];
 	}
 	if ( game_check_time(last_time[*sprite],tmp)) {
 		last_time[*sprite] = zx_clock();
@@ -51,17 +51,17 @@ unsigned char spr_move_up( void ){
 						player_hit_brick();
 					}
 				}
-				return 1;	
+				return 1;
 			}
-//		}	
+//		}
 	}
-	
-	lin[sprite] = tmp1; 
+
+	lin[sprite] = tmp1;
 	if (lin[sprite] == 0 || lin[sprite] > GAME_LIN_FLOOR ) { /* Signed Variable */
 		//spr_set_fall();
 		lin[sprite] = 0;
 		NIRVANAP_fillT(18, s_lin0,s_col0);
-		return 1;	
+		return 1;
 	}
 	return 0;
 }
@@ -135,15 +135,15 @@ unsigned char spr_move_left( void ){
 unsigned char spr_redraw( void ){
 	s_tile1 = tile[sprite] + colint[sprite];
 
-	if ( (lin[sprite] !=  s_lin0) || (col[sprite] != s_col0) ) { 
+	if ( (lin[sprite] !=  s_lin0) || (col[sprite] != s_col0) ) {
 		/* Column Movement */
 		if ( s_lin0 <= 16 ) {
 			NIRVANAP_fillT(PAPER, 8, s_col0);
 		}
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
-		
+
 		if ( !spr_check_over() ) {
-		
+
 			if ( BIT_CHK(state[sprite], STAT_JUMP) ) {
 				spr_back_fix(16);
 				return 0;
@@ -155,8 +155,8 @@ unsigned char spr_redraw( void ){
 			spr_back_clr();
 		}
 
-		
-	} else if (  s_tile1 != s_tile0 ) { 
+
+	} else if (  s_tile1 != s_tile0 ) {
 		/* Internal Movement */
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
 	}
@@ -169,10 +169,10 @@ unsigned char spr_killed( unsigned char f_sprite) __z88dk_fastcall {
 		case SLIPICE :
 			spr_anim_kill(f_sprite,TILE_SLIPICE+6);
 			break;
-		case COIN_2: 
+		case COIN_2:
 			spr_anim_kill(f_sprite,TILE_800_COIN);
 			break;
-		case COIN_1: 
+		case COIN_1:
 			spr_anim_kill(f_sprite,TILE_800_COIN);
 			break;
 		case FIREBALL_RED:
@@ -190,7 +190,7 @@ unsigned char spr_killed( unsigned char f_sprite) __z88dk_fastcall {
 
 void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 //	if ( spr_chktime(&sprite) ) {
-		
+
 		if (lin[f_sprite] < GAME_LIN_FLOOR) {
 
 			/* Move sprite down screen n draw*/
@@ -201,7 +201,7 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 			/* Sprite Falling */
 			spr_back_fix(0);
 
-			
+
 		} else {
 			s_col1 = col[f_sprite];
 			spr_water_splash_draw(s_col1);
@@ -226,7 +226,7 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 			} else {
 				/* Enemy dies */
 				spr_destroy(f_sprite);
-				
+
 				/*Set end of phase to be readed on game_loop*/
 				if (phase_left <= 0) phase_end = 1;
 			}
@@ -238,7 +238,7 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 }
 
 void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
-	
+
 	last_time[f_sprite] = zx_clock();
 	tmp0 = zx_clock() - spr_timer[f_sprite];
 	tmp = 2;
@@ -253,7 +253,7 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 	} else {
 		spr_destroy(f_sprite);
 	}
-	
+
 }
 
 /*
@@ -319,11 +319,11 @@ void spr_set_fall( void ) {
 	BIT_CLR(s_state, STAT_JUMP);
 	BIT_SET(s_state, STAT_FALL);
 	if (sprite >= SPR_P2) {
-		sprite_speed_alt[sprite] = PLAYER_FALL_SPEED;	
+		sprite_speed_alt[sprite] = PLAYER_FALL_SPEED;
 	} else {
 		if ( class[sprite] <= COIN_1 ) sprite_speed_alt[sprite] = ENEMY_FALL_SPEED;
 	}
-	
+
 }
 
 int spr_tile(unsigned char f_sprite) __z88dk_fastcall {
@@ -332,11 +332,11 @@ int spr_tile(unsigned char f_sprite) __z88dk_fastcall {
 	} else {
 		tmp = 0;
 	}
-	
+
 	if ( BIT_CHK(state_a[f_sprite], STAT_TURN) ) {
 		tmp = 9;
 	}
-	
+
 	switch(class[f_sprite]) {
 		case SHELLCREEPER_GREEN:
 			return spr_tile_dir(TILE_SHELLCREEPER_GREEN, f_sprite,3);
@@ -359,10 +359,10 @@ int spr_tile(unsigned char f_sprite) __z88dk_fastcall {
 		case SLIPICE :
 			return TILE_SLIPICE;
 			break;
-		case COIN_1: 
+		case COIN_1:
 			return TILE_COIN1;
 			break;
-		case COIN_2: 
+		case COIN_2:
 			return TILE_COIN2;
 			break;
 		case FIGHTERFLY:
@@ -382,21 +382,21 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 	if ( BIT_CHK(state[f_sprite], STAT_HIT) ) {
 		return f_tile + 6;
 	}
-	
+
 	if ( BIT_CHK(state_a[f_sprite], STAT_TURN) ) {
 		return f_tile + 9;
 	}
-	
+
 	if ( BIT_CHK(state[f_sprite], STAT_DIRR) ) {
 		return f_tile;
-	} 
+	}
 	if ( BIT_CHK(state[f_sprite], STAT_DIRL) ) {
 		return f_tile + f_inc;
 	}
-	
+
 	if ( BIT_CHK(state_a[f_sprite], STAT_LDIRR) ) {
 		return f_tile;
-	} 
+	}
 	if ( BIT_CHK(state_a[f_sprite], STAT_LDIRL) ) {
 		return f_tile + f_inc;
 	}
@@ -448,17 +448,17 @@ void spr_draw_pow(void) {
 		if (game_pow == 3) s_tile1 = TILE_POW1;
 		if (game_pow == 2) s_tile1 = TILE_POW1 + 12;
 		if (game_pow == 1) s_tile1 = TILE_POW1 + 24;
-		
+
 		NIRVANAP_halt(); // synchronize with interrupts  CG
 		NIRVANAP_fillT(PAPER, 128,15);
-		NIRVANAP_drawT( s_tile1 , 128, 15 );	
+		NIRVANAP_drawT( s_tile1 , 128, 15 );
 	}
 }
 void spr_back_clr( void ) {
 	NIRVANAP_fillC(PAPER, s_lin0, s_col0);
 	NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);
 	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
-	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);	
+	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
 }
 
 void spr_back_fix( unsigned char f_inc ) __z88dk_fastcall {
@@ -490,7 +490,7 @@ void spr_back_fix( unsigned char f_inc ) __z88dk_fastcall {
 		}
 		/* Fix Pow */
 		if ( s_lin0 >= 112 && s_lin0 <= 144 && s_col0 >= 14 && s_col0 <= 16 ) {
-			spr_draw_pow();	
+			spr_draw_pow();
 		}
 }
 
@@ -501,7 +501,7 @@ void spr_back_fix1(void) {
 	NIRVANAP_drawT(TILE_PIPE2, 16, 2);
 	NIRVANAP_fillT(PAPER, 32, 2);
 	NIRVANAP_fillT(PAPER, 16, 4);
-	NIRVANAP_fillT(PAPER, 32, 4);	
+	NIRVANAP_fillT(PAPER, 32, 4);
 }
 
 void spr_back_fix2(void) {
@@ -550,7 +550,7 @@ void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
 	if (f_hit) {
 		tmp = hit_lin[index_player]-10;
 	} else {
-		tmp = hit_lin[index_player]-8;	
+		tmp = hit_lin[index_player]-8;
 	}
 	tmp_uc = 0;
 	if (lvl_1[index1] >= GAME_MAP_PLATFORM && lvl_1[index2] == 0) {
@@ -568,9 +568,9 @@ void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
 	}
 	if (tmp_uc != 0) {
 		/* Clear end row Plaform */
-		NIRVANAP_fillC(PAPER, tmp, tmp_uc); 
+		NIRVANAP_fillC(PAPER, tmp, tmp_uc);
 		NIRVANAP_halt();
-	}	
+	}
 }
 
 /* Clear Screen With Bricks UDG */
@@ -594,7 +594,7 @@ void spr_cortina_brick(void) {
 
 
 void spr_cortina_pipes(void) {
-
+/*
  	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
@@ -613,6 +613,7 @@ void spr_cortina_pipes(void) {
 	}
 
 	NIRVANAP_halt();
+*/
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 }
 

@@ -9,7 +9,7 @@ INCL = $(ZCCCFG)/../../include/_DEVELOPMENT/sdcc
 OUT = bin/pietro_release.tap
 OUTC = bin/pietro_release_zx7.tap
 
-CFLAGS = -SO3 --max-allocs-per-node100000 --opt-code-size
+CFLAGS = -SO3 --max-allocs-per-node400000 --opt-code-size
 
 .PHONY: depend clean
 
