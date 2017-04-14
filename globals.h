@@ -23,7 +23,7 @@ typedef struct {
 	unsigned int  score;
 } HOF_ENTRY;
 
-typedef uint16_t (*JOYFUNC)(udk_t *);  
+typedef uint16_t (*JOYFUNC)(udk_t *);
 
 extern unsigned char spec128;
 
@@ -86,7 +86,7 @@ extern unsigned char	s_state;
 extern unsigned int		curr_time;
 extern unsigned int		entry_time;
 extern unsigned int		frame_time;
-extern unsigned int		col_time;
+extern unsigned int  	osd_time;
 extern unsigned int		frame_loop_count;
 extern unsigned char	spr_count;
 extern unsigned char	game_pow;
@@ -105,16 +105,16 @@ extern unsigned char	game_sound;
 
 extern unsigned char	game_over;
 extern unsigned char	game_lives[2];
-extern unsigned char	game_lives_update;
 extern unsigned int		game_score_top;
 extern unsigned int		game_time_flipped;
 extern unsigned int		game_time_fireball_start;
 extern unsigned char	spr_water_clear;
 extern unsigned int		spr_water_time;
 extern unsigned char	game_bonus;
+extern unsigned char	game_osd;
 extern unsigned char	game_type;
 extern unsigned char	game_menu_sel;
-
+extern unsigned char	game_god_mode;
 
 extern unsigned char screen_paper, screen_ink;
 extern unsigned char sprite_speed[];

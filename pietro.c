@@ -18,14 +18,14 @@
 	Pietro Bros - Cristian Gonzalez - cmgonzalez@gmail.com
 
 	This program can be compiled in Windows (with z88dk installed on c:\z88dk) as follows:
-	
-	zcompile.bat 
-	 
-	options 
+
+	zcompile.bat
+
+	options
 	zcompile		  - Normal compile max-allocs-per-node200000
 	zcompile fast     - Faster compile max-allocs-per-node10000 for debug purposes.
 	zcompile pentagon - Pentagon Build.
- 
+
 
  */
 
@@ -78,56 +78,56 @@
 
 void main(void) {
 	unsigned int counter;
-	
+
 	//INTERRUPTS ARE DISABLED
-	
+
 	//RESET AY CHIP
-	ay_reset(); 
-	
+	ay_reset();
+
 	//ATTRIB NORMAL
-	
+
 	attrib[0]= BRIGHT | PAPER_BLACK | INK_WHITE;
 	attrib[1]= BRIGHT | PAPER_BLACK | INK_YELLOW;
 	attrib[2]= PAPER_BLACK | INK_YELLOW;
 	attrib[3]= PAPER_BLACK | INK_WHITE;
-	
+
 	//ATTRIB HIGHLIGHT
 	attrib_hl[0]= PAPER_BLACK | INK_RED;
 	attrib_hl[1]= PAPER_BLACK | INK_YELLOW;
 	attrib_hl[2]= PAPER_BLACK | INK_GREEN;
 	attrib_hl[3]= PAPER_BLACK | INK_CYAN;
-	
+
 	//GAME OPTIONS
-	
+
 	//ENABLE SOUND BASED ON DETECTED MODEL
-	
+
 	game_sound = spec128 ? (GAME_SOUND_AY_FX_ON | GAME_SOUND_AY_MUS_ON) : (GAME_SOUND_48_FX_ON | GAME_SOUND_48_MUS_ON);
-	
+
 	//GAME TYPE A
-	
+
 	game_type = 0;
-	
+
 	player_joy[0] = 0; /* SJ1 */
 	player_joy[1] = 1; /* SJ2 */
-	
+
 	//Keyboard Handling
-	
+
 	k1.fire	= IN_KEY_SCANCODE_m;
 	k1.left	= IN_KEY_SCANCODE_o;
 	k1.right = IN_KEY_SCANCODE_p;
 	k1.up    = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise up is always true
 	k1.down  = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise down is always true
-	
+
 	k2.fire	= IN_KEY_SCANCODE_z;
 	k2.left	= IN_KEY_SCANCODE_q;
 	k2.right = IN_KEY_SCANCODE_w;
 	k2.up    = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise up is always true
 	k2.down  = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise down is always true
-	
+
 	game_joystick_set_menu();
 
 	zx_border(INK_BLACK);
-	
+
 	//Wait for Keypress and Randomize
 
 	in_wait_nokey();
@@ -143,17 +143,12 @@ void main(void) {
 	NIRVANAP_start();
 	frame_time = zx_clock();
 	//GAME MENU
+	game_god_mode = 0;
 	game_menu();
-	//GAME EXIT
-	//NIRVANAP_stop();
-	//return 0;
 }
 
 unsigned char test_func(void) {
 	/* helper funcion with faster compilation for debug n testing */
 
-	
 	return 0;
-
 }
-

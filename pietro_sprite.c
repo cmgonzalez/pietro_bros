@@ -252,6 +252,7 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 		NIRVANAP_spriteT(f_sprite, f_tile + tmp, lin[f_sprite], col[f_sprite]);
 	} else {
 		spr_destroy(f_sprite);
+		spr_draw_pow();
 	}
 
 }
@@ -333,8 +334,8 @@ int spr_tile(unsigned char f_sprite) __z88dk_fastcall {
 		tmp = 0;
 	}
 
-	if ( BIT_CHK(state_a[f_sprite], STAT_TURN) ) {
-		tmp = 9;
+	if ( BIT_CHK(state[f_sprite], STAT_HIT) ) {
+		tmp = 6;
 	}
 
 	switch(class[f_sprite]) {
@@ -594,7 +595,7 @@ void spr_cortina_brick(void) {
 
 
 void spr_cortina_pipes(void) {
-/*
+
  	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
@@ -613,7 +614,7 @@ void spr_cortina_pipes(void) {
 	}
 
 	NIRVANAP_halt();
-*/
+
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 }
 

@@ -27,7 +27,7 @@ unsigned char spec128;
 //###############################################################################################
 
 const char *joynames[] = { "SJ1", "SJ2", "KB1", "KB2", "KEM", "CUR", "FUL" };
-uint16_t (*joyfunc1)(udk_t *);			// pointer to joystick function Player 1 
+uint16_t (*joyfunc1)(udk_t *);			// pointer to joystick function Player 1
 uint16_t (*joyfunc2)(udk_t *);			// pointer to joystick function Player 1
 udk_t k1;
 udk_t k2;
@@ -51,14 +51,14 @@ unsigned char state[8];					//SPRITE STATES SEE DEFINES UPPER BIT VALUES
 unsigned char state_a[8];				//SPRITE STATES ALT SEE DEFINES UPPER BIT VALUES
 unsigned char tile[8];					//TILE
 unsigned char lin[8];					//LINE
-unsigned char col[8];					//COLUMNlisto 
+unsigned char col[8];					//COLUMNlisto
 unsigned char colint[8];				//INTERNAL COLUMN/TILE INCREMENT
 unsigned int  spr_timer[8];				//SPRITE GENERAL TIMER MILISECONDS
 unsigned int  spr_timer_c[8];			//SPRITE COLITIONS CHECK TIMER MILISECONDS
 unsigned int  last_time[8];				//LAST TIME OF MOVEMENT FOR ANIMATIONS / SPEED
 unsigned char jump_lin[8];				//START JUMP LINE
 
-// PLAYER ONLY 
+// PLAYER ONLY
 unsigned char hit_lin[2];				//HIT BRICK LINE
 unsigned char hit_col[2];				//HIT BRICK COL
 unsigned char player_jump_c[2];			//JUMP CNT TIME y = a*t^2 + b*t + c https://www.wired.com/2016/12/lets-go-physics-jumping-super-mario-run/
@@ -100,7 +100,7 @@ unsigned char	s_state;
 unsigned int	curr_time;
 unsigned int	entry_time;
 unsigned int	frame_time;
-unsigned int	col_time;
+unsigned int	osd_time;
 unsigned int	frame_loop_count;
 unsigned char	spr_count;
 //###############################################################################################
@@ -114,14 +114,15 @@ unsigned char 	game_two_player;
 unsigned char	game_sound;
 unsigned char	game_over;
 unsigned char	game_lives[2];
-unsigned char	game_lives_update;
 unsigned int	game_time_flipped;
 unsigned int	game_time_fireball_start;
 unsigned char	spr_water_clear;
 unsigned int	spr_water_time;
 unsigned char	game_bonus;
+unsigned char	game_osd;
 unsigned char	game_type;
 unsigned char	game_menu_sel;
+unsigned char	game_god_mode;
 unsigned int	game_score_top;
 //###############################################################################################
 //#                                                                                             #
@@ -144,7 +145,7 @@ unsigned char phases[] = {
 	  0, 2, 3, TILE_BRICK3,			//Phase 12+ random 8, 10, 11 <- NORMAL MODE!
 	  0, 0, 0, TILE_BRICK1,			//Phase 13: Bonus
 	  8, 0, 0, TILE_BRICK2,			//Phase 14: Fly x 8
-	  0, 8, 0, TILE_BRICK3,			//Phase 15: 
+	  0, 8, 0, TILE_BRICK3,			//Phase 15:
 	  0, 0, 8, TILE_BRICK1,			//Phase 16
 	  4, 4, 2, TILE_BRICK2,			//Phase 17
 	  0, 0, 0, TILE_BRICK_FREEZE,	//Phase 18: Bonus
@@ -178,7 +179,7 @@ unsigned char screen_paper;
 unsigned char screen_ink;
 
 //SCORES OSD
-unsigned char score_osd_lin[2];		//TO CLEAR POINTS ON SCREEN 
+unsigned char score_osd_lin[2];		//TO CLEAR POINTS ON SCREEN
 unsigned char score_osd_col[2];		//TO CLEAR POINTS ON SCREEN
 unsigned int  score_osd_time[2];	//TO CLEAR POINTS ON SCREEN
 unsigned int  score_osd_tile[2];	//TO CLEAR POINTS ON SCREEN
@@ -188,7 +189,7 @@ unsigned int  score_osd_tile[2];	//TO CLEAR POINTS ON SCREEN
 //# SCREEN GAME MAP                                                                             #
 //#                                                                                             #
 //###############################################################################################
-unsigned char lvl_1[] ={ 
+unsigned char lvl_1[] ={
 //	 0, 1, 2, 3, 4, 5, 6, 7, 8, 9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,
 	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //0
 	 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, //1
@@ -236,7 +237,7 @@ unsigned int spr_idx[] = {
 	0, 					//14
 	0, 					//15
 	0 , 				//16 COLITION
-	TILE_POW1, 			//17 COLITION 
+	TILE_POW1, 			//17 COLITION
 	TILE_BRICK1, 		//18 COLITION
 	0, 		 			//19 COLITION
 	TILE_BRICK_FREEZE	//20 COLITION
@@ -248,23 +249,23 @@ unsigned int spr_idx[] = {
 //#                                                                                             #
 //###############################################################################################
 unsigned char sprite_speed[] = {
-	 0, // 0 NOT USED 
-	 4, // 1 SHELLCREEPER_GREEN 
-	 3, // 2 SHELLCREEPER_RED 
-	 1, // 3 SHELLCREEPER_BLUE 
-	 4, //04 SIDESTEPPER_RED 
-	 3, //05 SIDESTEPPER_GREEN 
-	 1, //06 SIDESTEPPER_MAGENTA 
-	 4, //07 SLIPICE 
-	 3, //08 COIN_1 
-	 4, //09 FIGHTERFLY 
-	 2, //10 FIREBALL_RED 
-	 1, //11 FIREBALL_GREEN 
-	 3, //12 COIN_2 
-	 0, //13  
-	 0, //14  
-	 0, //15  
-	 PLAYER_SPEED, //16 PLAYER 
+	 0, // 0 NOT USED
+	 4, // 1 SHELLCREEPER_GREEN
+	 3, // 2 SHELLCREEPER_RED
+	 1, // 3 SHELLCREEPER_BLUE
+	 4, //04 SIDESTEPPER_RED
+	 3, //05 SIDESTEPPER_GREEN
+	 1, //06 SIDESTEPPER_MAGENTA
+	 4, //07 SLIPICE
+	 3, //08 COIN_1
+	 4, //09 FIGHTERFLY
+	 2, //10 FIREBALL_RED
+	 1, //11 FIREBALL_GREEN
+	 3, //12 COIN_2
+	 0, //13
+	 0, //14
+	 0, //15
+	 PLAYER_SPEED, //16 PLAYER
 };
 //TEMPORARY SPEED FOR SPEED UP
 unsigned char sprite_speed_alt[8];

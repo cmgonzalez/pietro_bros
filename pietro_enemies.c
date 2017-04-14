@@ -173,16 +173,16 @@ void enemy_flip_change_dir( unsigned char f_keep ) __z88dk_fastcall {
 		BIT_CLR(state[enemies], STAT_DIRR);
 	}
 }
+
 void enemy_flip(unsigned int f_tile) __z88dk_fastcall {
 
 	spr_timer[enemies] = zx_clock();
 	BIT_SET(state[enemies], STAT_JUMP);
 	BIT_CLR(state[enemies], STAT_FALL);
 	BIT_FLP(state[enemies], STAT_HIT);
-	BIT_CLR(state[enemies], STAT_UPGR);
 	jump_lin[enemies] =  lin[enemies];
 
-	if (BIT_CHK(state[enemies], STAT_HIT)){
+	if (BIT_CHK(state[enemies], STAT_HIT)) {
 		//Normal
 		ay_fx_play(ay_effect_02);
 		enemy_flip_change_dir(0);
@@ -200,8 +200,6 @@ void enemy_flip(unsigned int f_tile) __z88dk_fastcall {
 		}
 		tile[enemies] = spr_tile(enemies);
 	}
-
-
 }
 
 void enemy_flip_sidestepper(unsigned int f_tile) __z88dk_fastcall {
@@ -496,38 +494,41 @@ void enemy_trip(void){
 }
 
 void enemy_standard_hit(void) {
-	if ( !BIT_CHK(state[sprite],STAT_UPGR) && ( game_check_time(spr_timer[sprite], game_time_flipped - 50) )) {
-		enemy_evolve();
+	if ( game_check_time(spr_timer[sprite], game_time_flipped - 50) ) {
+		if (!BIT_CHK(state[sprite],STAT_UPGR)) {
+		  enemy_evolve(sprite);
+			BIT_SET(state[sprite],STAT_UPGR);
+		}
 	}
 
 	if ( game_check_time(spr_timer[sprite], game_time_flipped) ) {
 		enemies = sprite;
 		enemy_flip(spr_tile(sprite));
 		s_state = state[sprite];
+		BIT_CLR(state[sprite],STAT_UPGR);
 	}
 }
 
-void enemy_evolve(void){
-	if ( class[sprite] == SHELLCREEPER_GREEN ) {
-		enemy_upgrade(SHELLCREEPER_RED, TILE_SHELLCREEPER_RED);
-	} else {
-		if ( class[sprite] == SHELLCREEPER_RED ) {
-			enemy_upgrade(SHELLCREEPER_BLUE, TILE_SHELLCREEPER_BLUE);
-		}
-	}
-	if ( class[sprite] == SIDESTEPPER_RED ) {
-		enemy_upgrade(SIDESTEPPER_GREEN,TILE_SIDESTEPPER_GREEN);
-	} else {
-		if ( class[sprite] == SIDESTEPPER_GREEN ) {
-			enemy_upgrade(SIDESTEPPER_MAGENTA,TILE_SIDESTEPPER_MAGENTA);
-		}
+void enemy_evolve(unsigned char f_enemy){
+	switch (class[f_enemy]) {
+		case SHELLCREEPER_GREEN:
+      enemy_upgrade(f_enemy, SHELLCREEPER_RED, TILE_SHELLCREEPER_RED);
+			break;
+		case SHELLCREEPER_RED:
+  		enemy_upgrade(f_enemy, SHELLCREEPER_BLUE, TILE_SHELLCREEPER_BLUE);
+	  	break;
+		case SIDESTEPPER_RED:
+      enemy_upgrade(f_enemy, SIDESTEPPER_GREEN, TILE_SIDESTEPPER_GREEN);
+			break;
+		case SIDESTEPPER_GREEN:
+  		enemy_upgrade(f_enemy, SIDESTEPPER_MAGENTA, TILE_SIDESTEPPER_MAGENTA);
+	  	break;
 	}
 }
 
-void enemy_upgrade(unsigned char f_class, unsigned int f_tile){
-	class[sprite] = f_class;
-	tile[sprite] = f_tile + 6;
-	BIT_SET(state[sprite], STAT_UPGR);
+void enemy_upgrade(unsigned char f_enemy, unsigned char f_class, unsigned int f_tile){
+	tile[f_enemy] = f_tile + 6;
+  class[f_enemy] = f_class;
 }
 
 void enemy_walk(void){
@@ -637,14 +638,29 @@ void enemy_kill(unsigned char f_sprite) __z88dk_fastcall {
 	BIT_SET(state[f_sprite], STAT_JUMP);
 	BIT_SET(state[f_sprite], STAT_KILL);
 	if (class[f_sprite] == FIGHTERFLY) class[f_sprite] = SHELLCREEPER_GREEN; /* Hack */
-	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED; //TODO CHECK DIFF SPEEDS
+	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED; /*TODO CHECK DIFF SPEEDS*/
 
 	player_score_add(80 << hit_count); //BONUS!
 	++hit_count;
 	spr_timer[f_sprite] = zx_clock();
 	jump_lin[f_sprite] = lin[f_sprite];
 	if ( class[f_sprite] <= FIGHTERFLY  ) {
-		if (game_type != GAME_RANDOM_TYPE) --phase_left;
+		if (game_type != GAME_RANDOM_TYPE) {
+			--phase_left;
+      if (phase_left == 1) {
+				/*Evolve last Enemy*/
+				phase_angry = 1;
+				for (tmp0 = 0; tmp0 < SPR_P2 ; ++tmp0 ) {
+					if ( class[tmp0] > 0 && class[tmp0] <= FIGHTERFLY && !BIT_CHK(state[tmp0],STAT_KILL) )
+					{
+						/*evolve twice*/
+						enemy_evolve(tmp0);
+						enemy_evolve(tmp0);
+						tile[tmp0] = spr_tile(tmp0);
+					}
+				}
+			}
+		}
 		++phase_coins;
 	}
 	if (phase_left > 0 ) {

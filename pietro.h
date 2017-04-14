@@ -158,14 +158,14 @@
 #define ENEMY_FIREBALL_START_TOP					16
 #define ENEMY_FIREBALL_START_MID					56
 #define ENEMY_FIREBALL_START_BOT					132
-#define ENEMY_SCOL_R								26
-#define ENEMY_SLIN_R								16
-#define ENEMY_SCOL_L								4
-#define ENEMY_SLIN_L								16
+#define ENEMY_SCOL_R								  26
+#define ENEMY_SLIN_R								  16
+#define ENEMY_SCOL_L							   	4
+#define ENEMY_SLIN_L								  16
 /* Game times */
 #define TIME_WATER_SPLASH							15
-#define TIME_EVENT									100
-#define TIME_BONUS									2000   //20 SECONDS IN HUNDREDTHS (ORIG IS 30, TO EASY 4 PIETRO)
+#define TIME_EVENT									  100
+#define TIME_BONUS									  1500   //15 SECONDS IN HUNDREDTHS (ORIG IS 30, TO EASY 4 PIETRO)
 #define TIME_FIREBALL_RED							1500 //30 SECONDS (50HZ)
 #define TIME_FIREBALL_A								2000 //40 - ORIG 80 SECONDS (50HZ)
 #define TIME_FIREBALL_B								500  //15 - ORIG 60 SECONDS (50HZ)
@@ -175,9 +175,9 @@
 #define GAME_RANDOM_TYPE							2
 /* Map tiles */
 #define GAME_MAP_PLATFORM							18
-#define GAME_MAP_PLATFORM_FREEZE					20
-#define GAME_MAP_TOTAL_POS							672
-#define GAME_GOD_MODE								1
+#define GAME_MAP_PLATFORM_FREEZE			20
+#define GAME_MAP_TOTAL_POS						672
+
 /* Sprites Speeds */
 #endif
 
