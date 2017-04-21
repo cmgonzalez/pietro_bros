@@ -109,8 +109,8 @@ unsigned char	spr_count;
 //#                                                                                             #
 //###############################################################################################
 unsigned char	game_pow;					//LEVEL OF POW ON THE SCREEN 0 = NONE
-unsigned char 	game_brick_tile;
-unsigned char 	game_two_player;
+unsigned char game_brick_tile;
+unsigned char game_two_player;
 unsigned char	game_sound;
 unsigned char	game_over;
 unsigned char	game_lives[2];
@@ -122,7 +122,8 @@ unsigned char	game_bonus;
 unsigned char	game_osd;
 unsigned char	game_type;
 unsigned char	game_menu_sel;
-unsigned char	game_god_mode;
+
+
 unsigned int	game_score_top;
 //###############################################################################################
 //#                                                                                             #

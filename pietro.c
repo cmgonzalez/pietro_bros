@@ -143,12 +143,10 @@ void main(void) {
 	NIRVANAP_start();
 	frame_time = zx_clock();
 	//GAME MENU
-	game_god_mode = 0;
 	game_menu();
 }
 
 unsigned char test_func(void) {
 	/* helper funcion with faster compilation for debug n testing */
-
 	return 0;
 }

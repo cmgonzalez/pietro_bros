@@ -114,7 +114,7 @@ extern unsigned char	game_bonus;
 extern unsigned char	game_osd;
 extern unsigned char	game_type;
 extern unsigned char	game_menu_sel;
-extern unsigned char	game_god_mode;
+
 
 extern unsigned char screen_paper, screen_ink;
 extern unsigned char sprite_speed[];

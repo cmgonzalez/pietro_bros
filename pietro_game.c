@@ -241,7 +241,7 @@ void game_loop(void) {
 	game_over = 0;
 	game_pow = 3;
 	/* phase init */
-	phase_curr = 0; //TESTING - Default 0
+	phase_curr = 0; 
 	game_phase_init();
 	/* game loop start */
 	sprite_lin_inc_mul = 0;
@@ -314,12 +314,12 @@ void game_loop(void) {
 		++loop_count;
 
 	}
-	z80_delay_ms(800);
-	game_kill_all_sprites();
-	NIRVANAP_halt();
-	spr_draw_clear();
-	zx_print_str(8, 11, "GAME OVER");
+	z80_delay_ms(400);
+  game_kill_all_sprites();
+	zx_print_str(8, 11, "GAME  OVER ");
+	//NIRVANAP_halt();
 	game_colour_message( 8, 11, 21, 200 );
+  spr_draw_clear();
 	game_hall_enter();
 	ay_reset();
 	game_menu_sel = 0;
@@ -431,7 +431,7 @@ void game_bonus_summary_player(unsigned char f_index) __z88dk_fastcall {
 	}
 
 	game_paint_attrib_lin( 7, 31, s_lin1*8 + 8 );
-
+∫
 	tmp_uc = 0;
 	while ( tmp_uc < phase_bonus_total[f_index] ) {
 		if (tmp_uc < 3) {

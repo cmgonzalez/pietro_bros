@@ -274,28 +274,37 @@ void enemy_turn(void){
 void enemy_standard(void){
 	//SHELLCREEPERS - SIDESTEPPERS
 	//if ( spr_chktime(&sprite) ) {
-		if ( !BIT_CHK(s_state, STAT_JUMP) ) {
+		if ( BIT_CHK(s_state, STAT_JUMP) ) {
+			//JUMPING
+			sprite_speed_alt[sprite] = ENEMY_JUMP_SPEED;
+			spr_move_horizontal();
+			spr_move_up();
+			//MAX HIT JUMP
+			if ( jump_lin[sprite] - lin[sprite] >= ENEMIES_MAXJUMP ) {
+/*UGLY FIX FOR ROW 12 CORRUPTION*/
+				if (s_lin0 == 98 && (s_col0 <= 8 || s_col0 >= 24 ) ) {
+					NIRVANAP_spriteT(sprite, TILE_EMPTY, 0, 0);
+					NIRVANAP_halt();
+					intrinsic_di();
+					spr_draw_index(12*32);
+					spr_draw_index(12*32 + 2);
+					spr_draw_index(12*32 + 28);
+					spr_draw_index(12*32 + 30);
+					intrinsic_ei();
+				}
+
+				spr_set_fall();
+			}
+		} else {
 			//WALKING OR FALLING
 			enemy_walk();
 	 		//JUMP BEFORE ENTER PIPES
 			if ( lin[sprite] == GAME_LIN_FLOOR && ( col[sprite] < 5 || col[sprite] > 25) ) {
 				BIT_SET(s_state, STAT_JUMP);
 			}
-		} else {
-			//JUMPING
-			sprite_speed_alt[sprite] = ENEMY_JUMP_SPEED;
-			spr_move_horizontal();
-			spr_move_up();
-			if ( BIT_CHK(s_state, STAT_JUMP) ){
-				//MAX HIT JUMP
-				if ( jump_lin[sprite] - lin[sprite] >= ENEMIES_MAXJUMP ) {
-					spr_set_fall();
-				}
-			}
 		}
 		//TRAVEL TROUGH PIPES
 		enemy_trip();
-	//}
 }
 
 void enemy_slipice(void){
@@ -552,10 +561,8 @@ void enemy_walk(void){
 			jump_lin[sprite] = lin[sprite];
 		}
 		if ( BIT_CHK(s_state, STAT_FALL) ) {
-			//lin[sprite] = lin[sprite] + SPRITE_LIN_INC;
 			spr_move_down();
 		} else {
-			//lin[sprite] = lin[sprite] - SPRITE_LIN_INC;
 			spr_move_up();
 		}
 

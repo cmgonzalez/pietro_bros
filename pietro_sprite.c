@@ -231,8 +231,8 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 				if (phase_left <= 0) phase_end = 1;
 			}
 			/* Restore lower pipes */
-			if (s_col1 <= 4  ) spr_back_fix3();
-			if (s_col1 >= 26 ) spr_back_fix4();
+			if (s_col1 <= 4  ) spr_back_paint(0 + 15 * 32);
+			if (s_col1 >= 26 ) spr_back_paint(26 + 15 * 32);
 		}
 //	}
 }
@@ -279,21 +279,21 @@ unsigned char spr_collition_check(unsigned char f_dir) {
 unsigned char spr_check_over( void ){
 	if (s_lin0 >= 136) {
 		if( s_col0 < 4) {
-			spr_back_fix3();
+			spr_back_paint(0 + 15 * 32);
 			return 1;
 		}
 		if( s_col0 > 26) {
-			spr_back_fix4();
+			spr_back_paint(26 + 15 * 32);
 			return 1;
 		}
 	} else {
 		if (s_lin0 <= 40) {
 			if( s_col0 < 4) {
-				spr_back_fix1();
+				spr_back_paint(0);
 				return 1;
 			}
 			if( s_col0 > 26) {
-				spr_back_fix2();
+				spr_back_paint(26);
 				return 1;
 			}
 		}
@@ -407,6 +407,7 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 void spr_draw_back(void) {
 	intrinsic_di();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
+  /*
 	for (s_lin1 = 16; s_lin1 < 182; s_lin1 = s_lin1 + 8) {
 		for (s_col1 = 0; s_col1 < 32; s_col1 = s_col1 + 2) {
 			tmp_ui = game_calc_index(s_lin1,s_col1);
@@ -415,12 +416,22 @@ void spr_draw_back(void) {
 			}
 		}
 	}
-	intrinsic_ei();
-	spr_back_fix1();
-	spr_back_fix2();
-	spr_back_fix3();
-	spr_back_fix4();
+	*/
+	spr_draw_row(6);
+	spr_draw_row(11);
+	spr_draw_row(12);
+	spr_draw_row(16);
+
+	NIRVANAP_fillT(PAPER,128,16); /* FIX POW */
+
+  intrinsic_ei();
+	spr_back_paint(0);
+	spr_back_paint(26);
+	spr_back_paint( 0 + ( 15 * 32) );
+	spr_back_paint(26 + ( 15 * 32) );
 	spr_draw_pow();
+
+
 	NIRVANAP_halt();
 	zx_print_ink(INK_YELLOW);
 	zx_print_paper(PAPER_RED);
@@ -445,15 +456,22 @@ void spr_draw_clear(void) {
 }
 
 void spr_draw_pow(void) {
-	if (game_pow > 0) {
-		if (game_pow == 3) s_tile1 = TILE_POW1;
-		if (game_pow == 2) s_tile1 = TILE_POW1 + 12;
-		if (game_pow == 1) s_tile1 = TILE_POW1 + 24;
-
-		NIRVANAP_halt(); // synchronize with interrupts  CG
-		NIRVANAP_fillT(PAPER, 128,15);
-		NIRVANAP_drawT( s_tile1 , 128, 15 );
+  s_tile1 = TILE_EMPTY;
+	switch(game_pow) {
+		case 1:
+			s_tile1 = TILE_POW1 + 24;
+			break;
+		case 2:
+			s_tile1 = TILE_POW1 + 12;
+			break;
+		case 3:
+			s_tile1 = TILE_POW1;
+			break;
 	}
+
+	//NIRVANAP_halt(); // synchronize with interrupts  CG
+	//NIRVANAP_fillT(PAPER, 128,15);
+	NIRVANAP_drawT( s_tile1 , 128, 15 );
 }
 void spr_back_clr( void ) {
 	NIRVANAP_fillC(PAPER, s_lin0, s_col0);
@@ -495,7 +513,23 @@ void spr_back_fix( unsigned char f_inc ) __z88dk_fastcall {
 		}
 }
 
+
+void spr_back_paint(unsigned int f_inc) {
+  NIRVANAP_halt();
+	intrinsic_di();
+	spr_draw_index(64 + f_inc);
+	spr_draw_index(66 + f_inc);
+	spr_draw_index(68 + f_inc);
+
+	spr_draw_index(128 + f_inc);
+	spr_draw_index(130 + f_inc);
+	spr_draw_index(132 + f_inc);
+	intrinsic_ei();
+	NIRVANAP_halt();
+}
+/*
 void spr_back_fix1(void) {
+
 	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE5, 16, 0);
 	NIRVANAP_drawT(TILE_PIPE4, 32, 0);
@@ -503,9 +537,11 @@ void spr_back_fix1(void) {
 	NIRVANAP_fillT(PAPER, 32, 2);
 	NIRVANAP_fillT(PAPER, 16, 4);
 	NIRVANAP_fillT(PAPER, 32, 4);
+
 }
 
 void spr_back_fix2(void) {
+
 	NIRVANAP_halt(); // synchronize with interrupts
 	NIRVANAP_drawT(TILE_PIPE3, 16, 28);
 	NIRVANAP_drawT(TILE_PIPE7, 16, 30);
@@ -513,7 +549,10 @@ void spr_back_fix2(void) {
 	NIRVANAP_fillT(PAPER, 32, 28);
 	NIRVANAP_fillT(PAPER, 16, 26);
 	NIRVANAP_fillT(PAPER, 32, 26);
+
 }
+
+
 
 void spr_back_fix3(void) {
 	NIRVANAP_halt(); // synchronize with interrupts
@@ -534,7 +573,7 @@ void spr_back_fix4(void) {
 	NIRVANAP_fillT(PAPER, 136, 26);
 	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 26);
 }
-
+*/
 
 void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
 	tmp0 = TILE_EMPTY;
@@ -595,7 +634,7 @@ void spr_cortina_brick(void) {
 
 
 void spr_cortina_pipes(void) {
-
+/*
  	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
@@ -614,7 +653,7 @@ void spr_cortina_pipes(void) {
 	}
 
 	NIRVANAP_halt();
-
+*/
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 }
 
@@ -648,3 +687,43 @@ void spr_water_splash_clear(void) {
 		}
 	}
 }
+
+void spr_draw_index(unsigned int f_index) {
+  /* x % 2 inpower n == x & (2 inpower n - 1)." */
+	s_col1 = f_index % 32;// & 3; //TODO OPTIMIZE
+	//s_col1 = index_d;
+	s_lin1 = f_index >> 5;
+	s_lin1 = s_lin1 << 3;
+
+  //NIRVANAP_drawT(TILE_POW1, s_lin1, s_col1);
+	NIRVANAP_drawT_raw(spr_idx[lvl_1[f_index]], s_lin1, s_col1);
+}
+
+void spr_draw_row(unsigned char f_row) {
+  tmp = 0;
+	while (tmp < 32) {
+		spr_draw_index( (f_row << 5) + tmp); //TODO OPTIMIZE
+		tmp = tmp + 2;
+	}
+}
+/*
+void spr_draw_edges(void) {
+	NIRVANAP_halt();
+  intrinsic_di();
+	spr_draw_index(12*32);
+	spr_draw_index(12*32 + 2);
+	spr_draw_index(12*32 + 28);
+	spr_draw_index(12*32 + 30);
+	spr_draw_index(6*32 + 12);
+	spr_draw_index(6*32 + 18);
+  intrinsic_ei();
+
+	NIRVANAP_halt();
+  intrinsic_di();
+	spr_draw_index(16*32 + 10);
+	spr_draw_index(16*32 + 20);
+	spr_draw_index(11*32 + 10);
+	spr_draw_index(11*32 + 20);
+  intrinsic_ei();
+}
+*/
