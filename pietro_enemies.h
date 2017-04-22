@@ -37,5 +37,5 @@ extern void          enemy_upgrade(unsigned char f_enemy, unsigned char f_class,
 extern void          enemy_walk(void);
 extern void          enemy_init(unsigned char f_sprite,unsigned char f_lin,unsigned  char f_col,unsigned  char f_class,unsigned  char f_dir);
 extern void          enemy_kill(unsigned char f_sprite) __z88dk_fastcall;
-
+extern void          enemy_ugly_fix(void);
 #endif

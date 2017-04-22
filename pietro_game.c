@@ -102,9 +102,11 @@ unsigned char game_phase_calc(void) {
 	phase_quota[2]	= phases[tmp_uc+2];
 
 	game_brick_tile = phases[tmp_uc+3]; //PHASE TILE IS ON 4 ELEMENT
-	game_unfreeze_all();
+
 	if ( game_brick_tile == TILE_BRICK_FREEZE ) {
 		game_freeze_all();
+	} else {
+	  game_unfreeze_all();
 	}
 	spr_idx[18]		= game_brick_tile; //HACK
 	return phase_quota[0] + phase_quota[1] + phase_quota[2];
@@ -158,6 +160,7 @@ void game_phase_init(void) {
 		/* Random Game */
 		phase_left = 255;
 		phase_curr = 255;
+		game_unfreeze_all();
 		game_brick_tile = TILE_BRICK_RESTART;
 		spr_idx[18] = TILE_BRICK_RESTART;
 	}
@@ -241,7 +244,7 @@ void game_loop(void) {
 	game_over = 0;
 	game_pow = 3;
 	/* phase init */
-	phase_curr = 0; 
+	phase_curr = 0;
 	game_phase_init();
 	/* game loop start */
 	sprite_lin_inc_mul = 0;

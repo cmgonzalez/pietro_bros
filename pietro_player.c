@@ -58,8 +58,8 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 	NIRVANAP_spriteT(f_sprite, f_tile, f_lin, f_col);
 }
 
-void player_calc_slide( unsigned char f_lin , unsigned char f_col ) {
-	index1 = game_calc_index(f_lin + 16 , f_col);
+void player_calc_slide(  ) {
+	index1 = game_calc_index( lin[sprite] + 16 , col[sprite]);
 	if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE) {
 		sliding[index_player] = PLAYER_SLIDE_ICE;
 	} else {
@@ -287,12 +287,13 @@ unsigned char player_move(void){
 	}
 
 	/* Player Inertia */
+/*
 	if ( BIT_CHK(state_a[sprite],STAT_INERT) && spr_timer[sprite] > 0 ) {
 		if ( game_check_time( spr_timer[sprite], PLAYER_INERT_TIME ) ) {
 			BIT_CLR(state_a[sprite],STAT_INERT);
 		}
 	}
-
+*/
 	/* Read player input */
 	player_move_input();
 
@@ -307,27 +308,7 @@ unsigned char player_move(void){
 			sprite_speed_alt[sprite] = PLAYER_FALL_SPEED;
 			BIT_SET(s_state, STAT_FALL);
 		}
-		/* Slide Handling */
-		if ( !player_check_input() ) {
-			if ( sliding[index_player] > 0 && !BIT_CHK(s_state, STAT_FALL) ) {
-				/* Sliding */
-				if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
-				sound_slide();
-				player_move_horizontal();
-				sliding[index_player]--;
-				sprite_speed_alt[sprite] = 0;
-				tile[sprite] = spr_tile_dir(TILE_P1_SLIDR + tile_offset,sprite,12);
-				if ( sliding[index_player] == 0 ) {
-					/* End Sliding */
-					spr_timer[sprite] = 0;
-					colint[sprite] = 0;
-					tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset, sprite, 12);
-					BIT_CLR(s_state,STAT_DIRR);
-					BIT_CLR(s_state,STAT_DIRL);
-					BIT_CLR(state_a[sprite],STAT_INERT);
-				}
-			}
-		}
+
 	} else {
 		/* Jumping or Falling */
 		sprite_lin_inc_mul = 2;
@@ -353,7 +334,7 @@ unsigned char player_move(void){
 				sliding[index_player] = 0;
 				colint[sprite] = 0;
 				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset, sprite, 12);
-				if ( BIT_CHK(s_state, STAT_DIRL) || BIT_CHK(s_state, STAT_DIRR) ) player_calc_slide(lin[sprite],col[sprite]);
+				if ( BIT_CHK(s_state, STAT_DIRL) || BIT_CHK(s_state, STAT_DIRR) ) player_calc_slide();
 			}
 		}
 		sprite_lin_inc_mul = 0;
@@ -375,70 +356,90 @@ unsigned char player_move(void){
 
 unsigned char player_move_input(void) {
 
+
+
+	if ( BIT_CHK(s_state, STAT_JUMP) || BIT_CHK(s_state, STAT_FALL) ) return 0;
 	/* User have pressed valid input */
-	if ( player_check_input() ) {
-		/* Player is standing at the floor */
-		if ( !BIT_CHK(s_state, STAT_JUMP) && !BIT_CHK(s_state, STAT_FALL) ) {
-			/* Calculate current position slide value*/
-
-			player_calc_slide(s_lin0 ,s_col0);
-
-			if ( BIT_CHK(state_a[sprite],STAT_INERT) && spr_timer[sprite] == 0) {
-				spr_timer[sprite] = zx_clock();
-			}
-			/* Move Right */
-			if ( dirs & IN_STICK_RIGHT ) {
-				BIT_SET(s_state, STAT_DIRR);
-				BIT_CLR(s_state, STAT_DIRL);
-				BIT_SET(state_a[sprite], STAT_LDIRR);
-				BIT_CLR(state_a[sprite], STAT_LDIRL);
-			}
-			/* Move Left */
-			if ( dirs & IN_STICK_LEFT ) {
-				BIT_SET(s_state, STAT_DIRL);
-				BIT_CLR(s_state, STAT_DIRR);
-				BIT_SET(state_a[sprite], STAT_LDIRL);
-				BIT_CLR(state_a[sprite], STAT_LDIRR);
-			}
-			/* Set Tile according to current direction */
-			state[sprite] = s_state; //TODO FIXME!
-			tile[sprite] = spr_tile_dir(TILE_P1_RIGHT + tile_offset,sprite,12);
-
-			/* New jump */
-			if ( dirs & IN_STICK_FIRE ) {
-				if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_03);
-				sound_jump();
-
-				if ( BIT_CHK( state[sprite] ,  STAT_DIRR ) ) {
-					colint[sprite]=0;
-				} else {
-					colint[sprite]=2;
+	if ( player_check_input() && sliding[index_player] == 0 ) {
+				/* Move Right */
+				if ( dirs & IN_STICK_RIGHT ) {
+					if ( BIT_CHK(s_state, STAT_DIRL) ) {
+						player_calc_slide();
+						return 1;
+					}
+					BIT_SET(s_state, STAT_DIRR);
+					BIT_CLR(s_state, STAT_DIRL);
+					BIT_SET(state_a[sprite], STAT_LDIRR);
+					BIT_CLR(state_a[sprite], STAT_LDIRL);
+					BIT_SET(state_a[sprite], STAT_INERT);
 				}
-				BIT_SET(s_state, STAT_JUMP);
-				BIT_CLR(s_state, STAT_FALL);
-				BIT_CLR(state_a[sprite],STAT_INERT);
-				jump_lin[sprite] = lin[sprite];
-				state[sprite] = s_state; //TODO FIXME!
-				tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset, sprite, 12);
-				sprite_speed_alt[sprite] = PLAYER_JUMP_SPEED;
-				player_jump_c[index_player] = 0;
-				sliding[index_player] = 0;
-				return 1;
-			}
+				/* Move Left */
+				if ( dirs & IN_STICK_LEFT ) {
+					if ( BIT_CHK(s_state, STAT_DIRR) ) {
+						player_calc_slide();
+						return 1;
+					}
+					BIT_SET(s_state, STAT_DIRL);
+					BIT_CLR(s_state, STAT_DIRR);
+					BIT_SET(state_a[sprite], STAT_LDIRL);
+					BIT_CLR(state_a[sprite], STAT_LDIRR);
+					BIT_SET(state_a[sprite], STAT_INERT);
+				}
+				/* Set Tile according to current direction */
+				state[sprite] = s_state; /*TODO FIXME!*/
+				tile[sprite] = spr_tile_dir(TILE_P1_RIGHT + tile_offset,sprite,12);
 
-			if ( !ay_is_playing() && !game_bonus ) ay_fx_play(ay_effect_20);
+				/* New jump */
+				if ( dirs & IN_STICK_FIRE ) {
+					if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_03);
+					sound_jump();
 
-			if ( BIT_CHK(state_a[sprite],STAT_INERT) ) {
-				colint[sprite]++;
-				if (colint[sprite] == 2) colint[sprite] = 0;
-				return 1;
-			}
-			player_move_horizontal();
+					if ( BIT_CHK( state[sprite] ,  STAT_DIRR ) ) {
+						colint[sprite]=0;
+					} else {
+						colint[sprite]=2;
+					}
+					BIT_SET(s_state, STAT_JUMP);
+					BIT_CLR(s_state, STAT_FALL);
 
+					jump_lin[sprite] = lin[sprite];
+					state[sprite] = s_state; /*TODO FIXME!*/
+					tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset, sprite, 12);
+					sprite_speed_alt[sprite] = PLAYER_JUMP_SPEED;
+					player_jump_c[index_player] = 0;
+					sliding[index_player] = 0;
+					return 1;
+				}
+
+				if ( !ay_is_playing() && !game_bonus ) ay_fx_play(ay_effect_20);
+				player_move_horizontal();
+			return 1;
+	} else {
+		if (BIT_CHK(state_a[sprite], STAT_INERT)) {
+			player_calc_slide();
+			BIT_CLR(state_a[sprite], STAT_INERT);
 		}
-		return 1;
+		/* Slide Handling */
+		if ( sliding[index_player] > 0  ) {
+			/* Sliding */
+			if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_01);
+			sound_slide();
+			player_move_horizontal();
+			sliding[index_player]--;
+			sprite_speed_alt[sprite] = 0;
+			tile[sprite] = spr_tile_dir(TILE_P1_SLIDR + tile_offset,sprite,12);
+			if ( sliding[index_player] == 0 ) {
+				/* End Sliding */
+				spr_timer[sprite] = 0;
+				colint[sprite] = 0;
+				tile[sprite] = spr_tile_dir(TILE_P1_STANR + tile_offset, sprite, 12);
+				BIT_CLR(state[sprite],STAT_DIRR);
+				BIT_CLR(state[sprite],STAT_DIRL);
+			}
+		}
+		return 0;
 	}
-	return 0;
+
 }
 
 void player_move_horizontal(void) {

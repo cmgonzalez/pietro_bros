@@ -270,6 +270,23 @@ void enemy_turn(void){
 		}
 	}
 }
+void enemy_ugly_fix() {
+	/*UGLY FIX FOR ROW 12 CORRUPTION*/
+	if (s_lin0 == 98 && (s_col0 <= 8 || s_col0 >= 24 ) ) {
+		NIRVANAP_spriteT(sprite, TILE_EMPTY, 0, 0);
+		NIRVANAP_halt();
+		intrinsic_di();
+		if (s_col0 < 8) {
+			spr_draw_index(12*32);
+			spr_draw_index(12*32 + 2);
+		}
+		if (s_col0 > 24) {
+			spr_draw_index(12*32 + 28);
+			spr_draw_index(12*32 + 30);
+		}
+		intrinsic_ei();
+	}
+}
 
 void enemy_standard(void){
 	//SHELLCREEPERS - SIDESTEPPERS
@@ -281,18 +298,7 @@ void enemy_standard(void){
 			spr_move_up();
 			//MAX HIT JUMP
 			if ( jump_lin[sprite] - lin[sprite] >= ENEMIES_MAXJUMP ) {
-/*UGLY FIX FOR ROW 12 CORRUPTION*/
-				if (s_lin0 == 98 && (s_col0 <= 8 || s_col0 >= 24 ) ) {
-					NIRVANAP_spriteT(sprite, TILE_EMPTY, 0, 0);
-					NIRVANAP_halt();
-					intrinsic_di();
-					spr_draw_index(12*32);
-					spr_draw_index(12*32 + 2);
-					spr_draw_index(12*32 + 28);
-					spr_draw_index(12*32 + 30);
-					intrinsic_ei();
-				}
-
+				enemy_ugly_fix();
 				spr_set_fall();
 			}
 		} else {
@@ -434,6 +440,7 @@ void enemy_fighterfly(void){
 	if ( BIT_CHK(s_state, STAT_JUMP) ) {
 		//FIREFLY MAX JUMP
 		if ( jump_lin[sprite] - lin[sprite] >= 8) {
+			enemy_ugly_fix();
 			spr_set_fall();
 		}
 		spr_move_horizontal();

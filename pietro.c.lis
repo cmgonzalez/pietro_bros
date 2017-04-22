@@ -233,663 +233,664 @@
 233   0000              	GLOBAL _sound_coin
 234   0000              	GLOBAL _sound_jump
 235   0000              	GLOBAL _sound_slide
-236   0000              	GLOBAL _enemy_kill
-237   0000              	GLOBAL _enemy_init
-238   0000              	GLOBAL _enemy_walk
-239   0000              	GLOBAL _enemy_upgrade
-240   0000              	GLOBAL _enemy_evolve
-241   0000              	GLOBAL _enemy_standard_hit
-242   0000              	GLOBAL _enemy_trip
-243   0000              	GLOBAL _enemy_fighterfly
-244   0000              	GLOBAL _enemy_fireball_green
-245   0000              	GLOBAL _enemy_fireball_red
-246   0000              	GLOBAL _enemy_slipice
-247   0000              	GLOBAL _enemy_standard
-248   0000              	GLOBAL _enemy_turn
-249   0000              	GLOBAL _enemy_flip_sidestepper
-250   0000              	GLOBAL _enemy_flip
-251   0000              	GLOBAL _enemy_flip_change_dir
-252   0000              	GLOBAL _enemy_hit
-253   0000              	GLOBAL _enemy_collition_check
-254   0000              	GLOBAL _enemy_collition
-255   0000              	GLOBAL _enemy_coin1
-256   0000              	GLOBAL _player_move_horizontal
-257   0000              	GLOBAL _player_push_check
-258   0000              	GLOBAL _player_push
-259   0000              	GLOBAL _player_hit_brick_clear
-260   0000              	GLOBAL _player_lost_life
-261   0000              	GLOBAL _player_score_add
-262   0000              	GLOBAL _player_coin
-263   0000              	GLOBAL _player_hit_pow
-264   0000              	GLOBAL _player_hit_brick
-265   0000              	GLOBAL _player_move_input
-266   0000              	GLOBAL _player_turn
-267   0000              	GLOBAL _player_move
-268   0000              	GLOBAL _player_restart
-269   0000              	GLOBAL _player_kill
-270   0000              	GLOBAL _player_check_input
-271   0000              	GLOBAL _player_collition_check
-272   0000              	GLOBAL _player_collition
-273   0000              	GLOBAL _player_calc_slide
-274   0000              	GLOBAL _player_init
-275   0000              	GLOBAL _spr_draw_row
-276   0000              	GLOBAL _spr_draw_index
-277   0000              	GLOBAL _spr_draw_clear
-278   0000              	GLOBAL _spr_water_splash_draw
-279   0000              	GLOBAL _spr_water_splash_clear
-280   0000              	GLOBAL _spr_draw_back
-281   0000              	GLOBAL _spr_cortina_pipes
-282   0000              	GLOBAL _spr_cortina_brick
-283   0000              	GLOBAL _spr_brick_anim
-284   0000              	GLOBAL _spr_back_fix
-285   0000              	GLOBAL _spr_back_paint
-286   0000              	GLOBAL _spr_back_clr
-287   0000              	GLOBAL _spr_draw_pow
-288   0000              	GLOBAL _spr_tile
-289   0000              	GLOBAL _spr_set_fall
-290   0000              	GLOBAL _spr_destroy
-291   0000              	GLOBAL _spr_check_over
-292   0000              	GLOBAL _spr_tile_dir
-293   0000              	GLOBAL _spr_anim_kill
-294   0000              	GLOBAL _spr_anim_fall
-295   0000              	GLOBAL _spr_killed
-296   0000              	GLOBAL _spr_redraw
-297   0000              	GLOBAL _spr_move_left
-298   0000              	GLOBAL _spr_move_right
-299   0000              	GLOBAL _spr_move_horizontal
-300   0000              	GLOBAL _spr_move_down
-301   0000              	GLOBAL _spr_move_up
-302   0000              	GLOBAL _spr_chktime
-303   0000              	GLOBAL _game_joystick_set_menu
-304   0000              	GLOBAL _game_joystick_set
-305   0000              	GLOBAL _game_joystick_change
-306   0000              	GLOBAL _game_hall_print_p
-307   0000              	GLOBAL _game_hall_edit_p
-308   0000              	GLOBAL _game_hall_check
-309   0000              	GLOBAL _game_hall_enter_phs
-310   0000              	GLOBAL _game_print_header
-311   0000              	GLOBAL _game_end
-312   0000              	GLOBAL _game_hall_enter
-313   0000              	GLOBAL _game_hall_of_fame
-314   0000              	GLOBAL _game_score_osd
-315   0000              	GLOBAL _game_phase_print_score_back
-316   0000              	GLOBAL _game_bonus_clock
-317   0000              	GLOBAL _game_bonus_summary_player
-318   0000              	GLOBAL _game_bonus_summary
-319   0000              	GLOBAL _game_check_time
-320   0000              	GLOBAL _game_menu_config
-321   0000              	GLOBAL _game_menu
-322   0000              	GLOBAL _game_rotate_attrib
-323   0000              	GLOBAL _game_colour_message
-324   0000              	GLOBAL _game_paint_attrib_lin_h
-325   0000              	GLOBAL _game_paint_attrib_lin
-326   0000              	GLOBAL _game_paint_attrib
-327   0000              	GLOBAL _game_menu_paint
-328   0000              	GLOBAL _game_menu_top_paint
-329   0000              	GLOBAL _game_menu_handle
-330   0000              	GLOBAL _game_menu_e
-331   0000              	GLOBAL _game_menu_back
-332   0000              	GLOBAL _game_print_score
-333   0000              	GLOBAL _game_unfreeze_all
-334   0000              	GLOBAL _game_freeze_all
-335   0000              	GLOBAL _game_freeze
-336   0000              	GLOBAL _game_enemy_add_get_index
-337   0000              	GLOBAL _game_enemy_add1
-338   0000              	GLOBAL _game_enemy_quota
-339   0000              	GLOBAL _game_enemy_rnd
-340   0000              	GLOBAL _game_enemy_add
-341   0000              	GLOBAL _game_check_maze
-342   0000              	GLOBAL _game_kill_all_sprites
-343   0000              	GLOBAL _game_loop
-344   0000              	GLOBAL _player_set2
-345   0000              	GLOBAL _player_set1
-346   0000              	GLOBAL _game_phase_print
-347   0000              	GLOBAL _game_phase_init
-348   0000              	GLOBAL _game_phase_calc
-349   0000              	GLOBAL _game_start_timer
-350   0000              	GLOBAL _game_tick
-351   0000              	GLOBAL _game_print_lives
-352   0000              	GLOBAL _game_print_footer
-353   0000              	GLOBAL _game_calc_index
-354   0000              	GLOBAL _game_fill_row
-355   0000              	GLOBAL _ay_fx_play
-356   0000              	GLOBAL _ay_midi_play
-357   0000              	GLOBAL _ay_is_playing
-358   0000              	GLOBAL _ay_reset
-359   0000              	GLOBAL _NIRVANAP_drawTW_raw_callee
-360   0000              	GLOBAL _NIRVANAP_drawTW_raw
-361   0000              	GLOBAL _NIRVANAP_drawTW_callee
-362   0000              	GLOBAL _NIRVANAP_drawTW
-363   0000              	GLOBAL _NIRVANAP_drawW_raw_callee
-364   0000              	GLOBAL _NIRVANAP_drawW_raw
-365   0000              	GLOBAL _NIRVANAP_drawW_callee
-366   0000              	GLOBAL _NIRVANAP_drawW
-367   0000              	GLOBAL _NIRVANAP_spriteT_callee
-368   0000              	GLOBAL _NIRVANAP_spriteT
-369   0000              	GLOBAL _NIRVANAP_fillC_callee
-370   0000              	GLOBAL _NIRVANAP_fillC
-371   0000              	GLOBAL _NIRVANAP_readC_callee
-372   0000              	GLOBAL _NIRVANAP_readC
-373   0000              	GLOBAL _NIRVANAP_paintC_callee
-374   0000              	GLOBAL _NIRVANAP_paintC
-375   0000              	GLOBAL _NIRVANAP_printC_callee
-376   0000              	GLOBAL _NIRVANAP_printC
-377   0000              	GLOBAL _NIRVANAP_fillT_raw_callee
-378   0000              	GLOBAL _NIRVANAP_fillT_raw
-379   0000              	GLOBAL _NIRVANAP_fillT_callee
-380   0000              	GLOBAL _NIRVANAP_fillT
-381   0000              	GLOBAL _NIRVANAP_drawT_raw_callee
-382   0000              	GLOBAL _NIRVANAP_drawT_raw
-383   0000              	GLOBAL _NIRVANAP_drawT_callee
-384   0000              	GLOBAL _NIRVANAP_drawT
-385   0000              	GLOBAL _NIRVANAP_stop
-386   0000              	GLOBAL _NIRVANAP_start
-387   0000              	GLOBAL _intrinsic_swap_word_32_fastcall
-388   0000              	GLOBAL _intrinsic_swap_word_32
-389   0000              	GLOBAL _intrinsic_swap_endian_32_fastcall
-390   0000              	GLOBAL _intrinsic_swap_endian_32
-391   0000              	GLOBAL _intrinsic_swap_endian_16_fastcall
-392   0000              	GLOBAL _intrinsic_swap_endian_16
-393   0000              	GLOBAL _intrinsic_return_de
-394   0000              	GLOBAL _intrinsic_return_bc
-395   0000              	GLOBAL _intrinsic_exx
-396   0000              	GLOBAL _intrinsic_ex_de_hl
-397   0000              	GLOBAL _intrinsic_pop_iy
-398   0000              	GLOBAL _intrinsic_pop_ix
-399   0000              	GLOBAL _intrinsic_pop_hl
-400   0000              	GLOBAL _intrinsic_pop_de
-401   0000              	GLOBAL _intrinsic_pop_bc
-402   0000              	GLOBAL _intrinsic_pop_af
-403   0000              	GLOBAL _intrinsic_push_iy
-404   0000              	GLOBAL _intrinsic_push_ix
-405   0000              	GLOBAL _intrinsic_push_hl
-406   0000              	GLOBAL _intrinsic_push_de
-407   0000              	GLOBAL _intrinsic_push_bc
-408   0000              	GLOBAL _intrinsic_push_af
-409   0000              	GLOBAL _intrinsic_nop
-410   0000              	GLOBAL _intrinsic_im_2
-411   0000              	GLOBAL _intrinsic_im_1
-412   0000              	GLOBAL _intrinsic_im_0
-413   0000              	GLOBAL _intrinsic_retn
-414   0000              	GLOBAL _intrinsic_reti
-415   0000              	GLOBAL _intrinsic_halt
-416   0000              	GLOBAL _intrinsic_ei
-417   0000              	GLOBAL _intrinsic_di
-418   0000              	GLOBAL _intrinsic_stub
-419   0000              	GLOBAL _ulltoa_callee
-420   0000              	GLOBAL _ulltoa
-421   0000              	GLOBAL _strtoull_callee
-422   0000              	GLOBAL _strtoull
-423   0000              	GLOBAL _strtoll_callee
-424   0000              	GLOBAL _strtoll
-425   0000              	GLOBAL _lltoa_callee
-426   0000              	GLOBAL _lltoa
-427   0000              	GLOBAL _llabs_callee
-428   0000              	GLOBAL _llabs
-429   0000              	GLOBAL __lldivu__callee
-430   0000              	GLOBAL __lldivu_
-431   0000              	GLOBAL __lldiv__callee
-432   0000              	GLOBAL __lldiv_
-433   0000              	GLOBAL _atoll_callee
-434   0000              	GLOBAL _atoll
-435   0000              	GLOBAL _realloc_unlocked_callee
-436   0000              	GLOBAL _realloc_unlocked
-437   0000              	GLOBAL _malloc_unlocked_fastcall
-438   0000              	GLOBAL _malloc_unlocked
-439   0000              	GLOBAL _free_unlocked_fastcall
-440   0000              	GLOBAL _free_unlocked
-441   0000              	GLOBAL _calloc_unlocked_callee
-442   0000              	GLOBAL _calloc_unlocked
-443   0000              	GLOBAL _aligned_alloc_unlocked_callee
-444   0000              	GLOBAL _aligned_alloc_unlocked
-445   0000              	GLOBAL _realloc_callee
-446   0000              	GLOBAL _realloc
-447   0000              	GLOBAL _malloc_fastcall
-448   0000              	GLOBAL _malloc
-449   0000              	GLOBAL _free_fastcall
-450   0000              	GLOBAL _free
-451   0000              	GLOBAL _calloc_callee
-452   0000              	GLOBAL _calloc
-453   0000              	GLOBAL _aligned_alloc_callee
-454   0000              	GLOBAL _aligned_alloc
-455   0000              	GLOBAL _utoa_callee
-456   0000              	GLOBAL _utoa
-457   0000              	GLOBAL _ultoa_callee
-458   0000              	GLOBAL _ultoa
-459   0000              	GLOBAL _system_fastcall
-460   0000              	GLOBAL _system
-461   0000              	GLOBAL _strtoul_callee
-462   0000              	GLOBAL _strtoul
-463   0000              	GLOBAL _strtol_callee
-464   0000              	GLOBAL _strtol
-465   0000              	GLOBAL _strtof_callee
-466   0000              	GLOBAL _strtof
-467   0000              	GLOBAL _strtod_callee
-468   0000              	GLOBAL _strtod
-469   0000              	GLOBAL _srand_fastcall
-470   0000              	GLOBAL _srand
-471   0000              	GLOBAL _rand
-472   0000              	GLOBAL _quick_exit_fastcall
-473   0000              	GLOBAL _quick_exit
-474   0000              	GLOBAL _qsort_callee
-475   0000              	GLOBAL _qsort
-476   0000              	GLOBAL _ltoa_callee
-477   0000              	GLOBAL _ltoa
-478   0000              	GLOBAL _labs_fastcall
-479   0000              	GLOBAL _labs
-480   0000              	GLOBAL _itoa_callee
-481   0000              	GLOBAL _itoa
-482   0000              	GLOBAL _ftoh_callee
-483   0000              	GLOBAL _ftoh
-484   0000              	GLOBAL _ftog_callee
-485   0000              	GLOBAL _ftog
-486   0000              	GLOBAL _ftoe_callee
-487   0000              	GLOBAL _ftoe
-488   0000              	GLOBAL _ftoa_callee
-489   0000              	GLOBAL _ftoa
-490   0000              	GLOBAL _exit_fastcall
-491   0000              	GLOBAL _exit
-492   0000              	GLOBAL _dtoh_callee
-493   0000              	GLOBAL _dtoh
-494   0000              	GLOBAL _dtog_callee
-495   0000              	GLOBAL _dtog
-496   0000              	GLOBAL _dtoe_callee
-497   0000              	GLOBAL _dtoe
-498   0000              	GLOBAL _dtoa_callee
-499   0000              	GLOBAL _dtoa
-500   0000              	GLOBAL _bsearch_callee
-501   0000              	GLOBAL _bsearch
-502   0000              	GLOBAL _atol_fastcall
-503   0000              	GLOBAL _atol
-504   0000              	GLOBAL _atoi_fastcall
-505   0000              	GLOBAL _atoi
-506   0000              	GLOBAL _atof_fastcall
-507   0000              	GLOBAL _atof
-508   0000              	GLOBAL _atexit_fastcall
-509   0000              	GLOBAL _atexit
-510   0000              	GLOBAL _at_quick_exit_fastcall
-511   0000              	GLOBAL _at_quick_exit
-512   0000              	GLOBAL _abs_fastcall
-513   0000              	GLOBAL _abs
-514   0000              	GLOBAL _abort
-515   0000              	GLOBAL __strtou__callee
-516   0000              	GLOBAL __strtou_
-517   0000              	GLOBAL __strtoi__callee
-518   0000              	GLOBAL __strtoi_
-519   0000              	GLOBAL __random_uniform_xor_8__fastcall
-520   0000              	GLOBAL __random_uniform_xor_8_
-521   0000              	GLOBAL __random_uniform_xor_32__fastcall
-522   0000              	GLOBAL __random_uniform_xor_32_
-523   0000              	GLOBAL __random_uniform_cmwc_8__fastcall
-524   0000              	GLOBAL __random_uniform_cmwc_8_
-525   0000              	GLOBAL __shellsort__callee
-526   0000              	GLOBAL __shellsort_
-527   0000              	GLOBAL __quicksort__callee
-528   0000              	GLOBAL __quicksort_
-529   0000              	GLOBAL __insertion_sort__callee
-530   0000              	GLOBAL __insertion_sort_
-531   0000              	GLOBAL __ldivu__callee
-532   0000              	GLOBAL __ldivu_
-533   0000              	GLOBAL __ldiv__callee
-534   0000              	GLOBAL __ldiv_
-535   0000              	GLOBAL __divu__callee
-536   0000              	GLOBAL __divu_
-537   0000              	GLOBAL __div__callee
-538   0000              	GLOBAL __div_
-539   0000              	GLOBAL _in_mouse_kempston_wheel_delta
-540   0000              	GLOBAL _in_mouse_kempston_wheel
-541   0000              	GLOBAL _in_mouse_kempston_callee
-542   0000              	GLOBAL _in_mouse_kempston
-543   0000              	GLOBAL _in_mouse_kempston_setpos_callee
-544   0000              	GLOBAL _in_mouse_kempston_setpos
-545   0000              	GLOBAL _in_mouse_kempston_reset
-546   0000              	GLOBAL _in_mouse_kempston_init
-547   0000              	GLOBAL _in_mouse_amx_wheel_delta
-548   0000              	GLOBAL _in_mouse_amx_wheel
-549   0000              	GLOBAL _in_mouse_amx_callee
-550   0000              	GLOBAL _in_mouse_amx
-551   0000              	GLOBAL _in_mouse_amx_setpos_callee
-552   0000              	GLOBAL _in_mouse_amx_setpos
-553   0000              	GLOBAL _in_mouse_amx_reset
-554   0000              	GLOBAL _in_mouse_amx_init_callee
-555   0000              	GLOBAL _in_mouse_amx_init
-556   0000              	GLOBAL _in_stick_sinclair2
-557   0000              	GLOBAL _in_stick_sinclair1
-558   0000              	GLOBAL _in_stick_kempston
-559   0000              	GLOBAL _in_stick_fuller
-560   0000              	GLOBAL _in_stick_cursor
-561   0000              	GLOBAL _in_stick_keyboard_fastcall
-562   0000              	GLOBAL _in_stick_keyboard
-563   0000              	GLOBAL _in_wait_nokey
-564   0000              	GLOBAL _in_wait_key
-565   0000              	GLOBAL _in_test_key
-566   0000              	GLOBAL _in_pause_fastcall
-567   0000              	GLOBAL _in_pause
-568   0000              	GLOBAL _in_key_scancode_fastcall
-569   0000              	GLOBAL _in_key_scancode
-570   0000              	GLOBAL _in_key_pressed_fastcall
-571   0000              	GLOBAL _in_key_pressed
-572   0000              	GLOBAL _in_inkey
-573   0000              	GLOBAL _zx_pattern_fill_callee
-574   0000              	GLOBAL _zx_pattern_fill
-575   0000              	GLOBAL _zx_saddrpup_fastcall
-576   0000              	GLOBAL _zx_saddrpup
-577   0000              	GLOBAL _zx_saddrpright_callee
-578   0000              	GLOBAL _zx_saddrpright
-579   0000              	GLOBAL _zx_saddrpleft_callee
-580   0000              	GLOBAL _zx_saddrpleft
-581   0000              	GLOBAL _zx_saddrpdown_fastcall
-582   0000              	GLOBAL _zx_saddrpdown
-583   0000              	GLOBAL _zx_saddrcup_fastcall
-584   0000              	GLOBAL _zx_saddrcup
-585   0000              	GLOBAL _zx_saddrcright_fastcall
-586   0000              	GLOBAL _zx_saddrcright
-587   0000              	GLOBAL _zx_saddrcleft_fastcall
-588   0000              	GLOBAL _zx_saddrcleft
-589   0000              	GLOBAL _zx_saddrcdown_fastcall
-590   0000              	GLOBAL _zx_saddrcdown
-591   0000              	GLOBAL _zx_saddr2py_fastcall
-592   0000              	GLOBAL _zx_saddr2py
-593   0000              	GLOBAL _zx_saddr2px_fastcall
-594   0000              	GLOBAL _zx_saddr2px
-595   0000              	GLOBAL _zx_saddr2cy_fastcall
-596   0000              	GLOBAL _zx_saddr2cy
-597   0000              	GLOBAL _zx_saddr2cx_fastcall
-598   0000              	GLOBAL _zx_saddr2cx
-599   0000              	GLOBAL _zx_saddr2aaddr_fastcall
-600   0000              	GLOBAL _zx_saddr2aaddr
-601   0000              	GLOBAL _zx_py2saddr_fastcall
-602   0000              	GLOBAL _zx_py2saddr
-603   0000              	GLOBAL _zx_py2aaddr_fastcall
-604   0000              	GLOBAL _zx_py2aaddr
-605   0000              	GLOBAL _zx_pxy2saddr_callee
-606   0000              	GLOBAL _zx_pxy2saddr
-607   0000              	GLOBAL _zx_pxy2aaddr_callee
-608   0000              	GLOBAL _zx_pxy2aaddr
-609   0000              	GLOBAL _zx_px2bitmask_fastcall
-610   0000              	GLOBAL _zx_px2bitmask
-611   0000              	GLOBAL _zx_cyx2saddr_callee
-612   0000              	GLOBAL _zx_cyx2saddr
-613   0000              	GLOBAL _zx_cyx2aaddr_callee
-614   0000              	GLOBAL _zx_cyx2aaddr
-615   0000              	GLOBAL _zx_cy2saddr_fastcall
-616   0000              	GLOBAL _zx_cy2saddr
-617   0000              	GLOBAL _zx_cy2aaddr_fastcall
-618   0000              	GLOBAL _zx_cy2aaddr
-619   0000              	GLOBAL _zx_bitmask2px_fastcall
-620   0000              	GLOBAL _zx_bitmask2px
-621   0000              	GLOBAL _zx_aaddrcup_fastcall
-622   0000              	GLOBAL _zx_aaddrcup
-623   0000              	GLOBAL _zx_aaddrcright_fastcall
-624   0000              	GLOBAL _zx_aaddrcright
-625   0000              	GLOBAL _zx_aaddrcleft_fastcall
-626   0000              	GLOBAL _zx_aaddrcleft
-627   0000              	GLOBAL _zx_aaddrcdown_fastcall
-628   0000              	GLOBAL _zx_aaddrcdown
-629   0000              	GLOBAL _zx_aaddr2saddr_fastcall
-630   0000              	GLOBAL _zx_aaddr2saddr
-631   0000              	GLOBAL _zx_aaddr2py_fastcall
-632   0000              	GLOBAL _zx_aaddr2py
-633   0000              	GLOBAL _zx_aaddr2px_fastcall
-634   0000              	GLOBAL _zx_aaddr2px
-635   0000              	GLOBAL _zx_aaddr2cy_fastcall
-636   0000              	GLOBAL _zx_aaddr2cy
-637   0000              	GLOBAL _zx_aaddr2cx_fastcall
-638   0000              	GLOBAL _zx_aaddr2cx
-639   0000              	GLOBAL _zx_scroll_wc_up_callee
-640   0000              	GLOBAL _zx_scroll_wc_up
-641   0000              	GLOBAL _zx_scroll_up_callee
-642   0000              	GLOBAL _zx_scroll_up
-643   0000              	GLOBAL _zx_cls_wc_callee
-644   0000              	GLOBAL _zx_cls_wc
-645   0000              	GLOBAL _zx_cls_fastcall
-646   0000              	GLOBAL _zx_cls
-647   0000              	GLOBAL _zx_border_fastcall
-648   0000              	GLOBAL _zx_border
-649   0000              	GLOBAL _ay_effect_20
-650   0000              	GLOBAL _ay_effect_19
-651   0000              	GLOBAL _ay_effect_18
-652   0000              	GLOBAL _ay_effect_17
-653   0000              	GLOBAL _ay_effect_16
-654   0000              	GLOBAL _ay_effect_15
-655   0000              	GLOBAL _ay_effect_14
-656   0000              	GLOBAL _ay_effect_13
-657   0000              	GLOBAL _ay_effect_12
-658   0000              	GLOBAL _ay_effect_11
-659   0000              	GLOBAL _ay_effect_10
-660   0000              	GLOBAL _ay_effect_09
-661   0000              	GLOBAL _ay_effect_08
-662   0000              	GLOBAL _ay_effect_07
-663   0000              	GLOBAL _ay_effect_06
-664   0000              	GLOBAL _ay_effect_05
-665   0000              	GLOBAL _ay_effect_04
-666   0000              	GLOBAL _ay_effect_03
-667   0000              	GLOBAL _ay_effect_02
-668   0000              	GLOBAL _ay_effect_01
-669   0000              	GLOBAL _pb_midi_phase_1
-670   0000              	GLOBAL _pb_midi_title
-671   0000              	GLOBAL _joynames
-672   0000              	GLOBAL _initials
-673   0000              	GLOBAL _hof
-674   0000              	GLOBAL _score_osd_tile
-675   0000              	GLOBAL _score_osd_time
-676   0000              	GLOBAL _score_osd_col
-677   0000              	GLOBAL _score_osd_lin
-678   0000              	GLOBAL _phase_bonus_total
-679   0000              	GLOBAL _phase_angry
-680   0000              	GLOBAL _phase_curr
-681   0000              	GLOBAL _phase_end
-682   0000              	GLOBAL _phase_coins
-683   0000              	GLOBAL _phase_pop
-684   0000              	GLOBAL _phase_tot
-685   0000              	GLOBAL _phase_left
-686   0000              	GLOBAL _phase_quota
-687   0000              	GLOBAL _phases
-688   0000              	GLOBAL _spr_idx
-689   0000              	GLOBAL _lvl_1
-690   0000              	GLOBAL _sprite_speed_alt
-691   0000              	GLOBAL _sprite_speed
-692   0000              	GLOBAL _screen_ink
-693   0000              	GLOBAL _screen_paper
-694   0000              	GLOBAL _game_menu_sel
-695   0000              	GLOBAL _game_type
-696   0000              	GLOBAL _game_osd
-697   0000              	GLOBAL _game_bonus
-698   0000              	GLOBAL _spr_water_time
-699   0000              	GLOBAL _spr_water_clear
-700   0000              	GLOBAL _game_time_fireball_start
-701   0000              	GLOBAL _game_time_flipped
-702   0000              	GLOBAL _game_score_top
-703   0000              	GLOBAL _game_lives
-704   0000              	GLOBAL _game_over
-705   0000              	GLOBAL _game_sound
-706   0000              	GLOBAL _game_two_player
-707   0000              	GLOBAL _game_brick_tile
-708   0000              	GLOBAL _game_pow
-709   0000              	GLOBAL _spr_count
-710   0000              	GLOBAL _frame_loop_count
-711   0000              	GLOBAL _osd_time
-712   0000              	GLOBAL _frame_time
-713   0000              	GLOBAL _entry_time
-714   0000              	GLOBAL _curr_time
-715   0000              	GLOBAL _s_state
-716   0000              	GLOBAL _attrib_hl
-717   0000              	GLOBAL _attrib
-718   0000              	GLOBAL _zx_val_asm
-719   0000              	GLOBAL _enemies
-720   0000              	GLOBAL _tmp_ui
-721   0000              	GLOBAL _tmp_sc
-722   0000              	GLOBAL _tmp_uc
-723   0000              	GLOBAL _tmp1
-724   0000              	GLOBAL _tmp0
-725   0000              	GLOBAL _tmp
-726   0000              	GLOBAL _index_d
-727   0000              	GLOBAL _index3
-728   0000              	GLOBAL _index2
-729   0000              	GLOBAL _index1
-730   0000              	GLOBAL _loop_count
-731   0000              	GLOBAL _sprite_lin_inc_mul
-732   0000              	GLOBAL _s_col1
-733   0000              	GLOBAL _s_col0
-734   0000              	GLOBAL _s_lin1
-735   0000              	GLOBAL _s_lin0
-736   0000              	GLOBAL _s_tile1
-737   0000              	GLOBAL _s_tile0
-738   0000              	GLOBAL _hit_count
-739   0000              	GLOBAL _tile_offset_other_player
-740   0000              	GLOBAL _tile_offset
-741   0000              	GLOBAL _index_player
-742   0000              	GLOBAL _sprite_other_player
-743   0000              	GLOBAL _sprite
-744   0000              	GLOBAL _player_joy
-745   0000              	GLOBAL _player_next_extra
-746   0000              	GLOBAL _player_score
-747   0000              	GLOBAL _last_time
-748   0000              	GLOBAL _sliding
-749   0000              	GLOBAL _spr_timer_c
-750   0000              	GLOBAL _spr_timer
-751   0000              	GLOBAL _jump_lin
-752   0000              	GLOBAL _player_jump_c
-753   0000              	GLOBAL _hit_col
-754   0000              	GLOBAL _hit_lin
-755   0000              	GLOBAL _colint
-756   0000              	GLOBAL _col
-757   0000              	GLOBAL _lin
-758   0000              	GLOBAL _tile
-759   0000              	GLOBAL _state_a
-760   0000              	GLOBAL _state
-761   0000              	GLOBAL _class
-762   0000              	GLOBAL _tbuffer
-763   0000              	GLOBAL _dirs
-764   0000              	GLOBAL _k2
-765   0000              	GLOBAL _k1
-766   0000              	GLOBAL _joyfunc2
-767   0000              	GLOBAL _joyfunc1
-768   0000              	GLOBAL _btiles
-769   0000              	GLOBAL _spec128
-770   0000              	GLOBAL _NIRVANAP_CHAR_TABLE
-771   0000              	GLOBAL _NIRVANAP_WIDE_IMAGES
-772   0000              	GLOBAL _NIRVANAP_TILE_IMAGES
-773   0000              	GLOBAL _NIRVANAP_HOLE
-774   0000              	GLOBAL _NIRVANAP_ISR_HOOK
-775   0000              	GLOBAL _control_method
-776   0000              	GLOBAL _hall_valids
-777   0000              ;--------------------------------------------------------
-778   0000              ; special function registers
-779   0000              ;--------------------------------------------------------
+236   0000              	GLOBAL _enemy_ugly_fix
+237   0000              	GLOBAL _enemy_kill
+238   0000              	GLOBAL _enemy_init
+239   0000              	GLOBAL _enemy_walk
+240   0000              	GLOBAL _enemy_upgrade
+241   0000              	GLOBAL _enemy_evolve
+242   0000              	GLOBAL _enemy_standard_hit
+243   0000              	GLOBAL _enemy_trip
+244   0000              	GLOBAL _enemy_fighterfly
+245   0000              	GLOBAL _enemy_fireball_green
+246   0000              	GLOBAL _enemy_fireball_red
+247   0000              	GLOBAL _enemy_slipice
+248   0000              	GLOBAL _enemy_standard
+249   0000              	GLOBAL _enemy_turn
+250   0000              	GLOBAL _enemy_flip_sidestepper
+251   0000              	GLOBAL _enemy_flip
+252   0000              	GLOBAL _enemy_flip_change_dir
+253   0000              	GLOBAL _enemy_hit
+254   0000              	GLOBAL _enemy_collition_check
+255   0000              	GLOBAL _enemy_collition
+256   0000              	GLOBAL _enemy_coin1
+257   0000              	GLOBAL _player_move_horizontal
+258   0000              	GLOBAL _player_push_check
+259   0000              	GLOBAL _player_push
+260   0000              	GLOBAL _player_hit_brick_clear
+261   0000              	GLOBAL _player_lost_life
+262   0000              	GLOBAL _player_score_add
+263   0000              	GLOBAL _player_coin
+264   0000              	GLOBAL _player_hit_pow
+265   0000              	GLOBAL _player_hit_brick
+266   0000              	GLOBAL _player_move_input
+267   0000              	GLOBAL _player_turn
+268   0000              	GLOBAL _player_move
+269   0000              	GLOBAL _player_restart
+270   0000              	GLOBAL _player_kill
+271   0000              	GLOBAL _player_check_input
+272   0000              	GLOBAL _player_collition_check
+273   0000              	GLOBAL _player_collition
+274   0000              	GLOBAL _player_calc_slide
+275   0000              	GLOBAL _player_init
+276   0000              	GLOBAL _spr_draw_row
+277   0000              	GLOBAL _spr_draw_index
+278   0000              	GLOBAL _spr_draw_clear
+279   0000              	GLOBAL _spr_water_splash_draw
+280   0000              	GLOBAL _spr_water_splash_clear
+281   0000              	GLOBAL _spr_draw_back
+282   0000              	GLOBAL _spr_cortina_pipes
+283   0000              	GLOBAL _spr_cortina_brick
+284   0000              	GLOBAL _spr_brick_anim
+285   0000              	GLOBAL _spr_back_fix
+286   0000              	GLOBAL _spr_back_paint
+287   0000              	GLOBAL _spr_back_clr
+288   0000              	GLOBAL _spr_draw_pow
+289   0000              	GLOBAL _spr_tile
+290   0000              	GLOBAL _spr_set_fall
+291   0000              	GLOBAL _spr_destroy
+292   0000              	GLOBAL _spr_check_over
+293   0000              	GLOBAL _spr_tile_dir
+294   0000              	GLOBAL _spr_anim_kill
+295   0000              	GLOBAL _spr_anim_fall
+296   0000              	GLOBAL _spr_killed
+297   0000              	GLOBAL _spr_redraw
+298   0000              	GLOBAL _spr_move_left
+299   0000              	GLOBAL _spr_move_right
+300   0000              	GLOBAL _spr_move_horizontal
+301   0000              	GLOBAL _spr_move_down
+302   0000              	GLOBAL _spr_move_up
+303   0000              	GLOBAL _spr_chktime
+304   0000              	GLOBAL _game_joystick_set_menu
+305   0000              	GLOBAL _game_joystick_set
+306   0000              	GLOBAL _game_joystick_change
+307   0000              	GLOBAL _game_hall_print_p
+308   0000              	GLOBAL _game_hall_edit_p
+309   0000              	GLOBAL _game_hall_check
+310   0000              	GLOBAL _game_hall_enter_phs
+311   0000              	GLOBAL _game_print_header
+312   0000              	GLOBAL _game_end
+313   0000              	GLOBAL _game_hall_enter
+314   0000              	GLOBAL _game_hall_of_fame
+315   0000              	GLOBAL _game_score_osd
+316   0000              	GLOBAL _game_phase_print_score_back
+317   0000              	GLOBAL _game_bonus_clock
+318   0000              	GLOBAL _game_bonus_summary_player
+319   0000              	GLOBAL _game_bonus_summary
+320   0000              	GLOBAL _game_check_time
+321   0000              	GLOBAL _game_menu_config
+322   0000              	GLOBAL _game_menu
+323   0000              	GLOBAL _game_rotate_attrib
+324   0000              	GLOBAL _game_colour_message
+325   0000              	GLOBAL _game_paint_attrib_lin_h
+326   0000              	GLOBAL _game_paint_attrib_lin
+327   0000              	GLOBAL _game_paint_attrib
+328   0000              	GLOBAL _game_menu_paint
+329   0000              	GLOBAL _game_menu_top_paint
+330   0000              	GLOBAL _game_menu_handle
+331   0000              	GLOBAL _game_menu_e
+332   0000              	GLOBAL _game_menu_back
+333   0000              	GLOBAL _game_print_score
+334   0000              	GLOBAL _game_unfreeze_all
+335   0000              	GLOBAL _game_freeze_all
+336   0000              	GLOBAL _game_freeze
+337   0000              	GLOBAL _game_enemy_add_get_index
+338   0000              	GLOBAL _game_enemy_add1
+339   0000              	GLOBAL _game_enemy_quota
+340   0000              	GLOBAL _game_enemy_rnd
+341   0000              	GLOBAL _game_enemy_add
+342   0000              	GLOBAL _game_check_maze
+343   0000              	GLOBAL _game_kill_all_sprites
+344   0000              	GLOBAL _game_loop
+345   0000              	GLOBAL _player_set2
+346   0000              	GLOBAL _player_set1
+347   0000              	GLOBAL _game_phase_print
+348   0000              	GLOBAL _game_phase_init
+349   0000              	GLOBAL _game_phase_calc
+350   0000              	GLOBAL _game_start_timer
+351   0000              	GLOBAL _game_tick
+352   0000              	GLOBAL _game_print_lives
+353   0000              	GLOBAL _game_print_footer
+354   0000              	GLOBAL _game_calc_index
+355   0000              	GLOBAL _game_fill_row
+356   0000              	GLOBAL _ay_fx_play
+357   0000              	GLOBAL _ay_midi_play
+358   0000              	GLOBAL _ay_is_playing
+359   0000              	GLOBAL _ay_reset
+360   0000              	GLOBAL _NIRVANAP_drawTW_raw_callee
+361   0000              	GLOBAL _NIRVANAP_drawTW_raw
+362   0000              	GLOBAL _NIRVANAP_drawTW_callee
+363   0000              	GLOBAL _NIRVANAP_drawTW
+364   0000              	GLOBAL _NIRVANAP_drawW_raw_callee
+365   0000              	GLOBAL _NIRVANAP_drawW_raw
+366   0000              	GLOBAL _NIRVANAP_drawW_callee
+367   0000              	GLOBAL _NIRVANAP_drawW
+368   0000              	GLOBAL _NIRVANAP_spriteT_callee
+369   0000              	GLOBAL _NIRVANAP_spriteT
+370   0000              	GLOBAL _NIRVANAP_fillC_callee
+371   0000              	GLOBAL _NIRVANAP_fillC
+372   0000              	GLOBAL _NIRVANAP_readC_callee
+373   0000              	GLOBAL _NIRVANAP_readC
+374   0000              	GLOBAL _NIRVANAP_paintC_callee
+375   0000              	GLOBAL _NIRVANAP_paintC
+376   0000              	GLOBAL _NIRVANAP_printC_callee
+377   0000              	GLOBAL _NIRVANAP_printC
+378   0000              	GLOBAL _NIRVANAP_fillT_raw_callee
+379   0000              	GLOBAL _NIRVANAP_fillT_raw
+380   0000              	GLOBAL _NIRVANAP_fillT_callee
+381   0000              	GLOBAL _NIRVANAP_fillT
+382   0000              	GLOBAL _NIRVANAP_drawT_raw_callee
+383   0000              	GLOBAL _NIRVANAP_drawT_raw
+384   0000              	GLOBAL _NIRVANAP_drawT_callee
+385   0000              	GLOBAL _NIRVANAP_drawT
+386   0000              	GLOBAL _NIRVANAP_stop
+387   0000              	GLOBAL _NIRVANAP_start
+388   0000              	GLOBAL _intrinsic_swap_word_32_fastcall
+389   0000              	GLOBAL _intrinsic_swap_word_32
+390   0000              	GLOBAL _intrinsic_swap_endian_32_fastcall
+391   0000              	GLOBAL _intrinsic_swap_endian_32
+392   0000              	GLOBAL _intrinsic_swap_endian_16_fastcall
+393   0000              	GLOBAL _intrinsic_swap_endian_16
+394   0000              	GLOBAL _intrinsic_return_de
+395   0000              	GLOBAL _intrinsic_return_bc
+396   0000              	GLOBAL _intrinsic_exx
+397   0000              	GLOBAL _intrinsic_ex_de_hl
+398   0000              	GLOBAL _intrinsic_pop_iy
+399   0000              	GLOBAL _intrinsic_pop_ix
+400   0000              	GLOBAL _intrinsic_pop_hl
+401   0000              	GLOBAL _intrinsic_pop_de
+402   0000              	GLOBAL _intrinsic_pop_bc
+403   0000              	GLOBAL _intrinsic_pop_af
+404   0000              	GLOBAL _intrinsic_push_iy
+405   0000              	GLOBAL _intrinsic_push_ix
+406   0000              	GLOBAL _intrinsic_push_hl
+407   0000              	GLOBAL _intrinsic_push_de
+408   0000              	GLOBAL _intrinsic_push_bc
+409   0000              	GLOBAL _intrinsic_push_af
+410   0000              	GLOBAL _intrinsic_nop
+411   0000              	GLOBAL _intrinsic_im_2
+412   0000              	GLOBAL _intrinsic_im_1
+413   0000              	GLOBAL _intrinsic_im_0
+414   0000              	GLOBAL _intrinsic_retn
+415   0000              	GLOBAL _intrinsic_reti
+416   0000              	GLOBAL _intrinsic_halt
+417   0000              	GLOBAL _intrinsic_ei
+418   0000              	GLOBAL _intrinsic_di
+419   0000              	GLOBAL _intrinsic_stub
+420   0000              	GLOBAL _ulltoa_callee
+421   0000              	GLOBAL _ulltoa
+422   0000              	GLOBAL _strtoull_callee
+423   0000              	GLOBAL _strtoull
+424   0000              	GLOBAL _strtoll_callee
+425   0000              	GLOBAL _strtoll
+426   0000              	GLOBAL _lltoa_callee
+427   0000              	GLOBAL _lltoa
+428   0000              	GLOBAL _llabs_callee
+429   0000              	GLOBAL _llabs
+430   0000              	GLOBAL __lldivu__callee
+431   0000              	GLOBAL __lldivu_
+432   0000              	GLOBAL __lldiv__callee
+433   0000              	GLOBAL __lldiv_
+434   0000              	GLOBAL _atoll_callee
+435   0000              	GLOBAL _atoll
+436   0000              	GLOBAL _realloc_unlocked_callee
+437   0000              	GLOBAL _realloc_unlocked
+438   0000              	GLOBAL _malloc_unlocked_fastcall
+439   0000              	GLOBAL _malloc_unlocked
+440   0000              	GLOBAL _free_unlocked_fastcall
+441   0000              	GLOBAL _free_unlocked
+442   0000              	GLOBAL _calloc_unlocked_callee
+443   0000              	GLOBAL _calloc_unlocked
+444   0000              	GLOBAL _aligned_alloc_unlocked_callee
+445   0000              	GLOBAL _aligned_alloc_unlocked
+446   0000              	GLOBAL _realloc_callee
+447   0000              	GLOBAL _realloc
+448   0000              	GLOBAL _malloc_fastcall
+449   0000              	GLOBAL _malloc
+450   0000              	GLOBAL _free_fastcall
+451   0000              	GLOBAL _free
+452   0000              	GLOBAL _calloc_callee
+453   0000              	GLOBAL _calloc
+454   0000              	GLOBAL _aligned_alloc_callee
+455   0000              	GLOBAL _aligned_alloc
+456   0000              	GLOBAL _utoa_callee
+457   0000              	GLOBAL _utoa
+458   0000              	GLOBAL _ultoa_callee
+459   0000              	GLOBAL _ultoa
+460   0000              	GLOBAL _system_fastcall
+461   0000              	GLOBAL _system
+462   0000              	GLOBAL _strtoul_callee
+463   0000              	GLOBAL _strtoul
+464   0000              	GLOBAL _strtol_callee
+465   0000              	GLOBAL _strtol
+466   0000              	GLOBAL _strtof_callee
+467   0000              	GLOBAL _strtof
+468   0000              	GLOBAL _strtod_callee
+469   0000              	GLOBAL _strtod
+470   0000              	GLOBAL _srand_fastcall
+471   0000              	GLOBAL _srand
+472   0000              	GLOBAL _rand
+473   0000              	GLOBAL _quick_exit_fastcall
+474   0000              	GLOBAL _quick_exit
+475   0000              	GLOBAL _qsort_callee
+476   0000              	GLOBAL _qsort
+477   0000              	GLOBAL _ltoa_callee
+478   0000              	GLOBAL _ltoa
+479   0000              	GLOBAL _labs_fastcall
+480   0000              	GLOBAL _labs
+481   0000              	GLOBAL _itoa_callee
+482   0000              	GLOBAL _itoa
+483   0000              	GLOBAL _ftoh_callee
+484   0000              	GLOBAL _ftoh
+485   0000              	GLOBAL _ftog_callee
+486   0000              	GLOBAL _ftog
+487   0000              	GLOBAL _ftoe_callee
+488   0000              	GLOBAL _ftoe
+489   0000              	GLOBAL _ftoa_callee
+490   0000              	GLOBAL _ftoa
+491   0000              	GLOBAL _exit_fastcall
+492   0000              	GLOBAL _exit
+493   0000              	GLOBAL _dtoh_callee
+494   0000              	GLOBAL _dtoh
+495   0000              	GLOBAL _dtog_callee
+496   0000              	GLOBAL _dtog
+497   0000              	GLOBAL _dtoe_callee
+498   0000              	GLOBAL _dtoe
+499   0000              	GLOBAL _dtoa_callee
+500   0000              	GLOBAL _dtoa
+501   0000              	GLOBAL _bsearch_callee
+502   0000              	GLOBAL _bsearch
+503   0000              	GLOBAL _atol_fastcall
+504   0000              	GLOBAL _atol
+505   0000              	GLOBAL _atoi_fastcall
+506   0000              	GLOBAL _atoi
+507   0000              	GLOBAL _atof_fastcall
+508   0000              	GLOBAL _atof
+509   0000              	GLOBAL _atexit_fastcall
+510   0000              	GLOBAL _atexit
+511   0000              	GLOBAL _at_quick_exit_fastcall
+512   0000              	GLOBAL _at_quick_exit
+513   0000              	GLOBAL _abs_fastcall
+514   0000              	GLOBAL _abs
+515   0000              	GLOBAL _abort
+516   0000              	GLOBAL __strtou__callee
+517   0000              	GLOBAL __strtou_
+518   0000              	GLOBAL __strtoi__callee
+519   0000              	GLOBAL __strtoi_
+520   0000              	GLOBAL __random_uniform_xor_8__fastcall
+521   0000              	GLOBAL __random_uniform_xor_8_
+522   0000              	GLOBAL __random_uniform_xor_32__fastcall
+523   0000              	GLOBAL __random_uniform_xor_32_
+524   0000              	GLOBAL __random_uniform_cmwc_8__fastcall
+525   0000              	GLOBAL __random_uniform_cmwc_8_
+526   0000              	GLOBAL __shellsort__callee
+527   0000              	GLOBAL __shellsort_
+528   0000              	GLOBAL __quicksort__callee
+529   0000              	GLOBAL __quicksort_
+530   0000              	GLOBAL __insertion_sort__callee
+531   0000              	GLOBAL __insertion_sort_
+532   0000              	GLOBAL __ldivu__callee
+533   0000              	GLOBAL __ldivu_
+534   0000              	GLOBAL __ldiv__callee
+535   0000              	GLOBAL __ldiv_
+536   0000              	GLOBAL __divu__callee
+537   0000              	GLOBAL __divu_
+538   0000              	GLOBAL __div__callee
+539   0000              	GLOBAL __div_
+540   0000              	GLOBAL _in_mouse_kempston_wheel_delta
+541   0000              	GLOBAL _in_mouse_kempston_wheel
+542   0000              	GLOBAL _in_mouse_kempston_callee
+543   0000              	GLOBAL _in_mouse_kempston
+544   0000              	GLOBAL _in_mouse_kempston_setpos_callee
+545   0000              	GLOBAL _in_mouse_kempston_setpos
+546   0000              	GLOBAL _in_mouse_kempston_reset
+547   0000              	GLOBAL _in_mouse_kempston_init
+548   0000              	GLOBAL _in_mouse_amx_wheel_delta
+549   0000              	GLOBAL _in_mouse_amx_wheel
+550   0000              	GLOBAL _in_mouse_amx_callee
+551   0000              	GLOBAL _in_mouse_amx
+552   0000              	GLOBAL _in_mouse_amx_setpos_callee
+553   0000              	GLOBAL _in_mouse_amx_setpos
+554   0000              	GLOBAL _in_mouse_amx_reset
+555   0000              	GLOBAL _in_mouse_amx_init_callee
+556   0000              	GLOBAL _in_mouse_amx_init
+557   0000              	GLOBAL _in_stick_sinclair2
+558   0000              	GLOBAL _in_stick_sinclair1
+559   0000              	GLOBAL _in_stick_kempston
+560   0000              	GLOBAL _in_stick_fuller
+561   0000              	GLOBAL _in_stick_cursor
+562   0000              	GLOBAL _in_stick_keyboard_fastcall
+563   0000              	GLOBAL _in_stick_keyboard
+564   0000              	GLOBAL _in_wait_nokey
+565   0000              	GLOBAL _in_wait_key
+566   0000              	GLOBAL _in_test_key
+567   0000              	GLOBAL _in_pause_fastcall
+568   0000              	GLOBAL _in_pause
+569   0000              	GLOBAL _in_key_scancode_fastcall
+570   0000              	GLOBAL _in_key_scancode
+571   0000              	GLOBAL _in_key_pressed_fastcall
+572   0000              	GLOBAL _in_key_pressed
+573   0000              	GLOBAL _in_inkey
+574   0000              	GLOBAL _zx_pattern_fill_callee
+575   0000              	GLOBAL _zx_pattern_fill
+576   0000              	GLOBAL _zx_saddrpup_fastcall
+577   0000              	GLOBAL _zx_saddrpup
+578   0000              	GLOBAL _zx_saddrpright_callee
+579   0000              	GLOBAL _zx_saddrpright
+580   0000              	GLOBAL _zx_saddrpleft_callee
+581   0000              	GLOBAL _zx_saddrpleft
+582   0000              	GLOBAL _zx_saddrpdown_fastcall
+583   0000              	GLOBAL _zx_saddrpdown
+584   0000              	GLOBAL _zx_saddrcup_fastcall
+585   0000              	GLOBAL _zx_saddrcup
+586   0000              	GLOBAL _zx_saddrcright_fastcall
+587   0000              	GLOBAL _zx_saddrcright
+588   0000              	GLOBAL _zx_saddrcleft_fastcall
+589   0000              	GLOBAL _zx_saddrcleft
+590   0000              	GLOBAL _zx_saddrcdown_fastcall
+591   0000              	GLOBAL _zx_saddrcdown
+592   0000              	GLOBAL _zx_saddr2py_fastcall
+593   0000              	GLOBAL _zx_saddr2py
+594   0000              	GLOBAL _zx_saddr2px_fastcall
+595   0000              	GLOBAL _zx_saddr2px
+596   0000              	GLOBAL _zx_saddr2cy_fastcall
+597   0000              	GLOBAL _zx_saddr2cy
+598   0000              	GLOBAL _zx_saddr2cx_fastcall
+599   0000              	GLOBAL _zx_saddr2cx
+600   0000              	GLOBAL _zx_saddr2aaddr_fastcall
+601   0000              	GLOBAL _zx_saddr2aaddr
+602   0000              	GLOBAL _zx_py2saddr_fastcall
+603   0000              	GLOBAL _zx_py2saddr
+604   0000              	GLOBAL _zx_py2aaddr_fastcall
+605   0000              	GLOBAL _zx_py2aaddr
+606   0000              	GLOBAL _zx_pxy2saddr_callee
+607   0000              	GLOBAL _zx_pxy2saddr
+608   0000              	GLOBAL _zx_pxy2aaddr_callee
+609   0000              	GLOBAL _zx_pxy2aaddr
+610   0000              	GLOBAL _zx_px2bitmask_fastcall
+611   0000              	GLOBAL _zx_px2bitmask
+612   0000              	GLOBAL _zx_cyx2saddr_callee
+613   0000              	GLOBAL _zx_cyx2saddr
+614   0000              	GLOBAL _zx_cyx2aaddr_callee
+615   0000              	GLOBAL _zx_cyx2aaddr
+616   0000              	GLOBAL _zx_cy2saddr_fastcall
+617   0000              	GLOBAL _zx_cy2saddr
+618   0000              	GLOBAL _zx_cy2aaddr_fastcall
+619   0000              	GLOBAL _zx_cy2aaddr
+620   0000              	GLOBAL _zx_bitmask2px_fastcall
+621   0000              	GLOBAL _zx_bitmask2px
+622   0000              	GLOBAL _zx_aaddrcup_fastcall
+623   0000              	GLOBAL _zx_aaddrcup
+624   0000              	GLOBAL _zx_aaddrcright_fastcall
+625   0000              	GLOBAL _zx_aaddrcright
+626   0000              	GLOBAL _zx_aaddrcleft_fastcall
+627   0000              	GLOBAL _zx_aaddrcleft
+628   0000              	GLOBAL _zx_aaddrcdown_fastcall
+629   0000              	GLOBAL _zx_aaddrcdown
+630   0000              	GLOBAL _zx_aaddr2saddr_fastcall
+631   0000              	GLOBAL _zx_aaddr2saddr
+632   0000              	GLOBAL _zx_aaddr2py_fastcall
+633   0000              	GLOBAL _zx_aaddr2py
+634   0000              	GLOBAL _zx_aaddr2px_fastcall
+635   0000              	GLOBAL _zx_aaddr2px
+636   0000              	GLOBAL _zx_aaddr2cy_fastcall
+637   0000              	GLOBAL _zx_aaddr2cy
+638   0000              	GLOBAL _zx_aaddr2cx_fastcall
+639   0000              	GLOBAL _zx_aaddr2cx
+640   0000              	GLOBAL _zx_scroll_wc_up_callee
+641   0000              	GLOBAL _zx_scroll_wc_up
+642   0000              	GLOBAL _zx_scroll_up_callee
+643   0000              	GLOBAL _zx_scroll_up
+644   0000              	GLOBAL _zx_cls_wc_callee
+645   0000              	GLOBAL _zx_cls_wc
+646   0000              	GLOBAL _zx_cls_fastcall
+647   0000              	GLOBAL _zx_cls
+648   0000              	GLOBAL _zx_border_fastcall
+649   0000              	GLOBAL _zx_border
+650   0000              	GLOBAL _ay_effect_20
+651   0000              	GLOBAL _ay_effect_19
+652   0000              	GLOBAL _ay_effect_18
+653   0000              	GLOBAL _ay_effect_17
+654   0000              	GLOBAL _ay_effect_16
+655   0000              	GLOBAL _ay_effect_15
+656   0000              	GLOBAL _ay_effect_14
+657   0000              	GLOBAL _ay_effect_13
+658   0000              	GLOBAL _ay_effect_12
+659   0000              	GLOBAL _ay_effect_11
+660   0000              	GLOBAL _ay_effect_10
+661   0000              	GLOBAL _ay_effect_09
+662   0000              	GLOBAL _ay_effect_08
+663   0000              	GLOBAL _ay_effect_07
+664   0000              	GLOBAL _ay_effect_06
+665   0000              	GLOBAL _ay_effect_05
+666   0000              	GLOBAL _ay_effect_04
+667   0000              	GLOBAL _ay_effect_03
+668   0000              	GLOBAL _ay_effect_02
+669   0000              	GLOBAL _ay_effect_01
+670   0000              	GLOBAL _pb_midi_phase_1
+671   0000              	GLOBAL _pb_midi_title
+672   0000              	GLOBAL _joynames
+673   0000              	GLOBAL _initials
+674   0000              	GLOBAL _hof
+675   0000              	GLOBAL _score_osd_tile
+676   0000              	GLOBAL _score_osd_time
+677   0000              	GLOBAL _score_osd_col
+678   0000              	GLOBAL _score_osd_lin
+679   0000              	GLOBAL _phase_bonus_total
+680   0000              	GLOBAL _phase_angry
+681   0000              	GLOBAL _phase_curr
+682   0000              	GLOBAL _phase_end
+683   0000              	GLOBAL _phase_coins
+684   0000              	GLOBAL _phase_pop
+685   0000              	GLOBAL _phase_tot
+686   0000              	GLOBAL _phase_left
+687   0000              	GLOBAL _phase_quota
+688   0000              	GLOBAL _phases
+689   0000              	GLOBAL _spr_idx
+690   0000              	GLOBAL _lvl_1
+691   0000              	GLOBAL _sprite_speed_alt
+692   0000              	GLOBAL _sprite_speed
+693   0000              	GLOBAL _screen_ink
+694   0000              	GLOBAL _screen_paper
+695   0000              	GLOBAL _game_menu_sel
+696   0000              	GLOBAL _game_type
+697   0000              	GLOBAL _game_osd
+698   0000              	GLOBAL _game_bonus
+699   0000              	GLOBAL _spr_water_time
+700   0000              	GLOBAL _spr_water_clear
+701   0000              	GLOBAL _game_time_fireball_start
+702   0000              	GLOBAL _game_time_flipped
+703   0000              	GLOBAL _game_score_top
+704   0000              	GLOBAL _game_lives
+705   0000              	GLOBAL _game_over
+706   0000              	GLOBAL _game_sound
+707   0000              	GLOBAL _game_two_player
+708   0000              	GLOBAL _game_brick_tile
+709   0000              	GLOBAL _game_pow
+710   0000              	GLOBAL _spr_count
+711   0000              	GLOBAL _frame_loop_count
+712   0000              	GLOBAL _osd_time
+713   0000              	GLOBAL _frame_time
+714   0000              	GLOBAL _entry_time
+715   0000              	GLOBAL _curr_time
+716   0000              	GLOBAL _s_state
+717   0000              	GLOBAL _attrib_hl
+718   0000              	GLOBAL _attrib
+719   0000              	GLOBAL _zx_val_asm
+720   0000              	GLOBAL _enemies
+721   0000              	GLOBAL _tmp_ui
+722   0000              	GLOBAL _tmp_sc
+723   0000              	GLOBAL _tmp_uc
+724   0000              	GLOBAL _tmp1
+725   0000              	GLOBAL _tmp0
+726   0000              	GLOBAL _tmp
+727   0000              	GLOBAL _index_d
+728   0000              	GLOBAL _index3
+729   0000              	GLOBAL _index2
+730   0000              	GLOBAL _index1
+731   0000              	GLOBAL _loop_count
+732   0000              	GLOBAL _sprite_lin_inc_mul
+733   0000              	GLOBAL _s_col1
+734   0000              	GLOBAL _s_col0
+735   0000              	GLOBAL _s_lin1
+736   0000              	GLOBAL _s_lin0
+737   0000              	GLOBAL _s_tile1
+738   0000              	GLOBAL _s_tile0
+739   0000              	GLOBAL _hit_count
+740   0000              	GLOBAL _tile_offset_other_player
+741   0000              	GLOBAL _tile_offset
+742   0000              	GLOBAL _index_player
+743   0000              	GLOBAL _sprite_other_player
+744   0000              	GLOBAL _sprite
+745   0000              	GLOBAL _player_joy
+746   0000              	GLOBAL _player_next_extra
+747   0000              	GLOBAL _player_score
+748   0000              	GLOBAL _last_time
+749   0000              	GLOBAL _sliding
+750   0000              	GLOBAL _spr_timer_c
+751   0000              	GLOBAL _spr_timer
+752   0000              	GLOBAL _jump_lin
+753   0000              	GLOBAL _player_jump_c
+754   0000              	GLOBAL _hit_col
+755   0000              	GLOBAL _hit_lin
+756   0000              	GLOBAL _colint
+757   0000              	GLOBAL _col
+758   0000              	GLOBAL _lin
+759   0000              	GLOBAL _tile
+760   0000              	GLOBAL _state_a
+761   0000              	GLOBAL _state
+762   0000              	GLOBAL _class
+763   0000              	GLOBAL _tbuffer
+764   0000              	GLOBAL _dirs
+765   0000              	GLOBAL _k2
+766   0000              	GLOBAL _k1
+767   0000              	GLOBAL _joyfunc2
+768   0000              	GLOBAL _joyfunc1
+769   0000              	GLOBAL _btiles
+770   0000              	GLOBAL _spec128
+771   0000              	GLOBAL _NIRVANAP_CHAR_TABLE
+772   0000              	GLOBAL _NIRVANAP_WIDE_IMAGES
+773   0000              	GLOBAL _NIRVANAP_TILE_IMAGES
+774   0000              	GLOBAL _NIRVANAP_HOLE
+775   0000              	GLOBAL _NIRVANAP_ISR_HOOK
+776   0000              	GLOBAL _control_method
+777   0000              	GLOBAL _hall_valids
+778   0000              ;--------------------------------------------------------
+779   0000              ; special function registers
 780   0000              ;--------------------------------------------------------
-781   0000              ; ram data
-782   0000              ;--------------------------------------------------------
-783   0000              	SECTION bss_compiler
-784   0000              ;--------------------------------------------------------
-785   0000              ; ram data
-786   0000              ;--------------------------------------------------------
-787   0000              
-788   0000              IF 0
-789   0000              
-790   0000              ; .area _INITIALIZED removed by z88dk
-791   0000              
+781   0000              ;--------------------------------------------------------
+782   0000              ; ram data
+783   0000              ;--------------------------------------------------------
+784   0000              	SECTION bss_compiler
+785   0000              ;--------------------------------------------------------
+786   0000              ; ram data
+787   0000              ;--------------------------------------------------------
+788   0000              
+789   0000              IF 0
+790   0000              
+791   0000              ; .area _INITIALIZED removed by z88dk
 792   0000              
-793   0000              ENDIF
-794   0000              
-795   0000              ;--------------------------------------------------------
-796   0000              ; absolute external ram data
-797   0000              ;--------------------------------------------------------
-798   0000              	SECTION IGNORE
-799   0000              ;--------------------------------------------------------
-800   0000              ; global & static initialisations
-801   0000              ;--------------------------------------------------------
-802   0000              	SECTION code_crt_init
-803   0000              ;--------------------------------------------------------
-804   0000              ; Home
-805   0000              ;--------------------------------------------------------
-806   0000              	SECTION IGNORE
-807   0000              ;--------------------------------------------------------
-808   0000              ; code
-809   0000              ;--------------------------------------------------------
-810   0000              	SECTION code_compiler
-811   0000              ;	---------------------------------
-812   0000              ; Function main
-813   0000              ; ---------------------------------
-814   0000              _main:
-815   0000  CD 00 00    	call	_ay_reset
-816   0003  21 47 46    	ld	hl,0x4647
-817   0006  22 00 00    	ld	(_attrib),hl
-818   0009  21 06 07    	ld	hl,0x0706
-819   000C  22 02 00    	ld	(_attrib + 2),hl
-820   000F  21 02 06    	ld	hl,0x0602
-821   0012  22 00 00    	ld	(_attrib_hl),hl
-822   0015  21 04 05    	ld	hl,0x0504
-823   0018  22 02 00    	ld	(_attrib_hl + 2),hl
-824   001B  3A 00 00    	ld	a,(_spec128)
-825   001E  B7          	or	a,a
-826   001F  28 04       	jr	Z,l_main_00107
-827   0021  0E 0C       	ld	c,0x0c
-828   0023  18 02       	jr	l_main_00108
-829   0025              l_main_00107:
-830   0025  0E 03       	ld	c,0x03
-831   0027              l_main_00108:
-832   0027  21 00 00    	ld	hl,_game_sound
-833   002A  71          	ld	(hl),c
-834   002B  21 00 00    	ld	hl,_game_type
-835   002E  36 00       	ld	(hl),0x00
-836   0030  21 00 00    	ld	hl,0x0000
-837   0033  22 00 00    	ld	(_player_joy), hl
-838   0036  2E 01       	ld	l,0x01
-839   0038  22 02 00    	ld	(_player_joy + 0x0002),hl
-840   003B  21 7F 04    	ld	hl,0x047f
-841   003E  22 00 00    	ld	(_k1), hl
-842   0041  21 DF 02    	ld	hl,0x02df
-843   0044  22 04 00    	ld	(_k1 + 0x0004),hl
-844   0047  26 01       	ld	h,0x01
-845   0049  22 02 00    	ld	(_k1 + 0x0002),hl
-846   004C  21 FF FF    	ld	hl,0xffff
-847   004F  22 08 00    	ld	(_k1 + 0x0008),hl
-848   0052  2E FF       	ld	l,0xff
-849   0054  22 06 00    	ld	(_k1 + 0x0006),hl
-850   0057  21 FE 02    	ld	hl,0x02fe
-851   005A  22 00 00    	ld	(_k2), hl
-852   005D  21 FB 01    	ld	hl,0x01fb
-853   0060  22 04 00    	ld	(_k2 + 0x0004),hl
-854   0063  26 02       	ld	h,0x02
-855   0065  22 02 00    	ld	(_k2 + 0x0002),hl
-856   0068  21 FF FF    	ld	hl,0xffff
-857   006B  22 08 00    	ld	(_k2 + 0x0008),hl
-858   006E  2E FF       	ld	l,0xff
-859   0070  22 06 00    	ld	(_k2 + 0x0006),hl
-860   0073  CD 00 00    	call	_game_joystick_set_menu
-861   0076  21 00 00    	ld	hl,0x0000
-862   0079  CD 00 00    	call	_zx_border_fastcall
-863   007C  CD 00 00    	call	_in_wait_nokey
-864   007F  01 B8 7A    	ld	bc,0x7ab8
-865   0082              l_main_00103:
-866   0082  CD 00 00    	call	_in_test_key
-867   0085  7C          	ld	a, h
-868   0086  B5          	or	a,l
-869   0087  20 08       	jr	NZ,l_main_00101
-870   0089  21 4D 27    	ld	hl,0x274d
-871   008C  09          	add	hl,bc
-872   008D  4D          	ld	c,l
-873   008E  44          	ld	b,h
-874   008F  18 F1       	jr	l_main_00103
-875   0091              l_main_00101:
-876   0091  69          	ld	l, c
-877   0092  60          	ld	h, b
-878   0093  CD 00 00    	call	_srand_fastcall
-879   0096  CD 00 00    	call	_spr_cortina_brick
-880   0099  CD 00 00    	call	_game_start_timer
-881   009C  21 00 00    	ld	hl,_btiles
-882   009F  22 00 00    	ld	(_NIRVANAP_TILE_IMAGES),hl
-883   00A2  CD 00 00    	call	_NIRVANAP_start
-884   00A5  2A 00 00    	ld	hl,(_curr_time)
-885   00A8  22 00 00    	ld	(_frame_time),hl
-886   00AB  C3 00 00    	jp  _game_menu
-887   00AE              	SECTION code_compiler
-888   00AE              ;	---------------------------------
-889   00AE              ; Function test_func
-890   00AE              ; ---------------------------------
-891   00AE              _test_func:
-892   00AE  2E 00       	ld	l,0x00
-893   00B0  C9          	ret
-894   00B1              	SECTION IGNORE
-895   0000              
+793   0000              
+794   0000              ENDIF
+795   0000              
+796   0000              ;--------------------------------------------------------
+797   0000              ; absolute external ram data
+798   0000              ;--------------------------------------------------------
+799   0000              	SECTION IGNORE
+800   0000              ;--------------------------------------------------------
+801   0000              ; global & static initialisations
+802   0000              ;--------------------------------------------------------
+803   0000              	SECTION code_crt_init
+804   0000              ;--------------------------------------------------------
+805   0000              ; Home
+806   0000              ;--------------------------------------------------------
+807   0000              	SECTION IGNORE
+808   0000              ;--------------------------------------------------------
+809   0000              ; code
+810   0000              ;--------------------------------------------------------
+811   0000              	SECTION code_compiler
+812   0000              ;	---------------------------------
+813   0000              ; Function main
+814   0000              ; ---------------------------------
+815   0000              _main:
+816   0000  CD 00 00    	call	_ay_reset
+817   0003  21 47 46    	ld	hl,0x4647
+818   0006  22 00 00    	ld	(_attrib),hl
+819   0009  21 06 07    	ld	hl,0x0706
+820   000C  22 02 00    	ld	(_attrib + 2),hl
+821   000F  21 02 06    	ld	hl,0x0602
+822   0012  22 00 00    	ld	(_attrib_hl),hl
+823   0015  21 04 05    	ld	hl,0x0504
+824   0018  22 02 00    	ld	(_attrib_hl + 2),hl
+825   001B  3A 00 00    	ld	a,(_spec128)
+826   001E  B7          	or	a,a
+827   001F  28 04       	jr	Z,l_main_00107
+828   0021  0E 0C       	ld	c,0x0c
+829   0023  18 02       	jr	l_main_00108
+830   0025              l_main_00107:
+831   0025  0E 03       	ld	c,0x03
+832   0027              l_main_00108:
+833   0027  21 00 00    	ld	hl,_game_sound
+834   002A  71          	ld	(hl),c
+835   002B  21 00 00    	ld	hl,_game_type
+836   002E  36 00       	ld	(hl),0x00
+837   0030  21 00 00    	ld	hl,0x0000
+838   0033  22 00 00    	ld	(_player_joy), hl
+839   0036  2E 01       	ld	l,0x01
+840   0038  22 02 00    	ld	(_player_joy + 0x0002),hl
+841   003B  21 7F 04    	ld	hl,0x047f
+842   003E  22 00 00    	ld	(_k1), hl
+843   0041  21 DF 02    	ld	hl,0x02df
+844   0044  22 04 00    	ld	(_k1 + 0x0004),hl
+845   0047  26 01       	ld	h,0x01
+846   0049  22 02 00    	ld	(_k1 + 0x0002),hl
+847   004C  21 FF FF    	ld	hl,0xffff
+848   004F  22 08 00    	ld	(_k1 + 0x0008),hl
+849   0052  2E FF       	ld	l,0xff
+850   0054  22 06 00    	ld	(_k1 + 0x0006),hl
+851   0057  21 FE 02    	ld	hl,0x02fe
+852   005A  22 00 00    	ld	(_k2), hl
+853   005D  21 FB 01    	ld	hl,0x01fb
+854   0060  22 04 00    	ld	(_k2 + 0x0004),hl
+855   0063  26 02       	ld	h,0x02
+856   0065  22 02 00    	ld	(_k2 + 0x0002),hl
+857   0068  21 FF FF    	ld	hl,0xffff
+858   006B  22 08 00    	ld	(_k2 + 0x0008),hl
+859   006E  2E FF       	ld	l,0xff
+860   0070  22 06 00    	ld	(_k2 + 0x0006),hl
+861   0073  CD 00 00    	call	_game_joystick_set_menu
+862   0076  21 00 00    	ld	hl,0x0000
+863   0079  CD 00 00    	call	_zx_border_fastcall
+864   007C  CD 00 00    	call	_in_wait_nokey
+865   007F  01 B8 7A    	ld	bc,0x7ab8
+866   0082              l_main_00103:
+867   0082  CD 00 00    	call	_in_test_key
+868   0085  7C          	ld	a, h
+869   0086  B5          	or	a,l
+870   0087  20 08       	jr	NZ,l_main_00101
+871   0089  21 4D 27    	ld	hl,0x274d
+872   008C  09          	add	hl,bc
+873   008D  4D          	ld	c,l
+874   008E  44          	ld	b,h
+875   008F  18 F1       	jr	l_main_00103
+876   0091              l_main_00101:
+877   0091  69          	ld	l, c
+878   0092  60          	ld	h, b
+879   0093  CD 00 00    	call	_srand_fastcall
+880   0096  CD 00 00    	call	_spr_cortina_brick
+881   0099  CD 00 00    	call	_game_start_timer
+882   009C  21 00 00    	ld	hl,_btiles
+883   009F  22 00 00    	ld	(_NIRVANAP_TILE_IMAGES),hl
+884   00A2  CD 00 00    	call	_NIRVANAP_start
+885   00A5  2A 00 00    	ld	hl,(_curr_time)
+886   00A8  22 00 00    	ld	(_frame_time),hl
+887   00AB  C3 00 00    	jp  _game_menu
+888   00AE              	SECTION code_compiler
+889   00AE              ;	---------------------------------
+890   00AE              ; Function test_func
+891   00AE              ; ---------------------------------
+892   00AE              _test_func:
+893   00AE  2E 00       	ld	l,0x00
+894   00B0  C9          	ret
+895   00B1              	SECTION IGNORE
+896   0000              

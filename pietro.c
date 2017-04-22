@@ -147,6 +147,5 @@ void main(void) {
 }
 
 unsigned char test_func(void) {
-	/* helper funcion with faster compilation for debug n testing */
-	return 0;
+  return 0;
 }
