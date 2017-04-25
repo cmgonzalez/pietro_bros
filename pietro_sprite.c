@@ -18,6 +18,7 @@
 #include "pietro.h"
 #include "pietro_game.h"
 #include "pietro_player.h"
+#include "pietro_enemies.h"
 #include "pietro_sprite.h"
 #include "pietro_zx.h"
 #include "macros.h"
@@ -100,7 +101,7 @@ unsigned char spr_move_right( void ){
 	++colint[sprite];
 	if (colint[sprite] == SPR_COLINT) {
 /* 		if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
-			if ( spr_collition_check(DIR_RIGHT) ) {
+			if ( spr_collision_check(DIR_RIGHT) ) {
 				colint[sprite] = SPR_COLINT -1 ;
 				return 0;
 			}
@@ -118,7 +119,7 @@ unsigned char spr_move_left( void ){
 	--colint[sprite];
 	if (colint[sprite] == 255) {
 /* 		if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
-			if ( spr_collition_check(DIR_LEFT) ) {
+			if ( spr_collision_check(DIR_LEFT) ) {
 				colint[sprite] = 0;
 				return 0;
 			}
@@ -195,10 +196,12 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 			/* Move sprite down screen n draw*/
 			s_col0 = col[f_sprite];
 			s_lin0 = lin[f_sprite];
+			enemy_ugly_fix();
 			lin[f_sprite] = s_lin0+ (SPRITE_LIN_INC << 1);
 			NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], s_col0);
 			/* Sprite Falling */
 			spr_back_fix(0);
+
 
 
 		} else {
@@ -231,8 +234,17 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 
 			}
 			/* Restore lower pipes */
-			if (s_col1 <= 4  ) spr_back_paint(0 + 15 * 32);
-			if (s_col1 >= 26 ) spr_back_paint(26 + 15 * 32);
+			if (s_col1 <= 4  ) {
+				spr_back_paint(0 + 15 * 32);
+				spr_draw_index(12*32);
+				spr_draw_index(12*32 + 2);
+			}
+
+			if (s_col1 >= 26 ) {
+				spr_back_paint(26 + 15 * 32);
+				spr_draw_index(12*32 + 28);
+				spr_draw_index(12*32 + 30);
+      }
 		}
 //	}
 }
@@ -258,7 +270,7 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 }
 
 /*
-unsigned char spr_collition_check(unsigned char f_dir) {
+unsigned char spr_collision_check(unsigned char f_dir) {
 	index1 = game_calc_index( lin[sprite] , col[sprite] );
 	if (f_dir == DIR_RIGHT) {
 		if (col[sprite]==31) return 0;
@@ -408,7 +420,7 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 void spr_draw_back(void) {
 	intrinsic_di();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-  
+
 	spr_draw_row(6);
 	spr_draw_row(11);
 	spr_draw_row(12);
@@ -678,8 +690,8 @@ void spr_water_splash_clear(void) {
 }
 
 void spr_draw_index(unsigned int f_index) {
-  /* x % 2 inpower n == x & (2 inpower n - 1)." */
-	s_col1 = f_index % 32;// & 3; //TODO OPTIMIZE
+  /* n % 2^i = n & (2^i - 1) */
+	s_col1 = f_index & 31; //OPTIMIZED % 32
 	//s_col1 = index_d;
 	s_lin1 = f_index >> 5;
 	s_lin1 = s_lin1 << 3;

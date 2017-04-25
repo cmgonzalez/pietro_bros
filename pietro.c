@@ -118,7 +118,6 @@ void main(void) {
 	in_wait_nokey();
 	for (counter = 31416; !in_test_key(); counter += 10061) ;
 	srand(counter);
-
 	//Init SCREEN
 	spr_cortina_brick();
 	//INIT GAME
@@ -132,6 +131,6 @@ void main(void) {
 }
 
 unsigned char test_func(void) {
-	zx_print_chr(20,0,lvl_1[192]);
-  return 0;
+
+	return 0;
 }

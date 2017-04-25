@@ -46,9 +46,9 @@ void enemy_coin2(void){
 }
 
 
-void enemy_collition(void) {
+void enemy_collision(void) {
 	for (enemies = 0; enemies < SPR_P2 ; ++enemies ) {
-		if ( enemy_collition_check() ) {
+		if ( enemy_collision_check() ) {
 
 			//TURN OTHER ENEMY (enemies)
 			if ( !BIT_CHK(state[enemies], STAT_HIT) &&
@@ -83,7 +83,7 @@ void enemy_collition(void) {
 	}
 }
 
-unsigned char enemy_collition_check(void) {
+unsigned char enemy_collision_check(void) {
 	//TODO CHECK IF PERF IS AFFECTED; AFTER WE RETURN AT FIRST FALSE
 	if ( class[enemies] == 0 ) return 0;
 	if ( class[enemies] > FIGHTERFLY ) return 0;
@@ -269,8 +269,8 @@ void enemy_turn(void){
 }
 
 void enemy_ugly_fix() {
-	/*UGLY FIX FOR ROW 12 CORRUPTION*/
-	if (s_lin0 == 98 && (s_col0 <= 6 || s_col0 >= 22 ) ) {
+	/*UGLY FIX FOR BACK CORRUPTION*/
+	if (s_lin0 > 88 && s_lin0 < 104) {
 		NIRVANAP_spriteT(sprite, TILE_EMPTY, 0, 0);
 		NIRVANAP_halt();
 		intrinsic_di();
@@ -283,6 +283,18 @@ void enemy_ugly_fix() {
 			spr_draw_index(12*32 + 30);
 		}
 		intrinsic_ei();
+	}
+
+
+	if (s_lin0 <= 40) {
+		NIRVANAP_spriteT(sprite, TILE_EMPTY, 0, 0);
+		NIRVANAP_halt();
+		if( s_col0 < 4) {
+			spr_back_paint(0);
+		}
+		if( s_col0 > 26) {
+			spr_back_paint(26);
+		}
 	}
 }
 
@@ -595,10 +607,10 @@ void enemy_walk(void){
 		}
 
 		if ( !BIT_CHK(s_state, STAT_HIT) && !BIT_CHK(state_a[sprite], STAT_TURN) ) {
-			//COLLITION CHECK BETWEEN ENEMIES TODO PERFORMANCE...
+			//collision CHECK BETWEEN ENEMIES TODO PERFORMANCE...
 			if ( game_check_time( spr_timer_c[sprite], 5 ) ) {
 				spr_timer_c[sprite] = zx_clock();
-				enemy_collition();
+				enemy_collision();
 			}
 			spr_move_horizontal();
 		}

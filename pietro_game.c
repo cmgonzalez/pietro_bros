@@ -170,7 +170,7 @@ void game_phase_init(void) {
 	/* Player(s) init */
 	if (game_lives[0]) player_init(SPR_P1,GAME_LIN_FLOOR,10,TILE_P1_STANR);
 	if (game_lives[1]) player_init(SPR_P2,GAME_LIN_FLOOR,20,TILE_P1_STANR +24+12);
-	z80_delay_ms(500);
+	
 	game_osd = 1;
 	osd_time = zx_clock();
 }
@@ -679,7 +679,7 @@ void game_menu_config(void) {
 	while (cont) {
 		while ((joyfunc1)(&k1) != 0);
 		//MENU
-        zx_print_str(14,10,spec128 ? "SOUND AY  " : "SOUND 48  ");
+    zx_print_str(14,10,spec128 ? "SOUND AY  " : "SOUND 48  ");
 		zx_print_str(15,10,"GAME      ");
 		zx_print_str(16,10,"P1 CTRL   ");
 		zx_print_str(17,10,"P2 CTRL   ");

@@ -19,8 +19,8 @@
 
 extern void          player_init(unsigned char f_sprite, unsigned char f_lin, unsigned char f_col, unsigned char f_tile);
 extern void 		     player_calc_slide();
-extern unsigned char player_collition(void);
-extern unsigned char player_collition_check(void);
+extern unsigned char player_collision(void);
+extern unsigned char player_collision_check(void);
 extern unsigned char player_check_input(void);
 extern void          player_kill(void);
 extern void          player_restart(unsigned char f_sprite) __z88dk_fastcall;

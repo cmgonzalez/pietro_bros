@@ -251,8 +251,8 @@
 251   0000              	GLOBAL _enemy_flip
 252   0000              	GLOBAL _enemy_flip_change_dir
 253   0000              	GLOBAL _enemy_hit
-254   0000              	GLOBAL _enemy_collition_check
-255   0000              	GLOBAL _enemy_collition
+254   0000              	GLOBAL _enemy_collision_check
+255   0000              	GLOBAL _enemy_collision
 256   0000              	GLOBAL _enemy_coin1
 257   0000              	GLOBAL _player_move_horizontal
 258   0000              	GLOBAL _player_push_check
@@ -269,8 +269,8 @@
 269   0000              	GLOBAL _player_restart
 270   0000              	GLOBAL _player_kill
 271   0000              	GLOBAL _player_check_input
-272   0000              	GLOBAL _player_collition_check
-273   0000              	GLOBAL _player_collition
+272   0000              	GLOBAL _player_collision_check
+273   0000              	GLOBAL _player_collision
 274   0000              	GLOBAL _player_calc_slide
 275   0000              	GLOBAL _player_init
 276   0000              	GLOBAL _spr_draw_row
@@ -897,14 +897,7 @@
 897   00BD              ; Function test_func
 898   00BD              ; ---------------------------------
 899   00BD              _test_func:
-900   00BD  21 C0 00    	ld	hl,+(_lvl_1 + 0x00c0)
-901   00C0  46          	ld	b,(hl)
-902   00C1  C5          	push	bc
-903   00C2  33          	inc	sp
-904   00C3  21 14 00    	ld	hl,0x0014
-905   00C6  E5          	push	hl
-906   00C7  CD 00 00    	call	_zx_print_chr
-907   00CA  2E 00       	ld	l,0x00
-908   00CC  C9          	ret
-909   00CD              	SECTION IGNORE
-910   0000              
+900   00BD  2E 00       	ld	l,0x00
+901   00BF  C9          	ret
+902   00C0              	SECTION IGNORE
+903   0000              

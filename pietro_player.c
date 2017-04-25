@@ -71,13 +71,13 @@ unsigned char player_check_input(void) {
 	return dirs & IN_STICK_FIRE || dirs & IN_STICK_LEFT || dirs & IN_STICK_RIGHT;
 }
 
-unsigned char player_collition(void) {
+unsigned char player_collision(void) {
 	if ( class[sprite] == 0 ) return 0;
 	if (BIT_CHK(state[sprite], STAT_HIT)) return 0;
 	if (BIT_CHK(state[sprite], STAT_KILL)) return 0;
 	hit_count = 0;
 	for (enemies = 0; enemies < SPR_P2 ; ++enemies ) { //TODO USE SPRITE VARIABLE AS START....
-		if ( player_collition_check() ) {
+		if ( player_collision_check() ) {
 
 			if ( BIT_CHK(state[enemies], STAT_HIT) ) {
 				/* Kill the enemy */
@@ -103,8 +103,7 @@ unsigned char player_collition(void) {
 	return 0;
 }
 
-unsigned char player_collition_check(void) {
-
+unsigned char player_collision_check(void) {
 	if ( class[enemies] == 0 ) return 0;
 
 	if ( BIT_CHK(state[enemies], STAT_KILL) ) return 0;
@@ -116,28 +115,35 @@ unsigned char player_collition_check(void) {
 		if ( tmp_ui > PLAYER_VCOL_MARGIN ) return 0; //Walking
 	}
 
-	/* COL DIFF TO SPEED UP */
+	// COL DIFF TO SPEED UP
 	tmp_ui = abs( col[enemies] - col[sprite] );
 	tmp0 = 3*col[enemies];
 	tmp1 = 3*col[sprite];
+	s_col0 = col[enemies];
+	s_col1 = colint[enemies];
+	if (class[enemies] == COIN_2) {
+		s_col1 = 0;
+	}
+
 	if ( tmp_ui > PLAYER_HCOL_MARGIN ) return 0;
 
 	if ( BIT_CHK(state[enemies], STAT_DIRR) ) {
-		tmp0 = 3*col[enemies] + colint[enemies];
+		tmp0 = 3*s_col0 + s_col1;
 	}
 	if ( BIT_CHK(state[enemies], STAT_DIRL) ) {
-		tmp0 = 3*col[enemies] - colint[enemies];
+		tmp0 = 3*s_col0 - s_col1;
 	}
 
 	if ( BIT_CHK(state[sprite], STAT_DIRR) ) {
-		tmp1 = 3*col[sprite] + colint[sprite];
+		tmp1 = 3*s_col0 + s_col1;
 	}
 	if ( BIT_CHK(state[sprite], STAT_DIRL) ) {
-		tmp1 = 3*col[sprite] - colint[sprite];
+		tmp1 = 3*s_col0 - s_col1;
 	}
 	tmp_ui = abs(tmp0 - tmp1);
 
 	if ( tmp_ui > PLAYER_HCOL_MARGIN_INT ) return 0;
+
 	return 1;
 }
 
@@ -208,7 +214,7 @@ void player_turn(void) {
 				dirs = (joyfunc2) (&k1);
 			}
 			player_move();
-			player_collition();
+			player_collision();
 		}
 	}
 }
@@ -441,7 +447,7 @@ unsigned char player_move_input(void) {
 }
 
 void player_move_horizontal(void) {
-	//PLAYER COLLITIONS
+	//PLAYER collisionS
 
 	if ( player_push_check() ) {
 		player_push();
