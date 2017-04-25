@@ -391,115 +391,116 @@
 391   0000              	GLOBAL _sprite_speed
 392   0000              	GLOBAL _screen_ink
 393   0000              	GLOBAL _screen_paper
-394   0000              	GLOBAL _game_god_mode
-395   0000              	GLOBAL _game_menu_sel
-396   0000              	GLOBAL _game_type
-397   0000              	GLOBAL _game_osd
-398   0000              	GLOBAL _game_bonus
-399   0000              	GLOBAL _spr_water_time
-400   0000              	GLOBAL _spr_water_clear
-401   0000              	GLOBAL _game_time_fireball_start
-402   0000              	GLOBAL _game_time_flipped
-403   0000              	GLOBAL _game_score_top
-404   0000              	GLOBAL _game_lives
-405   0000              	GLOBAL _game_over
-406   0000              	GLOBAL _game_sound
-407   0000              	GLOBAL _game_two_player
-408   0000              	GLOBAL _game_brick_tile
-409   0000              	GLOBAL _game_pow
-410   0000              	GLOBAL _spr_count
-411   0000              	GLOBAL _frame_loop_count
-412   0000              	GLOBAL _osd_time
-413   0000              	GLOBAL _frame_time
-414   0000              	GLOBAL _entry_time
-415   0000              	GLOBAL _curr_time
-416   0000              	GLOBAL _s_state
-417   0000              	GLOBAL _attrib_hl
-418   0000              	GLOBAL _attrib
-419   0000              	GLOBAL _zx_val_asm
-420   0000              	GLOBAL _enemies
-421   0000              	GLOBAL _tmp_ui
-422   0000              	GLOBAL _tmp_sc
-423   0000              	GLOBAL _tmp_uc
-424   0000              	GLOBAL _tmp1
-425   0000              	GLOBAL _tmp0
-426   0000              	GLOBAL _tmp
-427   0000              	GLOBAL _index_d
-428   0000              	GLOBAL _index3
-429   0000              	GLOBAL _index2
-430   0000              	GLOBAL _index1
-431   0000              	GLOBAL _loop_count
-432   0000              	GLOBAL _sprite_lin_inc_mul
-433   0000              	GLOBAL _s_col1
-434   0000              	GLOBAL _s_col0
-435   0000              	GLOBAL _s_lin1
-436   0000              	GLOBAL _s_lin0
-437   0000              	GLOBAL _s_tile1
-438   0000              	GLOBAL _s_tile0
-439   0000              	GLOBAL _hit_count
-440   0000              	GLOBAL _tile_offset_other_player
-441   0000              	GLOBAL _tile_offset
-442   0000              	GLOBAL _index_player
-443   0000              	GLOBAL _sprite_other_player
-444   0000              	GLOBAL _sprite
-445   0000              	GLOBAL _player_joy
-446   0000              	GLOBAL _player_next_extra
-447   0000              	GLOBAL _player_score
-448   0000              	GLOBAL _last_time
-449   0000              	GLOBAL _sliding
-450   0000              	GLOBAL _spr_timer_c
-451   0000              	GLOBAL _spr_timer
-452   0000              	GLOBAL _jump_lin
-453   0000              	GLOBAL _player_jump_c
-454   0000              	GLOBAL _hit_col
-455   0000              	GLOBAL _hit_lin
-456   0000              	GLOBAL _colint
-457   0000              	GLOBAL _col
-458   0000              	GLOBAL _lin
-459   0000              	GLOBAL _tile
-460   0000              	GLOBAL _state_a
-461   0000              	GLOBAL _state
-462   0000              	GLOBAL _class
-463   0000              	GLOBAL _tbuffer
-464   0000              	GLOBAL _dirs
-465   0000              	GLOBAL _k2
-466   0000              	GLOBAL _k1
-467   0000              	GLOBAL _joyfunc2
-468   0000              	GLOBAL _joyfunc1
-469   0000              	GLOBAL _btiles
-470   0000              	GLOBAL _spec128
-471   0000              ;--------------------------------------------------------
-472   0000              ; special function registers
-473   0000              ;--------------------------------------------------------
+394   0000              	GLOBAL _game_menu_sel
+395   0000              	GLOBAL _game_type
+396   0000              	GLOBAL _game_osd
+397   0000              	GLOBAL _game_bonus
+398   0000              	GLOBAL _spr_water_time
+399   0000              	GLOBAL _spr_water_clear
+400   0000              	GLOBAL _game_time_fireball_start
+401   0000              	GLOBAL _game_time_flipped
+402   0000              	GLOBAL _game_score_top
+403   0000              	GLOBAL _game_lives
+404   0000              	GLOBAL _game_over
+405   0000              	GLOBAL _game_sound
+406   0000              	GLOBAL _game_inmune
+407   0000              	GLOBAL _game_god_mode
+408   0000              	GLOBAL _game_start_phase
+409   0000              	GLOBAL _game_two_player
+410   0000              	GLOBAL _game_brick_tile
+411   0000              	GLOBAL _game_pow
+412   0000              	GLOBAL _spr_count
+413   0000              	GLOBAL _osd_time
+414   0000              	GLOBAL _frame_time
+415   0000              	GLOBAL _entry_time
+416   0000              	GLOBAL _curr_time
+417   0000              	GLOBAL _s_state
+418   0000              	GLOBAL _attrib_hl
+419   0000              	GLOBAL _attrib
+420   0000              	GLOBAL _zx_val_asm
+421   0000              	GLOBAL _enemies
+422   0000              	GLOBAL _tmp_ui
+423   0000              	GLOBAL _tmp_sc
+424   0000              	GLOBAL _tmp_uc
+425   0000              	GLOBAL _tmp1
+426   0000              	GLOBAL _tmp0
+427   0000              	GLOBAL _tmp
+428   0000              	GLOBAL _index_d
+429   0000              	GLOBAL _index3
+430   0000              	GLOBAL _index2
+431   0000              	GLOBAL _index1
+432   0000              	GLOBAL _loop_count
+433   0000              	GLOBAL _sprite_lin_inc_mul
+434   0000              	GLOBAL _s_col1
+435   0000              	GLOBAL _s_col0
+436   0000              	GLOBAL _s_lin1
+437   0000              	GLOBAL _s_lin0
+438   0000              	GLOBAL _s_tile1
+439   0000              	GLOBAL _s_tile0
+440   0000              	GLOBAL _hit_count
+441   0000              	GLOBAL _tile_offset_other_player
+442   0000              	GLOBAL _tile_offset
+443   0000              	GLOBAL _index_player
+444   0000              	GLOBAL _sprite_other_player
+445   0000              	GLOBAL _sprite
+446   0000              	GLOBAL _player_joy
+447   0000              	GLOBAL _player_next_extra
+448   0000              	GLOBAL _player_score
+449   0000              	GLOBAL _last_time
+450   0000              	GLOBAL _sliding
+451   0000              	GLOBAL _spr_timer_c
+452   0000              	GLOBAL _spr_timer
+453   0000              	GLOBAL _jump_lin
+454   0000              	GLOBAL _player_jump_c
+455   0000              	GLOBAL _hit_col
+456   0000              	GLOBAL _hit_lin
+457   0000              	GLOBAL _colint
+458   0000              	GLOBAL _col
+459   0000              	GLOBAL _lin
+460   0000              	GLOBAL _tile
+461   0000              	GLOBAL _state_a
+462   0000              	GLOBAL _state
+463   0000              	GLOBAL _class
+464   0000              	GLOBAL _tbuffer
+465   0000              	GLOBAL _dirs
+466   0000              	GLOBAL _k2
+467   0000              	GLOBAL _k1
+468   0000              	GLOBAL _joyfunc2
+469   0000              	GLOBAL _joyfunc1
+470   0000              	GLOBAL _btiles
+471   0000              	GLOBAL _spec128
+472   0000              ;--------------------------------------------------------
+473   0000              ; special function registers
 474   0000              ;--------------------------------------------------------
-475   0000              ; ram data
-476   0000              ;--------------------------------------------------------
-477   0000              	SECTION bss_compiler
-478   0000              ;--------------------------------------------------------
-479   0000              ; ram data
-480   0000              ;--------------------------------------------------------
-481   0000              
-482   0000              IF 0
-483   0000              
-484   0000              ; .area _INITIALIZED removed by z88dk
-485   0000              
+475   0000              ;--------------------------------------------------------
+476   0000              ; ram data
+477   0000              ;--------------------------------------------------------
+478   0000              	SECTION bss_compiler
+479   0000              ;--------------------------------------------------------
+480   0000              ; ram data
+481   0000              ;--------------------------------------------------------
+482   0000              
+483   0000              IF 0
+484   0000              
+485   0000              ; .area _INITIALIZED removed by z88dk
 486   0000              
-487   0000              ENDIF
-488   0000              
-489   0000              ;--------------------------------------------------------
-490   0000              ; absolute external ram data
-491   0000              ;--------------------------------------------------------
-492   0000              	SECTION IGNORE
-493   0000              ;--------------------------------------------------------
-494   0000              ; global & static initialisations
-495   0000              ;--------------------------------------------------------
-496   0000              	SECTION code_crt_init
-497   0000              ;--------------------------------------------------------
-498   0000              ; Home
-499   0000              ;--------------------------------------------------------
-500   0000              	SECTION IGNORE
-501   0000              ;--------------------------------------------------------
-502   0000              ; code
-503   0000              ;--------------------------------------------------------
-504   0000              	SECTION IGNORE
-505   0000              
+487   0000              
+488   0000              ENDIF
+489   0000              
+490   0000              ;--------------------------------------------------------
+491   0000              ; absolute external ram data
+492   0000              ;--------------------------------------------------------
+493   0000              	SECTION IGNORE
+494   0000              ;--------------------------------------------------------
+495   0000              ; global & static initialisations
+496   0000              ;--------------------------------------------------------
+497   0000              	SECTION code_crt_init
+498   0000              ;--------------------------------------------------------
+499   0000              ; Home
+500   0000              ;--------------------------------------------------------
+501   0000              	SECTION IGNORE
+502   0000              ;--------------------------------------------------------
+503   0000              ; code
+504   0000              ;--------------------------------------------------------
+505   0000              	SECTION IGNORE
+506   0000              

@@ -224,13 +224,10 @@ void enemy_turn(void){
 			s_state = state[sprite];
 			last_time[sprite] = zx_clock();
 			//KILLED ENEMY
-
-				if ( BIT_CHK(s_state, STAT_KILL) && ( !BIT_CHK(s_state, STAT_JUMP) || class[sprite] == SLIPICE || class[sprite] == FIREBALL_RED || class[sprite] == FIREBALL_GREEN ) ) {
-  				spr_killed(sprite);
-  				continue;
-  			}
-
-
+				if ( BIT_CHK(s_state, STAT_KILL) && !BIT_CHK(s_state, STAT_JUMP) ) {
+							spr_killed(sprite);
+							continue;
+				}
 			//FLIPPED ENEMY
 			if ( BIT_CHK(s_state,STAT_HIT) && !BIT_CHK(s_state,STAT_FALL) && !BIT_CHK(s_state,STAT_JUMP) ) {
 				sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Flipped enemy */
@@ -270,9 +267,10 @@ void enemy_turn(void){
 		}
 	}
 }
+
 void enemy_ugly_fix() {
 	/*UGLY FIX FOR ROW 12 CORRUPTION*/
-	if (s_lin0 == 98 && (s_col0 <= 8 || s_col0 >= 24 ) ) {
+	if (s_lin0 == 98 && (s_col0 <= 6 || s_col0 >= 22 ) ) {
 		NIRVANAP_spriteT(sprite, TILE_EMPTY, 0, 0);
 		NIRVANAP_halt();
 		intrinsic_di();
@@ -421,6 +419,7 @@ void enemy_fireball_green(void){
 			spr_timer[sprite] = zx_clock();
 			sprite_speed_alt[sprite] = ENEMY_KILLED_SPEED; /* Kill by timeout */
 			BIT_SET(s_state, STAT_KILL);
+			BIT_CLR(s_state, STAT_JUMP);
 		}
 	}
 }
@@ -639,6 +638,7 @@ void enemy_init(unsigned char f_sprite,unsigned  char f_lin,unsigned  char f_col
 }
 
 void enemy_kill(unsigned char f_sprite) __z88dk_fastcall {
+
 	NIRVANAP_halt();
 	sound_kill();
 	if ( BIT_CHK(state[sprite], STAT_DIRL) ) {
@@ -648,35 +648,39 @@ void enemy_kill(unsigned char f_sprite) __z88dk_fastcall {
 		BIT_SET(state[f_sprite], STAT_DIRR);
 		BIT_CLR(state[f_sprite], STAT_DIRL);
 	}
-	BIT_CLR(state[f_sprite], STAT_FALL);
-	BIT_SET(state[f_sprite], STAT_JUMP);
+
+	if (class[f_sprite] == FIGHTERFLY) class[f_sprite] = SHELLCREEPER_GREEN; /* HACK */
 	BIT_SET(state[f_sprite], STAT_KILL);
-	if (class[f_sprite] == FIGHTERFLY) class[f_sprite] = SHELLCREEPER_GREEN; /* Hack */
+	if (class[f_sprite] <= SIDESTEPPER_MAGENTA) {
+		BIT_SET(state[f_sprite], STAT_JUMP);
+	} else {
+		BIT_CLR(state[f_sprite], STAT_JUMP);
+	}
+
 	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED; /*TODO CHECK DIFF SPEEDS*/
 
 	player_score_add(80 << hit_count); //BONUS!
 	++hit_count;
 	spr_timer[f_sprite] = zx_clock();
 	jump_lin[f_sprite] = lin[f_sprite];
-	if ( class[f_sprite] <= FIGHTERFLY  ) {
-		if (game_type != GAME_RANDOM_TYPE) {
-			--phase_left;
-      if (phase_left == 1) {
-				/*Evolve last Enemy*/
-				phase_angry = 1;
-				for (tmp0 = 0; tmp0 < SPR_P2 ; ++tmp0 ) {
-					if ( class[tmp0] > 0 && class[tmp0] <= FIGHTERFLY && !BIT_CHK(state[tmp0],STAT_KILL) )
-					{
-						/*evolve twice*/
-						enemy_evolve(tmp0);
-						enemy_evolve(tmp0);
-						tile[tmp0] = spr_tile(tmp0);
-					}
+	if ( class[f_sprite] <= SIDESTEPPER_MAGENTA && game_type != GAME_RANDOM_TYPE) {
+		--phase_left;
+    if (phase_left == 1) {
+			/*Evolve last Enemy*/
+			phase_angry = 1;
+			for (tmp0 = 0; tmp0 < SPR_P2 ; ++tmp0 ) {
+				if ( class[tmp0] > 0 && class[tmp0] <= FIGHTERFLY && !BIT_CHK(state[tmp0],STAT_KILL) )
+				{
+					/*evolve twice*/
+					enemy_evolve(tmp0);
+					enemy_evolve(tmp0);
+					tile[tmp0] = spr_tile(tmp0);
 				}
 			}
 		}
 		++phase_coins;
 	}
+
 	if (phase_left > 0 ) {
 		ay_fx_play(ay_effect_11);
 	} else {

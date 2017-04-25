@@ -22,45 +22,27 @@
 	zcompile.bat
 
 	options
-	zcompile		  - Normal compile max-allocs-per-node200000
+	zcompile		      - Normal compile max-allocs-per-node200000
 	zcompile fast     - Faster compile max-allocs-per-node10000 for debug purposes.
 	zcompile pentagon - Pentagon Build.
+  Game Notes
 
+	Score Table
+   Flipping an enemy | 10 |
+   Kicking an enemy off the floor | 800 |
+   Hitting Slipice | 500 |
+   Hitting a Red Fireball | 1000 |
+   Hitting a Green Fireball | 200 |
+   Bonus Coin | 800 |
+   Collecting all Bonus Coins (1st phase) | 3000 |
+   Collecting all Bonus Coins (2nd phase+) | 5000 |
+   Extra Life - 20000 points
 
- */
-
-
-/*###############################################################################################
-  #																								#
-  # NOTES																						#
-  #-SCORE TABLE--------------------------------------											#
-  #| Flipping an enemy | 10 |																	#
-  #| Kicking an enemy off the floor | 800 |														#
-  #| Hitting Slipice | 500 |																	#
-  #| Hitting a Red Fireball | 1000 |															#
-  #| Hitting a Green Fireball | 200 |															#
-  #| Bonus Coin | 800 |																			#
-  #| Collecting all Bonus Coins (1st phase) | 3000 |											#
-  # Collecting all Bonus Coins (2nd phase+) | 5000 |											#
-  # =================================================											#
-  #| Extra Life - 20000 points |																#
-  # -------------------------------------------------											#
-  #																								#
-  # A-Game - When enemy gets knocked on its back, it takes 20 seconds for						#
-  # it to change color and get back up															#
-  # B-Game - When enemy gets knocked on its back, it takes 15 seconds for						#
-  # it to change color and get back up															#
-  # A-Game - Fireballs start to appear 80 seconds after the level begins						#
-  # B-Game - Fireballs start to appear 60 seconds after the level begins						#
-  #																								#
-  ###############################################################################################*/
-
-/*###############################################################################################
-  #																								#
-  # MAIN																						#
-  #																								#
-  ###############################################################################################*/
-
+	 A-Game - When enemy gets knocked on its back, it takes 20 seconds for it to change color and get back up
+   B-Game - When enemy gets knocked on its back, it takes 15 seconds for it to change color and get back up
+   A-Game - Fireballs start to appear 80 seconds after the level begins
+   B-Game - Fireballs start to appear 60 seconds after the level begins
+*/
 
 #include <arch/zx.h>
 #include <input.h>
@@ -79,6 +61,9 @@
 void main(void) {
 	unsigned int counter;
 
+	game_start_phase = 0;
+	game_god_mode = 1;
+	game_inmune = 1;
 	//INTERRUPTS ARE DISABLED
 
 	//RESET AY CHIP
@@ -147,5 +132,6 @@ void main(void) {
 }
 
 unsigned char test_func(void) {
+	zx_print_chr(20,0,lvl_1[192]);
   return 0;
 }

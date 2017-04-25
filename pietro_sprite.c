@@ -189,7 +189,6 @@ unsigned char spr_killed( unsigned char f_sprite) __z88dk_fastcall {
 }
 
 void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
-//	if ( spr_chktime(&sprite) ) {
 
 		if (lin[f_sprite] < GAME_LIN_FLOOR) {
 
@@ -224,11 +223,12 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 					NIRVANAP_spriteT(f_sprite, TILE_EMPTY, 0,0);
 				}
 			} else {
+
+				/*Set end of phase to be readed on game_loop*/
+			  if (phase_left <= 0) phase_end = 1;
 				/* Enemy dies */
 				spr_destroy(f_sprite);
 
-				/*Set end of phase to be readed on game_loop*/
-				if (phase_left <= 0) phase_end = 1;
 			}
 			/* Restore lower pipes */
 			if (s_col1 <= 4  ) spr_back_paint(0 + 15 * 32);
@@ -310,6 +310,7 @@ void spr_destroy(unsigned char f_sprite) __z88dk_fastcall {
 	lin[f_sprite] = 0;
 	class[f_sprite] = 0;
 	state[f_sprite] = 0;
+	state_a[f_sprite] = 0;
 	NIRVANAP_spriteT(f_sprite, TILE_EMPTY, 0,0);
 	NIRVANAP_halt();
 	NIRVANAP_fillT(PAPER, s_lin0, s_col0);
@@ -407,16 +408,7 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 void spr_draw_back(void) {
 	intrinsic_di();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-  /*
-	for (s_lin1 = 16; s_lin1 < 182; s_lin1 = s_lin1 + 8) {
-		for (s_col1 = 0; s_col1 < 32; s_col1 = s_col1 + 2) {
-			tmp_ui = game_calc_index(s_lin1,s_col1);
-			if (lvl_1[tmp_ui] >= GAME_MAP_PLATFORM ) {
-				NIRVANAP_drawT_raw(game_brick_tile, s_lin1, s_col1);
-			}
-		}
-	}
-	*/
+  
 	spr_draw_row(6);
 	spr_draw_row(11);
 	spr_draw_row(12);
@@ -632,9 +624,8 @@ void spr_cortina_brick(void) {
 /* Clear Screen With Pipes */
 
 
-
-void spr_cortina_pipes(void) {
 /*
+void spr_cortina_pipes(void) {
  	unsigned char s_col1,s_lin1;
 	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
 		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
@@ -653,10 +644,8 @@ void spr_cortina_pipes(void) {
 	}
 
 	NIRVANAP_halt();
-*/
-	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 }
-
+*/
 
 
 

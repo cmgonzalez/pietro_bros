@@ -89,14 +89,12 @@ unsigned char player_collition(void) {
 				} else {
 					/* Player Killed */
 					ay_fx_play(ay_effect_18);
-					player_kill();
-					/*
 					if (game_god_mode) {
 						enemy_kill(enemies);
 					} else {
 						if (!game_inmune) player_kill();
 					}
-					*/
+
 				}
 			}
 		}
@@ -360,60 +358,60 @@ unsigned char player_move_input(void) {
 
 	if ( BIT_CHK(s_state, STAT_JUMP) || BIT_CHK(s_state, STAT_FALL) ) return 0;
 	/* User have pressed valid input */
-	if ( player_check_input() && sliding[index_player] == 0 ) {
-				/* Move Right */
-				if ( dirs & IN_STICK_RIGHT ) {
-					if ( BIT_CHK(s_state, STAT_DIRL) ) {
-						player_calc_slide();
-						return 1;
-					}
-					BIT_SET(s_state, STAT_DIRR);
-					BIT_CLR(s_state, STAT_DIRL);
-					BIT_SET(state_a[sprite], STAT_LDIRR);
-					BIT_CLR(state_a[sprite], STAT_LDIRL);
-					BIT_SET(state_a[sprite], STAT_INERT);
-				}
-				/* Move Left */
-				if ( dirs & IN_STICK_LEFT ) {
-					if ( BIT_CHK(s_state, STAT_DIRR) ) {
-						player_calc_slide();
-						return 1;
-					}
-					BIT_SET(s_state, STAT_DIRL);
-					BIT_CLR(s_state, STAT_DIRR);
-					BIT_SET(state_a[sprite], STAT_LDIRL);
-					BIT_CLR(state_a[sprite], STAT_LDIRR);
-					BIT_SET(state_a[sprite], STAT_INERT);
-				}
-				/* Set Tile according to current direction */
-				state[sprite] = s_state; /*TODO FIXME!*/
-				tile[sprite] = spr_tile_dir(TILE_P1_RIGHT + tile_offset,sprite,12);
+	if ( player_check_input() && ( sliding[index_player] == 0 || dirs & IN_STICK_FIRE ) ) {
+		/* New jump */
+		if ( dirs & IN_STICK_FIRE ) {
+			if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_03);
+			sound_jump();
+			if ( BIT_CHK( state[sprite] ,  STAT_DIRR ) ) {
+				colint[sprite]=0;
+			} else {
+				colint[sprite]=2;
+			}
+			BIT_SET(s_state, STAT_JUMP);
+			BIT_CLR(s_state, STAT_FALL);
+			jump_lin[sprite] = lin[sprite];
+			state[sprite] = s_state; /*TODO FIXME!*/
+			tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset, sprite, 12);
+			sprite_speed_alt[sprite] = PLAYER_JUMP_SPEED;
+			player_jump_c[index_player] = 0;
+			sliding[index_player] = 0;
+			return 1;
+		}
 
-				/* New jump */
-				if ( dirs & IN_STICK_FIRE ) {
-					if ( ay_is_playing() != AY_PLAYING_MUSIC ) ay_fx_play(ay_effect_03);
-					sound_jump();
-
-					if ( BIT_CHK( state[sprite] ,  STAT_DIRR ) ) {
-						colint[sprite]=0;
-					} else {
-						colint[sprite]=2;
-					}
-					BIT_SET(s_state, STAT_JUMP);
-					BIT_CLR(s_state, STAT_FALL);
-
-					jump_lin[sprite] = lin[sprite];
-					state[sprite] = s_state; /*TODO FIXME!*/
-					tile[sprite] = spr_tile_dir(TILE_P1_JUMPR + tile_offset, sprite, 12);
-					sprite_speed_alt[sprite] = PLAYER_JUMP_SPEED;
-					player_jump_c[index_player] = 0;
-					sliding[index_player] = 0;
+			/* Move Right */
+			if ( dirs & IN_STICK_RIGHT ) {
+				if ( BIT_CHK(s_state, STAT_DIRL) ) {
+					player_calc_slide();
 					return 1;
 				}
+				BIT_SET(s_state, STAT_DIRR);
+				BIT_CLR(s_state, STAT_DIRL);
+				BIT_SET(state_a[sprite], STAT_LDIRR);
+				BIT_CLR(state_a[sprite], STAT_LDIRL);
+				BIT_SET(state_a[sprite], STAT_INERT);
+			}
+			/* Move Left */
+			if ( dirs & IN_STICK_LEFT ) {
+				if ( BIT_CHK(s_state, STAT_DIRR) ) {
+					player_calc_slide();
+					return 1;
+				}
+				BIT_SET(s_state, STAT_DIRL);
+				BIT_CLR(s_state, STAT_DIRR);
+				BIT_SET(state_a[sprite], STAT_LDIRL);
+				BIT_CLR(state_a[sprite], STAT_LDIRR);
+				BIT_SET(state_a[sprite], STAT_INERT);
+			}
+			/* Set Tile according to current direction */
+			state[sprite] = s_state; /*TODO FIXME!*/
+			tile[sprite] = spr_tile_dir(TILE_P1_RIGHT + tile_offset,sprite,12);
 
-				if ( !ay_is_playing() && !game_bonus ) ay_fx_play(ay_effect_20);
-				player_move_horizontal();
-			return 1;
+
+
+			if ( !ay_is_playing() && !game_bonus ) ay_fx_play(ay_effect_20);
+			player_move_horizontal();
+		return 1;
 	} else {
 		if (BIT_CHK(state_a[sprite], STAT_INERT)) {
 			player_calc_slide();
@@ -575,7 +573,7 @@ void player_coin(unsigned char f_enemies, unsigned char f_score) {
 		sprite_speed_alt[f_enemies] = ENEMY_KILLED_SPEED;
 		sound_coin();
 	}
-
+  BIT_CLR(state[f_enemies], STAT_JUMP);
 	BIT_SET(state[f_enemies], STAT_KILL);
 	spr_timer[f_enemies] = zx_clock();
 	if (game_bonus){

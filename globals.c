@@ -101,7 +101,6 @@ unsigned int	curr_time;
 unsigned int	entry_time;
 unsigned int	frame_time;
 unsigned int	osd_time;
-unsigned int	frame_loop_count;
 unsigned char	spr_count;
 //###############################################################################################
 //#                                                                                             #
@@ -111,6 +110,10 @@ unsigned char	spr_count;
 unsigned char	game_pow;					//LEVEL OF POW ON THE SCREEN 0 = NONE
 unsigned char game_brick_tile;
 unsigned char game_two_player;
+unsigned char game_start_phase;
+unsigned char game_god_mode;
+unsigned char game_inmune;
+
 unsigned char	game_sound;
 unsigned char	game_over;
 unsigned char	game_lives[2];
@@ -235,12 +238,12 @@ unsigned int spr_idx[] = {
 	TILE_PIPE1B, 		//11
 	TILE_PIPE2B, 		//12
 	TILE_PIPE3B, 		//13
-	0, 					//14
-	0, 					//15
-	0 , 				//16 COLITION
+	0, 					    //14
+	0, 					    //15
+	0 , 			     	//16 COLITION
 	TILE_POW1, 			//17 COLITION
 	TILE_BRICK1, 		//18 COLITION
-	0, 		 			//19 COLITION
+  0,              //19 COLITION
 	TILE_BRICK_FREEZE	//20 COLITION
 };
 

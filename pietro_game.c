@@ -102,21 +102,18 @@ unsigned char game_phase_calc(void) {
 	phase_quota[2]	= phases[tmp_uc+2];
 
 	game_brick_tile = phases[tmp_uc+3]; //PHASE TILE IS ON 4 ELEMENT
-
+  spr_idx[18]	= game_brick_tile; /* HACK */
 	if ( game_brick_tile == TILE_BRICK_FREEZE ) {
 		game_freeze_all();
 	} else {
-	  game_unfreeze_all();
+		game_unfreeze_all();
 	}
-	spr_idx[18]		= game_brick_tile; //HACK
+
 	return phase_quota[0] + phase_quota[1] + phase_quota[2];
 }
 
 
 void game_phase_init(void) {
-	/*PHASE TUNE*/
-	ay_reset();
-	if (game_bonus == 0) ay_midi_play(pb_midi_phase_1);
 
 	/*PHASE INIT*/
 	loop_count = 0;
@@ -130,10 +127,6 @@ void game_phase_init(void) {
 	frame_time = 0;
 	score_osd_col[0] = 0xFF;
 	score_osd_col[1] = 0xFF;
-	/* PHASE OSD START */
-	spr_draw_clear();
-	spr_cortina_pipes();
-	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	spr_count = 0;
 
 
@@ -165,18 +158,21 @@ void game_phase_init(void) {
 		spr_idx[18] = TILE_BRICK_RESTART;
 	}
 
+	/* Phase Tune */
+	ay_reset();
+	if (game_bonus == 0) ay_midi_play(pb_midi_phase_1);
+	/* Phase Draw Start */
+	spr_draw_clear();
 	/*Draw Platforms*/
 	spr_draw_back();
   game_print_header();
 	game_print_footer();
-	z80_delay_ms(100);
-	game_osd = 1;
-	osd_time = zx_clock();
-	/* PLAYER INIT */
+	/* Player(s) init */
 	if (game_lives[0]) player_init(SPR_P1,GAME_LIN_FLOOR,10,TILE_P1_STANR);
 	if (game_lives[1]) player_init(SPR_P2,GAME_LIN_FLOOR,20,TILE_P1_STANR +24+12);
-
-
+	z80_delay_ms(500);
+	game_osd = 1;
+	osd_time = zx_clock();
 }
 
 void game_print_header(void) {
@@ -244,13 +240,11 @@ void game_loop(void) {
 	game_over = 0;
 	game_pow = 3;
 	/* phase init */
-	phase_curr = 0;
+	phase_curr = game_start_phase;
 	game_phase_init();
 	/* game loop start */
 	sprite_lin_inc_mul = 0;
-	loop_count=0;
 	dirs = 0x00;
-	game_unfreeze_all();
 	game_joystick_set();
 	while (!game_over) {
 		/*player 1 turn*/
@@ -370,6 +364,7 @@ void game_bonus_clock(void) {
 	tmp_ui = TIME_BONUS - zx_clock()*2;           // one frame is 0.02 seconds
 	if (tmp_ui > TIME_BONUS) {
 		tmp_ui = 0;          // if time remaining goes negative
+		zx_print_bonus_time(2,14,tmp_ui);
 		phase_left = 0;
 		phase_end = 1;
 		ay_reset();
@@ -557,6 +552,7 @@ unsigned char game_enemy_add1(unsigned char f_class) __z88dk_fastcall {
 		return 0;
 	}
 	//force for test an enemy
+	//f_class = SLIPICE;
 	++phase_pop;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
@@ -634,7 +630,7 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 }
 
 void game_unfreeze_all(void) {
-	for (index1 = 192; index1 <= 512+32; index1++ ) {
+	for (index1 = 192; index1 <= 544; index1++ ) {
 		if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE ) {
 			lvl_1[index1] = GAME_MAP_PLATFORM;
 		}
@@ -642,7 +638,7 @@ void game_unfreeze_all(void) {
 }
 
 void game_freeze_all(void) {
-	for (index1 = 192; index1 <= 512+32; index1++ ) {
+	for (index1 = 192; index1 <= 544; index1++ ) {
 		if (lvl_1[index1] == GAME_MAP_PLATFORM ) {
 			lvl_1[index1] = GAME_MAP_PLATFORM_FREEZE;
 		}

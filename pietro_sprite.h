@@ -47,7 +47,7 @@ extern void			 spr_back_fix4(void);
 
 extern void			 spr_brick_anim(unsigned char f_hit) __z88dk_fastcall;
 extern void			 spr_cortina_brick(void);
-extern void			 spr_cortina_pipes(void);
+/*extern void			 spr_cortina_pipes(void);*/
 extern void			 spr_draw_back(void);
 extern void			 spr_water_splash_clear();
 extern void			 spr_water_splash_draw( unsigned char f_col) __z88dk_fastcall;
