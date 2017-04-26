@@ -91,9 +91,9 @@ extern unsigned char	spr_count;
 extern unsigned char	game_pow;
 extern unsigned char 	game_brick_tile;
 extern unsigned char 	game_two_player;
-extern unsigned char game_start_phase;
-extern unsigned char game_god_mode;
-extern unsigned char game_inmune;
+extern unsigned char  game_start_phase;
+extern unsigned char  game_god_mode;
+extern unsigned char  game_inmune;
 
 #define GAME_SOUND_48_FX_ON       0x01
 #define GAME_SOUND_48_FX_OFF      0xfe

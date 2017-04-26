@@ -183,3 +183,4 @@
 
 #include "globals.h"
 unsigned char test_func(void);
+void debug_func(void);

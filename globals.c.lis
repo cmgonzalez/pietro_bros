@@ -284,1219 +284,1220 @@
 284   0000              ;--------------------------------------------------------
 285   0000              ; Externals used
 286   0000              ;--------------------------------------------------------
-287   0000              	GLOBAL _test_func
-288   0000              	GLOBAL _in_mouse_kempston_wheel_delta
-289   0000              	GLOBAL _in_mouse_kempston_wheel
-290   0000              	GLOBAL _in_mouse_kempston_callee
-291   0000              	GLOBAL _in_mouse_kempston
-292   0000              	GLOBAL _in_mouse_kempston_setpos_callee
-293   0000              	GLOBAL _in_mouse_kempston_setpos
-294   0000              	GLOBAL _in_mouse_kempston_reset
-295   0000              	GLOBAL _in_mouse_kempston_init
-296   0000              	GLOBAL _in_mouse_amx_wheel_delta
-297   0000              	GLOBAL _in_mouse_amx_wheel
-298   0000              	GLOBAL _in_mouse_amx_callee
-299   0000              	GLOBAL _in_mouse_amx
-300   0000              	GLOBAL _in_mouse_amx_setpos_callee
-301   0000              	GLOBAL _in_mouse_amx_setpos
-302   0000              	GLOBAL _in_mouse_amx_reset
-303   0000              	GLOBAL _in_mouse_amx_init_callee
-304   0000              	GLOBAL _in_mouse_amx_init
-305   0000              	GLOBAL _in_stick_sinclair2
-306   0000              	GLOBAL _in_stick_sinclair1
-307   0000              	GLOBAL _in_stick_kempston
-308   0000              	GLOBAL _in_stick_fuller
-309   0000              	GLOBAL _in_stick_cursor
-310   0000              	GLOBAL _in_stick_keyboard_fastcall
-311   0000              	GLOBAL _in_stick_keyboard
-312   0000              	GLOBAL _in_wait_nokey
-313   0000              	GLOBAL _in_wait_key
-314   0000              	GLOBAL _in_test_key
-315   0000              	GLOBAL _in_pause_fastcall
-316   0000              	GLOBAL _in_pause
-317   0000              	GLOBAL _in_key_scancode_fastcall
-318   0000              	GLOBAL _in_key_scancode
-319   0000              	GLOBAL _in_key_pressed_fastcall
-320   0000              	GLOBAL _in_key_pressed
-321   0000              	GLOBAL _in_inkey
-322   0000              	GLOBAL _btiles
-323   0000              ;--------------------------------------------------------
-324   0000              ; special function registers
-325   0000              ;--------------------------------------------------------
+287   0000              	GLOBAL _debug_func
+288   0000              	GLOBAL _test_func
+289   0000              	GLOBAL _in_mouse_kempston_wheel_delta
+290   0000              	GLOBAL _in_mouse_kempston_wheel
+291   0000              	GLOBAL _in_mouse_kempston_callee
+292   0000              	GLOBAL _in_mouse_kempston
+293   0000              	GLOBAL _in_mouse_kempston_setpos_callee
+294   0000              	GLOBAL _in_mouse_kempston_setpos
+295   0000              	GLOBAL _in_mouse_kempston_reset
+296   0000              	GLOBAL _in_mouse_kempston_init
+297   0000              	GLOBAL _in_mouse_amx_wheel_delta
+298   0000              	GLOBAL _in_mouse_amx_wheel
+299   0000              	GLOBAL _in_mouse_amx_callee
+300   0000              	GLOBAL _in_mouse_amx
+301   0000              	GLOBAL _in_mouse_amx_setpos_callee
+302   0000              	GLOBAL _in_mouse_amx_setpos
+303   0000              	GLOBAL _in_mouse_amx_reset
+304   0000              	GLOBAL _in_mouse_amx_init_callee
+305   0000              	GLOBAL _in_mouse_amx_init
+306   0000              	GLOBAL _in_stick_sinclair2
+307   0000              	GLOBAL _in_stick_sinclair1
+308   0000              	GLOBAL _in_stick_kempston
+309   0000              	GLOBAL _in_stick_fuller
+310   0000              	GLOBAL _in_stick_cursor
+311   0000              	GLOBAL _in_stick_keyboard_fastcall
+312   0000              	GLOBAL _in_stick_keyboard
+313   0000              	GLOBAL _in_wait_nokey
+314   0000              	GLOBAL _in_wait_key
+315   0000              	GLOBAL _in_test_key
+316   0000              	GLOBAL _in_pause_fastcall
+317   0000              	GLOBAL _in_pause
+318   0000              	GLOBAL _in_key_scancode_fastcall
+319   0000              	GLOBAL _in_key_scancode
+320   0000              	GLOBAL _in_key_pressed_fastcall
+321   0000              	GLOBAL _in_key_pressed
+322   0000              	GLOBAL _in_inkey
+323   0000              	GLOBAL _btiles
+324   0000              ;--------------------------------------------------------
+325   0000              ; special function registers
 326   0000              ;--------------------------------------------------------
-327   0000              ; ram data
-328   0000              ;--------------------------------------------------------
-329   0000              	SECTION bss_compiler
-330   0000              _spec128:
-331   0000  00          	DEFS 1
-332   0001              _joyfunc1:
-333   0001  00 00       	DEFS 2
-334   0003              _joyfunc2:
-335   0003  00 00       	DEFS 2
-336   0005              _k1:
-337   0005  00 00 00 00 00 00 00 00 00 00 
+327   0000              ;--------------------------------------------------------
+328   0000              ; ram data
+329   0000              ;--------------------------------------------------------
+330   0000              	SECTION bss_compiler
+331   0000              _spec128:
+332   0000  00          	DEFS 1
+333   0001              _joyfunc1:
+334   0001  00 00       	DEFS 2
+335   0003              _joyfunc2:
+336   0003  00 00       	DEFS 2
+337   0005              _k1:
+338   0005  00 00 00 00 00 00 00 00 00 00 
                         	DEFS 10
-338   000F              _k2:
-339   000F  00 00 00 00 00 00 00 00 00 00 
+339   000F              _k2:
+340   000F  00 00 00 00 00 00 00 00 00 00 
                         	DEFS 10
-340   0019              _dirs:
-341   0019  00          	DEFS 1
-342   001A              _tbuffer:
-343   001A  00 00 00 00 00 00 00 
+341   0019              _dirs:
+342   0019  00          	DEFS 1
+343   001A              _tbuffer:
+344   001A  00 00 00 00 00 00 00 
                         	DEFS 7
-344   0021              _class:
-345   0021  00 00 00 00 00 00 00 00 
+345   0021              _class:
+346   0021  00 00 00 00 00 00 00 00 
                         	DEFS 8
-346   0029              _state:
-347   0029  00 00 00 00 00 00 00 00 
+347   0029              _state:
+348   0029  00 00 00 00 00 00 00 00 
                         	DEFS 8
-348   0031              _state_a:
-349   0031  00 00 00 00 00 00 00 00 
+349   0031              _state_a:
+350   0031  00 00 00 00 00 00 00 00 
                         	DEFS 8
-350   0039              _tile:
-351   0039  00 00 00 00 00 00 00 00 
+351   0039              _tile:
+352   0039  00 00 00 00 00 00 00 00 
                         	DEFS 8
-352   0041              _lin:
-353   0041  00 00 00 00 00 00 00 00 
+353   0041              _lin:
+354   0041  00 00 00 00 00 00 00 00 
                         	DEFS 8
-354   0049              _col:
-355   0049  00 00 00 00 00 00 00 00 
+355   0049              _col:
+356   0049  00 00 00 00 00 00 00 00 
                         	DEFS 8
-356   0051              _colint:
-357   0051  00 00 00 00 00 00 00 00 
+357   0051              _colint:
+358   0051  00 00 00 00 00 00 00 00 
                         	DEFS 8
-358   0059              _spr_timer:
-359   0059  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+359   0059              _spr_timer:
+360   0059  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
                         	DEFS 16
-360   0069              _spr_timer_c:
-361   0069  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+361   0069              _spr_timer_c:
+362   0069  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
                         	DEFS 16
-362   0079              _last_time:
-363   0079  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
+363   0079              _last_time:
+364   0079  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 
                         	DEFS 16
-364   0089              _jump_lin:
-365   0089  00 00 00 00 00 00 00 00 
+365   0089              _jump_lin:
+366   0089  00 00 00 00 00 00 00 00 
                         	DEFS 8
-366   0091              _hit_lin:
-367   0091  00 00       	DEFS 2
-368   0093              _hit_col:
-369   0093  00 00       	DEFS 2
-370   0095              _player_jump_c:
-371   0095  00 00       	DEFS 2
-372   0097              _sliding:
-373   0097  00 00       	DEFS 2
-374   0099              _player_score:
-375   0099  00 00 00 00 	DEFS 4
-376   009D              _player_next_extra:
-377   009D  00 00 00 00 	DEFS 4
-378   00A1              _player_joy:
-379   00A1  00 00 00 00 	DEFS 4
-380   00A5              _index_player:
-381   00A5  00          	DEFS 1
-382   00A6              _sprite_other_player:
-383   00A6  00          	DEFS 1
-384   00A7              _sprite:
-385   00A7  00          	DEFS 1
-386   00A8              _tile_offset:
-387   00A8  00          	DEFS 1
-388   00A9              _tile_offset_other_player:
-389   00A9  00          	DEFS 1
-390   00AA              _hit_count:
-391   00AA  00          	DEFS 1
-392   00AB              _s_tile0:
-393   00AB  00          	DEFS 1
-394   00AC              _s_tile1:
-395   00AC  00          	DEFS 1
-396   00AD              _s_lin0:
-397   00AD  00          	DEFS 1
-398   00AE              _s_lin1:
-399   00AE  00          	DEFS 1
-400   00AF              _s_col0:
-401   00AF  00          	DEFS 1
-402   00B0              _s_col1:
-403   00B0  00          	DEFS 1
-404   00B1              _sprite_lin_inc_mul:
-405   00B1  00          	DEFS 1
-406   00B2              _loop_count:
-407   00B2  00 00       	DEFS 2
-408   00B4              _index1:
-409   00B4  00 00       	DEFS 2
-410   00B6              _index2:
-411   00B6  00 00       	DEFS 2
-412   00B8              _index3:
-413   00B8  00 00       	DEFS 2
-414   00BA              _index_d:
-415   00BA  00 00       	DEFS 2
-416   00BC              _tmp:
-417   00BC  00          	DEFS 1
-418   00BD              _tmp0:
-419   00BD  00          	DEFS 1
-420   00BE              _tmp1:
-421   00BE  00          	DEFS 1
-422   00BF              _tmp_uc:
-423   00BF  00          	DEFS 1
-424   00C0              _tmp_sc:
-425   00C0  00          	DEFS 1
-426   00C1              _tmp_ui:
-427   00C1  00 00       	DEFS 2
-428   00C3              _enemies:
-429   00C3  00          	DEFS 1
-430   00C4              _zx_val_asm:
-431   00C4  00          	DEFS 1
-432   00C5              _attrib:
-433   00C5  00 00 00 00 	DEFS 4
-434   00C9              _attrib_hl:
-435   00C9  00 00 00 00 	DEFS 4
-436   00CD              _s_state:
-437   00CD  00          	DEFS 1
-438   00CE              _curr_time:
-439   00CE  00 00       	DEFS 2
-440   00D0              _entry_time:
-441   00D0  00 00       	DEFS 2
-442   00D2              _frame_time:
-443   00D2  00 00       	DEFS 2
-444   00D4              _osd_time:
-445   00D4  00 00       	DEFS 2
-446   00D6              _spr_count:
-447   00D6  00          	DEFS 1
-448   00D7              _game_pow:
-449   00D7  00          	DEFS 1
-450   00D8              _game_brick_tile:
-451   00D8  00          	DEFS 1
-452   00D9              _game_two_player:
-453   00D9  00          	DEFS 1
-454   00DA              _game_start_phase:
-455   00DA  00          	DEFS 1
-456   00DB              _game_god_mode:
-457   00DB  00          	DEFS 1
-458   00DC              _game_inmune:
-459   00DC  00          	DEFS 1
-460   00DD              _game_sound:
-461   00DD  00          	DEFS 1
-462   00DE              _game_over:
-463   00DE  00          	DEFS 1
-464   00DF              _game_lives:
-465   00DF  00 00       	DEFS 2
-466   00E1              _game_time_flipped:
-467   00E1  00 00       	DEFS 2
-468   00E3              _game_time_fireball_start:
-469   00E3  00 00       	DEFS 2
-470   00E5              _spr_water_clear:
-471   00E5  00          	DEFS 1
-472   00E6              _spr_water_time:
-473   00E6  00 00       	DEFS 2
-474   00E8              _game_bonus:
-475   00E8  00          	DEFS 1
-476   00E9              _game_osd:
-477   00E9  00          	DEFS 1
-478   00EA              _game_type:
-479   00EA  00          	DEFS 1
-480   00EB              _game_menu_sel:
-481   00EB  00          	DEFS 1
-482   00EC              _game_score_top:
-483   00EC  00 00       	DEFS 2
-484   00EE              _phase_quota:
-485   00EE  00 00 00    	DEFS 3
-486   00F1              _phase_left:
-487   00F1  00          	DEFS 1
-488   00F2              _phase_tot:
-489   00F2  00          	DEFS 1
-490   00F3              _phase_pop:
-491   00F3  00          	DEFS 1
-492   00F4              _phase_coins:
-493   00F4  00          	DEFS 1
-494   00F5              _phase_end:
-495   00F5  00          	DEFS 1
-496   00F6              _phase_curr:
-497   00F6  00          	DEFS 1
-498   00F7              _phase_angry:
-499   00F7  00          	DEFS 1
-500   00F8              _phase_bonus_total:
-501   00F8  00 00       	DEFS 2
-502   00FA              _screen_paper:
-503   00FA  00          	DEFS 1
-504   00FB              _screen_ink:
-505   00FB  00          	DEFS 1
-506   00FC              _score_osd_lin:
-507   00FC  00 00       	DEFS 2
-508   00FE              _score_osd_col:
-509   00FE  00 00       	DEFS 2
-510   0100              _score_osd_time:
-511   0100  00 00 00 00 	DEFS 4
-512   0104              _score_osd_tile:
-513   0104  00 00 00 00 	DEFS 4
-514   0108              _sprite_speed_alt:
-515   0108  00 00 00 00 00 00 00 00 
+367   0091              _hit_lin:
+368   0091  00 00       	DEFS 2
+369   0093              _hit_col:
+370   0093  00 00       	DEFS 2
+371   0095              _player_jump_c:
+372   0095  00 00       	DEFS 2
+373   0097              _sliding:
+374   0097  00 00       	DEFS 2
+375   0099              _player_score:
+376   0099  00 00 00 00 	DEFS 4
+377   009D              _player_next_extra:
+378   009D  00 00 00 00 	DEFS 4
+379   00A1              _player_joy:
+380   00A1  00 00 00 00 	DEFS 4
+381   00A5              _index_player:
+382   00A5  00          	DEFS 1
+383   00A6              _sprite_other_player:
+384   00A6  00          	DEFS 1
+385   00A7              _sprite:
+386   00A7  00          	DEFS 1
+387   00A8              _tile_offset:
+388   00A8  00          	DEFS 1
+389   00A9              _tile_offset_other_player:
+390   00A9  00          	DEFS 1
+391   00AA              _hit_count:
+392   00AA  00          	DEFS 1
+393   00AB              _s_tile0:
+394   00AB  00          	DEFS 1
+395   00AC              _s_tile1:
+396   00AC  00          	DEFS 1
+397   00AD              _s_lin0:
+398   00AD  00          	DEFS 1
+399   00AE              _s_lin1:
+400   00AE  00          	DEFS 1
+401   00AF              _s_col0:
+402   00AF  00          	DEFS 1
+403   00B0              _s_col1:
+404   00B0  00          	DEFS 1
+405   00B1              _sprite_lin_inc_mul:
+406   00B1  00          	DEFS 1
+407   00B2              _loop_count:
+408   00B2  00 00       	DEFS 2
+409   00B4              _index1:
+410   00B4  00 00       	DEFS 2
+411   00B6              _index2:
+412   00B6  00 00       	DEFS 2
+413   00B8              _index3:
+414   00B8  00 00       	DEFS 2
+415   00BA              _index_d:
+416   00BA  00 00       	DEFS 2
+417   00BC              _tmp:
+418   00BC  00          	DEFS 1
+419   00BD              _tmp0:
+420   00BD  00          	DEFS 1
+421   00BE              _tmp1:
+422   00BE  00          	DEFS 1
+423   00BF              _tmp_uc:
+424   00BF  00          	DEFS 1
+425   00C0              _tmp_sc:
+426   00C0  00          	DEFS 1
+427   00C1              _tmp_ui:
+428   00C1  00 00       	DEFS 2
+429   00C3              _enemies:
+430   00C3  00          	DEFS 1
+431   00C4              _zx_val_asm:
+432   00C4  00          	DEFS 1
+433   00C5              _attrib:
+434   00C5  00 00 00 00 	DEFS 4
+435   00C9              _attrib_hl:
+436   00C9  00 00 00 00 	DEFS 4
+437   00CD              _s_state:
+438   00CD  00          	DEFS 1
+439   00CE              _curr_time:
+440   00CE  00 00       	DEFS 2
+441   00D0              _entry_time:
+442   00D0  00 00       	DEFS 2
+443   00D2              _frame_time:
+444   00D2  00 00       	DEFS 2
+445   00D4              _osd_time:
+446   00D4  00 00       	DEFS 2
+447   00D6              _spr_count:
+448   00D6  00          	DEFS 1
+449   00D7              _game_pow:
+450   00D7  00          	DEFS 1
+451   00D8              _game_brick_tile:
+452   00D8  00          	DEFS 1
+453   00D9              _game_two_player:
+454   00D9  00          	DEFS 1
+455   00DA              _game_start_phase:
+456   00DA  00          	DEFS 1
+457   00DB              _game_god_mode:
+458   00DB  00          	DEFS 1
+459   00DC              _game_inmune:
+460   00DC  00          	DEFS 1
+461   00DD              _game_sound:
+462   00DD  00          	DEFS 1
+463   00DE              _game_over:
+464   00DE  00          	DEFS 1
+465   00DF              _game_lives:
+466   00DF  00 00       	DEFS 2
+467   00E1              _game_time_flipped:
+468   00E1  00 00       	DEFS 2
+469   00E3              _game_time_fireball_start:
+470   00E3  00 00       	DEFS 2
+471   00E5              _spr_water_clear:
+472   00E5  00          	DEFS 1
+473   00E6              _spr_water_time:
+474   00E6  00 00       	DEFS 2
+475   00E8              _game_bonus:
+476   00E8  00          	DEFS 1
+477   00E9              _game_osd:
+478   00E9  00          	DEFS 1
+479   00EA              _game_type:
+480   00EA  00          	DEFS 1
+481   00EB              _game_menu_sel:
+482   00EB  00          	DEFS 1
+483   00EC              _game_score_top:
+484   00EC  00 00       	DEFS 2
+485   00EE              _phase_quota:
+486   00EE  00 00 00    	DEFS 3
+487   00F1              _phase_left:
+488   00F1  00          	DEFS 1
+489   00F2              _phase_tot:
+490   00F2  00          	DEFS 1
+491   00F3              _phase_pop:
+492   00F3  00          	DEFS 1
+493   00F4              _phase_coins:
+494   00F4  00          	DEFS 1
+495   00F5              _phase_end:
+496   00F5  00          	DEFS 1
+497   00F6              _phase_curr:
+498   00F6  00          	DEFS 1
+499   00F7              _phase_angry:
+500   00F7  00          	DEFS 1
+501   00F8              _phase_bonus_total:
+502   00F8  00 00       	DEFS 2
+503   00FA              _screen_paper:
+504   00FA  00          	DEFS 1
+505   00FB              _screen_ink:
+506   00FB  00          	DEFS 1
+507   00FC              _score_osd_lin:
+508   00FC  00 00       	DEFS 2
+509   00FE              _score_osd_col:
+510   00FE  00 00       	DEFS 2
+511   0100              _score_osd_time:
+512   0100  00 00 00 00 	DEFS 4
+513   0104              _score_osd_tile:
+514   0104  00 00 00 00 	DEFS 4
+515   0108              _sprite_speed_alt:
+516   0108  00 00 00 00 00 00 00 00 
                         	DEFS 8
-516   0110              ;--------------------------------------------------------
-517   0110              ; ram data
-518   0110              ;--------------------------------------------------------
-519   0110              
-520   0110              IF 0
-521   0110              
-522   0110              ; .area _INITIALIZED removed by z88dk
-523   0110              
-524   0110              _joynames:
-525   0110              	DEFS 14
-526   0110              _phases:
-527   0110              	DEFS 128
-528   0110              _lvl_1:
-529   0110              	DEFS 672
-530   0110              _spr_idx:
-531   0110              	DEFS 42
-532   0110              _sprite_speed:
-533   0110              	DEFS 17
-534   0110              _hof:
-535   0110              	DEFS 60
-536   0110              _initials:
-537   0110              	DEFS 8
-538   0110              
-539   0110              ENDIF
-540   0110              
-541   0110              ;--------------------------------------------------------
-542   0110              ; absolute external ram data
-543   0110              ;--------------------------------------------------------
-544   0110              	SECTION IGNORE
-545   0000              ;--------------------------------------------------------
-546   0000              ; global & static initialisations
-547   0000              ;--------------------------------------------------------
-548   0000              	SECTION code_crt_init
-549   0000              ;--------------------------------------------------------
-550   0000              ; Home
-551   0000              ;--------------------------------------------------------
-552   0000              	SECTION IGNORE
-553   0000              ;--------------------------------------------------------
-554   0000              ; code
-555   0000              ;--------------------------------------------------------
-556   0000              	SECTION rodata_compiler
-557   0000              _control_method:
-558   0000  00 00       	DEFW _in_stick_sinclair1
-559   0002  00 00       	DEFW _in_stick_sinclair2
-560   0004  00 00       	DEFW _in_stick_keyboard
-561   0006  00 00       	DEFW _in_stick_keyboard
-562   0008  00 00       	DEFW _in_stick_kempston
-563   000A  00 00       	DEFW _in_stick_cursor
-564   000C  00 00       	DEFW _in_stick_fuller
-565   000E              _hall_valids:
-566   000E  01          	DEFB 0x01
-567   000F  41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 30 31 32 33 34 35 
+517   0110              ;--------------------------------------------------------
+518   0110              ; ram data
+519   0110              ;--------------------------------------------------------
+520   0110              
+521   0110              IF 0
+522   0110              
+523   0110              ; .area _INITIALIZED removed by z88dk
+524   0110              
+525   0110              _joynames:
+526   0110              	DEFS 14
+527   0110              _phases:
+528   0110              	DEFS 128
+529   0110              _lvl_1:
+530   0110              	DEFS 672
+531   0110              _spr_idx:
+532   0110              	DEFS 42
+533   0110              _sprite_speed:
+534   0110              	DEFS 17
+535   0110              _hof:
+536   0110              	DEFS 60
+537   0110              _initials:
+538   0110              	DEFS 8
+539   0110              
+540   0110              ENDIF
+541   0110              
+542   0110              ;--------------------------------------------------------
+543   0110              ; absolute external ram data
+544   0110              ;--------------------------------------------------------
+545   0110              	SECTION IGNORE
+546   0000              ;--------------------------------------------------------
+547   0000              ; global & static initialisations
+548   0000              ;--------------------------------------------------------
+549   0000              	SECTION code_crt_init
+550   0000              ;--------------------------------------------------------
+551   0000              ; Home
+552   0000              ;--------------------------------------------------------
+553   0000              	SECTION IGNORE
+554   0000              ;--------------------------------------------------------
+555   0000              ; code
+556   0000              ;--------------------------------------------------------
+557   0000              	SECTION rodata_compiler
+558   0000              _control_method:
+559   0000  00 00       	DEFW _in_stick_sinclair1
+560   0002  00 00       	DEFW _in_stick_sinclair2
+561   0004  00 00       	DEFW _in_stick_keyboard
+562   0006  00 00       	DEFW _in_stick_keyboard
+563   0008  00 00       	DEFW _in_stick_kempston
+564   000A  00 00       	DEFW _in_stick_cursor
+565   000C  00 00       	DEFW _in_stick_fuller
+566   000E              _hall_valids:
+567   000E  01          	DEFB 0x01
+568   000F  41 42 43 44 45 46 47 48 49 4A 4B 4C 4D 4E 4F 50 51 52 53 54 55 56 57 58 59 5A 30 31 32 33 34 35 
       002F  36 37 38 39 2E 7E 20 7B 
                         	DEFM "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.~ {"
-568   0037  00          	DEFB 0x00
-569   0038              	SECTION rodata_compiler
-570   0038              ___str_0:
-571   0038  53 4A 31    	DEFM "SJ1"
-572   003B  00          	DEFB 0x00
-573   003C              	SECTION rodata_compiler
-574   003C              ___str_1:
-575   003C  53 4A 32    	DEFM "SJ2"
-576   003F  00          	DEFB 0x00
-577   0040              	SECTION rodata_compiler
-578   0040              ___str_2:
-579   0040  4B 42 31    	DEFM "KB1"
-580   0043  00          	DEFB 0x00
-581   0044              	SECTION rodata_compiler
-582   0044              ___str_3:
-583   0044  4B 42 32    	DEFM "KB2"
-584   0047  00          	DEFB 0x00
-585   0048              	SECTION rodata_compiler
-586   0048              ___str_4:
-587   0048  4B 45 4D    	DEFM "KEM"
-588   004B  00          	DEFB 0x00
-589   004C              	SECTION rodata_compiler
-590   004C              ___str_5:
-591   004C  43 55 52    	DEFM "CUR"
-592   004F  00          	DEFB 0x00
-593   0050              	SECTION rodata_compiler
-594   0050              ___str_6:
-595   0050  46 55 4C    	DEFM "FUL"
-596   0053  00          	DEFB 0x00
-597   0054              	SECTION data_compiler
-598   0000              _joynames:
-599   0000  38 00       	DEFW ___str_0
-600   0002  3C 00       	DEFW ___str_1
-601   0004  40 00       	DEFW ___str_2
-602   0006  44 00       	DEFW ___str_3
-603   0008  48 00       	DEFW ___str_4
-604   000A  4C 00       	DEFW ___str_5
-605   000C  50 00       	DEFW ___str_6
-606   000E              _phases:
-607   000E  03          	DEFB +0x03	; 3
-608   000F  00          	DEFB +0x00	; 0
-609   0010  00          	DEFB +0x00	; 0
-610   0011  87          	DEFB +0x87	; 135
-611   0012  05          	DEFB +0x05	; 5
-612   0013  00          	DEFB +0x00	; 0
-613   0014  00          	DEFB +0x00	; 0
-614   0015  87          	DEFB +0x87	; 135
-615   0016  00          	DEFB +0x00	; 0
-616   0017  00          	DEFB +0x00	; 0
-617   0018  00          	DEFB +0x00	; 0
-618   0019  88          	DEFB +0x88	; 136
-619   001A  00          	DEFB +0x00	; 0
-620   001B  04          	DEFB +0x04	; 4
-621   001C  00          	DEFB +0x00	; 0
-622   001D  89          	DEFB +0x89	; 137
-623   001E  02          	DEFB +0x02	; 2
-624   001F  04          	DEFB +0x04	; 4
-625   0020  00          	DEFB +0x00	; 0
-626   0021  89          	DEFB +0x89	; 137
-627   0022  00          	DEFB +0x00	; 0
-628   0023  00          	DEFB +0x00	; 0
-629   0024  04          	DEFB +0x04	; 4
-630   0025  8A          	DEFB +0x8a	; 138
-631   0026  00          	DEFB +0x00	; 0
-632   0027  02          	DEFB +0x02	; 2
-633   0028  03          	DEFB +0x03	; 3
-634   0029  8A          	DEFB +0x8a	; 138
-635   002A  00          	DEFB +0x00	; 0
-636   002B  00          	DEFB +0x00	; 0
-637   002C  00          	DEFB +0x00	; 0
-638   002D  8B          	DEFB +0x8b	; 139
-639   002E  04          	DEFB +0x04	; 4
-640   002F  00          	DEFB +0x00	; 0
-641   0030  01          	DEFB +0x01	; 1
-642   0031  88          	DEFB +0x88	; 136
-643   0032  00          	DEFB +0x00	; 0
-644   0033  04          	DEFB +0x04	; 4
-645   0034  01          	DEFB +0x01	; 1
-646   0035  87          	DEFB +0x87	; 135
-647   0036  00          	DEFB +0x00	; 0
-648   0037  04          	DEFB +0x04	; 4
-649   0038  02          	DEFB +0x02	; 2
-650   0039  88          	DEFB +0x88	; 136
-651   003A  00          	DEFB +0x00	; 0
-652   003B  02          	DEFB +0x02	; 2
-653   003C  03          	DEFB +0x03	; 3
-654   003D  89          	DEFB +0x89	; 137
-655   003E  00          	DEFB +0x00	; 0
-656   003F  00          	DEFB +0x00	; 0
-657   0040  00          	DEFB +0x00	; 0
-658   0041  87          	DEFB +0x87	; 135
-659   0042  08          	DEFB +0x08	; 8
-660   0043  00          	DEFB +0x00	; 0
-661   0044  00          	DEFB +0x00	; 0
-662   0045  88          	DEFB +0x88	; 136
-663   0046  00          	DEFB +0x00	; 0
-664   0047  08          	DEFB +0x08	; 8
-665   0048  00          	DEFB +0x00	; 0
-666   0049  89          	DEFB +0x89	; 137
-667   004A  00          	DEFB +0x00	; 0
-668   004B  00          	DEFB +0x00	; 0
-669   004C  08          	DEFB +0x08	; 8
-670   004D  87          	DEFB +0x87	; 135
-671   004E  04          	DEFB +0x04	; 4
-672   004F  04          	DEFB +0x04	; 4
-673   0050  02          	DEFB +0x02	; 2
-674   0051  88          	DEFB +0x88	; 136
-675   0052  00          	DEFB +0x00	; 0
-676   0053  00          	DEFB +0x00	; 0
-677   0054  00          	DEFB +0x00	; 0
-678   0055  8B          	DEFB +0x8b	; 139
-679   0056  08          	DEFB +0x08	; 8
-680   0057  02          	DEFB +0x02	; 2
-681   0058  00          	DEFB +0x00	; 0
-682   0059  87          	DEFB +0x87	; 135
-683   005A  00          	DEFB +0x00	; 0
-684   005B  06          	DEFB +0x06	; 6
-685   005C  03          	DEFB +0x03	; 3
-686   005D  88          	DEFB +0x88	; 136
-687   005E  00          	DEFB +0x00	; 0
-688   005F  02          	DEFB +0x02	; 2
-689   0060  04          	DEFB +0x04	; 4
-690   0061  89          	DEFB +0x89	; 137
-691   0062  02          	DEFB +0x02	; 2
-692   0063  02          	DEFB +0x02	; 2
-693   0064  06          	DEFB +0x06	; 6
-694   0065  87          	DEFB +0x87	; 135
-695   0066  00          	DEFB +0x00	; 0
-696   0067  00          	DEFB +0x00	; 0
-697   0068  00          	DEFB +0x00	; 0
-698   0069  88          	DEFB +0x88	; 136
-699   006A  06          	DEFB +0x06	; 6
-700   006B  04          	DEFB +0x04	; 4
-701   006C  00          	DEFB +0x00	; 0
-702   006D  89          	DEFB +0x89	; 137
-703   006E  06          	DEFB +0x06	; 6
-704   006F  04          	DEFB +0x04	; 4
-705   0070  02          	DEFB +0x02	; 2
-706   0071  8B          	DEFB +0x8b	; 139
-707   0072  06          	DEFB +0x06	; 6
-708   0073  04          	DEFB +0x04	; 4
-709   0074  04          	DEFB +0x04	; 4
-710   0075  8B          	DEFB +0x8b	; 139
-711   0076  06          	DEFB +0x06	; 6
-712   0077  04          	DEFB +0x04	; 4
-713   0078  06          	DEFB +0x06	; 6
-714   0079  8B          	DEFB +0x8b	; 139
-715   007A  00          	DEFB +0x00	; 0
-716   007B  00          	DEFB +0x00	; 0
-717   007C  00          	DEFB +0x00	; 0
-718   007D  8B          	DEFB +0x8b	; 139
-719   007E  04          	DEFB +0x04	; 4
-720   007F  04          	DEFB +0x04	; 4
-721   0080  04          	DEFB +0x04	; 4
-722   0081  8B          	DEFB +0x8b	; 139
-723   0082  08          	DEFB +0x08	; 8
-724   0083  08          	DEFB +0x08	; 8
-725   0084  08          	DEFB +0x08	; 8
-726   0085  8B          	DEFB +0x8b	; 139
-727   0086  0C          	DEFB +0x0c	; 12
-728   0087  0C          	DEFB +0x0c	; 12
-729   0088  0C          	DEFB +0x0c	; 12
-730   0089  8B          	DEFB +0x8b	; 139
-731   008A  10          	DEFB +0x10	; 16
-732   008B  10          	DEFB +0x10	; 16
-733   008C  10          	DEFB +0x10	; 16
-734   008D  8B          	DEFB +0x8b	; 139
-735   008E              _lvl_1:
-736   008E  00          	DEFB +0x00	; 0
-737   008F  00          	DEFB +0x00	; 0
-738   0090  00          	DEFB +0x00	; 0
-739   0091  00          	DEFB +0x00	; 0
-740   0092  00          	DEFB +0x00	; 0
-741   0093  00          	DEFB +0x00	; 0
-742   0094  00          	DEFB +0x00	; 0
-743   0095  00          	DEFB +0x00	; 0
-744   0096  00          	DEFB +0x00	; 0
-745   0097  00          	DEFB +0x00	; 0
-746   0098  00          	DEFB +0x00	; 0
-747   0099  00          	DEFB +0x00	; 0
-748   009A  00          	DEFB +0x00	; 0
-749   009B  00          	DEFB +0x00	; 0
-750   009C  00          	DEFB +0x00	; 0
-751   009D  00          	DEFB +0x00	; 0
-752   009E  00          	DEFB +0x00	; 0
-753   009F  00          	DEFB +0x00	; 0
-754   00A0  00          	DEFB +0x00	; 0
-755   00A1  00          	DEFB +0x00	; 0
-756   00A2  00          	DEFB +0x00	; 0
-757   00A3  00          	DEFB +0x00	; 0
-758   00A4  00          	DEFB +0x00	; 0
-759   00A5  00          	DEFB +0x00	; 0
-760   00A6  00          	DEFB +0x00	; 0
-761   00A7  00          	DEFB +0x00	; 0
-762   00A8  00          	DEFB +0x00	; 0
-763   00A9  00          	DEFB +0x00	; 0
-764   00AA  00          	DEFB +0x00	; 0
-765   00AB  00          	DEFB +0x00	; 0
-766   00AC  00          	DEFB +0x00	; 0
-767   00AD  00          	DEFB +0x00	; 0
-768   00AE  00          	DEFB +0x00	; 0
-769   00AF  00          	DEFB +0x00	; 0
-770   00B0  00          	DEFB +0x00	; 0
-771   00B1  00          	DEFB +0x00	; 0
-772   00B2  00          	DEFB +0x00	; 0
-773   00B3  00          	DEFB +0x00	; 0
-774   00B4  00          	DEFB +0x00	; 0
-775   00B5  00          	DEFB +0x00	; 0
-776   00B6  00          	DEFB +0x00	; 0
-777   00B7  00          	DEFB +0x00	; 0
-778   00B8  00          	DEFB +0x00	; 0
-779   00B9  00          	DEFB +0x00	; 0
-780   00BA  00          	DEFB +0x00	; 0
-781   00BB  00          	DEFB +0x00	; 0
-782   00BC  00          	DEFB +0x00	; 0
-783   00BD  00          	DEFB +0x00	; 0
-784   00BE  00          	DEFB +0x00	; 0
-785   00BF  00          	DEFB +0x00	; 0
-786   00C0  00          	DEFB +0x00	; 0
-787   00C1  00          	DEFB +0x00	; 0
-788   00C2  00          	DEFB +0x00	; 0
-789   00C3  00          	DEFB +0x00	; 0
-790   00C4  00          	DEFB +0x00	; 0
-791   00C5  00          	DEFB +0x00	; 0
-792   00C6  00          	DEFB +0x00	; 0
-793   00C7  00          	DEFB +0x00	; 0
-794   00C8  00          	DEFB +0x00	; 0
-795   00C9  00          	DEFB +0x00	; 0
-796   00CA  00          	DEFB +0x00	; 0
-797   00CB  00          	DEFB +0x00	; 0
-798   00CC  00          	DEFB +0x00	; 0
-799   00CD  00          	DEFB +0x00	; 0
-800   00CE  05          	DEFB +0x05	; 5
-801   00CF  05          	DEFB +0x05	; 5
-802   00D0  02          	DEFB +0x02	; 2
-803   00D1  02          	DEFB +0x02	; 2
-804   00D2  00          	DEFB +0x00	; 0
-805   00D3  00          	DEFB +0x00	; 0
-806   00D4  00          	DEFB +0x00	; 0
-807   00D5  00          	DEFB +0x00	; 0
-808   00D6  00          	DEFB +0x00	; 0
-809   00D7  00          	DEFB +0x00	; 0
-810   00D8  00          	DEFB +0x00	; 0
-811   00D9  00          	DEFB +0x00	; 0
-812   00DA  00          	DEFB +0x00	; 0
-813   00DB  00          	DEFB +0x00	; 0
-814   00DC  00          	DEFB +0x00	; 0
-815   00DD  00          	DEFB +0x00	; 0
-816   00DE  00          	DEFB +0x00	; 0
-817   00DF  00          	DEFB +0x00	; 0
-818   00E0  00          	DEFB +0x00	; 0
-819   00E1  00          	DEFB +0x00	; 0
-820   00E2  00          	DEFB +0x00	; 0
-821   00E3  00          	DEFB +0x00	; 0
-822   00E4  00          	DEFB +0x00	; 0
-823   00E5  00          	DEFB +0x00	; 0
-824   00E6  00          	DEFB +0x00	; 0
-825   00E7  00          	DEFB +0x00	; 0
-826   00E8  00          	DEFB +0x00	; 0
-827   00E9  00          	DEFB +0x00	; 0
-828   00EA  03          	DEFB +0x03	; 3
-829   00EB  03          	DEFB +0x03	; 3
-830   00EC  07          	DEFB +0x07	; 7
-831   00ED  07          	DEFB +0x07	; 7
-832   00EE  05          	DEFB +0x05	; 5
-833   00EF  05          	DEFB +0x05	; 5
-834   00F0  02          	DEFB +0x02	; 2
-835   00F1  02          	DEFB +0x02	; 2
-836   00F2  00          	DEFB +0x00	; 0
-837   00F3  00          	DEFB +0x00	; 0
-838   00F4  00          	DEFB +0x00	; 0
-839   00F5  00          	DEFB +0x00	; 0
-840   00F6  00          	DEFB +0x00	; 0
-841   00F7  00          	DEFB +0x00	; 0
-842   00F8  00          	DEFB +0x00	; 0
-843   00F9  00          	DEFB +0x00	; 0
-844   00FA  00          	DEFB +0x00	; 0
-845   00FB  00          	DEFB +0x00	; 0
-846   00FC  00          	DEFB +0x00	; 0
-847   00FD  00          	DEFB +0x00	; 0
-848   00FE  00          	DEFB +0x00	; 0
-849   00FF  00          	DEFB +0x00	; 0
-850   0100  00          	DEFB +0x00	; 0
-851   0101  00          	DEFB +0x00	; 0
-852   0102  00          	DEFB +0x00	; 0
-853   0103  00          	DEFB +0x00	; 0
-854   0104  00          	DEFB +0x00	; 0
-855   0105  00          	DEFB +0x00	; 0
-856   0106  00          	DEFB +0x00	; 0
-857   0107  00          	DEFB +0x00	; 0
-858   0108  00          	DEFB +0x00	; 0
-859   0109  00          	DEFB +0x00	; 0
-860   010A  03          	DEFB +0x03	; 3
-861   010B  03          	DEFB +0x03	; 3
-862   010C  07          	DEFB +0x07	; 7
-863   010D  07          	DEFB +0x07	; 7
-864   010E  04          	DEFB +0x04	; 4
-865   010F  04          	DEFB +0x04	; 4
-866   0110  00          	DEFB +0x00	; 0
-867   0111  00          	DEFB +0x00	; 0
-868   0112  00          	DEFB +0x00	; 0
-869   0113  00          	DEFB +0x00	; 0
-870   0114  00          	DEFB +0x00	; 0
-871   0115  00          	DEFB +0x00	; 0
-872   0116  00          	DEFB +0x00	; 0
-873   0117  00          	DEFB +0x00	; 0
-874   0118  00          	DEFB +0x00	; 0
-875   0119  00          	DEFB +0x00	; 0
-876   011A  00          	DEFB +0x00	; 0
-877   011B  00          	DEFB +0x00	; 0
-878   011C  00          	DEFB +0x00	; 0
-879   011D  00          	DEFB +0x00	; 0
-880   011E  00          	DEFB +0x00	; 0
-881   011F  00          	DEFB +0x00	; 0
-882   0120  00          	DEFB +0x00	; 0
-883   0121  00          	DEFB +0x00	; 0
-884   0122  00          	DEFB +0x00	; 0
-885   0123  00          	DEFB +0x00	; 0
-886   0124  00          	DEFB +0x00	; 0
-887   0125  00          	DEFB +0x00	; 0
-888   0126  00          	DEFB +0x00	; 0
-889   0127  00          	DEFB +0x00	; 0
-890   0128  00          	DEFB +0x00	; 0
-891   0129  00          	DEFB +0x00	; 0
-892   012A  00          	DEFB +0x00	; 0
-893   012B  00          	DEFB +0x00	; 0
-894   012C  06          	DEFB +0x06	; 6
-895   012D  06          	DEFB +0x06	; 6
-896   012E  04          	DEFB +0x04	; 4
-897   012F  04          	DEFB +0x04	; 4
-898   0130  00          	DEFB +0x00	; 0
-899   0131  00          	DEFB +0x00	; 0
-900   0132  00          	DEFB +0x00	; 0
-901   0133  00          	DEFB +0x00	; 0
-902   0134  00          	DEFB +0x00	; 0
-903   0135  00          	DEFB +0x00	; 0
-904   0136  00          	DEFB +0x00	; 0
-905   0137  00          	DEFB +0x00	; 0
-906   0138  00          	DEFB +0x00	; 0
-907   0139  00          	DEFB +0x00	; 0
-908   013A  00          	DEFB +0x00	; 0
-909   013B  00          	DEFB +0x00	; 0
-910   013C  00          	DEFB +0x00	; 0
-911   013D  00          	DEFB +0x00	; 0
-912   013E  00          	DEFB +0x00	; 0
-913   013F  00          	DEFB +0x00	; 0
-914   0140  00          	DEFB +0x00	; 0
-915   0141  00          	DEFB +0x00	; 0
-916   0142  00          	DEFB +0x00	; 0
-917   0143  00          	DEFB +0x00	; 0
-918   0144  00          	DEFB +0x00	; 0
-919   0145  00          	DEFB +0x00	; 0
-920   0146  00          	DEFB +0x00	; 0
-921   0147  00          	DEFB +0x00	; 0
-922   0148  00          	DEFB +0x00	; 0
-923   0149  00          	DEFB +0x00	; 0
-924   014A  00          	DEFB +0x00	; 0
-925   014B  00          	DEFB +0x00	; 0
-926   014C  06          	DEFB +0x06	; 6
-927   014D  06          	DEFB +0x06	; 6
-928   014E  12          	DEFB +0x12	; 18
-929   014F  12          	DEFB +0x12	; 18
-930   0150  12          	DEFB +0x12	; 18
-931   0151  12          	DEFB +0x12	; 18
-932   0152  12          	DEFB +0x12	; 18
-933   0153  12          	DEFB +0x12	; 18
-934   0154  12          	DEFB +0x12	; 18
-935   0155  12          	DEFB +0x12	; 18
-936   0156  12          	DEFB +0x12	; 18
-937   0157  12          	DEFB +0x12	; 18
-938   0158  12          	DEFB +0x12	; 18
-939   0159  12          	DEFB +0x12	; 18
-940   015A  12          	DEFB +0x12	; 18
-941   015B  12          	DEFB +0x12	; 18
-942   015C  00          	DEFB +0x00	; 0
-943   015D  00          	DEFB +0x00	; 0
-944   015E  00          	DEFB +0x00	; 0
-945   015F  00          	DEFB +0x00	; 0
-946   0160  12          	DEFB +0x12	; 18
-947   0161  12          	DEFB +0x12	; 18
-948   0162  12          	DEFB +0x12	; 18
-949   0163  12          	DEFB +0x12	; 18
-950   0164  12          	DEFB +0x12	; 18
-951   0165  12          	DEFB +0x12	; 18
-952   0166  12          	DEFB +0x12	; 18
-953   0167  12          	DEFB +0x12	; 18
-954   0168  12          	DEFB +0x12	; 18
-955   0169  12          	DEFB +0x12	; 18
-956   016A  12          	DEFB +0x12	; 18
-957   016B  12          	DEFB +0x12	; 18
-958   016C  12          	DEFB +0x12	; 18
-959   016D  12          	DEFB +0x12	; 18
-960   016E  00          	DEFB +0x00	; 0
-961   016F  00          	DEFB +0x00	; 0
-962   0170  00          	DEFB +0x00	; 0
-963   0171  00          	DEFB +0x00	; 0
-964   0172  00          	DEFB +0x00	; 0
-965   0173  00          	DEFB +0x00	; 0
-966   0174  00          	DEFB +0x00	; 0
-967   0175  00          	DEFB +0x00	; 0
-968   0176  00          	DEFB +0x00	; 0
-969   0177  00          	DEFB +0x00	; 0
-970   0178  00          	DEFB +0x00	; 0
-971   0179  00          	DEFB +0x00	; 0
-972   017A  00          	DEFB +0x00	; 0
-973   017B  00          	DEFB +0x00	; 0
-974   017C  00          	DEFB +0x00	; 0
-975   017D  00          	DEFB +0x00	; 0
-976   017E  00          	DEFB +0x00	; 0
-977   017F  00          	DEFB +0x00	; 0
-978   0180  00          	DEFB +0x00	; 0
-979   0181  00          	DEFB +0x00	; 0
-980   0182  00          	DEFB +0x00	; 0
-981   0183  00          	DEFB +0x00	; 0
-982   0184  00          	DEFB +0x00	; 0
-983   0185  00          	DEFB +0x00	; 0
-984   0186  00          	DEFB +0x00	; 0
-985   0187  00          	DEFB +0x00	; 0
-986   0188  00          	DEFB +0x00	; 0
-987   0189  00          	DEFB +0x00	; 0
-988   018A  00          	DEFB +0x00	; 0
-989   018B  00          	DEFB +0x00	; 0
-990   018C  00          	DEFB +0x00	; 0
-991   018D  00          	DEFB +0x00	; 0
-992   018E  00          	DEFB +0x00	; 0
-993   018F  00          	DEFB +0x00	; 0
-994   0190  00          	DEFB +0x00	; 0
-995   0191  00          	DEFB +0x00	; 0
-996   0192  00          	DEFB +0x00	; 0
-997   0193  00          	DEFB +0x00	; 0
-998   0194  00          	DEFB +0x00	; 0
-999   0195  00          	DEFB +0x00	; 0
-1000  0196  00          	DEFB +0x00	; 0
-1001  0197  00          	DEFB +0x00	; 0
-1002  0198  00          	DEFB +0x00	; 0
-1003  0199  00          	DEFB +0x00	; 0
-1004  019A  00          	DEFB +0x00	; 0
-1005  019B  00          	DEFB +0x00	; 0
-1006  019C  00          	DEFB +0x00	; 0
-1007  019D  00          	DEFB +0x00	; 0
-1008  019E  00          	DEFB +0x00	; 0
-1009  019F  00          	DEFB +0x00	; 0
-1010  01A0  00          	DEFB +0x00	; 0
-1011  01A1  00          	DEFB +0x00	; 0
-1012  01A2  00          	DEFB +0x00	; 0
-1013  01A3  00          	DEFB +0x00	; 0
-1014  01A4  00          	DEFB +0x00	; 0
-1015  01A5  00          	DEFB +0x00	; 0
-1016  01A6  00          	DEFB +0x00	; 0
-1017  01A7  00          	DEFB +0x00	; 0
-1018  01A8  00          	DEFB +0x00	; 0
-1019  01A9  00          	DEFB +0x00	; 0
-1020  01AA  00          	DEFB +0x00	; 0
-1021  01AB  00          	DEFB +0x00	; 0
-1022  01AC  00          	DEFB +0x00	; 0
-1023  01AD  00          	DEFB +0x00	; 0
-1024  01AE  00          	DEFB +0x00	; 0
-1025  01AF  00          	DEFB +0x00	; 0
-1026  01B0  00          	DEFB +0x00	; 0
-1027  01B1  00          	DEFB +0x00	; 0
-1028  01B2  00          	DEFB +0x00	; 0
-1029  01B3  00          	DEFB +0x00	; 0
-1030  01B4  00          	DEFB +0x00	; 0
-1031  01B5  00          	DEFB +0x00	; 0
-1032  01B6  00          	DEFB +0x00	; 0
-1033  01B7  00          	DEFB +0x00	; 0
-1034  01B8  00          	DEFB +0x00	; 0
-1035  01B9  00          	DEFB +0x00	; 0
-1036  01BA  00          	DEFB +0x00	; 0
-1037  01BB  00          	DEFB +0x00	; 0
-1038  01BC  00          	DEFB +0x00	; 0
-1039  01BD  00          	DEFB +0x00	; 0
-1040  01BE  00          	DEFB +0x00	; 0
-1041  01BF  00          	DEFB +0x00	; 0
-1042  01C0  00          	DEFB +0x00	; 0
-1043  01C1  00          	DEFB +0x00	; 0
-1044  01C2  00          	DEFB +0x00	; 0
-1045  01C3  00          	DEFB +0x00	; 0
-1046  01C4  00          	DEFB +0x00	; 0
-1047  01C5  00          	DEFB +0x00	; 0
-1048  01C6  00          	DEFB +0x00	; 0
-1049  01C7  00          	DEFB +0x00	; 0
-1050  01C8  00          	DEFB +0x00	; 0
-1051  01C9  00          	DEFB +0x00	; 0
-1052  01CA  00          	DEFB +0x00	; 0
-1053  01CB  00          	DEFB +0x00	; 0
-1054  01CC  00          	DEFB +0x00	; 0
-1055  01CD  00          	DEFB +0x00	; 0
-1056  01CE  00          	DEFB +0x00	; 0
-1057  01CF  00          	DEFB +0x00	; 0
-1058  01D0  00          	DEFB +0x00	; 0
-1059  01D1  00          	DEFB +0x00	; 0
-1060  01D2  00          	DEFB +0x00	; 0
-1061  01D3  00          	DEFB +0x00	; 0
-1062  01D4  00          	DEFB +0x00	; 0
-1063  01D5  00          	DEFB +0x00	; 0
-1064  01D6  00          	DEFB +0x00	; 0
-1065  01D7  00          	DEFB +0x00	; 0
-1066  01D8  00          	DEFB +0x00	; 0
-1067  01D9  00          	DEFB +0x00	; 0
-1068  01DA  00          	DEFB +0x00	; 0
-1069  01DB  00          	DEFB +0x00	; 0
-1070  01DC  00          	DEFB +0x00	; 0
-1071  01DD  00          	DEFB +0x00	; 0
-1072  01DE  00          	DEFB +0x00	; 0
-1073  01DF  00          	DEFB +0x00	; 0
-1074  01E0  00          	DEFB +0x00	; 0
-1075  01E1  00          	DEFB +0x00	; 0
-1076  01E2  00          	DEFB +0x00	; 0
-1077  01E3  00          	DEFB +0x00	; 0
-1078  01E4  00          	DEFB +0x00	; 0
-1079  01E5  00          	DEFB +0x00	; 0
-1080  01E6  00          	DEFB +0x00	; 0
-1081  01E7  00          	DEFB +0x00	; 0
-1082  01E8  00          	DEFB +0x00	; 0
-1083  01E9  00          	DEFB +0x00	; 0
-1084  01EA  00          	DEFB +0x00	; 0
-1085  01EB  00          	DEFB +0x00	; 0
-1086  01EC  00          	DEFB +0x00	; 0
-1087  01ED  00          	DEFB +0x00	; 0
-1088  01EE  00          	DEFB +0x00	; 0
-1089  01EF  00          	DEFB +0x00	; 0
-1090  01F0  00          	DEFB +0x00	; 0
-1091  01F1  00          	DEFB +0x00	; 0
-1092  01F2  00          	DEFB +0x00	; 0
-1093  01F3  00          	DEFB +0x00	; 0
-1094  01F4  00          	DEFB +0x00	; 0
-1095  01F5  00          	DEFB +0x00	; 0
-1096  01F6  00          	DEFB +0x00	; 0
-1097  01F7  00          	DEFB +0x00	; 0
-1098  01F8  12          	DEFB +0x12	; 18
-1099  01F9  12          	DEFB +0x12	; 18
-1100  01FA  12          	DEFB +0x12	; 18
-1101  01FB  12          	DEFB +0x12	; 18
-1102  01FC  12          	DEFB +0x12	; 18
-1103  01FD  12          	DEFB +0x12	; 18
-1104  01FE  12          	DEFB +0x12	; 18
-1105  01FF  12          	DEFB +0x12	; 18
-1106  0200  12          	DEFB +0x12	; 18
-1107  0201  12          	DEFB +0x12	; 18
-1108  0202  12          	DEFB +0x12	; 18
-1109  0203  12          	DEFB +0x12	; 18
-1110  0204  00          	DEFB +0x00	; 0
-1111  0205  00          	DEFB +0x00	; 0
-1112  0206  00          	DEFB +0x00	; 0
-1113  0207  00          	DEFB +0x00	; 0
-1114  0208  00          	DEFB +0x00	; 0
-1115  0209  00          	DEFB +0x00	; 0
-1116  020A  00          	DEFB +0x00	; 0
-1117  020B  00          	DEFB +0x00	; 0
-1118  020C  00          	DEFB +0x00	; 0
-1119  020D  00          	DEFB +0x00	; 0
-1120  020E  12          	DEFB +0x12	; 18
-1121  020F  12          	DEFB +0x12	; 18
-1122  0210  12          	DEFB +0x12	; 18
-1123  0211  12          	DEFB +0x12	; 18
-1124  0212  00          	DEFB +0x00	; 0
-1125  0213  00          	DEFB +0x00	; 0
-1126  0214  00          	DEFB +0x00	; 0
-1127  0215  00          	DEFB +0x00	; 0
-1128  0216  00          	DEFB +0x00	; 0
-1129  0217  00          	DEFB +0x00	; 0
-1130  0218  00          	DEFB +0x00	; 0
-1131  0219  00          	DEFB +0x00	; 0
-1132  021A  00          	DEFB +0x00	; 0
-1133  021B  00          	DEFB +0x00	; 0
-1134  021C  00          	DEFB +0x00	; 0
-1135  021D  00          	DEFB +0x00	; 0
-1136  021E  00          	DEFB +0x00	; 0
-1137  021F  00          	DEFB +0x00	; 0
-1138  0220  00          	DEFB +0x00	; 0
-1139  0221  00          	DEFB +0x00	; 0
-1140  0222  00          	DEFB +0x00	; 0
-1141  0223  00          	DEFB +0x00	; 0
-1142  0224  00          	DEFB +0x00	; 0
-1143  0225  00          	DEFB +0x00	; 0
-1144  0226  00          	DEFB +0x00	; 0
-1145  0227  00          	DEFB +0x00	; 0
-1146  0228  00          	DEFB +0x00	; 0
-1147  0229  00          	DEFB +0x00	; 0
-1148  022A  12          	DEFB +0x12	; 18
-1149  022B  12          	DEFB +0x12	; 18
-1150  022C  12          	DEFB +0x12	; 18
-1151  022D  12          	DEFB +0x12	; 18
-1152  022E  00          	DEFB +0x00	; 0
-1153  022F  00          	DEFB +0x00	; 0
-1154  0230  00          	DEFB +0x00	; 0
-1155  0231  00          	DEFB +0x00	; 0
-1156  0232  00          	DEFB +0x00	; 0
-1157  0233  00          	DEFB +0x00	; 0
-1158  0234  00          	DEFB +0x00	; 0
-1159  0235  00          	DEFB +0x00	; 0
-1160  0236  00          	DEFB +0x00	; 0
-1161  0237  00          	DEFB +0x00	; 0
-1162  0238  00          	DEFB +0x00	; 0
-1163  0239  00          	DEFB +0x00	; 0
-1164  023A  00          	DEFB +0x00	; 0
-1165  023B  00          	DEFB +0x00	; 0
-1166  023C  00          	DEFB +0x00	; 0
-1167  023D  00          	DEFB +0x00	; 0
-1168  023E  00          	DEFB +0x00	; 0
-1169  023F  00          	DEFB +0x00	; 0
-1170  0240  00          	DEFB +0x00	; 0
-1171  0241  00          	DEFB +0x00	; 0
-1172  0242  00          	DEFB +0x00	; 0
-1173  0243  00          	DEFB +0x00	; 0
-1174  0244  00          	DEFB +0x00	; 0
-1175  0245  00          	DEFB +0x00	; 0
-1176  0246  00          	DEFB +0x00	; 0
-1177  0247  00          	DEFB +0x00	; 0
-1178  0248  00          	DEFB +0x00	; 0
-1179  0249  00          	DEFB +0x00	; 0
-1180  024A  00          	DEFB +0x00	; 0
-1181  024B  00          	DEFB +0x00	; 0
-1182  024C  00          	DEFB +0x00	; 0
-1183  024D  00          	DEFB +0x00	; 0
-1184  024E  00          	DEFB +0x00	; 0
-1185  024F  00          	DEFB +0x00	; 0
-1186  0250  00          	DEFB +0x00	; 0
-1187  0251  00          	DEFB +0x00	; 0
-1188  0252  00          	DEFB +0x00	; 0
-1189  0253  00          	DEFB +0x00	; 0
-1190  0254  00          	DEFB +0x00	; 0
-1191  0255  00          	DEFB +0x00	; 0
-1192  0256  00          	DEFB +0x00	; 0
-1193  0257  00          	DEFB +0x00	; 0
-1194  0258  00          	DEFB +0x00	; 0
-1195  0259  00          	DEFB +0x00	; 0
-1196  025A  00          	DEFB +0x00	; 0
-1197  025B  00          	DEFB +0x00	; 0
-1198  025C  00          	DEFB +0x00	; 0
-1199  025D  00          	DEFB +0x00	; 0
-1200  025E  00          	DEFB +0x00	; 0
-1201  025F  00          	DEFB +0x00	; 0
-1202  0260  00          	DEFB +0x00	; 0
-1203  0261  00          	DEFB +0x00	; 0
-1204  0262  00          	DEFB +0x00	; 0
-1205  0263  00          	DEFB +0x00	; 0
-1206  0264  00          	DEFB +0x00	; 0
-1207  0265  00          	DEFB +0x00	; 0
-1208  0266  00          	DEFB +0x00	; 0
-1209  0267  00          	DEFB +0x00	; 0
-1210  0268  00          	DEFB +0x00	; 0
-1211  0269  00          	DEFB +0x00	; 0
-1212  026A  00          	DEFB +0x00	; 0
-1213  026B  00          	DEFB +0x00	; 0
-1214  026C  00          	DEFB +0x00	; 0
-1215  026D  00          	DEFB +0x00	; 0
-1216  026E  00          	DEFB +0x00	; 0
-1217  026F  00          	DEFB +0x00	; 0
-1218  0270  00          	DEFB +0x00	; 0
-1219  0271  00          	DEFB +0x00	; 0
-1220  0272  00          	DEFB +0x00	; 0
-1221  0273  00          	DEFB +0x00	; 0
-1222  0274  00          	DEFB +0x00	; 0
-1223  0275  00          	DEFB +0x00	; 0
-1224  0276  00          	DEFB +0x00	; 0
-1225  0277  00          	DEFB +0x00	; 0
-1226  0278  00          	DEFB +0x00	; 0
-1227  0279  00          	DEFB +0x00	; 0
-1228  027A  00          	DEFB +0x00	; 0
-1229  027B  00          	DEFB +0x00	; 0
-1230  027C  00          	DEFB +0x00	; 0
-1231  027D  00          	DEFB +0x00	; 0
-1232  027E  00          	DEFB +0x00	; 0
-1233  027F  00          	DEFB +0x00	; 0
-1234  0280  00          	DEFB +0x00	; 0
-1235  0281  00          	DEFB +0x00	; 0
-1236  0282  00          	DEFB +0x00	; 0
-1237  0283  00          	DEFB +0x00	; 0
-1238  0284  00          	DEFB +0x00	; 0
-1239  0285  00          	DEFB +0x00	; 0
-1240  0286  00          	DEFB +0x00	; 0
-1241  0287  00          	DEFB +0x00	; 0
-1242  0288  00          	DEFB +0x00	; 0
-1243  0289  00          	DEFB +0x00	; 0
-1244  028A  00          	DEFB +0x00	; 0
-1245  028B  00          	DEFB +0x00	; 0
-1246  028C  00          	DEFB +0x00	; 0
-1247  028D  00          	DEFB +0x00	; 0
-1248  028E  12          	DEFB +0x12	; 18
-1249  028F  12          	DEFB +0x12	; 18
-1250  0290  12          	DEFB +0x12	; 18
-1251  0291  12          	DEFB +0x12	; 18
-1252  0292  12          	DEFB +0x12	; 18
-1253  0293  12          	DEFB +0x12	; 18
-1254  0294  12          	DEFB +0x12	; 18
-1255  0295  12          	DEFB +0x12	; 18
-1256  0296  12          	DEFB +0x12	; 18
-1257  0297  12          	DEFB +0x12	; 18
-1258  0298  12          	DEFB +0x12	; 18
-1259  0299  12          	DEFB +0x12	; 18
-1260  029A  00          	DEFB +0x00	; 0
-1261  029B  00          	DEFB +0x00	; 0
-1262  029C  00          	DEFB +0x00	; 0
-1263  029D  11          	DEFB +0x11	; 17
-1264  029E  11          	DEFB +0x11	; 17
-1265  029F  00          	DEFB +0x00	; 0
-1266  02A0  00          	DEFB +0x00	; 0
-1267  02A1  00          	DEFB +0x00	; 0
-1268  02A2  12          	DEFB +0x12	; 18
-1269  02A3  12          	DEFB +0x12	; 18
-1270  02A4  12          	DEFB +0x12	; 18
-1271  02A5  12          	DEFB +0x12	; 18
-1272  02A6  12          	DEFB +0x12	; 18
-1273  02A7  12          	DEFB +0x12	; 18
-1274  02A8  12          	DEFB +0x12	; 18
-1275  02A9  12          	DEFB +0x12	; 18
-1276  02AA  12          	DEFB +0x12	; 18
-1277  02AB  12          	DEFB +0x12	; 18
-1278  02AC  12          	DEFB +0x12	; 18
-1279  02AD  12          	DEFB +0x12	; 18
-1280  02AE  08          	DEFB +0x08	; 8
-1281  02AF  08          	DEFB +0x08	; 8
-1282  02B0  09          	DEFB +0x09	; 9
-1283  02B1  09          	DEFB +0x09	; 9
-1284  02B2  00          	DEFB +0x00	; 0
-1285  02B3  00          	DEFB +0x00	; 0
-1286  02B4  00          	DEFB +0x00	; 0
-1287  02B5  00          	DEFB +0x00	; 0
-1288  02B6  00          	DEFB +0x00	; 0
-1289  02B7  00          	DEFB +0x00	; 0
-1290  02B8  00          	DEFB +0x00	; 0
-1291  02B9  00          	DEFB +0x00	; 0
-1292  02BA  00          	DEFB +0x00	; 0
-1293  02BB  00          	DEFB +0x00	; 0
-1294  02BC  00          	DEFB +0x00	; 0
-1295  02BD  11          	DEFB +0x11	; 17
-1296  02BE  11          	DEFB +0x11	; 17
-1297  02BF  00          	DEFB +0x00	; 0
-1298  02C0  00          	DEFB +0x00	; 0
-1299  02C1  00          	DEFB +0x00	; 0
-1300  02C2  00          	DEFB +0x00	; 0
-1301  02C3  00          	DEFB +0x00	; 0
-1302  02C4  00          	DEFB +0x00	; 0
-1303  02C5  00          	DEFB +0x00	; 0
-1304  02C6  00          	DEFB +0x00	; 0
-1305  02C7  00          	DEFB +0x00	; 0
-1306  02C8  00          	DEFB +0x00	; 0
-1307  02C9  00          	DEFB +0x00	; 0
-1308  02CA  0A          	DEFB +0x0a	; 10
-1309  02CB  0A          	DEFB +0x0a	; 10
-1310  02CC  08          	DEFB +0x08	; 8
-1311  02CD  08          	DEFB +0x08	; 8
-1312  02CE  08          	DEFB +0x08	; 8
-1313  02CF  08          	DEFB +0x08	; 8
-1314  02D0  09          	DEFB +0x09	; 9
-1315  02D1  09          	DEFB +0x09	; 9
-1316  02D2  00          	DEFB +0x00	; 0
-1317  02D3  00          	DEFB +0x00	; 0
-1318  02D4  00          	DEFB +0x00	; 0
-1319  02D5  00          	DEFB +0x00	; 0
-1320  02D6  00          	DEFB +0x00	; 0
-1321  02D7  00          	DEFB +0x00	; 0
-1322  02D8  00          	DEFB +0x00	; 0
-1323  02D9  00          	DEFB +0x00	; 0
-1324  02DA  00          	DEFB +0x00	; 0
-1325  02DB  00          	DEFB +0x00	; 0
-1326  02DC  00          	DEFB +0x00	; 0
-1327  02DD  00          	DEFB +0x00	; 0
-1328  02DE  00          	DEFB +0x00	; 0
-1329  02DF  00          	DEFB +0x00	; 0
-1330  02E0  00          	DEFB +0x00	; 0
-1331  02E1  00          	DEFB +0x00	; 0
-1332  02E2  00          	DEFB +0x00	; 0
-1333  02E3  00          	DEFB +0x00	; 0
-1334  02E4  00          	DEFB +0x00	; 0
-1335  02E5  00          	DEFB +0x00	; 0
-1336  02E6  00          	DEFB +0x00	; 0
-1337  02E7  00          	DEFB +0x00	; 0
-1338  02E8  00          	DEFB +0x00	; 0
-1339  02E9  00          	DEFB +0x00	; 0
-1340  02EA  0A          	DEFB +0x0a	; 10
-1341  02EB  0A          	DEFB +0x0a	; 10
-1342  02EC  08          	DEFB +0x08	; 8
-1343  02ED  08          	DEFB +0x08	; 8
-1344  02EE  0B          	DEFB +0x0b	; 11
-1345  02EF  0B          	DEFB +0x0b	; 11
-1346  02F0  0C          	DEFB +0x0c	; 12
-1347  02F1  0C          	DEFB +0x0c	; 12
-1348  02F2  00          	DEFB +0x00	; 0
-1349  02F3  00          	DEFB +0x00	; 0
-1350  02F4  00          	DEFB +0x00	; 0
-1351  02F5  00          	DEFB +0x00	; 0
-1352  02F6  00          	DEFB +0x00	; 0
-1353  02F7  00          	DEFB +0x00	; 0
-1354  02F8  00          	DEFB +0x00	; 0
-1355  02F9  00          	DEFB +0x00	; 0
-1356  02FA  00          	DEFB +0x00	; 0
-1357  02FB  00          	DEFB +0x00	; 0
-1358  02FC  00          	DEFB +0x00	; 0
-1359  02FD  00          	DEFB +0x00	; 0
-1360  02FE  00          	DEFB +0x00	; 0
-1361  02FF  00          	DEFB +0x00	; 0
-1362  0300  00          	DEFB +0x00	; 0
-1363  0301  00          	DEFB +0x00	; 0
-1364  0302  00          	DEFB +0x00	; 0
-1365  0303  00          	DEFB +0x00	; 0
-1366  0304  00          	DEFB +0x00	; 0
-1367  0305  00          	DEFB +0x00	; 0
-1368  0306  00          	DEFB +0x00	; 0
-1369  0307  00          	DEFB +0x00	; 0
-1370  0308  00          	DEFB +0x00	; 0
-1371  0309  00          	DEFB +0x00	; 0
-1372  030A  0D          	DEFB +0x0d	; 13
-1373  030B  0D          	DEFB +0x0d	; 13
-1374  030C  0B          	DEFB +0x0b	; 11
-1375  030D  0B          	DEFB +0x0b	; 11
-1376  030E  0B          	DEFB +0x0b	; 11
-1377  030F  0B          	DEFB +0x0b	; 11
-1378  0310  0C          	DEFB +0x0c	; 12
-1379  0311  0C          	DEFB +0x0c	; 12
-1380  0312  00          	DEFB +0x00	; 0
-1381  0313  00          	DEFB +0x00	; 0
-1382  0314  00          	DEFB +0x00	; 0
-1383  0315  00          	DEFB +0x00	; 0
-1384  0316  00          	DEFB +0x00	; 0
-1385  0317  00          	DEFB +0x00	; 0
-1386  0318  00          	DEFB +0x00	; 0
-1387  0319  00          	DEFB +0x00	; 0
-1388  031A  00          	DEFB +0x00	; 0
-1389  031B  00          	DEFB +0x00	; 0
-1390  031C  00          	DEFB +0x00	; 0
-1391  031D  00          	DEFB +0x00	; 0
-1392  031E  00          	DEFB +0x00	; 0
-1393  031F  00          	DEFB +0x00	; 0
-1394  0320  00          	DEFB +0x00	; 0
-1395  0321  00          	DEFB +0x00	; 0
-1396  0322  00          	DEFB +0x00	; 0
-1397  0323  00          	DEFB +0x00	; 0
-1398  0324  00          	DEFB +0x00	; 0
-1399  0325  00          	DEFB +0x00	; 0
-1400  0326  00          	DEFB +0x00	; 0
-1401  0327  00          	DEFB +0x00	; 0
-1402  0328  00          	DEFB +0x00	; 0
-1403  0329  00          	DEFB +0x00	; 0
-1404  032A  0D          	DEFB +0x0d	; 13
-1405  032B  0D          	DEFB +0x0d	; 13
-1406  032C  0B          	DEFB +0x0b	; 11
-1407  032D  0B          	DEFB +0x0b	; 11
-1408  032E              _spr_idx:
-1409  032E  A9 00       	DEFW +0x00a9
-1410  0330  65 00       	DEFW +0x0065
-1411  0332  B3 00       	DEFW +0x00b3
-1412  0334  A7 00       	DEFW +0x00a7
-1413  0336  B1 00       	DEFW +0x00b1
-1414  0338  A5 00       	DEFW +0x00a5
-1415  033A  B2 00       	DEFW +0x00b2
-1416  033C  A6 00       	DEFW +0x00a6
-1417  033E  A3 00       	DEFW +0x00a3
-1418  0340  A4 00       	DEFW +0x00a4
-1419  0342  A2 00       	DEFW +0x00a2
-1420  0344  AF 00       	DEFW +0x00af
-1421  0346  B0 00       	DEFW +0x00b0
-1422  0348  AE 00       	DEFW +0x00ae
-1423  034A  00 00       	DEFW +0x0000
-1424  034C  00 00       	DEFW +0x0000
-1425  034E  00 00       	DEFW +0x0000
-1426  0350  BF 00       	DEFW +0x00bf
-1427  0352  87 00       	DEFW +0x0087
-1428  0354  00 00       	DEFW +0x0000
-1429  0356  8B 00       	DEFW +0x008b
-1430  0358              _sprite_speed:
-1431  0358  00          	DEFB +0x00	; 0
-1432  0359  04          	DEFB +0x04	; 4
-1433  035A  03          	DEFB +0x03	; 3
-1434  035B  01          	DEFB +0x01	; 1
-1435  035C  04          	DEFB +0x04	; 4
-1436  035D  03          	DEFB +0x03	; 3
-1437  035E  01          	DEFB +0x01	; 1
-1438  035F  04          	DEFB +0x04	; 4
-1439  0360  03          	DEFB +0x03	; 3
-1440  0361  04          	DEFB +0x04	; 4
-1441  0362  02          	DEFB +0x02	; 2
-1442  0363  01          	DEFB +0x01	; 1
-1443  0364  03          	DEFB +0x03	; 3
-1444  0365  00          	DEFB +0x00	; 0
-1445  0366  00          	DEFB +0x00	; 0
-1446  0367  00          	DEFB +0x00	; 0
-1447  0368  02          	DEFB +0x02	; 2
-1448  0369              _hof:
-1449  0369  43 52 49    	DEFM "CRI"
-1450  036C  00          	DEFB 0x00
-1451  036D  10 27       	DEFW +0x2710
-1452  036F  47 4F 4E    	DEFM "GON"
-1453  0372  00          	DEFB 0x00
-1454  0373  28 23       	DEFW +0x2328
-1455  0375  41 4C 56    	DEFM "ALV"
-1456  0378  00          	DEFB 0x00
-1457  0379  40 1F       	DEFW +0x1f40
-1458  037B  41 42 52    	DEFM "ABR"
-1459  037E  00          	DEFB 0x00
-1460  037F  58 1B       	DEFW +0x1b58
-1461  0381  45 49 4E    	DEFM "EIN"
-1462  0384  00          	DEFB 0x00
-1463  0385  70 17       	DEFW +0x1770
-1464  0387  53 41 55    	DEFM "SAU"
-1465  038A  00          	DEFB 0x00
-1466  038B  88 13       	DEFW +0x1388
-1467  038D  46 45 4C    	DEFM "FEL"
-1468  0390  00          	DEFB 0x00
-1469  0391  A0 0F       	DEFW +0x0fa0
-1470  0393  47 4F 4E    	DEFM "GON"
-1471  0396  00          	DEFB 0x00
-1472  0397  B8 0B       	DEFW +0x0bb8
-1473  0399  41 4C 45    	DEFM "ALE"
-1474  039C  00          	DEFB 0x00
-1475  039D  D0 07       	DEFW +0x07d0
-1476  039F  43 41 4C    	DEFM "CAL"
-1477  03A2  00          	DEFB 0x00
-1478  03A3  E8 03       	DEFW +0x03e8
-1479  03A5              _initials:
-1480  03A5  41 41 41    	DEFM "AAA"
-1481  03A8  00          	DEFB 0x00
-1482  03A9  41 41 41    	DEFM "AAA"
-1483  03AC  00          	DEFB 0x00
-1484  03AD              	SECTION IGNORE
-1485  0000              
+569   0037  00          	DEFB 0x00
+570   0038              	SECTION rodata_compiler
+571   0038              ___str_0:
+572   0038  53 4A 31    	DEFM "SJ1"
+573   003B  00          	DEFB 0x00
+574   003C              	SECTION rodata_compiler
+575   003C              ___str_1:
+576   003C  53 4A 32    	DEFM "SJ2"
+577   003F  00          	DEFB 0x00
+578   0040              	SECTION rodata_compiler
+579   0040              ___str_2:
+580   0040  4B 42 31    	DEFM "KB1"
+581   0043  00          	DEFB 0x00
+582   0044              	SECTION rodata_compiler
+583   0044              ___str_3:
+584   0044  4B 42 32    	DEFM "KB2"
+585   0047  00          	DEFB 0x00
+586   0048              	SECTION rodata_compiler
+587   0048              ___str_4:
+588   0048  4B 45 4D    	DEFM "KEM"
+589   004B  00          	DEFB 0x00
+590   004C              	SECTION rodata_compiler
+591   004C              ___str_5:
+592   004C  43 55 52    	DEFM "CUR"
+593   004F  00          	DEFB 0x00
+594   0050              	SECTION rodata_compiler
+595   0050              ___str_6:
+596   0050  46 55 4C    	DEFM "FUL"
+597   0053  00          	DEFB 0x00
+598   0054              	SECTION data_compiler
+599   0000              _joynames:
+600   0000  38 00       	DEFW ___str_0
+601   0002  3C 00       	DEFW ___str_1
+602   0004  40 00       	DEFW ___str_2
+603   0006  44 00       	DEFW ___str_3
+604   0008  48 00       	DEFW ___str_4
+605   000A  4C 00       	DEFW ___str_5
+606   000C  50 00       	DEFW ___str_6
+607   000E              _phases:
+608   000E  03          	DEFB +0x03	; 3
+609   000F  00          	DEFB +0x00	; 0
+610   0010  00          	DEFB +0x00	; 0
+611   0011  87          	DEFB +0x87	; 135
+612   0012  05          	DEFB +0x05	; 5
+613   0013  00          	DEFB +0x00	; 0
+614   0014  00          	DEFB +0x00	; 0
+615   0015  87          	DEFB +0x87	; 135
+616   0016  00          	DEFB +0x00	; 0
+617   0017  00          	DEFB +0x00	; 0
+618   0018  00          	DEFB +0x00	; 0
+619   0019  88          	DEFB +0x88	; 136
+620   001A  00          	DEFB +0x00	; 0
+621   001B  04          	DEFB +0x04	; 4
+622   001C  00          	DEFB +0x00	; 0
+623   001D  89          	DEFB +0x89	; 137
+624   001E  02          	DEFB +0x02	; 2
+625   001F  04          	DEFB +0x04	; 4
+626   0020  00          	DEFB +0x00	; 0
+627   0021  89          	DEFB +0x89	; 137
+628   0022  00          	DEFB +0x00	; 0
+629   0023  00          	DEFB +0x00	; 0
+630   0024  04          	DEFB +0x04	; 4
+631   0025  8A          	DEFB +0x8a	; 138
+632   0026  00          	DEFB +0x00	; 0
+633   0027  02          	DEFB +0x02	; 2
+634   0028  03          	DEFB +0x03	; 3
+635   0029  8A          	DEFB +0x8a	; 138
+636   002A  00          	DEFB +0x00	; 0
+637   002B  00          	DEFB +0x00	; 0
+638   002C  00          	DEFB +0x00	; 0
+639   002D  8B          	DEFB +0x8b	; 139
+640   002E  04          	DEFB +0x04	; 4
+641   002F  00          	DEFB +0x00	; 0
+642   0030  01          	DEFB +0x01	; 1
+643   0031  88          	DEFB +0x88	; 136
+644   0032  00          	DEFB +0x00	; 0
+645   0033  04          	DEFB +0x04	; 4
+646   0034  01          	DEFB +0x01	; 1
+647   0035  87          	DEFB +0x87	; 135
+648   0036  00          	DEFB +0x00	; 0
+649   0037  04          	DEFB +0x04	; 4
+650   0038  02          	DEFB +0x02	; 2
+651   0039  88          	DEFB +0x88	; 136
+652   003A  00          	DEFB +0x00	; 0
+653   003B  02          	DEFB +0x02	; 2
+654   003C  03          	DEFB +0x03	; 3
+655   003D  89          	DEFB +0x89	; 137
+656   003E  00          	DEFB +0x00	; 0
+657   003F  00          	DEFB +0x00	; 0
+658   0040  00          	DEFB +0x00	; 0
+659   0041  87          	DEFB +0x87	; 135
+660   0042  08          	DEFB +0x08	; 8
+661   0043  00          	DEFB +0x00	; 0
+662   0044  00          	DEFB +0x00	; 0
+663   0045  88          	DEFB +0x88	; 136
+664   0046  00          	DEFB +0x00	; 0
+665   0047  08          	DEFB +0x08	; 8
+666   0048  00          	DEFB +0x00	; 0
+667   0049  89          	DEFB +0x89	; 137
+668   004A  00          	DEFB +0x00	; 0
+669   004B  00          	DEFB +0x00	; 0
+670   004C  08          	DEFB +0x08	; 8
+671   004D  87          	DEFB +0x87	; 135
+672   004E  04          	DEFB +0x04	; 4
+673   004F  04          	DEFB +0x04	; 4
+674   0050  02          	DEFB +0x02	; 2
+675   0051  88          	DEFB +0x88	; 136
+676   0052  00          	DEFB +0x00	; 0
+677   0053  00          	DEFB +0x00	; 0
+678   0054  00          	DEFB +0x00	; 0
+679   0055  8B          	DEFB +0x8b	; 139
+680   0056  08          	DEFB +0x08	; 8
+681   0057  02          	DEFB +0x02	; 2
+682   0058  00          	DEFB +0x00	; 0
+683   0059  87          	DEFB +0x87	; 135
+684   005A  00          	DEFB +0x00	; 0
+685   005B  06          	DEFB +0x06	; 6
+686   005C  03          	DEFB +0x03	; 3
+687   005D  88          	DEFB +0x88	; 136
+688   005E  00          	DEFB +0x00	; 0
+689   005F  02          	DEFB +0x02	; 2
+690   0060  04          	DEFB +0x04	; 4
+691   0061  89          	DEFB +0x89	; 137
+692   0062  02          	DEFB +0x02	; 2
+693   0063  02          	DEFB +0x02	; 2
+694   0064  06          	DEFB +0x06	; 6
+695   0065  87          	DEFB +0x87	; 135
+696   0066  00          	DEFB +0x00	; 0
+697   0067  00          	DEFB +0x00	; 0
+698   0068  00          	DEFB +0x00	; 0
+699   0069  88          	DEFB +0x88	; 136
+700   006A  06          	DEFB +0x06	; 6
+701   006B  04          	DEFB +0x04	; 4
+702   006C  00          	DEFB +0x00	; 0
+703   006D  89          	DEFB +0x89	; 137
+704   006E  06          	DEFB +0x06	; 6
+705   006F  04          	DEFB +0x04	; 4
+706   0070  02          	DEFB +0x02	; 2
+707   0071  8B          	DEFB +0x8b	; 139
+708   0072  06          	DEFB +0x06	; 6
+709   0073  04          	DEFB +0x04	; 4
+710   0074  04          	DEFB +0x04	; 4
+711   0075  8B          	DEFB +0x8b	; 139
+712   0076  06          	DEFB +0x06	; 6
+713   0077  04          	DEFB +0x04	; 4
+714   0078  06          	DEFB +0x06	; 6
+715   0079  8B          	DEFB +0x8b	; 139
+716   007A  00          	DEFB +0x00	; 0
+717   007B  00          	DEFB +0x00	; 0
+718   007C  00          	DEFB +0x00	; 0
+719   007D  8B          	DEFB +0x8b	; 139
+720   007E  04          	DEFB +0x04	; 4
+721   007F  04          	DEFB +0x04	; 4
+722   0080  04          	DEFB +0x04	; 4
+723   0081  8B          	DEFB +0x8b	; 139
+724   0082  08          	DEFB +0x08	; 8
+725   0083  08          	DEFB +0x08	; 8
+726   0084  08          	DEFB +0x08	; 8
+727   0085  8B          	DEFB +0x8b	; 139
+728   0086  0C          	DEFB +0x0c	; 12
+729   0087  0C          	DEFB +0x0c	; 12
+730   0088  0C          	DEFB +0x0c	; 12
+731   0089  8B          	DEFB +0x8b	; 139
+732   008A  10          	DEFB +0x10	; 16
+733   008B  10          	DEFB +0x10	; 16
+734   008C  10          	DEFB +0x10	; 16
+735   008D  8B          	DEFB +0x8b	; 139
+736   008E              _lvl_1:
+737   008E  00          	DEFB +0x00	; 0
+738   008F  00          	DEFB +0x00	; 0
+739   0090  00          	DEFB +0x00	; 0
+740   0091  00          	DEFB +0x00	; 0
+741   0092  00          	DEFB +0x00	; 0
+742   0093  00          	DEFB +0x00	; 0
+743   0094  00          	DEFB +0x00	; 0
+744   0095  00          	DEFB +0x00	; 0
+745   0096  00          	DEFB +0x00	; 0
+746   0097  00          	DEFB +0x00	; 0
+747   0098  00          	DEFB +0x00	; 0
+748   0099  00          	DEFB +0x00	; 0
+749   009A  00          	DEFB +0x00	; 0
+750   009B  00          	DEFB +0x00	; 0
+751   009C  00          	DEFB +0x00	; 0
+752   009D  00          	DEFB +0x00	; 0
+753   009E  00          	DEFB +0x00	; 0
+754   009F  00          	DEFB +0x00	; 0
+755   00A0  00          	DEFB +0x00	; 0
+756   00A1  00          	DEFB +0x00	; 0
+757   00A2  00          	DEFB +0x00	; 0
+758   00A3  00          	DEFB +0x00	; 0
+759   00A4  00          	DEFB +0x00	; 0
+760   00A5  00          	DEFB +0x00	; 0
+761   00A6  00          	DEFB +0x00	; 0
+762   00A7  00          	DEFB +0x00	; 0
+763   00A8  00          	DEFB +0x00	; 0
+764   00A9  00          	DEFB +0x00	; 0
+765   00AA  00          	DEFB +0x00	; 0
+766   00AB  00          	DEFB +0x00	; 0
+767   00AC  00          	DEFB +0x00	; 0
+768   00AD  00          	DEFB +0x00	; 0
+769   00AE  00          	DEFB +0x00	; 0
+770   00AF  00          	DEFB +0x00	; 0
+771   00B0  00          	DEFB +0x00	; 0
+772   00B1  00          	DEFB +0x00	; 0
+773   00B2  00          	DEFB +0x00	; 0
+774   00B3  00          	DEFB +0x00	; 0
+775   00B4  00          	DEFB +0x00	; 0
+776   00B5  00          	DEFB +0x00	; 0
+777   00B6  00          	DEFB +0x00	; 0
+778   00B7  00          	DEFB +0x00	; 0
+779   00B8  00          	DEFB +0x00	; 0
+780   00B9  00          	DEFB +0x00	; 0
+781   00BA  00          	DEFB +0x00	; 0
+782   00BB  00          	DEFB +0x00	; 0
+783   00BC  00          	DEFB +0x00	; 0
+784   00BD  00          	DEFB +0x00	; 0
+785   00BE  00          	DEFB +0x00	; 0
+786   00BF  00          	DEFB +0x00	; 0
+787   00C0  00          	DEFB +0x00	; 0
+788   00C1  00          	DEFB +0x00	; 0
+789   00C2  00          	DEFB +0x00	; 0
+790   00C3  00          	DEFB +0x00	; 0
+791   00C4  00          	DEFB +0x00	; 0
+792   00C5  00          	DEFB +0x00	; 0
+793   00C6  00          	DEFB +0x00	; 0
+794   00C7  00          	DEFB +0x00	; 0
+795   00C8  00          	DEFB +0x00	; 0
+796   00C9  00          	DEFB +0x00	; 0
+797   00CA  00          	DEFB +0x00	; 0
+798   00CB  00          	DEFB +0x00	; 0
+799   00CC  00          	DEFB +0x00	; 0
+800   00CD  00          	DEFB +0x00	; 0
+801   00CE  05          	DEFB +0x05	; 5
+802   00CF  05          	DEFB +0x05	; 5
+803   00D0  02          	DEFB +0x02	; 2
+804   00D1  02          	DEFB +0x02	; 2
+805   00D2  00          	DEFB +0x00	; 0
+806   00D3  00          	DEFB +0x00	; 0
+807   00D4  00          	DEFB +0x00	; 0
+808   00D5  00          	DEFB +0x00	; 0
+809   00D6  00          	DEFB +0x00	; 0
+810   00D7  00          	DEFB +0x00	; 0
+811   00D8  00          	DEFB +0x00	; 0
+812   00D9  00          	DEFB +0x00	; 0
+813   00DA  00          	DEFB +0x00	; 0
+814   00DB  00          	DEFB +0x00	; 0
+815   00DC  00          	DEFB +0x00	; 0
+816   00DD  00          	DEFB +0x00	; 0
+817   00DE  00          	DEFB +0x00	; 0
+818   00DF  00          	DEFB +0x00	; 0
+819   00E0  00          	DEFB +0x00	; 0
+820   00E1  00          	DEFB +0x00	; 0
+821   00E2  00          	DEFB +0x00	; 0
+822   00E3  00          	DEFB +0x00	; 0
+823   00E4  00          	DEFB +0x00	; 0
+824   00E5  00          	DEFB +0x00	; 0
+825   00E6  00          	DEFB +0x00	; 0
+826   00E7  00          	DEFB +0x00	; 0
+827   00E8  00          	DEFB +0x00	; 0
+828   00E9  00          	DEFB +0x00	; 0
+829   00EA  03          	DEFB +0x03	; 3
+830   00EB  03          	DEFB +0x03	; 3
+831   00EC  07          	DEFB +0x07	; 7
+832   00ED  07          	DEFB +0x07	; 7
+833   00EE  05          	DEFB +0x05	; 5
+834   00EF  05          	DEFB +0x05	; 5
+835   00F0  02          	DEFB +0x02	; 2
+836   00F1  02          	DEFB +0x02	; 2
+837   00F2  00          	DEFB +0x00	; 0
+838   00F3  00          	DEFB +0x00	; 0
+839   00F4  00          	DEFB +0x00	; 0
+840   00F5  00          	DEFB +0x00	; 0
+841   00F6  00          	DEFB +0x00	; 0
+842   00F7  00          	DEFB +0x00	; 0
+843   00F8  00          	DEFB +0x00	; 0
+844   00F9  00          	DEFB +0x00	; 0
+845   00FA  00          	DEFB +0x00	; 0
+846   00FB  00          	DEFB +0x00	; 0
+847   00FC  00          	DEFB +0x00	; 0
+848   00FD  00          	DEFB +0x00	; 0
+849   00FE  00          	DEFB +0x00	; 0
+850   00FF  00          	DEFB +0x00	; 0
+851   0100  00          	DEFB +0x00	; 0
+852   0101  00          	DEFB +0x00	; 0
+853   0102  00          	DEFB +0x00	; 0
+854   0103  00          	DEFB +0x00	; 0
+855   0104  00          	DEFB +0x00	; 0
+856   0105  00          	DEFB +0x00	; 0
+857   0106  00          	DEFB +0x00	; 0
+858   0107  00          	DEFB +0x00	; 0
+859   0108  00          	DEFB +0x00	; 0
+860   0109  00          	DEFB +0x00	; 0
+861   010A  03          	DEFB +0x03	; 3
+862   010B  03          	DEFB +0x03	; 3
+863   010C  07          	DEFB +0x07	; 7
+864   010D  07          	DEFB +0x07	; 7
+865   010E  04          	DEFB +0x04	; 4
+866   010F  04          	DEFB +0x04	; 4
+867   0110  00          	DEFB +0x00	; 0
+868   0111  00          	DEFB +0x00	; 0
+869   0112  00          	DEFB +0x00	; 0
+870   0113  00          	DEFB +0x00	; 0
+871   0114  00          	DEFB +0x00	; 0
+872   0115  00          	DEFB +0x00	; 0
+873   0116  00          	DEFB +0x00	; 0
+874   0117  00          	DEFB +0x00	; 0
+875   0118  00          	DEFB +0x00	; 0
+876   0119  00          	DEFB +0x00	; 0
+877   011A  00          	DEFB +0x00	; 0
+878   011B  00          	DEFB +0x00	; 0
+879   011C  00          	DEFB +0x00	; 0
+880   011D  00          	DEFB +0x00	; 0
+881   011E  00          	DEFB +0x00	; 0
+882   011F  00          	DEFB +0x00	; 0
+883   0120  00          	DEFB +0x00	; 0
+884   0121  00          	DEFB +0x00	; 0
+885   0122  00          	DEFB +0x00	; 0
+886   0123  00          	DEFB +0x00	; 0
+887   0124  00          	DEFB +0x00	; 0
+888   0125  00          	DEFB +0x00	; 0
+889   0126  00          	DEFB +0x00	; 0
+890   0127  00          	DEFB +0x00	; 0
+891   0128  00          	DEFB +0x00	; 0
+892   0129  00          	DEFB +0x00	; 0
+893   012A  00          	DEFB +0x00	; 0
+894   012B  00          	DEFB +0x00	; 0
+895   012C  06          	DEFB +0x06	; 6
+896   012D  06          	DEFB +0x06	; 6
+897   012E  04          	DEFB +0x04	; 4
+898   012F  04          	DEFB +0x04	; 4
+899   0130  00          	DEFB +0x00	; 0
+900   0131  00          	DEFB +0x00	; 0
+901   0132  00          	DEFB +0x00	; 0
+902   0133  00          	DEFB +0x00	; 0
+903   0134  00          	DEFB +0x00	; 0
+904   0135  00          	DEFB +0x00	; 0
+905   0136  00          	DEFB +0x00	; 0
+906   0137  00          	DEFB +0x00	; 0
+907   0138  00          	DEFB +0x00	; 0
+908   0139  00          	DEFB +0x00	; 0
+909   013A  00          	DEFB +0x00	; 0
+910   013B  00          	DEFB +0x00	; 0
+911   013C  00          	DEFB +0x00	; 0
+912   013D  00          	DEFB +0x00	; 0
+913   013E  00          	DEFB +0x00	; 0
+914   013F  00          	DEFB +0x00	; 0
+915   0140  00          	DEFB +0x00	; 0
+916   0141  00          	DEFB +0x00	; 0
+917   0142  00          	DEFB +0x00	; 0
+918   0143  00          	DEFB +0x00	; 0
+919   0144  00          	DEFB +0x00	; 0
+920   0145  00          	DEFB +0x00	; 0
+921   0146  00          	DEFB +0x00	; 0
+922   0147  00          	DEFB +0x00	; 0
+923   0148  00          	DEFB +0x00	; 0
+924   0149  00          	DEFB +0x00	; 0
+925   014A  00          	DEFB +0x00	; 0
+926   014B  00          	DEFB +0x00	; 0
+927   014C  06          	DEFB +0x06	; 6
+928   014D  06          	DEFB +0x06	; 6
+929   014E  12          	DEFB +0x12	; 18
+930   014F  12          	DEFB +0x12	; 18
+931   0150  12          	DEFB +0x12	; 18
+932   0151  12          	DEFB +0x12	; 18
+933   0152  12          	DEFB +0x12	; 18
+934   0153  12          	DEFB +0x12	; 18
+935   0154  12          	DEFB +0x12	; 18
+936   0155  12          	DEFB +0x12	; 18
+937   0156  12          	DEFB +0x12	; 18
+938   0157  12          	DEFB +0x12	; 18
+939   0158  12          	DEFB +0x12	; 18
+940   0159  12          	DEFB +0x12	; 18
+941   015A  12          	DEFB +0x12	; 18
+942   015B  12          	DEFB +0x12	; 18
+943   015C  00          	DEFB +0x00	; 0
+944   015D  00          	DEFB +0x00	; 0
+945   015E  00          	DEFB +0x00	; 0
+946   015F  00          	DEFB +0x00	; 0
+947   0160  12          	DEFB +0x12	; 18
+948   0161  12          	DEFB +0x12	; 18
+949   0162  12          	DEFB +0x12	; 18
+950   0163  12          	DEFB +0x12	; 18
+951   0164  12          	DEFB +0x12	; 18
+952   0165  12          	DEFB +0x12	; 18
+953   0166  12          	DEFB +0x12	; 18
+954   0167  12          	DEFB +0x12	; 18
+955   0168  12          	DEFB +0x12	; 18
+956   0169  12          	DEFB +0x12	; 18
+957   016A  12          	DEFB +0x12	; 18
+958   016B  12          	DEFB +0x12	; 18
+959   016C  12          	DEFB +0x12	; 18
+960   016D  12          	DEFB +0x12	; 18
+961   016E  00          	DEFB +0x00	; 0
+962   016F  00          	DEFB +0x00	; 0
+963   0170  00          	DEFB +0x00	; 0
+964   0171  00          	DEFB +0x00	; 0
+965   0172  00          	DEFB +0x00	; 0
+966   0173  00          	DEFB +0x00	; 0
+967   0174  00          	DEFB +0x00	; 0
+968   0175  00          	DEFB +0x00	; 0
+969   0176  00          	DEFB +0x00	; 0
+970   0177  00          	DEFB +0x00	; 0
+971   0178  00          	DEFB +0x00	; 0
+972   0179  00          	DEFB +0x00	; 0
+973   017A  00          	DEFB +0x00	; 0
+974   017B  00          	DEFB +0x00	; 0
+975   017C  00          	DEFB +0x00	; 0
+976   017D  00          	DEFB +0x00	; 0
+977   017E  00          	DEFB +0x00	; 0
+978   017F  00          	DEFB +0x00	; 0
+979   0180  00          	DEFB +0x00	; 0
+980   0181  00          	DEFB +0x00	; 0
+981   0182  00          	DEFB +0x00	; 0
+982   0183  00          	DEFB +0x00	; 0
+983   0184  00          	DEFB +0x00	; 0
+984   0185  00          	DEFB +0x00	; 0
+985   0186  00          	DEFB +0x00	; 0
+986   0187  00          	DEFB +0x00	; 0
+987   0188  00          	DEFB +0x00	; 0
+988   0189  00          	DEFB +0x00	; 0
+989   018A  00          	DEFB +0x00	; 0
+990   018B  00          	DEFB +0x00	; 0
+991   018C  00          	DEFB +0x00	; 0
+992   018D  00          	DEFB +0x00	; 0
+993   018E  00          	DEFB +0x00	; 0
+994   018F  00          	DEFB +0x00	; 0
+995   0190  00          	DEFB +0x00	; 0
+996   0191  00          	DEFB +0x00	; 0
+997   0192  00          	DEFB +0x00	; 0
+998   0193  00          	DEFB +0x00	; 0
+999   0194  00          	DEFB +0x00	; 0
+1000  0195  00          	DEFB +0x00	; 0
+1001  0196  00          	DEFB +0x00	; 0
+1002  0197  00          	DEFB +0x00	; 0
+1003  0198  00          	DEFB +0x00	; 0
+1004  0199  00          	DEFB +0x00	; 0
+1005  019A  00          	DEFB +0x00	; 0
+1006  019B  00          	DEFB +0x00	; 0
+1007  019C  00          	DEFB +0x00	; 0
+1008  019D  00          	DEFB +0x00	; 0
+1009  019E  00          	DEFB +0x00	; 0
+1010  019F  00          	DEFB +0x00	; 0
+1011  01A0  00          	DEFB +0x00	; 0
+1012  01A1  00          	DEFB +0x00	; 0
+1013  01A2  00          	DEFB +0x00	; 0
+1014  01A3  00          	DEFB +0x00	; 0
+1015  01A4  00          	DEFB +0x00	; 0
+1016  01A5  00          	DEFB +0x00	; 0
+1017  01A6  00          	DEFB +0x00	; 0
+1018  01A7  00          	DEFB +0x00	; 0
+1019  01A8  00          	DEFB +0x00	; 0
+1020  01A9  00          	DEFB +0x00	; 0
+1021  01AA  00          	DEFB +0x00	; 0
+1022  01AB  00          	DEFB +0x00	; 0
+1023  01AC  00          	DEFB +0x00	; 0
+1024  01AD  00          	DEFB +0x00	; 0
+1025  01AE  00          	DEFB +0x00	; 0
+1026  01AF  00          	DEFB +0x00	; 0
+1027  01B0  00          	DEFB +0x00	; 0
+1028  01B1  00          	DEFB +0x00	; 0
+1029  01B2  00          	DEFB +0x00	; 0
+1030  01B3  00          	DEFB +0x00	; 0
+1031  01B4  00          	DEFB +0x00	; 0
+1032  01B5  00          	DEFB +0x00	; 0
+1033  01B6  00          	DEFB +0x00	; 0
+1034  01B7  00          	DEFB +0x00	; 0
+1035  01B8  00          	DEFB +0x00	; 0
+1036  01B9  00          	DEFB +0x00	; 0
+1037  01BA  00          	DEFB +0x00	; 0
+1038  01BB  00          	DEFB +0x00	; 0
+1039  01BC  00          	DEFB +0x00	; 0
+1040  01BD  00          	DEFB +0x00	; 0
+1041  01BE  00          	DEFB +0x00	; 0
+1042  01BF  00          	DEFB +0x00	; 0
+1043  01C0  00          	DEFB +0x00	; 0
+1044  01C1  00          	DEFB +0x00	; 0
+1045  01C2  00          	DEFB +0x00	; 0
+1046  01C3  00          	DEFB +0x00	; 0
+1047  01C4  00          	DEFB +0x00	; 0
+1048  01C5  00          	DEFB +0x00	; 0
+1049  01C6  00          	DEFB +0x00	; 0
+1050  01C7  00          	DEFB +0x00	; 0
+1051  01C8  00          	DEFB +0x00	; 0
+1052  01C9  00          	DEFB +0x00	; 0
+1053  01CA  00          	DEFB +0x00	; 0
+1054  01CB  00          	DEFB +0x00	; 0
+1055  01CC  00          	DEFB +0x00	; 0
+1056  01CD  00          	DEFB +0x00	; 0
+1057  01CE  00          	DEFB +0x00	; 0
+1058  01CF  00          	DEFB +0x00	; 0
+1059  01D0  00          	DEFB +0x00	; 0
+1060  01D1  00          	DEFB +0x00	; 0
+1061  01D2  00          	DEFB +0x00	; 0
+1062  01D3  00          	DEFB +0x00	; 0
+1063  01D4  00          	DEFB +0x00	; 0
+1064  01D5  00          	DEFB +0x00	; 0
+1065  01D6  00          	DEFB +0x00	; 0
+1066  01D7  00          	DEFB +0x00	; 0
+1067  01D8  00          	DEFB +0x00	; 0
+1068  01D9  00          	DEFB +0x00	; 0
+1069  01DA  00          	DEFB +0x00	; 0
+1070  01DB  00          	DEFB +0x00	; 0
+1071  01DC  00          	DEFB +0x00	; 0
+1072  01DD  00          	DEFB +0x00	; 0
+1073  01DE  00          	DEFB +0x00	; 0
+1074  01DF  00          	DEFB +0x00	; 0
+1075  01E0  00          	DEFB +0x00	; 0
+1076  01E1  00          	DEFB +0x00	; 0
+1077  01E2  00          	DEFB +0x00	; 0
+1078  01E3  00          	DEFB +0x00	; 0
+1079  01E4  00          	DEFB +0x00	; 0
+1080  01E5  00          	DEFB +0x00	; 0
+1081  01E6  00          	DEFB +0x00	; 0
+1082  01E7  00          	DEFB +0x00	; 0
+1083  01E8  00          	DEFB +0x00	; 0
+1084  01E9  00          	DEFB +0x00	; 0
+1085  01EA  00          	DEFB +0x00	; 0
+1086  01EB  00          	DEFB +0x00	; 0
+1087  01EC  00          	DEFB +0x00	; 0
+1088  01ED  00          	DEFB +0x00	; 0
+1089  01EE  00          	DEFB +0x00	; 0
+1090  01EF  00          	DEFB +0x00	; 0
+1091  01F0  00          	DEFB +0x00	; 0
+1092  01F1  00          	DEFB +0x00	; 0
+1093  01F2  00          	DEFB +0x00	; 0
+1094  01F3  00          	DEFB +0x00	; 0
+1095  01F4  00          	DEFB +0x00	; 0
+1096  01F5  00          	DEFB +0x00	; 0
+1097  01F6  00          	DEFB +0x00	; 0
+1098  01F7  00          	DEFB +0x00	; 0
+1099  01F8  12          	DEFB +0x12	; 18
+1100  01F9  12          	DEFB +0x12	; 18
+1101  01FA  12          	DEFB +0x12	; 18
+1102  01FB  12          	DEFB +0x12	; 18
+1103  01FC  12          	DEFB +0x12	; 18
+1104  01FD  12          	DEFB +0x12	; 18
+1105  01FE  12          	DEFB +0x12	; 18
+1106  01FF  12          	DEFB +0x12	; 18
+1107  0200  12          	DEFB +0x12	; 18
+1108  0201  12          	DEFB +0x12	; 18
+1109  0202  12          	DEFB +0x12	; 18
+1110  0203  12          	DEFB +0x12	; 18
+1111  0204  00          	DEFB +0x00	; 0
+1112  0205  00          	DEFB +0x00	; 0
+1113  0206  00          	DEFB +0x00	; 0
+1114  0207  00          	DEFB +0x00	; 0
+1115  0208  00          	DEFB +0x00	; 0
+1116  0209  00          	DEFB +0x00	; 0
+1117  020A  00          	DEFB +0x00	; 0
+1118  020B  00          	DEFB +0x00	; 0
+1119  020C  00          	DEFB +0x00	; 0
+1120  020D  00          	DEFB +0x00	; 0
+1121  020E  12          	DEFB +0x12	; 18
+1122  020F  12          	DEFB +0x12	; 18
+1123  0210  12          	DEFB +0x12	; 18
+1124  0211  12          	DEFB +0x12	; 18
+1125  0212  00          	DEFB +0x00	; 0
+1126  0213  00          	DEFB +0x00	; 0
+1127  0214  00          	DEFB +0x00	; 0
+1128  0215  00          	DEFB +0x00	; 0
+1129  0216  00          	DEFB +0x00	; 0
+1130  0217  00          	DEFB +0x00	; 0
+1131  0218  00          	DEFB +0x00	; 0
+1132  0219  00          	DEFB +0x00	; 0
+1133  021A  00          	DEFB +0x00	; 0
+1134  021B  00          	DEFB +0x00	; 0
+1135  021C  00          	DEFB +0x00	; 0
+1136  021D  00          	DEFB +0x00	; 0
+1137  021E  00          	DEFB +0x00	; 0
+1138  021F  00          	DEFB +0x00	; 0
+1139  0220  00          	DEFB +0x00	; 0
+1140  0221  00          	DEFB +0x00	; 0
+1141  0222  00          	DEFB +0x00	; 0
+1142  0223  00          	DEFB +0x00	; 0
+1143  0224  00          	DEFB +0x00	; 0
+1144  0225  00          	DEFB +0x00	; 0
+1145  0226  00          	DEFB +0x00	; 0
+1146  0227  00          	DEFB +0x00	; 0
+1147  0228  00          	DEFB +0x00	; 0
+1148  0229  00          	DEFB +0x00	; 0
+1149  022A  12          	DEFB +0x12	; 18
+1150  022B  12          	DEFB +0x12	; 18
+1151  022C  12          	DEFB +0x12	; 18
+1152  022D  12          	DEFB +0x12	; 18
+1153  022E  00          	DEFB +0x00	; 0
+1154  022F  00          	DEFB +0x00	; 0
+1155  0230  00          	DEFB +0x00	; 0
+1156  0231  00          	DEFB +0x00	; 0
+1157  0232  00          	DEFB +0x00	; 0
+1158  0233  00          	DEFB +0x00	; 0
+1159  0234  00          	DEFB +0x00	; 0
+1160  0235  00          	DEFB +0x00	; 0
+1161  0236  00          	DEFB +0x00	; 0
+1162  0237  00          	DEFB +0x00	; 0
+1163  0238  00          	DEFB +0x00	; 0
+1164  0239  00          	DEFB +0x00	; 0
+1165  023A  00          	DEFB +0x00	; 0
+1166  023B  00          	DEFB +0x00	; 0
+1167  023C  00          	DEFB +0x00	; 0
+1168  023D  00          	DEFB +0x00	; 0
+1169  023E  00          	DEFB +0x00	; 0
+1170  023F  00          	DEFB +0x00	; 0
+1171  0240  00          	DEFB +0x00	; 0
+1172  0241  00          	DEFB +0x00	; 0
+1173  0242  00          	DEFB +0x00	; 0
+1174  0243  00          	DEFB +0x00	; 0
+1175  0244  00          	DEFB +0x00	; 0
+1176  0245  00          	DEFB +0x00	; 0
+1177  0246  00          	DEFB +0x00	; 0
+1178  0247  00          	DEFB +0x00	; 0
+1179  0248  00          	DEFB +0x00	; 0
+1180  0249  00          	DEFB +0x00	; 0
+1181  024A  00          	DEFB +0x00	; 0
+1182  024B  00          	DEFB +0x00	; 0
+1183  024C  00          	DEFB +0x00	; 0
+1184  024D  00          	DEFB +0x00	; 0
+1185  024E  00          	DEFB +0x00	; 0
+1186  024F  00          	DEFB +0x00	; 0
+1187  0250  00          	DEFB +0x00	; 0
+1188  0251  00          	DEFB +0x00	; 0
+1189  0252  00          	DEFB +0x00	; 0
+1190  0253  00          	DEFB +0x00	; 0
+1191  0254  00          	DEFB +0x00	; 0
+1192  0255  00          	DEFB +0x00	; 0
+1193  0256  00          	DEFB +0x00	; 0
+1194  0257  00          	DEFB +0x00	; 0
+1195  0258  00          	DEFB +0x00	; 0
+1196  0259  00          	DEFB +0x00	; 0
+1197  025A  00          	DEFB +0x00	; 0
+1198  025B  00          	DEFB +0x00	; 0
+1199  025C  00          	DEFB +0x00	; 0
+1200  025D  00          	DEFB +0x00	; 0
+1201  025E  00          	DEFB +0x00	; 0
+1202  025F  00          	DEFB +0x00	; 0
+1203  0260  00          	DEFB +0x00	; 0
+1204  0261  00          	DEFB +0x00	; 0
+1205  0262  00          	DEFB +0x00	; 0
+1206  0263  00          	DEFB +0x00	; 0
+1207  0264  00          	DEFB +0x00	; 0
+1208  0265  00          	DEFB +0x00	; 0
+1209  0266  00          	DEFB +0x00	; 0
+1210  0267  00          	DEFB +0x00	; 0
+1211  0268  00          	DEFB +0x00	; 0
+1212  0269  00          	DEFB +0x00	; 0
+1213  026A  00          	DEFB +0x00	; 0
+1214  026B  00          	DEFB +0x00	; 0
+1215  026C  00          	DEFB +0x00	; 0
+1216  026D  00          	DEFB +0x00	; 0
+1217  026E  00          	DEFB +0x00	; 0
+1218  026F  00          	DEFB +0x00	; 0
+1219  0270  00          	DEFB +0x00	; 0
+1220  0271  00          	DEFB +0x00	; 0
+1221  0272  00          	DEFB +0x00	; 0
+1222  0273  00          	DEFB +0x00	; 0
+1223  0274  00          	DEFB +0x00	; 0
+1224  0275  00          	DEFB +0x00	; 0
+1225  0276  00          	DEFB +0x00	; 0
+1226  0277  00          	DEFB +0x00	; 0
+1227  0278  00          	DEFB +0x00	; 0
+1228  0279  00          	DEFB +0x00	; 0
+1229  027A  00          	DEFB +0x00	; 0
+1230  027B  00          	DEFB +0x00	; 0
+1231  027C  00          	DEFB +0x00	; 0
+1232  027D  00          	DEFB +0x00	; 0
+1233  027E  00          	DEFB +0x00	; 0
+1234  027F  00          	DEFB +0x00	; 0
+1235  0280  00          	DEFB +0x00	; 0
+1236  0281  00          	DEFB +0x00	; 0
+1237  0282  00          	DEFB +0x00	; 0
+1238  0283  00          	DEFB +0x00	; 0
+1239  0284  00          	DEFB +0x00	; 0
+1240  0285  00          	DEFB +0x00	; 0
+1241  0286  00          	DEFB +0x00	; 0
+1242  0287  00          	DEFB +0x00	; 0
+1243  0288  00          	DEFB +0x00	; 0
+1244  0289  00          	DEFB +0x00	; 0
+1245  028A  00          	DEFB +0x00	; 0
+1246  028B  00          	DEFB +0x00	; 0
+1247  028C  00          	DEFB +0x00	; 0
+1248  028D  00          	DEFB +0x00	; 0
+1249  028E  12          	DEFB +0x12	; 18
+1250  028F  12          	DEFB +0x12	; 18
+1251  0290  12          	DEFB +0x12	; 18
+1252  0291  12          	DEFB +0x12	; 18
+1253  0292  12          	DEFB +0x12	; 18
+1254  0293  12          	DEFB +0x12	; 18
+1255  0294  12          	DEFB +0x12	; 18
+1256  0295  12          	DEFB +0x12	; 18
+1257  0296  12          	DEFB +0x12	; 18
+1258  0297  12          	DEFB +0x12	; 18
+1259  0298  12          	DEFB +0x12	; 18
+1260  0299  12          	DEFB +0x12	; 18
+1261  029A  00          	DEFB +0x00	; 0
+1262  029B  00          	DEFB +0x00	; 0
+1263  029C  00          	DEFB +0x00	; 0
+1264  029D  11          	DEFB +0x11	; 17
+1265  029E  11          	DEFB +0x11	; 17
+1266  029F  00          	DEFB +0x00	; 0
+1267  02A0  00          	DEFB +0x00	; 0
+1268  02A1  00          	DEFB +0x00	; 0
+1269  02A2  12          	DEFB +0x12	; 18
+1270  02A3  12          	DEFB +0x12	; 18
+1271  02A4  12          	DEFB +0x12	; 18
+1272  02A5  12          	DEFB +0x12	; 18
+1273  02A6  12          	DEFB +0x12	; 18
+1274  02A7  12          	DEFB +0x12	; 18
+1275  02A8  12          	DEFB +0x12	; 18
+1276  02A9  12          	DEFB +0x12	; 18
+1277  02AA  12          	DEFB +0x12	; 18
+1278  02AB  12          	DEFB +0x12	; 18
+1279  02AC  12          	DEFB +0x12	; 18
+1280  02AD  12          	DEFB +0x12	; 18
+1281  02AE  08          	DEFB +0x08	; 8
+1282  02AF  08          	DEFB +0x08	; 8
+1283  02B0  09          	DEFB +0x09	; 9
+1284  02B1  09          	DEFB +0x09	; 9
+1285  02B2  00          	DEFB +0x00	; 0
+1286  02B3  00          	DEFB +0x00	; 0
+1287  02B4  00          	DEFB +0x00	; 0
+1288  02B5  00          	DEFB +0x00	; 0
+1289  02B6  00          	DEFB +0x00	; 0
+1290  02B7  00          	DEFB +0x00	; 0
+1291  02B8  00          	DEFB +0x00	; 0
+1292  02B9  00          	DEFB +0x00	; 0
+1293  02BA  00          	DEFB +0x00	; 0
+1294  02BB  00          	DEFB +0x00	; 0
+1295  02BC  00          	DEFB +0x00	; 0
+1296  02BD  11          	DEFB +0x11	; 17
+1297  02BE  11          	DEFB +0x11	; 17
+1298  02BF  00          	DEFB +0x00	; 0
+1299  02C0  00          	DEFB +0x00	; 0
+1300  02C1  00          	DEFB +0x00	; 0
+1301  02C2  00          	DEFB +0x00	; 0
+1302  02C3  00          	DEFB +0x00	; 0
+1303  02C4  00          	DEFB +0x00	; 0
+1304  02C5  00          	DEFB +0x00	; 0
+1305  02C6  00          	DEFB +0x00	; 0
+1306  02C7  00          	DEFB +0x00	; 0
+1307  02C8  00          	DEFB +0x00	; 0
+1308  02C9  00          	DEFB +0x00	; 0
+1309  02CA  0A          	DEFB +0x0a	; 10
+1310  02CB  0A          	DEFB +0x0a	; 10
+1311  02CC  08          	DEFB +0x08	; 8
+1312  02CD  08          	DEFB +0x08	; 8
+1313  02CE  08          	DEFB +0x08	; 8
+1314  02CF  08          	DEFB +0x08	; 8
+1315  02D0  09          	DEFB +0x09	; 9
+1316  02D1  09          	DEFB +0x09	; 9
+1317  02D2  00          	DEFB +0x00	; 0
+1318  02D3  00          	DEFB +0x00	; 0
+1319  02D4  00          	DEFB +0x00	; 0
+1320  02D5  00          	DEFB +0x00	; 0
+1321  02D6  00          	DEFB +0x00	; 0
+1322  02D7  00          	DEFB +0x00	; 0
+1323  02D8  00          	DEFB +0x00	; 0
+1324  02D9  00          	DEFB +0x00	; 0
+1325  02DA  00          	DEFB +0x00	; 0
+1326  02DB  00          	DEFB +0x00	; 0
+1327  02DC  00          	DEFB +0x00	; 0
+1328  02DD  00          	DEFB +0x00	; 0
+1329  02DE  00          	DEFB +0x00	; 0
+1330  02DF  00          	DEFB +0x00	; 0
+1331  02E0  00          	DEFB +0x00	; 0
+1332  02E1  00          	DEFB +0x00	; 0
+1333  02E2  00          	DEFB +0x00	; 0
+1334  02E3  00          	DEFB +0x00	; 0
+1335  02E4  00          	DEFB +0x00	; 0
+1336  02E5  00          	DEFB +0x00	; 0
+1337  02E6  00          	DEFB +0x00	; 0
+1338  02E7  00          	DEFB +0x00	; 0
+1339  02E8  00          	DEFB +0x00	; 0
+1340  02E9  00          	DEFB +0x00	; 0
+1341  02EA  0A          	DEFB +0x0a	; 10
+1342  02EB  0A          	DEFB +0x0a	; 10
+1343  02EC  08          	DEFB +0x08	; 8
+1344  02ED  08          	DEFB +0x08	; 8
+1345  02EE  0B          	DEFB +0x0b	; 11
+1346  02EF  0B          	DEFB +0x0b	; 11
+1347  02F0  0C          	DEFB +0x0c	; 12
+1348  02F1  0C          	DEFB +0x0c	; 12
+1349  02F2  00          	DEFB +0x00	; 0
+1350  02F3  00          	DEFB +0x00	; 0
+1351  02F4  00          	DEFB +0x00	; 0
+1352  02F5  00          	DEFB +0x00	; 0
+1353  02F6  00          	DEFB +0x00	; 0
+1354  02F7  00          	DEFB +0x00	; 0
+1355  02F8  00          	DEFB +0x00	; 0
+1356  02F9  00          	DEFB +0x00	; 0
+1357  02FA  00          	DEFB +0x00	; 0
+1358  02FB  00          	DEFB +0x00	; 0
+1359  02FC  00          	DEFB +0x00	; 0
+1360  02FD  00          	DEFB +0x00	; 0
+1361  02FE  00          	DEFB +0x00	; 0
+1362  02FF  00          	DEFB +0x00	; 0
+1363  0300  00          	DEFB +0x00	; 0
+1364  0301  00          	DEFB +0x00	; 0
+1365  0302  00          	DEFB +0x00	; 0
+1366  0303  00          	DEFB +0x00	; 0
+1367  0304  00          	DEFB +0x00	; 0
+1368  0305  00          	DEFB +0x00	; 0
+1369  0306  00          	DEFB +0x00	; 0
+1370  0307  00          	DEFB +0x00	; 0
+1371  0308  00          	DEFB +0x00	; 0
+1372  0309  00          	DEFB +0x00	; 0
+1373  030A  0D          	DEFB +0x0d	; 13
+1374  030B  0D          	DEFB +0x0d	; 13
+1375  030C  0B          	DEFB +0x0b	; 11
+1376  030D  0B          	DEFB +0x0b	; 11
+1377  030E  0B          	DEFB +0x0b	; 11
+1378  030F  0B          	DEFB +0x0b	; 11
+1379  0310  0C          	DEFB +0x0c	; 12
+1380  0311  0C          	DEFB +0x0c	; 12
+1381  0312  00          	DEFB +0x00	; 0
+1382  0313  00          	DEFB +0x00	; 0
+1383  0314  00          	DEFB +0x00	; 0
+1384  0315  00          	DEFB +0x00	; 0
+1385  0316  00          	DEFB +0x00	; 0
+1386  0317  00          	DEFB +0x00	; 0
+1387  0318  00          	DEFB +0x00	; 0
+1388  0319  00          	DEFB +0x00	; 0
+1389  031A  00          	DEFB +0x00	; 0
+1390  031B  00          	DEFB +0x00	; 0
+1391  031C  00          	DEFB +0x00	; 0
+1392  031D  00          	DEFB +0x00	; 0
+1393  031E  00          	DEFB +0x00	; 0
+1394  031F  00          	DEFB +0x00	; 0
+1395  0320  00          	DEFB +0x00	; 0
+1396  0321  00          	DEFB +0x00	; 0
+1397  0322  00          	DEFB +0x00	; 0
+1398  0323  00          	DEFB +0x00	; 0
+1399  0324  00          	DEFB +0x00	; 0
+1400  0325  00          	DEFB +0x00	; 0
+1401  0326  00          	DEFB +0x00	; 0
+1402  0327  00          	DEFB +0x00	; 0
+1403  0328  00          	DEFB +0x00	; 0
+1404  0329  00          	DEFB +0x00	; 0
+1405  032A  0D          	DEFB +0x0d	; 13
+1406  032B  0D          	DEFB +0x0d	; 13
+1407  032C  0B          	DEFB +0x0b	; 11
+1408  032D  0B          	DEFB +0x0b	; 11
+1409  032E              _spr_idx:
+1410  032E  A9 00       	DEFW +0x00a9
+1411  0330  65 00       	DEFW +0x0065
+1412  0332  B3 00       	DEFW +0x00b3
+1413  0334  A7 00       	DEFW +0x00a7
+1414  0336  B1 00       	DEFW +0x00b1
+1415  0338  A5 00       	DEFW +0x00a5
+1416  033A  B2 00       	DEFW +0x00b2
+1417  033C  A6 00       	DEFW +0x00a6
+1418  033E  A3 00       	DEFW +0x00a3
+1419  0340  A4 00       	DEFW +0x00a4
+1420  0342  A2 00       	DEFW +0x00a2
+1421  0344  AF 00       	DEFW +0x00af
+1422  0346  B0 00       	DEFW +0x00b0
+1423  0348  AE 00       	DEFW +0x00ae
+1424  034A  00 00       	DEFW +0x0000
+1425  034C  00 00       	DEFW +0x0000
+1426  034E  00 00       	DEFW +0x0000
+1427  0350  BF 00       	DEFW +0x00bf
+1428  0352  87 00       	DEFW +0x0087
+1429  0354  00 00       	DEFW +0x0000
+1430  0356  8B 00       	DEFW +0x008b
+1431  0358              _sprite_speed:
+1432  0358  00          	DEFB +0x00	; 0
+1433  0359  04          	DEFB +0x04	; 4
+1434  035A  03          	DEFB +0x03	; 3
+1435  035B  01          	DEFB +0x01	; 1
+1436  035C  04          	DEFB +0x04	; 4
+1437  035D  03          	DEFB +0x03	; 3
+1438  035E  01          	DEFB +0x01	; 1
+1439  035F  04          	DEFB +0x04	; 4
+1440  0360  03          	DEFB +0x03	; 3
+1441  0361  04          	DEFB +0x04	; 4
+1442  0362  02          	DEFB +0x02	; 2
+1443  0363  01          	DEFB +0x01	; 1
+1444  0364  03          	DEFB +0x03	; 3
+1445  0365  00          	DEFB +0x00	; 0
+1446  0366  00          	DEFB +0x00	; 0
+1447  0367  00          	DEFB +0x00	; 0
+1448  0368  02          	DEFB +0x02	; 2
+1449  0369              _hof:
+1450  0369  43 52 49    	DEFM "CRI"
+1451  036C  00          	DEFB 0x00
+1452  036D  10 27       	DEFW +0x2710
+1453  036F  47 4F 4E    	DEFM "GON"
+1454  0372  00          	DEFB 0x00
+1455  0373  28 23       	DEFW +0x2328
+1456  0375  41 4C 56    	DEFM "ALV"
+1457  0378  00          	DEFB 0x00
+1458  0379  40 1F       	DEFW +0x1f40
+1459  037B  41 42 52    	DEFM "ABR"
+1460  037E  00          	DEFB 0x00
+1461  037F  58 1B       	DEFW +0x1b58
+1462  0381  45 49 4E    	DEFM "EIN"
+1463  0384  00          	DEFB 0x00
+1464  0385  70 17       	DEFW +0x1770
+1465  0387  53 41 55    	DEFM "SAU"
+1466  038A  00          	DEFB 0x00
+1467  038B  88 13       	DEFW +0x1388
+1468  038D  46 45 4C    	DEFM "FEL"
+1469  0390  00          	DEFB 0x00
+1470  0391  A0 0F       	DEFW +0x0fa0
+1471  0393  47 4F 4E    	DEFM "GON"
+1472  0396  00          	DEFB 0x00
+1473  0397  B8 0B       	DEFW +0x0bb8
+1474  0399  41 4C 45    	DEFM "ALE"
+1475  039C  00          	DEFB 0x00
+1476  039D  D0 07       	DEFW +0x07d0
+1477  039F  43 41 4C    	DEFM "CAL"
+1478  03A2  00          	DEFB 0x00
+1479  03A3  E8 03       	DEFW +0x03e8
+1480  03A5              _initials:
+1481  03A5  41 41 41    	DEFM "AAA"
+1482  03A8  00          	DEFB 0x00
+1483  03A9  41 41 41    	DEFM "AAA"
+1484  03AC  00          	DEFB 0x00
+1485  03AD              	SECTION IGNORE
+1486  0000              

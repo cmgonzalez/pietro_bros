@@ -62,8 +62,8 @@ void main(void) {
 	unsigned int counter;
 
 	game_start_phase = 0;
-	game_god_mode = 1;
-	game_inmune = 1;
+	game_god_mode = 0;
+	game_inmune = 0;
 	//INTERRUPTS ARE DISABLED
 
 	//RESET AY CHIP
@@ -130,7 +130,13 @@ void main(void) {
 	game_menu();
 }
 
+void debug_func(void) {
+/*
+ zx_print_chr(21,0,phase_left);
+ zx_print_chr(21,4,spr_count);
+ */
+}
 unsigned char test_func(void) {
 
-	return 0;
+  return 0;
 }

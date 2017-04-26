@@ -55,8 +55,7 @@ void game_print_footer(void) {
 	/* phase osd bottom*/
 	game_print_lives();
 
-	zx_print_str(23, 11, "PHASE");
-	zx_print_chr(23, 18, phase_curr+1);
+
 }
 
 void game_phase_print_score_back(void) {
@@ -255,11 +254,13 @@ void game_loop(void) {
 		player_turn();
 		/*enemies turn*/
 		enemy_turn();
+
 		/*bonus tick tack sound*/
 		if (game_bonus) {
 			game_bonus_clock();
 			if (phase_left > 0 && !ay_is_playing()) ay_fx_play(ay_effect_19);
 		}
+
 		if (game_osd) {
 			if ( game_check_time(osd_time,5) ) {
 				/*PRINT PHASE MESSAGE*/
@@ -269,10 +270,12 @@ void game_loop(void) {
 				game_rotate_attrib();
 			}
 
-
 			if (loop_count == 400) { /*TODO TIMER*/
 				game_fill_row(12,32);
 				game_osd = 0;
+				if (!game_bonus) {
+					game_print_phase();
+				}
 			}
 		}
 
@@ -307,12 +310,17 @@ void game_loop(void) {
 					game_phase_init();
 				}
 			}
+			debug_func();
 		}
 		++loop_count;
 
 	}
 	z80_delay_ms(400);
   game_kill_all_sprites();
+	spr_draw_back();
+	game_print_header();
+	game_print_footer();
+	game_print_phase();
 	zx_print_str(8, 11, "GAME  OVER ");
 	//NIRVANAP_halt();
 	game_colour_message( 8, 11, 21, 200 );
@@ -323,7 +331,10 @@ void game_loop(void) {
 	game_menu_paint();
 	game_joystick_set_menu();
 }
-
+void game_print_phase() {
+	zx_print_str(23, 11, "PHASE");
+	zx_print_chr(23, 18, phase_curr+1);
+}
 void game_score_osd(void) {
 	if (score_osd_col[index_player] == 255 ) {
 		if ( hit_count > 0 ) {
@@ -394,7 +405,7 @@ void game_bonus_summary(void) {
 	game_paint_attrib_lin( 0, 31, 18*8 + 8 );
 	if ( phase_bonus_total[0] == 6 && phase_bonus_total[1] == 0) {
 		sound_jump();
-		if (phase_curr < 2) {
+		if (phase_curr < 3) {
 			zx_print_str(18, 6, "PERFECT!! 3000PTS'");
 			index_player = 0;
 			player_score_add(300);
@@ -479,26 +490,28 @@ unsigned char game_enemy_add(void) {
 
 unsigned char game_enemy_quota(void) {
 
-	tmp = rand() & 0x1;
-	if (!phase_pop || phase_left == 1) {
-		/* Force Enemy Popup */
-		tmp = 0;
-	}
-	if (phase_left > 0 && tmp == 0 ) { //50%
+
+	if (phase_left > 0) { //50%
 		tmp = rand() & 0x3;
-		if (tmp > 2) {tmp = 0;}
-		if ( phase_quota[tmp] > 0 ) {
-			phase_quota[tmp]--;
-			if (phase_angry) {
-				if (tmp==0) game_enemy_add1(SHELLCREEPER_BLUE);
-				if (tmp==1) game_enemy_add1(SIDESTEPPER_MAGENTA);
-				if (tmp==2) game_enemy_add1(FIGHTERFLY);
-			} else {
-				if (tmp==0) game_enemy_add1(SHELLCREEPER_GREEN);
-				if (tmp==1) game_enemy_add1(SIDESTEPPER_RED);
-				if (tmp==2) game_enemy_add1(FIGHTERFLY);
+		if (!phase_pop || phase_left == 1) tmp = 0;
+    tmp_sc = 0;
+		while (tmp_sc < 3 && tmp < 3) {
+			if (phase_quota[tmp] > 0 ) {
+				phase_quota[tmp]--;
+				if (phase_angry) {
+					if (tmp==0) game_enemy_add1(SHELLCREEPER_BLUE);
+					if (tmp==1) game_enemy_add1(SIDESTEPPER_MAGENTA);
+					if (tmp==2) game_enemy_add1(FIGHTERFLY);
+				} else {
+					if (tmp==0) game_enemy_add1(SHELLCREEPER_GREEN);
+					if (tmp==1) game_enemy_add1(SIDESTEPPER_RED);
+					if (tmp==2) game_enemy_add1(FIGHTERFLY);
+				}
+				return 0;
 			}
-			return 0;
+		 ++tmp;
+		 if (tmp > 2) tmp = 0;
+		 ++tmp_sc;
 		}
 	}
 

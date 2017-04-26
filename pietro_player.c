@@ -104,11 +104,13 @@ unsigned char player_collision(void) {
 }
 
 unsigned char player_collision_check(void) {
+
 	if ( class[enemies] == 0 ) return 0;
 
 	if ( BIT_CHK(state[enemies], STAT_KILL) ) return 0;
 
 	tmp_ui = abs( lin[enemies] - lin[sprite] );
+
 	if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL) ) {
 		if ( tmp_ui > PLAYER_VCOL_MARGIN + 2 ) return 0; //Jumping || Falling
 	} else {
@@ -116,35 +118,32 @@ unsigned char player_collision_check(void) {
 	}
 
 	// COL DIFF TO SPEED UP
-	tmp_ui = abs( col[enemies] - col[sprite] );
-	tmp0 = 3*col[enemies];
-	tmp1 = 3*col[sprite];
-	s_col0 = col[enemies];
+	s_col0 = colint[sprite];
 	s_col1 = colint[enemies];
+
 	if (class[enemies] == COIN_2) {
 		s_col1 = 0;
 	}
 
-	if ( tmp_ui > PLAYER_HCOL_MARGIN ) return 0;
-
-	if ( BIT_CHK(state[enemies], STAT_DIRR) ) {
-		tmp0 = 3*s_col0 + s_col1;
+	if (BIT_CHK(state[sprite], STAT_LDIRL) ) {
+		s_col0 = col[sprite]  * 3 - s_col0;
+	} else {
+		s_col0 = col[sprite]  * 3 + s_col0;
 	}
-	if ( BIT_CHK(state[enemies], STAT_DIRL) ) {
-		tmp0 = 3*s_col0 - s_col1;
+	if (BIT_CHK(state[enemies], STAT_LDIRL) ) {
+		s_col1 = col[enemies]  * 3 - s_col1;
+	} else {
+		s_col1 = col[enemies]  * 3 + s_col1;
 	}
 
-	if ( BIT_CHK(state[sprite], STAT_DIRR) ) {
-		tmp1 = 3*s_col0 + s_col1;
-	}
-	if ( BIT_CHK(state[sprite], STAT_DIRL) ) {
-		tmp1 = 3*s_col0 - s_col1;
-	}
-	tmp_ui = abs(tmp0 - tmp1);
 
-	if ( tmp_ui > PLAYER_HCOL_MARGIN_INT ) return 0;
+	tmp_ui = abs( s_col0 - s_col1 );
 
-	return 1;
+	if ( tmp_ui >= 6 ) {
+		return 0;
+	} else {
+		return 1;
+	}
 }
 
 void player_kill(void) {
@@ -243,6 +242,8 @@ unsigned char player_move(void){
 			spr_move_down();
 		} else {
 			if ( player_check_input() ) {
+				if ( dirs & IN_STICK_RIGHT ) BIT_SET(state[sprite], STAT_DIRR);
+				if ( dirs & IN_STICK_LEFT  ) BIT_SET(state[sprite], STAT_DIRL);
 				BIT_CLR(state[sprite], STAT_HIT);
 				BIT_CLR(state_a[sprite], STAT_LOCK);
 				NIRVANAP_halt();
