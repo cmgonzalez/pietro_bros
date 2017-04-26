@@ -3966,25 +3966,25 @@
 3939  12DE  F1          	pop	af
 3940  12DF  33          	inc	sp
 3941  12E0  3E 00       	ld	a,0x00
-3942  12E2  DD 77 FC    	ld	(ix-4),a
-3943  12E5  DD 77 FD    	ld	(ix-3),a
+3942  12E2  DD 77 FD    	ld	(ix-3),a
+3943  12E5  DD 77 FC    	ld	(ix-4),a
 3944  12E8  3A 00 00    	ld	a,(_game_two_player)
 3945  12EB  B7          	or	a, a
 3946  12EC  28 16       	jr	Z,l_game_end_00110
 3947  12EE  3A 00 00    	ld	a,(_game_lives)
 3948  12F1  B7          	or	a, a
 3949  12F2  28 04       	jr	Z,l_game_end_00106
-3950  12F4  DD 36 FC 01 	ld	(ix-4),0x01
+3950  12F4  DD 36 FD 01 	ld	(ix-3),0x01
 3951  12F8              l_game_end_00106:
 3952  12F8  3A 01 00    	ld	a, (_game_lives + 1)
 3953  12FB  B7          	or	a, a
 3954  12FC  28 0A       	jr	Z,l_game_end_00111
-3955  12FE  DD 36 FD 01 	ld	(ix-3),0x01
+3955  12FE  DD 36 FC 01 	ld	(ix-4),0x01
 3956  1302  18 04       	jr	l_game_end_00111
 3957  1304              l_game_end_00110:
-3958  1304  DD 36 FC 01 	ld	(ix-4),0x01
+3958  1304  DD 36 FD 01 	ld	(ix-3),0x01
 3959  1308              l_game_end_00111:
-3960  1308  DD 7E FC    	ld	a,(ix-4)
+3960  1308  DD 7E FD    	ld	a,(ix-3)
 3961  130B  3D          	dec	a
 3962  130C  20 04       	jr	NZ,l_game_end_00210
 3963  130E  3E 01       	ld	a,0x01
@@ -3995,7 +3995,7 @@
 3968  1313  DD 77 FF    	ld	(ix-1),a
 3969  1316  B7          	or	a, a
 3970  1317  28 1C       	jr	Z,l_game_end_00113
-3971  1319  DD 7E FD    	ld	a,(ix-3)
+3971  1319  DD 7E FC    	ld	a,(ix-4)
 3972  131C  B7          	or	a, a
 3973  131D  20 16       	jr	NZ,l_game_end_00113
 3974  131F  21 6A 01    	ld	hl,___str_41
@@ -4010,7 +4010,7 @@
 3983  1331  33          	inc	sp
 3984  1332  CD 00 00    	call	_NIRVANAP_drawT_callee
 3985  1335              l_game_end_00113:
-3986  1335  DD 7E FD    	ld	a,(ix-3)
+3986  1335  DD 7E FC    	ld	a,(ix-4)
 3987  1338  3D          	dec	a
 3988  1339  20 04       	jr	NZ,l_game_end_00212
 3989  133B  3E 01       	ld	a,0x01
@@ -4019,7 +4019,7 @@
 3992  133F  AF          	xor	a,a
 3993  1340              l_game_end_00213:
 3994  1340  DD 77 FE    	ld	(ix-2),a
-3995  1343  DD 7E FC    	ld	a,(ix-4)
+3995  1343  DD 7E FD    	ld	a,(ix-3)
 3996  1346  B7          	or	a, a
 3997  1347  20 1C       	jr	NZ,l_game_end_00116
 3998  1349  DD 7E FE    	ld	a,(ix-2)
@@ -4075,7 +4075,7 @@
 4048  13A4  DD 7E FF    	ld	a,(ix-1)
 4049  13A7  B7          	or	a, a
 4050  13A8  28 32       	jr	Z,l_game_end_00122
-4051  13AA  DD 7E FD    	ld	a,(ix-3)
+4051  13AA  DD 7E FC    	ld	a,(ix-4)
 4052  13AD  B7          	or	a, a
 4053  13AE  20 2C       	jr	NZ,l_game_end_00122
 4054  13B0  21 40 12    	ld	hl,0x1240
@@ -4102,7 +4102,7 @@
 4075  13D8  33          	inc	sp
 4076  13D9  CD 00 00    	call	_NIRVANAP_drawT_callee
 4077  13DC              l_game_end_00122:
-4078  13DC  DD 7E FC    	ld	a,(ix-4)
+4078  13DC  DD 7E FD    	ld	a,(ix-3)
 4079  13DF  B7          	or	a, a
 4080  13E0  20 32       	jr	NZ,l_game_end_00125
 4081  13E2  DD 7E FE    	ld	a,(ix-2)

@@ -3504,7 +3504,7 @@
 3504  1133  CD 00 00    	call	___sdcc_enter_ix
 3505  1136  F5          	push	af
 3506  1137  F5          	push	af
-3507  1138  DD 75 FF    	ld	(ix-1),l
+3507  1138  DD 75 FC    	ld	(ix-4),l
 3508  113B  76          	halt
 3509  113C  CD 00 00    	call	_sound_kill
 3510  113F  3A 00 00    	ld	a,(_sprite)
@@ -3516,7 +3516,7 @@
 3516  114A  0A          	ld	a,(bc)
 3517  114B  5F          	ld	e,a
 3518  114C  3E 00       	ld	a,+((_state) & 0xFF)
-3519  114E  DD 86 FF    	add	a,(ix-1)
+3519  114E  DD 86 FC    	add	a,(ix-4)
 3520  1151  4F          	ld	c,a
 3521  1152  3E 00       	ld	a,+((_state) / 256)
 3522  1154  CE 00       	adc	a,0x00
@@ -3534,7 +3534,7 @@
 3534  1167  02          	ld	(bc),a
 3535  1168              l_enemy_kill_00103:
 3536  1168  3E 00       	ld	a,+((_class) & 0xFF)
-3537  116A  DD 86 FF    	add	a,(ix-1)
+3537  116A  DD 86 FC    	add	a,(ix-4)
 3538  116D  5F          	ld	e,a
 3539  116E  3E 00       	ld	a,+((_class) / 256)
 3540  1170  CE 00       	adc	a,0x00
@@ -3549,11 +3549,11 @@
 3549  117C  CB EF       	set	5, a
 3550  117E  02          	ld	(bc),a
 3551  117F  1A          	ld	a,(de)
-3552  1180  DD 77 FE    	ld	(ix-2),a
+3552  1180  DD 77 FF    	ld	(ix-1),a
 3553  1183  0A          	ld	a,(bc)
 3554  1184  6F          	ld	l,a
 3555  1185  3E 06       	ld	a,0x06
-3556  1187  DD 96 FE    	sub	a,(ix-2)
+3556  1187  DD 96 FF    	sub	a,(ix-1)
 3557  118A  38 06       	jr	C,l_enemy_kill_00107
 3558  118C  7D          	ld	a,l
 3559  118D  CB C7       	set	0, a
@@ -3565,7 +3565,7 @@
 3565  1195  02          	ld	(bc),a
 3566  1196              l_enemy_kill_00108:
 3567  1196  01 00 00    	ld	bc,_sprite_speed_alt+0
-3568  1199  DD 6E FF    	ld	l,(ix-1)
+3568  1199  DD 6E FC    	ld	l,(ix-4)
 3569  119C  26 00       	ld	h,0x00
 3570  119E  09          	add	hl,bc
 3571  119F  36 08       	ld	(hl),0x08
@@ -3587,118 +3587,121 @@
 3587  11B8  21 00 00    	ld	hl,_hit_count
 3588  11BB  34          	inc	(hl)
 3589  11BC  01 00 00    	ld	bc,_spr_timer+0
-3590  11BF  DD 6E FF    	ld	l,(ix-1)
+3590  11BF  DD 6E FC    	ld	l,(ix-4)
 3591  11C2  26 00       	ld	h,0x00
 3592  11C4  29          	add	hl, hl
 3593  11C5  09          	add	hl,bc
-3594  11C6  E3          	ex	(sp), hl
-3595  11C7  E1          	pop	hl
-3596  11C8  ED 4B 00 00 	ld	bc,(_curr_time)
-3597  11CC  E5          	push	hl
-3598  11CD  71          	ld	(hl),c
-3599  11CE  23          	inc	hl
-3600  11CF  70          	ld	(hl),b
-3601  11D0  3E 00       	ld	a,+((_jump_lin) & 0xFF)
-3602  11D2  DD 86 FF    	add	a,(ix-1)
-3603  11D5  4F          	ld	c,a
-3604  11D6  3E 00       	ld	a,+((_jump_lin) / 256)
-3605  11D8  CE 00       	adc	a,0x00
-3606  11DA  47          	ld	b,a
-3607  11DB  3E 00       	ld	a,+((_lin) & 0xFF)
-3608  11DD  DD 86 FF    	add	a,(ix-1)
-3609  11E0  6F          	ld	l,a
-3610  11E1  3E 00       	ld	a,+((_lin) / 256)
-3611  11E3  CE 00       	adc	a,0x00
-3612  11E5  67          	ld	h,a
-3613  11E6  7E          	ld	a,(hl)
-3614  11E7  02          	ld	(bc),a
-3615  11E8  1A          	ld	a,(de)
-3616  11E9  4F          	ld	c,a
-3617  11EA  3E 06       	ld	a,0x06
-3618  11EC  91          	sub	a, c
-3619  11ED  38 6F       	jr	C,l_enemy_kill_00117
-3620  11EF  3A 00 00    	ld	a,(_game_type)
-3621  11F2  D6 02       	sub	a,0x02
-3622  11F4  28 68       	jr	Z,l_enemy_kill_00117
-3623  11F6  21 00 00    	ld	hl,_phase_left
-3624  11F9  7E          	ld	a,(hl)
-3625  11FA  3D          	dec	a
-3626  11FB  77          	ld	(hl),a
-3627  11FC  3D          	dec	a
-3628  11FD  20 5B       	jr	NZ,l_enemy_kill_00115
-3629  11FF  21 00 00    	ld	hl,_phase_angry
-3630  1202  36 01       	ld	(hl),0x01
-3631  1204  21 00 00    	ld	hl,_tmp0
-3632  1207  36 00       	ld	(hl),0x00
-3633  1209              l_enemy_kill_00124:
-3634  1209  2A 00 00    	ld	hl,(_tmp0)
-3635  120C  26 00       	ld	h,0x00
-3636  120E  01 00 00    	ld	bc,_class
-3637  1211  09          	add	hl,bc
-3638  1212  7E          	ld	a,(hl)
-3639  1213  4F          	ld	c,a
-3640  1214  B7          	or	a,a
-3641  1215  28 39       	jr	Z,l_enemy_kill_00125
-3642  1217  3E 09       	ld	a,0x09
-3643  1219  91          	sub	a,c
-3644  121A  38 34       	jr	C,l_enemy_kill_00125
-3645  121C  3A 00 00    	ld	a,(_tmp0)
-3646  121F  4F          	ld	c,a
-3647  1220  06 00       	ld	b,0x00
-3648  1222  21 00 00    	ld	hl,_state
-3649  1225  09          	add	hl,bc
-3650  1226  CB 6E       	bit	5,(hl)
-3651  1228  20 26       	jr	NZ,l_enemy_kill_00125
-3652  122A  3A 00 00    	ld	a,(_tmp0)
-3653  122D  F5          	push	af
-3654  122E  33          	inc	sp
-3655  122F  CD C9 0D    	call	_enemy_evolve
-3656  1232  33          	inc	sp
-3657  1233  3A 00 00    	ld	a,(_tmp0)
-3658  1236  F5          	push	af
-3659  1237  33          	inc	sp
-3660  1238  CD C9 0D    	call	_enemy_evolve
-3661  123B  33          	inc	sp
-3662  123C  3E 00       	ld	a,+((_tile) & 0xFF)
-3663  123E  21 00 00    	ld	hl,_tmp0
-3664  1241  86          	add	a, (hl)
-3665  1242  4F          	ld	c,a
-3666  1243  3E 00       	ld	a,+((_tile) / 256)
-3667  1245  CE 00       	adc	a,0x00
-3668  1247  47          	ld	b,a
-3669  1248  6E          	ld	l,(hl)
-3670  1249  C5          	push	bc
-3671  124A  CD 00 00    	call	_spr_tile
-3672  124D  C1          	pop	bc
-3673  124E  7D          	ld	a, l
-3674  124F  02          	ld	(bc),a
-3675  1250              l_enemy_kill_00125:
-3676  1250  21 00 00    	ld	hl,_tmp0
-3677  1253  7E          	ld	a,(hl)
-3678  1254  3C          	inc	a
-3679  1255  77          	ld	(hl),a
-3680  1256  D6 06       	sub	a,0x06
-3681  1258  38 AF       	jr	C,l_enemy_kill_00124
-3682  125A              l_enemy_kill_00115:
-3683  125A  21 00 00    	ld	hl,_phase_coins
-3684  125D  34          	inc	(hl)
-3685  125E              l_enemy_kill_00117:
-3686  125E  3A 00 00    	ld	a,(_phase_left)
-3687  1261  B7          	or	a, a
-3688  1262  28 08       	jr	Z,l_enemy_kill_00122
-3689  1264  21 00 00    	ld	hl,_ay_effect_11
-3690  1267  CD 00 00    	call	_ay_fx_play
-3691  126A  18 0F       	jr	l_enemy_kill_00126
-3692  126C              l_enemy_kill_00122:
-3693  126C  CD 00 00    	call	_ay_reset
-3694  126F  3A 00 00    	ld	a,(_game_bonus)
-3695  1272  B7          	or	a, a
-3696  1273  20 06       	jr	NZ,l_enemy_kill_00126
-3697  1275  21 00 00    	ld	hl,_ay_effect_17
-3698  1278  CD 00 00    	call	_ay_fx_play
-3699  127B              l_enemy_kill_00126:
-3700  127B  DD F9       	ld	sp, ix
-3701  127D  DD E1       	pop	ix
-3702  127F  C9          	ret
-3703  1280              	SECTION IGNORE
-3704  0000              
+3594  11C6  DD 75 FD    	ld	(ix-3),l
+3595  11C9  DD 74 FE    	ld	(ix-2),h
+3596  11CC  2A 00 00    	ld	hl,(_curr_time)
+3597  11CF  4D          	ld	c,l
+3598  11D0  DD 6E FD    	ld	l,(ix-3)
+3599  11D3  44          	ld	b,h
+3600  11D4  DD 66 FE    	ld	h,(ix-2)
+3601  11D7  71          	ld	(hl),c
+3602  11D8  23          	inc	hl
+3603  11D9  70          	ld	(hl),b
+3604  11DA  3E 00       	ld	a,+((_jump_lin) & 0xFF)
+3605  11DC  DD 86 FC    	add	a,(ix-4)
+3606  11DF  4F          	ld	c,a
+3607  11E0  3E 00       	ld	a,+((_jump_lin) / 256)
+3608  11E2  CE 00       	adc	a,0x00
+3609  11E4  47          	ld	b,a
+3610  11E5  3E 00       	ld	a,+((_lin) & 0xFF)
+3611  11E7  DD 86 FC    	add	a,(ix-4)
+3612  11EA  6F          	ld	l,a
+3613  11EB  3E 00       	ld	a,+((_lin) / 256)
+3614  11ED  CE 00       	adc	a,0x00
+3615  11EF  67          	ld	h,a
+3616  11F0  7E          	ld	a,(hl)
+3617  11F1  02          	ld	(bc),a
+3618  11F2  1A          	ld	a,(de)
+3619  11F3  4F          	ld	c,a
+3620  11F4  3E 06       	ld	a,0x06
+3621  11F6  91          	sub	a, c
+3622  11F7  38 6F       	jr	C,l_enemy_kill_00117
+3623  11F9  3A 00 00    	ld	a,(_game_type)
+3624  11FC  D6 02       	sub	a,0x02
+3625  11FE  28 68       	jr	Z,l_enemy_kill_00117
+3626  1200  21 00 00    	ld	hl,_phase_left
+3627  1203  7E          	ld	a,(hl)
+3628  1204  3D          	dec	a
+3629  1205  77          	ld	(hl),a
+3630  1206  3D          	dec	a
+3631  1207  20 5B       	jr	NZ,l_enemy_kill_00115
+3632  1209  21 00 00    	ld	hl,_phase_angry
+3633  120C  36 01       	ld	(hl),0x01
+3634  120E  21 00 00    	ld	hl,_tmp0
+3635  1211  36 00       	ld	(hl),0x00
+3636  1213              l_enemy_kill_00124:
+3637  1213  2A 00 00    	ld	hl,(_tmp0)
+3638  1216  26 00       	ld	h,0x00
+3639  1218  01 00 00    	ld	bc,_class
+3640  121B  09          	add	hl,bc
+3641  121C  7E          	ld	a,(hl)
+3642  121D  4F          	ld	c,a
+3643  121E  B7          	or	a,a
+3644  121F  28 39       	jr	Z,l_enemy_kill_00125
+3645  1221  3E 09       	ld	a,0x09
+3646  1223  91          	sub	a,c
+3647  1224  38 34       	jr	C,l_enemy_kill_00125
+3648  1226  3A 00 00    	ld	a,(_tmp0)
+3649  1229  4F          	ld	c,a
+3650  122A  06 00       	ld	b,0x00
+3651  122C  21 00 00    	ld	hl,_state
+3652  122F  09          	add	hl,bc
+3653  1230  CB 6E       	bit	5,(hl)
+3654  1232  20 26       	jr	NZ,l_enemy_kill_00125
+3655  1234  3A 00 00    	ld	a,(_tmp0)
+3656  1237  F5          	push	af
+3657  1238  33          	inc	sp
+3658  1239  CD C9 0D    	call	_enemy_evolve
+3659  123C  33          	inc	sp
+3660  123D  3A 00 00    	ld	a,(_tmp0)
+3661  1240  F5          	push	af
+3662  1241  33          	inc	sp
+3663  1242  CD C9 0D    	call	_enemy_evolve
+3664  1245  33          	inc	sp
+3665  1246  3E 00       	ld	a,+((_tile) & 0xFF)
+3666  1248  21 00 00    	ld	hl,_tmp0
+3667  124B  86          	add	a, (hl)
+3668  124C  4F          	ld	c,a
+3669  124D  3E 00       	ld	a,+((_tile) / 256)
+3670  124F  CE 00       	adc	a,0x00
+3671  1251  47          	ld	b,a
+3672  1252  6E          	ld	l,(hl)
+3673  1253  C5          	push	bc
+3674  1254  CD 00 00    	call	_spr_tile
+3675  1257  C1          	pop	bc
+3676  1258  7D          	ld	a, l
+3677  1259  02          	ld	(bc),a
+3678  125A              l_enemy_kill_00125:
+3679  125A  21 00 00    	ld	hl,_tmp0
+3680  125D  7E          	ld	a,(hl)
+3681  125E  3C          	inc	a
+3682  125F  77          	ld	(hl),a
+3683  1260  D6 06       	sub	a,0x06
+3684  1262  38 AF       	jr	C,l_enemy_kill_00124
+3685  1264              l_enemy_kill_00115:
+3686  1264  21 00 00    	ld	hl,_phase_coins
+3687  1267  34          	inc	(hl)
+3688  1268              l_enemy_kill_00117:
+3689  1268  3A 00 00    	ld	a,(_phase_left)
+3690  126B  B7          	or	a, a
+3691  126C  28 08       	jr	Z,l_enemy_kill_00122
+3692  126E  21 00 00    	ld	hl,_ay_effect_11
+3693  1271  CD 00 00    	call	_ay_fx_play
+3694  1274  18 0F       	jr	l_enemy_kill_00126
+3695  1276              l_enemy_kill_00122:
+3696  1276  CD 00 00    	call	_ay_reset
+3697  1279  3A 00 00    	ld	a,(_game_bonus)
+3698  127C  B7          	or	a, a
+3699  127D  20 06       	jr	NZ,l_enemy_kill_00126
+3700  127F  21 00 00    	ld	hl,_ay_effect_17
+3701  1282  CD 00 00    	call	_ay_fx_play
+3702  1285              l_enemy_kill_00126:
+3703  1285  DD F9       	ld	sp, ix
+3704  1287  DD E1       	pop	ix
+3705  1289  C9          	ret
+3706  128A              	SECTION IGNORE
+3707  0000              
