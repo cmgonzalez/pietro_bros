@@ -233,7 +233,10 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 				spr_destroy(f_sprite);
 
 			}
+
 			/* Restore lower pipes */
+			enemy_ugly_fix();
+			/*
 			if (s_col1 <= 4  ) {
 				spr_back_paint(0 + 15 * 32);
 				spr_draw_index(12*32);
@@ -245,6 +248,7 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 				spr_draw_index(12*32 + 28);
 				spr_draw_index(12*32 + 30);
       }
+			*/
 		}
 //	}
 }
