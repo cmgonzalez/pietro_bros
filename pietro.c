@@ -138,5 +138,5 @@ void debug_func(void) {
 }
 unsigned char test_func(void) {
 
-  return 0;
+return 0;
 }

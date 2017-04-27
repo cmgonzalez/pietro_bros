@@ -163,6 +163,7 @@ void game_phase_init(void) {
 	/* Phase Draw Start */
 	spr_draw_clear();
 	/*Draw Platforms*/
+	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	spr_draw_back();
   game_print_header();
 	game_print_footer();
@@ -247,10 +248,10 @@ void game_loop(void) {
 	game_joystick_set();
 	while (!game_over) {
 		/*player 1 turn*/
-		player_set1();
+		player_set(SPR_P1,SPR_P2,0,0,24);
 		player_turn();
 		/*player 2 turn*/
-		player_set2();
+		player_set(SPR_P2,SPR_P1,1,24,0);
 		player_turn();
 		/*enemies turn*/
 		enemy_turn();

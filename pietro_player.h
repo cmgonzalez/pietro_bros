@@ -36,5 +36,6 @@ extern void          player_hit_brick_clear(void);
 extern void          player_push(void);
 unsigned char        player_push_check(void);
 extern void          player_move_horizontal(void);
+extern void          player_set(unsigned char f_spr_curr,unsigned char  f_spr_other,unsigned char f_index, unsigned char f_offset_curr, unsigned char f_offset_other );
 
 #endif

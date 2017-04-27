@@ -608,7 +608,7 @@ void enemy_walk(void){
 
 		if ( !BIT_CHK(s_state, STAT_HIT) && !BIT_CHK(state_a[sprite], STAT_TURN) ) {
 			//collision CHECK BETWEEN ENEMIES TODO PERFORMANCE...
-			if ( game_check_time( spr_timer_c[sprite], 5 ) ) {
+			if ( game_check_time( spr_timer_c[sprite], GAME_ENEMY_COL_CHECK_TIME ) ) {
 				spr_timer_c[sprite] = zx_clock();
 				enemy_collision();
 			}

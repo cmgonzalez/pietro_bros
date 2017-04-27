@@ -423,8 +423,7 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 
 void spr_draw_back(void) {
 	intrinsic_di();
-	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-
+	
 	spr_draw_row(6);
 	spr_draw_row(11);
 	spr_draw_row(12);
