@@ -636,9 +636,11 @@ void enemy_init(unsigned char f_sprite,unsigned  char f_lin,unsigned  char f_col
 	state[f_sprite] = 0;
 	state_a[f_sprite] = 0;
 	jump_lin[f_sprite] = 0;
-	if (f_dir == 1){
+
+	if (f_dir == DIR_RIGHT){
 		BIT_SET(state[f_sprite], STAT_DIRR);
-	} else {
+	}
+	if (f_dir == DIR_LEFT){
 		BIT_SET(state[f_sprite], STAT_DIRL);
 	}
 	//BIT_SET(state[f_sprite], STAT_FALL);

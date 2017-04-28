@@ -377,7 +377,7 @@ void game_bonus_clock(void) {
 	tmp_ui = TIME_BONUS - zx_clock()*2;           // one frame is 0.02 seconds
 	if (tmp_ui > TIME_BONUS) {
 		tmp_ui = 0;          // if time remaining goes negative
-		zx_print_bonus_time(2,14,tmp_ui);
+		if (phase_left > 0) zx_print_bonus_time(2,14,tmp_ui);
 		phase_left = 0;
 		phase_end = 1;
 		ay_reset();
@@ -442,7 +442,7 @@ void game_bonus_summary_player(unsigned char f_index) __z88dk_fastcall {
 	}
 
 	game_paint_attrib_lin( 7, 31, s_lin1*8 + 8 );
-∫
+
 	tmp_uc = 0;
 	while ( tmp_uc < phase_bonus_total[f_index] ) {
 		if (tmp_uc < 3) {

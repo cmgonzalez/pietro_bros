@@ -104,35 +104,12 @@ unsigned char player_collision(void) {
 }
 
 unsigned char player_collision_check(void) {
-	if ( class[enemies] == 0 ) return 0;
-	if ( BIT_CHK(state[enemies], STAT_KILL) ) return 0;
-
+	if ( class[enemies] == 0 || BIT_CHK(state[enemies], STAT_KILL) ) return 0;
 	tmp_ui = abs( lin[enemies] - lin[sprite] );
-
   if ( tmp_ui > PLAYER_VCOL_MARGIN ) return 0;
-	// COL DIFF TO SPEED UP
-	if (class[enemies] == COIN_2 || BIT_CHK(state[enemies],STAT_TURN) ) {
-		s_col1 = 0;
-	}
-
-  s_col0 = col[sprite]*3;
-	if (BIT_CHK(state[sprite], STAT_LDIRL) ) {
-		s_col0 = s_col0 - colint[sprite];
-	}
-	if (BIT_CHK(state[sprite], STAT_LDIRR) ) {
-		s_col0 = s_col0 + colint[sprite];
-	}
-
-	s_col1 = col[enemies]  * 3;
-	if (BIT_CHK(state[enemies], STAT_LDIRL) ) {
-		s_col1 = s_col1 - colint[enemies];
-	}
-	if (BIT_CHK(state[enemies], STAT_LDIRR) ) {
-		s_col1 = s_col1 + colint[enemies];
-	}
-
+  s_col0 = spr_calc_hor(sprite);
+	s_col1 = spr_calc_hor(enemies);
 	tmp_ui = abs( s_col0 - s_col1 );
-
 	if ( tmp_ui >= 6 ) {
 		return 0;
 	} else {

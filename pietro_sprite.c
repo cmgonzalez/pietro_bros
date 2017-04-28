@@ -42,7 +42,6 @@ unsigned char spr_move_up( void ){
 	//43
 	tmp1 = lin[sprite] - (SPRITE_LIN_INC << sprite_lin_inc_mul); /* x << k == x multiplied by 2 to the power of k */
 	if (sprite >= SPR_P2 || class[sprite] == FIREBALL_RED) {
-//		if ((tmp1 & 7) == 0) {
 			index1 = game_calc_index( tmp1 , col[sprite]);
 			//index2 = index1 + 1;
 			if ( !game_check_maze( index1 ) ) { // || !game_check_maze( index2 ) ) {
@@ -54,7 +53,6 @@ unsigned char spr_move_up( void ){
 				}
 				return 1;
 			}
-//		}
 	}
 
 	lin[sprite] = tmp1;
@@ -71,13 +69,11 @@ unsigned char spr_move_down( void ){
 	//12
 	//43
 	tmp1 = lin[sprite] + (SPRITE_LIN_INC << sprite_lin_inc_mul);
-//	if ((tmp1 & 7) == 0) {
-		index1 = game_calc_index( tmp1 + SPRITE_HEIGHT, col[sprite] );
-		if ( !game_check_maze( index1 ) ) {
-			lin[sprite] = 8 * (tmp1 / 8);
-			return 1;
-		}
-//	}
+	index1 = game_calc_index( tmp1 + SPRITE_HEIGHT, col[sprite] );
+	if ( !game_check_maze( index1 ) ) {
+		lin[sprite] = 8 * (tmp1 / 8);
+		return 1;
+	}
 	lin[sprite] = tmp1;
 	if (lin[sprite] > GAME_LIN_FLOOR) {
 		BIT_CLR(s_state, STAT_FALL);
@@ -100,12 +96,6 @@ void spr_move_horizontal(void ){
 unsigned char spr_move_right( void ){
 	++colint[sprite];
 	if (colint[sprite] == SPR_COLINT) {
-/* 		if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
-			if ( spr_collision_check(DIR_RIGHT) ) {
-				colint[sprite] = SPR_COLINT -1 ;
-				return 0;
-			}
-		} */
 		colint[sprite] = 0;
 		++col[sprite];
 		if (col[sprite] > SCR_COLS_M) {
@@ -118,12 +108,6 @@ unsigned char spr_move_right( void ){
 unsigned char spr_move_left( void ){
 	--colint[sprite];
 	if (colint[sprite] == 255) {
-/* 		if ( BIT_CHK(state[sprite], STAT_JUMP) || BIT_CHK(state[sprite], STAT_FALL)) {
-			if ( spr_collision_check(DIR_LEFT) ) {
-				colint[sprite] = 0;
-				return 0;
-			}
-		} */
 		colint[sprite] = SPR_COLINT - 1;
 		--col[sprite];
 		if (col[sprite] == 255) {
@@ -236,21 +220,7 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 
 			/* Restore lower pipes */
 			enemy_ugly_fix();
-			/*
-			if (s_col1 <= 4  ) {
-				spr_back_paint(0 + 15 * 32);
-				spr_draw_index(12*32);
-				spr_draw_index(12*32 + 2);
-			}
-
-			if (s_col1 >= 26 ) {
-				spr_back_paint(26 + 15 * 32);
-				spr_draw_index(12*32 + 28);
-				spr_draw_index(12*32 + 30);
-      }
-			*/
 		}
-//	}
 }
 
 void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
@@ -273,24 +243,6 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 
 }
 
-/*
-unsigned char spr_collision_check(unsigned char f_dir) {
-	index1 = game_calc_index( lin[sprite] , col[sprite] );
-	if (f_dir == DIR_RIGHT) {
-		if (col[sprite]==31) return 0;
-		index1 += 2;
-	} else {
-		if (col[sprite]==0) return 0;
-		index1 -= 1;
-	}
-	if ( lvl_1[ index1] > VAL_COL ) return 1;
-	index2   = index1 + SCR_COLS;
-	if ( lvl_1[ index2] > VAL_COL ) return 1;
-	index3   = index1 + 2*SCR_COLS;
-	if ( lvl_1[ index3] > VAL_COL ) return 1;
-	return 0;
-}
-*/
 
 unsigned char spr_check_over( void ){
 	if (s_lin0 >= 136) {
@@ -422,23 +374,15 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 }
 
 void spr_draw_back(void) {
-	intrinsic_di();
-	
 	spr_draw_row(6);
 	spr_draw_row(11);
 	spr_draw_row(12);
 	spr_draw_row(16);
-
-	NIRVANAP_fillT(PAPER,128,16); /* FIX POW */
-
-  intrinsic_ei();
 	spr_back_paint(0);
 	spr_back_paint(26);
 	spr_back_paint( 0 + ( 15 * 32) );
 	spr_back_paint(26 + ( 15 * 32) );
 	spr_draw_pow();
-
-
 	NIRVANAP_halt();
 	zx_print_ink(INK_YELLOW);
 	zx_print_paper(PAPER_RED);
@@ -475,9 +419,6 @@ void spr_draw_pow(void) {
 			s_tile1 = TILE_POW1;
 			break;
 	}
-
-	//NIRVANAP_halt(); // synchronize with interrupts  CG
-	//NIRVANAP_fillT(PAPER, 128,15);
 	NIRVANAP_drawT( s_tile1 , 128, 15 );
 }
 void spr_back_clr( void ) {
@@ -534,53 +475,6 @@ void spr_back_paint(unsigned int f_inc) {
 	intrinsic_ei();
 	NIRVANAP_halt();
 }
-/*
-void spr_back_fix1(void) {
-
-	NIRVANAP_halt(); // synchronize with interrupts
-	NIRVANAP_drawT(TILE_PIPE5, 16, 0);
-	NIRVANAP_drawT(TILE_PIPE4, 32, 0);
-	NIRVANAP_drawT(TILE_PIPE2, 16, 2);
-	NIRVANAP_fillT(PAPER, 32, 2);
-	NIRVANAP_fillT(PAPER, 16, 4);
-	NIRVANAP_fillT(PAPER, 32, 4);
-
-}
-
-void spr_back_fix2(void) {
-
-	NIRVANAP_halt(); // synchronize with interrupts
-	NIRVANAP_drawT(TILE_PIPE3, 16, 28);
-	NIRVANAP_drawT(TILE_PIPE7, 16, 30);
-	NIRVANAP_drawT(TILE_PIPE6, 32, 30);
-	NIRVANAP_fillT(PAPER, 32, 28);
-	NIRVANAP_fillT(PAPER, 16, 26);
-	NIRVANAP_fillT(PAPER, 32, 26);
-
-}
-
-
-
-void spr_back_fix3(void) {
-	NIRVANAP_halt(); // synchronize with interrupts
-	NIRVANAP_drawT(TILE_PIPE1A, 136, 0);
-	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 0);
-	NIRVANAP_drawT(TILE_PIPE2A, 136, 2);
-	NIRVANAP_drawT(TILE_PIPE2B, GAME_LIN_FLOOR, 2);
-	NIRVANAP_fillT(PAPER, 136, 4);
-	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 4);
-}
-
-void spr_back_fix4(void) {
-	NIRVANAP_halt(); // synchronize with interrupts
-	NIRVANAP_drawT(TILE_PIPE1A, 136, 30);
-	NIRVANAP_drawT(TILE_PIPE1B, GAME_LIN_FLOOR, 30);
-	NIRVANAP_drawT(TILE_PIPE3A, 136, 28);
-	NIRVANAP_drawT(TILE_PIPE3B, GAME_LIN_FLOOR, 28);
-	NIRVANAP_fillT(PAPER, 136, 26);
-	NIRVANAP_fillT(PAPER, GAME_LIN_FLOOR, 26);
-}
-*/
 
 void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
 	tmp0 = TILE_EMPTY;
@@ -591,9 +485,6 @@ void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
 	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM_FREEZE || lvl_1[ index2 ] == GAME_MAP_PLATFORM_FREEZE ) {
 		tmp0 = TILE_BRICK_FREEZE;
 	}
-
-	//index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
-	//index2 = index1 + 1;
 	if (f_hit) {
 		tmp = hit_lin[index_player]-10;
 	} else {
@@ -636,31 +527,6 @@ void spr_cortina_brick(void) {
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 	zx_print_paper(PAPER_BLACK);
 }
-/* Clear Screen With Pipes */
-
-
-/*
-void spr_cortina_pipes(void) {
- 	unsigned char s_col1,s_lin1;
-	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
-		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
-			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*3=6 draws
-			if ( s_col1 < 30 ) NIRVANAP_drawT(179, s_lin1, s_col1 + 2); //pipe end right
-			NIRVANAP_drawT(TILE_EMPTY, s_lin1+16,s_col1);
-			NIRVANAP_drawT(172, s_lin1,s_col1);		 //pipe center
-		}
-	}
-	for (s_col1 = 0; s_col1 < 32; s_col1+= 2) {
-		for (s_lin1 = 16; s_lin1 <= 176; s_lin1+= 32) {
-			if ( s_lin1 == 16 || s_lin1 == 80 || s_lin1 == 144 ) NIRVANAP_halt(); //synchronize with interrupts every 2*2=4 draws
-			NIRVANAP_drawT(TILE_EMPTY, s_lin1,s_col1);		//clear
-		if ( s_col1 < 30 ) NIRVANAP_drawT(167, s_lin1, s_col1 + 2); //pipe end left
-		}
-	}
-
-	NIRVANAP_halt();
-}
-*/
 
 
 
@@ -695,39 +561,35 @@ void spr_water_splash_clear(void) {
 void spr_draw_index(unsigned int f_index) {
   /* n % 2^i = n & (2^i - 1) */
 	s_col1 = f_index & 31; //OPTIMIZED % 32
-	//s_col1 = index_d;
-	s_lin1 = f_index >> 5;
-	s_lin1 = s_lin1 << 3;
-
-  //NIRVANAP_drawT(TILE_POW1, s_lin1, s_col1);
+	s_lin1 = f_index >> 5; // div 32
+	s_lin1 = s_lin1 << 3;  // mod 32
 	NIRVANAP_drawT_raw(spr_idx[lvl_1[f_index]], s_lin1, s_col1);
 }
 
 void spr_draw_row(unsigned char f_row) {
+	intrinsic_di();
   tmp = 0;
 	while (tmp < 32) {
-		spr_draw_index( (f_row << 5) + tmp); //TODO OPTIMIZE
+		index1 = (f_row << 5) + tmp;
+		if ( lvl_1[index1] >= GAME_MAP_PLATFORM ) {
+			spr_draw_index(index1);
+		}
 		tmp = tmp + 2;
 	}
+	intrinsic_ei();
 }
-/*
-void spr_draw_edges(void) {
-	NIRVANAP_halt();
-  intrinsic_di();
-	spr_draw_index(12*32);
-	spr_draw_index(12*32 + 2);
-	spr_draw_index(12*32 + 28);
-	spr_draw_index(12*32 + 30);
-	spr_draw_index(6*32 + 12);
-	spr_draw_index(6*32 + 18);
-  intrinsic_ei();
 
-	NIRVANAP_halt();
-  intrinsic_di();
-	spr_draw_index(16*32 + 10);
-	spr_draw_index(16*32 + 20);
-	spr_draw_index(11*32 + 10);
-	spr_draw_index(11*32 + 20);
-  intrinsic_ei();
+unsigned char spr_calc_hor(unsigned char f_sprite) {
+	unsigned char val;
+	val = col[f_sprite] * 3;
+	if (!BIT_CHK(state_a[f_sprite], STAT_TURN) ) {
+		if (BIT_CHK(state[f_sprite], STAT_LDIRL) ) {
+			val = val - colint[f_sprite];
+		}
+		if (BIT_CHK(state[f_sprite], STAT_LDIRR) ) {
+			val = val + colint[f_sprite];
+		}	
+	}
+
+	return val;
 }
-*/

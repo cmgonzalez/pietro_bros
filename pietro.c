@@ -135,8 +135,19 @@ void debug_func(void) {
  zx_print_chr(21,0,phase_left);
  zx_print_chr(21,4,spr_count);
  */
+
+ spr_draw_pow();
+ NIRVANAP_halt();
+ //NIRVANAP_halt();
+ intrinsic_di();
+ spr_draw_index(12*32);
+ spr_draw_index(12*32 + 2);
+ spr_draw_index(12*32 + 28);
+ spr_draw_index(12*32 + 30);
+ intrinsic_ei();
+
+
 }
 unsigned char test_func(void) {
-
-return 0;
+  return 0;
 }
