@@ -319,7 +319,7 @@ unsigned char player_move(void){
 		if ( BIT_CHK(s_state, STAT_JUMP) ) {
 			/* Jump Handling */
 			if ( player_jump_c[index_player] < PLAYER_MAX_JUMP ) {
-				spr_move_up();
+				if ( !BIT_CHK(state_a[sprite], STAT_HITBRICK) ) spr_move_up();
 			} else {
 				spr_set_fall();
 			}

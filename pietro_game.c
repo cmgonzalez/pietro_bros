@@ -316,8 +316,9 @@ void game_loop(void) {
 		++loop_count;
 
 	}
-	z80_delay_ms(400);
   game_kill_all_sprites();
+	z80_delay_ms(400);
+	NIRVANAP_halt();
 	spr_draw_back();
 	game_print_header();
 	game_print_footer();
@@ -469,7 +470,7 @@ void game_kill_all_sprites(void) { //TODO MOVE TO PIETRO_SPRITE.C
 }
 
 unsigned char game_check_maze(int f_index) __z88dk_fastcall {
-	return lvl_1[f_index] < VAL_COL && lvl_1[f_index+1] < VAL_COL;
+	return lvl_1[f_index] < VAL_COL && lvl_1[f_index + 1] < VAL_COL;
 }
 
 unsigned char game_enemy_add(void) {
