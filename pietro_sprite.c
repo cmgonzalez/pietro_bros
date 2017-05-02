@@ -70,8 +70,8 @@ unsigned char spr_move_down( void ){
 	//43
 	tmp1 = lin[sprite] + (SPRITE_LIN_INC << sprite_lin_inc_mul);
 	index1 = game_calc_index( tmp1 + SPRITE_HEIGHT, col[sprite] );
-	if ( !game_check_maze( index1 ) ) {
-		lin[sprite] = 8 * (tmp1 / 8);
+	if ( !game_check_floor( index1 ) ) {
+		lin[sprite] = (tmp1 >> 3) << 3; // div 8 mul 8
 		return 1;
 	}
 	lin[sprite] = tmp1;
@@ -588,7 +588,7 @@ unsigned char spr_calc_hor(unsigned char f_sprite) {
 		}
 		if (BIT_CHK(state[f_sprite], STAT_LDIRR) ) {
 			val = val + colint[f_sprite];
-		}	
+		}
 	}
 
 	return val;

@@ -2,7 +2,7 @@
 
 README - Pietro Bros v1.2
 
-Pietro and Luizo were transported to pipe world after eating some rancid 
+Pietro and Luizo were transported to pipe world after eating some rancid
 mushrooms on his pizza.
 
 Help them to escape from this hell...
@@ -60,6 +60,11 @@ zsdcc is included among the pre-built Windows and OSX binaries already.
 Edit file "z88dk/libsrc/_DEVELOPMENT/target/zx/config_nirvanap.m4"
 Change "define(`__NIRVANAP_TOTAL_ROWS', 23)" to "define(`__NIRVANAP_TOTAL_ROWS', 19)"
 
+You can also disable wide tiles from Nirvana by changing, to save 300 bytes aprox.
+
+define(`__NIRVANAP_OPTIONS_WIDE_DRAW',    0x00)
+define(`__NIRVANAP_OPTIONS_WIDE_SPRITES', 0x00)
+
 To build the Pentagon version instead of the regular Spectrum version:
 
 Edit file "z88dk/libsrc/_DEVELOPMENT/target/zx/config_target.m4"
@@ -73,7 +78,10 @@ Run "Winmake zx" (windows) or "make TARGET=zx" (anything else)
 * Build Pietro Bros!
 
 Open a shell in the pietro_bros home directory
-Run "zcompile" (windows) or "make" then "make zx7" (anything else)
+Run "make"
+you can also use "zcompile" (windows without cygwin)
+
+To build zx7 compresed run "make zx7" (twice)
 
 ==============================================================================
 

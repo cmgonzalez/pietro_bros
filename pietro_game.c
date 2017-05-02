@@ -470,8 +470,23 @@ void game_kill_all_sprites(void) { //TODO MOVE TO PIETRO_SPRITE.C
 }
 
 unsigned char game_check_maze(int f_index) __z88dk_fastcall {
-	return lvl_1[f_index] < VAL_COL && lvl_1[f_index + 1] < VAL_COL;
+  return  lvl_1[f_index] < VAL_COL && lvl_1[f_index + 1] < VAL_COL;
 }
+
+unsigned char game_check_floor(int f_index) __z88dk_fastcall {
+  unsigned char v1;
+	unsigned char v2;
+
+	v1 = lvl_1[f_index];
+	v2 = lvl_1[f_index + 1];
+
+	if (v1 == IDX_POW || v2 == IDX_POW) {
+		return (  lvl_1[f_index+32] < VAL_COL &&  lvl_1[f_index+33] < VAL_COL );
+	} else {
+		return ( v1 < VAL_COL && v2 < VAL_COL );
+	}
+}
+
 
 unsigned char game_enemy_add(void) {
 
