@@ -59,12 +59,39 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 }
 
 void player_calc_slide(  ) {
+
+  unsigned char v1;
+	
 	index1 = game_calc_index( lin[sprite] + 16 , col[sprite]);
-	if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE) {
+
+  sliding[index_player] = PLAYER_SLIDE_NORMAL;
+
+	v1 = lvl_1[index1];
+
+	if (!v1) {
+		v1 = lvl_1[index1 + 1];
+	}
+
+	switch (v1) {
+		case GAME_MAP_PLATFORM:
+		sliding[index_player] = PLAYER_SLIDE_NORMAL;
+		break;
+
+		case GAME_MAP_PLATFORM_FREEZE:
 		sliding[index_player] = PLAYER_SLIDE_ICE;
+		break;
+
+		case IDX_POW:
+		sliding[index_player] = PLAYER_SLIDE_POW;
+		break;
+	}
+	/*
+	if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE) {
+		sliding[index_player] = PLAYER_SLIDE_NORMAL;
 	} else {
 		sliding[index_player] = PLAYER_SLIDE_NORMAL;
 	}
+ */
 }
 
 unsigned char player_check_input(void) {

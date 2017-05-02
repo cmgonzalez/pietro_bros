@@ -136,6 +136,7 @@
 #define SPRITE_LIN_INC                2
 #define SPRITE_HEIGHT                 16
 /* Player */
+#define PLAYER_SLIDE_POW              3
 #define PLAYER_SLIDE_NORMAL           6
 #define PLAYER_SLIDE_ICE              12
 #define PLAYER_MAX_JUMP               10  /* Max Jump Time 10 frames */
