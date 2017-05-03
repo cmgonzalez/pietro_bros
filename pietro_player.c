@@ -61,7 +61,7 @@ void player_init(unsigned char f_sprite, unsigned  char f_lin, unsigned  char f_
 void player_calc_slide(  ) {
 
   unsigned char v1;
-	
+
 	index1 = game_calc_index( lin[sprite] + 16 , col[sprite]);
 
   sliding[index_player] = PLAYER_SLIDE_NORMAL;
@@ -217,6 +217,8 @@ void player_turn(void) {
 }
 
 unsigned char player_move(void){
+	unsigned int index_d;
+	
 	/* Player initial Values */
 	s_lin0 = lin[sprite];
 	s_col0 = col[sprite];

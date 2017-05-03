@@ -85,7 +85,7 @@ unsigned int	loop_count;
 unsigned int	index1;
 unsigned int	index2;
 unsigned int	index3;
-unsigned int	index_d;
+//unsigned int	index_d;
 unsigned char	tmp;
 unsigned char	tmp0;
 unsigned char	tmp1;
@@ -102,6 +102,9 @@ unsigned int	entry_time;
 unsigned int	frame_time;
 unsigned int	osd_time;
 unsigned char	spr_count;
+unsigned char game_ugly_fix_cnt;
+
+
 //###############################################################################################
 //#                                                                                             #
 //# GAME VARIABLES                                                                              #
@@ -218,7 +221,7 @@ unsigned char lvl_1[] ={
 	11,11,12,12, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,13,13,11,11  //20
 };
 
-//###############################################################################################
+
 //#                                                                                             #
 //# SCREEN TILE FROM MAP INDEX ARRAY                                                            #
 //#                                                                                             #

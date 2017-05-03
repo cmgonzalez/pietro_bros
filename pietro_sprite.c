@@ -238,7 +238,6 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 		NIRVANAP_spriteT(f_sprite, f_tile + tmp, lin[f_sprite], col[f_sprite]);
 	} else {
 		spr_destroy(f_sprite);
-		spr_draw_pow();
 	}
 
 }
@@ -421,6 +420,7 @@ void spr_draw_pow(void) {
 	}
 	NIRVANAP_drawT( s_tile1 , 128, 15 );
 }
+
 void spr_back_clr( void ) {
 	NIRVANAP_fillC(PAPER, s_lin0, s_col0);
 	NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);

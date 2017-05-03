@@ -222,23 +222,23 @@
 222   0000              	GLOBAL _game_two_player
 223   0000              	GLOBAL _game_brick_tile
 224   0000              	GLOBAL _game_pow
-225   0000              	GLOBAL _spr_count
-226   0000              	GLOBAL _osd_time
-227   0000              	GLOBAL _frame_time
-228   0000              	GLOBAL _entry_time
-229   0000              	GLOBAL _curr_time
-230   0000              	GLOBAL _s_state
-231   0000              	GLOBAL _attrib_hl
-232   0000              	GLOBAL _attrib
-233   0000              	GLOBAL _zx_val_asm
-234   0000              	GLOBAL _enemies
-235   0000              	GLOBAL _tmp_ui
-236   0000              	GLOBAL _tmp_sc
-237   0000              	GLOBAL _tmp_uc
-238   0000              	GLOBAL _tmp1
-239   0000              	GLOBAL _tmp0
-240   0000              	GLOBAL _tmp
-241   0000              	GLOBAL _index_d
+225   0000              	GLOBAL _game_ugly_fix_cnt
+226   0000              	GLOBAL _spr_count
+227   0000              	GLOBAL _osd_time
+228   0000              	GLOBAL _frame_time
+229   0000              	GLOBAL _entry_time
+230   0000              	GLOBAL _curr_time
+231   0000              	GLOBAL _s_state
+232   0000              	GLOBAL _attrib_hl
+233   0000              	GLOBAL _attrib
+234   0000              	GLOBAL _zx_val_asm
+235   0000              	GLOBAL _enemies
+236   0000              	GLOBAL _tmp_ui
+237   0000              	GLOBAL _tmp_sc
+238   0000              	GLOBAL _tmp_uc
+239   0000              	GLOBAL _tmp1
+240   0000              	GLOBAL _tmp0
+241   0000              	GLOBAL _tmp
 242   0000              	GLOBAL _index3
 243   0000              	GLOBAL _index2
 244   0000              	GLOBAL _index1
@@ -426,138 +426,138 @@
 412   00B6  00 00       	DEFS 2
 413   00B8              _index3:
 414   00B8  00 00       	DEFS 2
-415   00BA              _index_d:
-416   00BA  00 00       	DEFS 2
-417   00BC              _tmp:
-418   00BC  00          	DEFS 1
-419   00BD              _tmp0:
-420   00BD  00          	DEFS 1
-421   00BE              _tmp1:
-422   00BE  00          	DEFS 1
-423   00BF              _tmp_uc:
-424   00BF  00          	DEFS 1
-425   00C0              _tmp_sc:
-426   00C0  00          	DEFS 1
-427   00C1              _tmp_ui:
-428   00C1  00 00       	DEFS 2
-429   00C3              _enemies:
-430   00C3  00          	DEFS 1
-431   00C4              _zx_val_asm:
-432   00C4  00          	DEFS 1
-433   00C5              _attrib:
-434   00C5  00 00 00 00 	DEFS 4
-435   00C9              _attrib_hl:
-436   00C9  00 00 00 00 	DEFS 4
-437   00CD              _s_state:
-438   00CD  00          	DEFS 1
-439   00CE              _curr_time:
+415   00BA              _tmp:
+416   00BA  00          	DEFS 1
+417   00BB              _tmp0:
+418   00BB  00          	DEFS 1
+419   00BC              _tmp1:
+420   00BC  00          	DEFS 1
+421   00BD              _tmp_uc:
+422   00BD  00          	DEFS 1
+423   00BE              _tmp_sc:
+424   00BE  00          	DEFS 1
+425   00BF              _tmp_ui:
+426   00BF  00 00       	DEFS 2
+427   00C1              _enemies:
+428   00C1  00          	DEFS 1
+429   00C2              _zx_val_asm:
+430   00C2  00          	DEFS 1
+431   00C3              _attrib:
+432   00C3  00 00 00 00 	DEFS 4
+433   00C7              _attrib_hl:
+434   00C7  00 00 00 00 	DEFS 4
+435   00CB              _s_state:
+436   00CB  00          	DEFS 1
+437   00CC              _curr_time:
+438   00CC  00 00       	DEFS 2
+439   00CE              _entry_time:
 440   00CE  00 00       	DEFS 2
-441   00D0              _entry_time:
+441   00D0              _frame_time:
 442   00D0  00 00       	DEFS 2
-443   00D2              _frame_time:
+443   00D2              _osd_time:
 444   00D2  00 00       	DEFS 2
-445   00D4              _osd_time:
-446   00D4  00 00       	DEFS 2
-447   00D6              _spr_count:
-448   00D6  00          	DEFS 1
-449   00D7              _game_pow:
-450   00D7  00          	DEFS 1
-451   00D8              _game_brick_tile:
-452   00D8  00          	DEFS 1
-453   00D9              _game_two_player:
-454   00D9  00          	DEFS 1
-455   00DA              _game_start_phase:
-456   00DA  00          	DEFS 1
-457   00DB              _game_god_mode:
-458   00DB  00          	DEFS 1
-459   00DC              _game_inmune:
-460   00DC  00          	DEFS 1
-461   00DD              _game_sound:
-462   00DD  00          	DEFS 1
-463   00DE              _game_over:
-464   00DE  00          	DEFS 1
-465   00DF              _game_lives:
-466   00DF  00 00       	DEFS 2
-467   00E1              _game_time_flipped:
-468   00E1  00 00       	DEFS 2
-469   00E3              _game_time_fireball_start:
-470   00E3  00 00       	DEFS 2
-471   00E5              _spr_water_clear:
-472   00E5  00          	DEFS 1
-473   00E6              _spr_water_time:
-474   00E6  00 00       	DEFS 2
-475   00E8              _game_bonus:
-476   00E8  00          	DEFS 1
-477   00E9              _game_osd:
-478   00E9  00          	DEFS 1
-479   00EA              _game_type:
-480   00EA  00          	DEFS 1
-481   00EB              _game_menu_sel:
-482   00EB  00          	DEFS 1
-483   00EC              _game_score_top:
-484   00EC  00 00       	DEFS 2
-485   00EE              _phase_quota:
-486   00EE  00 00 00    	DEFS 3
-487   00F1              _phase_left:
-488   00F1  00          	DEFS 1
-489   00F2              _phase_tot:
-490   00F2  00          	DEFS 1
-491   00F3              _phase_pop:
-492   00F3  00          	DEFS 1
-493   00F4              _phase_coins:
-494   00F4  00          	DEFS 1
-495   00F5              _phase_end:
-496   00F5  00          	DEFS 1
-497   00F6              _phase_curr:
-498   00F6  00          	DEFS 1
-499   00F7              _phase_angry:
-500   00F7  00          	DEFS 1
-501   00F8              _phase_bonus_total:
-502   00F8  00 00       	DEFS 2
-503   00FA              _screen_paper:
-504   00FA  00          	DEFS 1
-505   00FB              _screen_ink:
-506   00FB  00          	DEFS 1
-507   00FC              _score_osd_lin:
-508   00FC  00 00       	DEFS 2
-509   00FE              _score_osd_col:
-510   00FE  00 00       	DEFS 2
-511   0100              _score_osd_time:
-512   0100  00 00 00 00 	DEFS 4
-513   0104              _score_osd_tile:
-514   0104  00 00 00 00 	DEFS 4
-515   0108              _sprite_speed_alt:
-516   0108  00 00 00 00 00 00 00 00 
+445   00D4              _spr_count:
+446   00D4  00          	DEFS 1
+447   00D5              _game_ugly_fix_cnt:
+448   00D5  00          	DEFS 1
+449   00D6              _game_pow:
+450   00D6  00          	DEFS 1
+451   00D7              _game_brick_tile:
+452   00D7  00          	DEFS 1
+453   00D8              _game_two_player:
+454   00D8  00          	DEFS 1
+455   00D9              _game_start_phase:
+456   00D9  00          	DEFS 1
+457   00DA              _game_god_mode:
+458   00DA  00          	DEFS 1
+459   00DB              _game_inmune:
+460   00DB  00          	DEFS 1
+461   00DC              _game_sound:
+462   00DC  00          	DEFS 1
+463   00DD              _game_over:
+464   00DD  00          	DEFS 1
+465   00DE              _game_lives:
+466   00DE  00 00       	DEFS 2
+467   00E0              _game_time_flipped:
+468   00E0  00 00       	DEFS 2
+469   00E2              _game_time_fireball_start:
+470   00E2  00 00       	DEFS 2
+471   00E4              _spr_water_clear:
+472   00E4  00          	DEFS 1
+473   00E5              _spr_water_time:
+474   00E5  00 00       	DEFS 2
+475   00E7              _game_bonus:
+476   00E7  00          	DEFS 1
+477   00E8              _game_osd:
+478   00E8  00          	DEFS 1
+479   00E9              _game_type:
+480   00E9  00          	DEFS 1
+481   00EA              _game_menu_sel:
+482   00EA  00          	DEFS 1
+483   00EB              _game_score_top:
+484   00EB  00 00       	DEFS 2
+485   00ED              _phase_quota:
+486   00ED  00 00 00    	DEFS 3
+487   00F0              _phase_left:
+488   00F0  00          	DEFS 1
+489   00F1              _phase_tot:
+490   00F1  00          	DEFS 1
+491   00F2              _phase_pop:
+492   00F2  00          	DEFS 1
+493   00F3              _phase_coins:
+494   00F3  00          	DEFS 1
+495   00F4              _phase_end:
+496   00F4  00          	DEFS 1
+497   00F5              _phase_curr:
+498   00F5  00          	DEFS 1
+499   00F6              _phase_angry:
+500   00F6  00          	DEFS 1
+501   00F7              _phase_bonus_total:
+502   00F7  00 00       	DEFS 2
+503   00F9              _screen_paper:
+504   00F9  00          	DEFS 1
+505   00FA              _screen_ink:
+506   00FA  00          	DEFS 1
+507   00FB              _score_osd_lin:
+508   00FB  00 00       	DEFS 2
+509   00FD              _score_osd_col:
+510   00FD  00 00       	DEFS 2
+511   00FF              _score_osd_time:
+512   00FF  00 00 00 00 	DEFS 4
+513   0103              _score_osd_tile:
+514   0103  00 00 00 00 	DEFS 4
+515   0107              _sprite_speed_alt:
+516   0107  00 00 00 00 00 00 00 00 
                         	DEFS 8
-517   0110              ;--------------------------------------------------------
-518   0110              ; ram data
-519   0110              ;--------------------------------------------------------
-520   0110              
-521   0110              IF 0
-522   0110              
-523   0110              ; .area _INITIALIZED removed by z88dk
-524   0110              
-525   0110              _joynames:
-526   0110              	DEFS 14
-527   0110              _phases:
-528   0110              	DEFS 128
-529   0110              _lvl_1:
-530   0110              	DEFS 672
-531   0110              _spr_idx:
-532   0110              	DEFS 42
-533   0110              _sprite_speed:
-534   0110              	DEFS 17
-535   0110              _hof:
-536   0110              	DEFS 60
-537   0110              _initials:
-538   0110              	DEFS 8
-539   0110              
-540   0110              ENDIF
-541   0110              
-542   0110              ;--------------------------------------------------------
-543   0110              ; absolute external ram data
-544   0110              ;--------------------------------------------------------
-545   0110              	SECTION IGNORE
+517   010F              ;--------------------------------------------------------
+518   010F              ; ram data
+519   010F              ;--------------------------------------------------------
+520   010F              
+521   010F              IF 0
+522   010F              
+523   010F              ; .area _INITIALIZED removed by z88dk
+524   010F              
+525   010F              _joynames:
+526   010F              	DEFS 14
+527   010F              _phases:
+528   010F              	DEFS 128
+529   010F              _lvl_1:
+530   010F              	DEFS 672
+531   010F              _spr_idx:
+532   010F              	DEFS 42
+533   010F              _sprite_speed:
+534   010F              	DEFS 17
+535   010F              _hof:
+536   010F              	DEFS 60
+537   010F              _initials:
+538   010F              	DEFS 8
+539   010F              
+540   010F              ENDIF
+541   010F              
+542   010F              ;--------------------------------------------------------
+543   010F              ; absolute external ram data
+544   010F              ;--------------------------------------------------------
+545   010F              	SECTION IGNORE
 546   0000              ;--------------------------------------------------------
 547   0000              ; global & static initialisations
 548   0000              ;--------------------------------------------------------

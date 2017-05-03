@@ -100,7 +100,7 @@
 #define PAPER                         000 /* Screen paper */
 #define GAME_LIN_FLOOR                152
 #define GAME_LIN_TOP_PLATFORM         48
-#define GAME_ENEMY_COL_CHECK_TIME     10
+#define GAME_ENEMY_COL_CHECK_TIME     16
 
 #define ST_STAND_R                    0
 #define ST_STAND_L                    1
@@ -249,7 +249,7 @@ extern unsigned int		loop_count;
 extern unsigned int		index1;
 extern unsigned int		index2;
 extern unsigned int		index3;
-extern unsigned int		index_d;
+//extern unsigned int		index_d;
 extern unsigned char	tmp;
 extern unsigned char	tmp0;
 extern unsigned char	tmp1;
@@ -266,6 +266,8 @@ extern unsigned int		entry_time;
 extern unsigned int		frame_time;
 extern unsigned int  	osd_time;
 extern unsigned char	spr_count;
+extern unsigned char	  game_ugly_fix_cnt;
+
 extern unsigned char	game_pow;
 extern unsigned char 	game_brick_tile;
 extern unsigned char 	game_two_player;

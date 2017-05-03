@@ -127,7 +127,7 @@ void game_phase_init(void) {
 	score_osd_col[0] = 0xFF;
 	score_osd_col[1] = 0xFF;
 	spr_count = 0;
-
+  game_ugly_fix_cnt = 0;
 
 	//GAME TYPES/BONUS
 	if (game_type != GAME_RANDOM_TYPE) {
@@ -285,6 +285,7 @@ void game_loop(void) {
 
 		/*each second aprox - update fps/score/phase left/phase advance*/
 		if (game_check_time(frame_time, TIME_EVENT)) {
+			spr_draw_pow();
 			frame_time = zx_clock();
 			/*add enemies*/
 			if ( !game_bonus ) {
@@ -311,10 +312,10 @@ void game_loop(void) {
 					game_phase_init();
 				}
 			}
-			debug_func();
+
 		}
 		++loop_count;
-
+    game_back_fix();
 	}
   game_kill_all_sprites();
 	z80_delay_ms(400);
@@ -332,6 +333,30 @@ void game_loop(void) {
 	game_menu_sel = 0;
 	game_menu_paint();
 	game_joystick_set_menu();
+}
+
+void game_back_fix() {
+	unsigned int fix_1[] = {
+		                       //64,66,92,94,
+		                       //128,158,
+													 204,210,
+													 //362,372,
+													 384,386,412,414,
+													 //522,532,
+													 544,546,572,574,
+													 608,610,636,638
+												 };
+	if ( (loop_count & 3) == 0) {
+		index1 = fix_1[game_ugly_fix_cnt];
+		s_col1 = index1 & 31; // OPTIMIZED % 32
+		s_lin1 = index1 >> 5; // div 32
+		s_lin1 = s_lin1 << 3; // mod 32
+		NIRVANAP_halt();
+		NIRVANAP_spriteT(0, spr_idx[lvl_1[index1]], s_lin1, s_col1);
+		//NIRVANAP_spriteT(0, TILE_POW1, s_lin1, s_col1);
+		++game_ugly_fix_cnt;
+		if ( game_ugly_fix_cnt >= 14 ) game_ugly_fix_cnt = 0;
+	}
 }
 void game_print_phase() {
 	zx_print_str(23, 11, "PHASE");

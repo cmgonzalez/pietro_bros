@@ -181,6 +181,7 @@ void enemy_flip(unsigned int f_tile) __z88dk_fastcall {
 	BIT_CLR(state[enemies], STAT_FALL);
 	BIT_FLP(state[enemies], STAT_HIT);
 	jump_lin[enemies] =  lin[enemies];
+  colint[enemies] = 0;
 
 	if (BIT_CHK(state[enemies], STAT_HIT)) {
 		//Normal
@@ -561,7 +562,7 @@ void enemy_upgrade(unsigned char f_enemy, unsigned char f_class, unsigned int f_
 void enemy_walk(void){
 	if (BIT_CHK(s_state, STAT_JUMP) == 0 && BIT_CHK(s_state, STAT_FALL) == 0) {
 		if ( (col[sprite] & 1) && !BIT_CHK(s_state, STAT_HIT) ) {
-			index_d = 0;
+			//index_d = 0;
 			tmp = 0;
 		} else {
 			tmp = game_check_maze(game_calc_index(lin[sprite] + 16,col[sprite]));
