@@ -46,8 +46,22 @@ void enemy_coin2(void){
 }
 
 
-void enemy_collision(void) {
+unsigned char enemy_collision(void) {
+
+	//TODO CHECK IF PERF IS AFFECTED; AFTER WE RETURN AT FIRST FALSE
+
+	//TEST if ( class[enemies] > FIGHTERFLY ) return 0;
+
+	if ( BIT_CHK(state[sprite], STAT_HIT)  ) return 0;
+	if ( BIT_CHK(state[sprite], STAT_KILL)  ) return 0;
+	if ( BIT_CHK(state_a[sprite], STAT_TURN)  ) return 0;
+
 	for (enemies = 0; enemies < SPR_P2 ; ++enemies ) {
+		if ( class[enemies] == 0 || class[enemies] > FIGHTERFLY ) continue;
+		if ( enemies == sprite ) continue;
+
+		if ( BIT_CHK(state[enemies], STAT_KILL)  ) continue;
+		if ( BIT_CHK(state[enemies], STAT_FALL) ) continue;
 		if ( enemy_collision_check() ) {
 
 			//TURN OTHER ENEMY (enemies)
@@ -56,45 +70,32 @@ void enemy_collision(void) {
 				 BIT_CHK(s_state, STAT_DIRR) != BIT_CHK(state[enemies], STAT_DIRR) &&
 				 class[sprite] != COIN_1
 				) {
-				BIT_FLP(state[enemies], STAT_DIRR);
-				BIT_FLP(state[enemies], STAT_DIRL);
-				if ( class[enemies] <= SIDESTEPPER_MAGENTA ) {
-					//ONLY SHELLCREEPERS
-					BIT_SET(state_a[enemies], STAT_TURN);
-					spr_timer[enemies] = zx_clock();
-					tile[enemies] = spr_tile(enemies);
-					colint[enemies] = 0;
-				}
+				enemy_collision_turn_dir(enemies);
 			}
 
 			//TURN CURRENT ENEMY (sprite)
-			BIT_FLP(s_state, STAT_DIRR);
-			BIT_FLP(s_state, STAT_DIRL);
-			if ( class[sprite] <= SIDESTEPPER_MAGENTA ) {
-				//ONLY SHELLCREEPERS
-				BIT_SET(state_a[sprite], STAT_TURN);
-				state[sprite] = s_state;
-				tile[sprite] = spr_tile(sprite);
-				colint[sprite] = 0;
-			}
+			state[sprite] = s_state;
+			enemy_collision_turn_dir(sprite);
+			s_state = state[sprite];
 			spr_timer[sprite] = zx_clock();
-			enemies = SPR_P2; //EXIT FOR
+			return 1;
 		}
 	}
+	return 0;
 }
 
+void enemy_collision_turn_dir( unsigned char f_sprite) __z88dk_fastcall {
+	BIT_FLP(state[f_sprite], STAT_DIRR);
+	BIT_FLP(state[f_sprite], STAT_DIRL);
+	if ( class[f_sprite] <= SIDESTEPPER_MAGENTA ) {
+		//ONLY SHELLCREEPERS TURNING ANIMATION
+		BIT_SET(state_a[f_sprite], STAT_TURN);
+		spr_timer[f_sprite] = zx_clock();
+		tile[f_sprite] = spr_tile(f_sprite);
+		colint[f_sprite] = 0;
+	}
+}
 unsigned char enemy_collision_check(void) {
-	//TODO CHECK IF PERF IS AFFECTED; AFTER WE RETURN AT FIRST FALSE
-	if ( class[enemies] == 0 ) return 0;
-	if ( class[enemies] > FIGHTERFLY ) return 0;
-	if ( enemies == sprite ) return 0;
-	//TEST if ( class[enemies] > FIGHTERFLY ) return 0;
-	if ( BIT_CHK(state[sprite], STAT_HIT)  ) return 0;
-	if ( BIT_CHK(state[sprite], STAT_KILL)  ) return 0;
-	if ( BIT_CHK(state_a[sprite], STAT_TURN)  ) return 0;
-	if ( BIT_CHK(state[enemies], STAT_KILL)  ) return 0;
-	if ( BIT_CHK(state[enemies], STAT_FALL) ) return 0;
-
 	tmp_ui = abs( lin[enemies] - lin[sprite] );
 	if ( tmp_ui >= 16 ) return 0;
 
@@ -269,8 +270,9 @@ void enemy_turn(void){
 	}
 }
 
+/*
 void enemy_ugly_fix() {
-	/*UGLY FIX FOR BACK CORRUPTION*/
+	//UGLY FIX FOR BACK CORRUPTION
 	if (s_lin0 > 88 && s_lin0 < 104) {
 		NIRVANAP_spriteT(sprite, TILE_EMPTY, 0, 0);
 		NIRVANAP_halt();
@@ -298,7 +300,7 @@ void enemy_ugly_fix() {
 		}
 	}
 }
-
+*/
 void enemy_standard(void){
 	//SHELLCREEPERS - SIDESTEPPERS
 	//if ( spr_chktime(&sprite) ) {
@@ -309,7 +311,7 @@ void enemy_standard(void){
 			spr_move_up();
 			//MAX HIT JUMP
 			if ( jump_lin[sprite] - lin[sprite] >= ENEMIES_MAXJUMP ) {
-				enemy_ugly_fix();
+				//enemy_ugly_fix();
 				spr_set_fall();
 			}
 		} else {
@@ -374,24 +376,26 @@ void enemy_fireball_red(void){
 
 		if ( BIT_CHK(s_state, STAT_JUMP)) {
 			if ( spr_move_up() ) spr_set_fall();
-			tmp = 0;
+			//tmp = 0;
 		} else {
 			if (spr_move_down()){
 				BIT_CLR(s_state, STAT_FALL);
 				BIT_SET(s_state, STAT_JUMP);
 			}
-			tmp = 16;
+			//tmp = 16;
 		}
 		spr_move_horizontal();
 
 		if (BIT_CHK(s_state, STAT_DIRR)) {
 			//tmp0 = 2;
-			s_col1 = col[sprite]+2;
+			//s_col1 = col[sprite]+2;
+			index1 = index1 + 2;
 		} else {
 			//tmp0 = -1;
-			s_col1 = col[sprite]-1;
+			//s_col1 = col[sprite]-1;
+			index1 = index1 - 1;
 		}
-		index1 = game_calc_index(lin[sprite], s_col1);
+		//index1 = game_calc_index(lin[sprite], s_col1);
 
 		//if ( lin[sprite] < GAME_LIN_FLOOR && lvl_1[index1] != 0 || col[sprite] < 2 || col[sprite] > 29) {
 
@@ -452,7 +456,7 @@ void enemy_fighterfly(void){
 	if ( BIT_CHK(s_state, STAT_JUMP) ) {
 		//FIREFLY MAX JUMP
 		if ( jump_lin[sprite] - lin[sprite] >= 8) {
-			enemy_ugly_fix();
+			//enemy_ugly_fix();
 			spr_set_fall();
 		}
 		spr_move_horizontal();
@@ -489,6 +493,8 @@ void enemy_trip(void){
 	if (lin[sprite]  > 128) {
 		tmp = 0;
 		if( col[sprite] == 27 ) {
+			enemy_trip_move(ENEMY_SLIN_R, ENEMY_SCOL_R, STAT_DIRL, STAT_DIRR);
+/*
 			tmp = 1;
 			NIRVANAP_fillT(PAPER, lin[sprite], col[sprite]-1);
 			lin[sprite]  = ENEMY_SLIN_R;
@@ -499,8 +505,11 @@ void enemy_trip(void){
 			BIT_CLR(s_state, STAT_JUMP);
 			sound_enter_enemy();
 			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_04);
+*/
 		}
 		if ( col[sprite] == 3 ) {
+			 enemy_trip_move(ENEMY_SLIN_L, ENEMY_SCOL_L, STAT_DIRR, STAT_DIRL);
+/*
 			tmp = 1;
 			NIRVANAP_fillT(PAPER, lin[sprite], col[sprite]+1);
 			lin[sprite]  = ENEMY_SLIN_L;
@@ -511,7 +520,9 @@ void enemy_trip(void){
 			BIT_CLR(s_state, STAT_JUMP);
 			sound_enter_enemy();
 			if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_04);
+*/
 		}
+
 		if (tmp && class[sprite] <= SHELLCREEPER_BLUE ) {
 				colint[sprite] =  0;
 				state[sprite] = s_state;
@@ -520,7 +531,19 @@ void enemy_trip(void){
 		}
 	}
 }
-
+void enemy_trip_move(unsigned char f_slin, unsigned char f_scol, unsigned char f_dir, unsigned char f_dir_alt) {
+	tmp = 1;
+	NIRVANAP_halt();
+	NIRVANAP_fillT(PAPER, s_lin0, s_col0);
+	lin[sprite]  = f_slin;
+	jump_lin[sprite]  = f_slin+16;
+	col[sprite] =  f_scol;
+	BIT_SET(s_state, f_dir);
+	BIT_CLR(s_state, f_dir_alt);
+	BIT_CLR(s_state, STAT_JUMP);
+	sound_enter_enemy();
+	if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_fx_play(ay_effect_04);
+}
 void enemy_standard_hit(void) {
 	if ( game_check_time(spr_timer[sprite], game_time_flipped - 50) ) {
 		if (!BIT_CHK(state[sprite],STAT_UPGR)) {
@@ -537,7 +560,7 @@ void enemy_standard_hit(void) {
 	}
 }
 
-void enemy_evolve(unsigned char f_enemy){
+void enemy_evolve(unsigned char f_enemy) __z88dk_fastcall{
 	switch (class[f_enemy]) {
 		case SHELLCREEPER_GREEN:
       enemy_upgrade(f_enemy, SHELLCREEPER_RED, TILE_SHELLCREEPER_RED);
@@ -609,10 +632,13 @@ void enemy_walk(void){
 
 		if ( !BIT_CHK(s_state, STAT_HIT) && !BIT_CHK(state_a[sprite], STAT_TURN) ) {
 			//collision CHECK BETWEEN ENEMIES TODO PERFORMANCE...
+      /*
 			if ( game_check_time( spr_timer_c[sprite], GAME_ENEMY_COL_CHECK_TIME ) ) {
 				spr_timer_c[sprite] = zx_clock();
 				enemy_collision();
 			}
+			*/
+			enemy_collision();
 			spr_move_horizontal();
 		}
 

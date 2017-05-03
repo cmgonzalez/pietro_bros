@@ -41,7 +41,7 @@ unsigned char spr_move_up( void ){
 	//12
 	//43
 	tmp1 = lin[sprite] - (SPRITE_LIN_INC << sprite_lin_inc_mul); /* x << k == x multiplied by 2 to the power of k */
-	if (sprite >= SPR_P2 || class[sprite] == FIREBALL_RED) {
+	if ( class[sprite] == PLAYER || class[sprite] == FIREBALL_RED) {
 			index1 = game_calc_index( tmp1 , col[sprite]);
 			//index2 = index1 + 1;
 			if ( !game_check_maze( index1 ) ) { // || !game_check_maze( index2 ) ) {
@@ -180,7 +180,7 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 			/* Move sprite down screen n draw*/
 			s_col0 = col[f_sprite];
 			s_lin0 = lin[f_sprite];
-			enemy_ugly_fix();
+			//enemy_ugly_fix();
 			lin[f_sprite] = s_lin0+ (SPRITE_LIN_INC << 1);
 			NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], s_col0);
 			/* Sprite Falling */
@@ -219,7 +219,7 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 			}
 
 			/* Restore lower pipes */
-			enemy_ugly_fix();
+			//enemy_ugly_fix();
 		}
 }
 
@@ -473,7 +473,7 @@ void spr_back_paint(unsigned int f_inc) {
 	spr_draw_index(130 + f_inc);
 	spr_draw_index(132 + f_inc);
 	intrinsic_ei();
-	NIRVANAP_halt();
+	//NIRVANAP_halt();
 }
 
 void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {

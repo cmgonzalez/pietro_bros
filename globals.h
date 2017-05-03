@@ -225,7 +225,7 @@ extern unsigned char hit_col[2];
 extern unsigned char player_jump_c[2];
 extern unsigned char jump_lin[8];
 extern unsigned int  spr_timer[8];
-extern unsigned int  spr_timer_c[8];
+//extern unsigned int  spr_timer_c[8];
 extern unsigned char sliding[2];
 extern unsigned int  last_time[8];
 extern unsigned int  player_score[2];
@@ -266,7 +266,7 @@ extern unsigned int		entry_time;
 extern unsigned int		frame_time;
 extern unsigned int  	osd_time;
 extern unsigned char	spr_count;
-extern unsigned char	  game_ugly_fix_cnt;
+extern unsigned char	game_ugly_fix_cnt;
 
 extern unsigned char	game_pow;
 extern unsigned char 	game_brick_tile;

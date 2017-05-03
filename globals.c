@@ -54,7 +54,7 @@ unsigned char lin[8];					//LINE
 unsigned char col[8];					//COLUMNlisto
 unsigned char colint[8];				//INTERNAL COLUMN/TILE INCREMENT
 unsigned int  spr_timer[8];				//SPRITE GENERAL TIMER MILISECONDS
-unsigned int  spr_timer_c[8];			//SPRITE COLITIONS CHECK TIMER MILISECONDS
+//unsigned int  spr_timer_c[8];			//SPRITE COLITIONS CHECK TIMER MILISECONDS
 unsigned int  last_time[8];				//LAST TIME OF MOVEMENT FOR ANIMATIONS / SPEED
 unsigned char jump_lin[8];				//START JUMP LINE
 
@@ -265,7 +265,7 @@ unsigned char sprite_speed[] = {
 	 1, //06 SIDESTEPPER_MAGENTA
 	 4, //07 SLIPICE
 	 3, //08 COIN_1
-	 4, //09 FIGHTERFLY
+	 3, //09 FIGHTERFLY
 	 2, //10 FIREBALL_RED
 	 1, //11 FIREBALL_GREEN
 	 3, //12 COIN_2

@@ -352,12 +352,14 @@ void game_back_fix() {
 		s_lin1 = index1 >> 5; // div 32
 		s_lin1 = s_lin1 << 3; // mod 32
 		NIRVANAP_halt();
-		NIRVANAP_spriteT(0, spr_idx[lvl_1[index1]], s_lin1, s_col1);
-		//NIRVANAP_spriteT(0, TILE_POW1, s_lin1, s_col1);
+		intrinsic_di();
+		NIRVANAP_drawT_raw(spr_idx[lvl_1[index1]], s_lin1, s_col1);
+		intrinsic_ei();
 		++game_ugly_fix_cnt;
 		if ( game_ugly_fix_cnt >= 14 ) game_ugly_fix_cnt = 0;
 	}
 }
+
 void game_print_phase() {
 	zx_print_str(23, 11, "PHASE");
 	zx_print_chr(23, 18, phase_curr+1);
