@@ -104,7 +104,7 @@ unsigned char player_collision(void) {
 	if (BIT_CHK(state[sprite], STAT_KILL)) return 0;
 	hit_count = 0;
 	for (enemies = 0; enemies < SPR_P2 ; ++enemies ) { //TODO USE SPRITE VARIABLE AS START....
-		if ( player_collision_check() ) {
+		if ( spr_collision_check(sprite, enemies) ) {
 
 			if ( BIT_CHK(state[enemies], STAT_HIT) ) {
 				/* Kill the enemy */
@@ -130,6 +130,7 @@ unsigned char player_collision(void) {
 	return 0;
 }
 
+/*
 unsigned char player_collision_check(void) {
 	if ( class[enemies] == 0 || BIT_CHK(state[enemies], STAT_KILL) ) return 0;
 	tmp_ui = abs( lin[enemies] - lin[sprite] );
@@ -143,7 +144,7 @@ unsigned char player_collision_check(void) {
 		return 1;
 	}
 }
-
+*/
 void player_kill(void) {
 	if ( !BIT_CHK(state[sprite], STAT_KILL) ) {
 		sound_hit_brick();
@@ -218,7 +219,7 @@ void player_turn(void) {
 
 unsigned char player_move(void){
 	unsigned int index_d;
-	
+
 	/* Player initial Values */
 	s_lin0 = lin[sprite];
 	s_col0 = col[sprite];

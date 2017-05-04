@@ -62,7 +62,7 @@ unsigned char enemy_collision(void) {
 
 		if ( BIT_CHK(state[enemies], STAT_KILL)  ) continue;
 		if ( BIT_CHK(state[enemies], STAT_FALL) ) continue;
-		if ( enemy_collision_check() ) {
+		if ( spr_collision_check( sprite, enemies ) ) {
 
 			//TURN OTHER ENEMY (enemies)
 			if ( !BIT_CHK(state[enemies], STAT_HIT) &&
@@ -95,6 +95,7 @@ void enemy_collision_turn_dir( unsigned char f_sprite) __z88dk_fastcall {
 		colint[f_sprite] = 0;
 	}
 }
+/*
 unsigned char enemy_collision_check(void) {
 	tmp_ui = abs( lin[enemies] - lin[sprite] );
 	if ( tmp_ui >= 16 ) return 0;
@@ -104,7 +105,7 @@ unsigned char enemy_collision_check(void) {
 	if (tmp_sc ==  2 && BIT_CHK( state[sprite], STAT_DIRL ) ) return 1;
 	return 0;
 }
-
+*/
 void enemy_hit(void){
 
 	NIRVANAP_halt();

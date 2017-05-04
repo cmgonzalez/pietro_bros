@@ -44,4 +44,5 @@ extern void             spr_draw_clear(void);
 extern void             spr_draw_index(unsigned int f_index);
 extern void             spr_draw_row(unsigned char f_row);
 extern unsigned char    spr_calc_hor(unsigned char f_sprite);
+extern unsigned char    spr_collision_check(unsigned char f_sprite1, unsigned char f_sprite2);
 #endif

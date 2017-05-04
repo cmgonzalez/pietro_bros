@@ -14,12 +14,17 @@
 	You should have received a copy of the GNU General Public License
 	along with Pietro Bros.  If not, see <http://www.gnu.org/licenses/>.
 */
+#include <arch/zx.h>
+#include <input.h>
+#include <stdlib.h>
 #include "nirvana+.h"
 #include "pietro.h"
-#include "pietro_game.h"
 #include "pietro_player.h"
+#include "pietro_ay.h"
 #include "pietro_enemies.h"
+#include "pietro_game.h"
 #include "pietro_sprite.h"
+#include "pietro_sound.h"
 #include "pietro_zx.h"
 #include "macros.h"
 
@@ -592,4 +597,20 @@ unsigned char spr_calc_hor(unsigned char f_sprite) {
 	}
 
 	return val;
+}
+
+unsigned char spr_collision_check(unsigned char f_sprite1, unsigned char f_sprite2) {
+	unsigned char v1;
+	unsigned char v2;
+	if ( class[f_sprite2] == 0 || BIT_CHK(state[f_sprite2], STAT_KILL) ) return 0;
+	tmp_ui = abs( lin[f_sprite2] - lin[f_sprite1] );
+  if ( tmp_ui > PLAYER_VCOL_MARGIN ) return 0;
+  v1 = spr_calc_hor(f_sprite1);
+	v2 = spr_calc_hor(f_sprite2);
+	tmp_ui = abs( v1 - v2 );
+	if ( tmp_ui >= 6 ) {
+		return 0;
+	} else {
+		return 1;
+	}
 }
