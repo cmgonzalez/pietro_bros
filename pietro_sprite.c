@@ -599,12 +599,12 @@ unsigned char spr_calc_hor(unsigned char f_sprite) {
 	return val;
 }
 
-unsigned char spr_collision_check(unsigned char f_sprite1, unsigned char f_sprite2) {
+unsigned char spr_collision_check(unsigned char f_sprite1, unsigned char f_sprite2, unsigned char f_vert_diff) {
 	unsigned char v1;
 	unsigned char v2;
 	if ( class[f_sprite2] == 0 || BIT_CHK(state[f_sprite2], STAT_KILL) ) return 0;
 	tmp_ui = abs( lin[f_sprite2] - lin[f_sprite1] );
-  if ( tmp_ui > PLAYER_VCOL_MARGIN ) return 0;
+  if ( tmp_ui > f_vert_diff ) return 0;
   v1 = spr_calc_hor(f_sprite1);
 	v2 = spr_calc_hor(f_sprite2);
 	tmp_ui = abs( v1 - v2 );
@@ -612,5 +612,11 @@ unsigned char spr_collision_check(unsigned char f_sprite1, unsigned char f_sprit
 		return 0;
 	} else {
 		return 1;
+	}
+}
+
+void spr_kill_all(void) {
+	for (sprite = 0; sprite < 8 ; ++sprite ) {
+		spr_destroy(sprite);
 	}
 }

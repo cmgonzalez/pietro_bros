@@ -85,13 +85,6 @@ void player_calc_slide(  ) {
 		sliding[index_player] = PLAYER_SLIDE_POW;
 		break;
 	}
-	/*
-	if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE) {
-		sliding[index_player] = PLAYER_SLIDE_NORMAL;
-	} else {
-		sliding[index_player] = PLAYER_SLIDE_NORMAL;
-	}
- */
 }
 
 unsigned char player_check_input(void) {
@@ -103,8 +96,8 @@ unsigned char player_collision(void) {
 	if (BIT_CHK(state[sprite], STAT_HIT)) return 0;
 	if (BIT_CHK(state[sprite], STAT_KILL)) return 0;
 	hit_count = 0;
-	for (enemies = 0; enemies < SPR_P2 ; ++enemies ) { //TODO USE SPRITE VARIABLE AS START....
-		if ( spr_collision_check(sprite, enemies) ) {
+	for (enemies = 0; enemies < SPR_P2 ; ++enemies ) {
+		if ( spr_collision_check(sprite, enemies, SPRITE_VCOL_MARGIN) ) {
 
 			if ( BIT_CHK(state[enemies], STAT_HIT) ) {
 				/* Kill the enemy */
@@ -130,21 +123,6 @@ unsigned char player_collision(void) {
 	return 0;
 }
 
-/*
-unsigned char player_collision_check(void) {
-	if ( class[enemies] == 0 || BIT_CHK(state[enemies], STAT_KILL) ) return 0;
-	tmp_ui = abs( lin[enemies] - lin[sprite] );
-  if ( tmp_ui > PLAYER_VCOL_MARGIN ) return 0;
-  s_col0 = spr_calc_hor(sprite);
-	s_col1 = spr_calc_hor(enemies);
-	tmp_ui = abs( s_col0 - s_col1 );
-	if ( tmp_ui >= 6 ) {
-		return 0;
-	} else {
-		return 1;
-	}
-}
-*/
 void player_kill(void) {
 	if ( !BIT_CHK(state[sprite], STAT_KILL) ) {
 		sound_hit_brick();
@@ -267,7 +245,6 @@ unsigned char player_move(void){
 			NIRVANAP_drawT(  TILE_EMPTY, lin[sprite] + 16, s_col0 );
 			BIT_CLR(state[sprite], STAT_HIT);
 			BIT_SET(state[sprite], STAT_JUMP);
-			//BIT_CLR(state_a[sprite], STAT_LOCK);
 			sprite_speed_alt[sprite] = 0;
 		}
 		return 0;
@@ -451,22 +428,12 @@ unsigned char player_move_input(void) {
 void player_move_horizontal(void) {
 	//PLAYER collisionS
 
-	if ( player_push_check() ) {
+	if ( spr_collision_check( sprite, sprite_other_player,0 ) ) {
 		player_push();
 	} else {
 		spr_move_horizontal();
 	}
 
-}
-
-unsigned char player_push_check(void) {
-	//TODO CHECK THIS WITH ENEMIES SEEMS BETTER
-	if ( lin[sprite_other_player] == 0 ) return 0;
-	if ( lin[sprite] != lin[sprite_other_player] ) return 0;
-	tmp_sc = col[sprite] - col[sprite_other_player];
-	if ( tmp_sc == -2 && BIT_CHK( state[sprite], STAT_DIRR ) ) return 1;
-	if ( tmp_sc ==  2 && BIT_CHK( state[sprite], STAT_DIRL ) ) return 1;
-	return 0;
 }
 
 void player_push(void){
@@ -626,22 +593,3 @@ void player_set(unsigned char f_spr_curr, unsigned char  f_spr_other,unsigned ch
 	tile_offset = f_offset_curr;
 	tile_offset_other_player = f_offset_other;
 }
-
-/* REUTILIZE 4 MEMORY SAVING */
-/*
-void player_set1(void){
-	sprite = SPR_P1;
-	sprite_other_player = SPR_P2;
-	index_player = 0;
-	tile_offset = 0;
-	tile_offset_other_player = 24;
-}
-
-void player_set2(void){
-	sprite = SPR_P2;
-	sprite_other_player = SPR_P1;
-	index_player = 1;
-	tile_offset = 24;
-	tile_offset_other_player = 0;
-}
-*/

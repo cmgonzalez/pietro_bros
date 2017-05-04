@@ -19,7 +19,6 @@
 
 extern void          enemy_coin1(void);
 extern unsigned char enemy_collision(void);
-/*extern unsigned char enemy_collision_check(void);*/
 extern void          enemy_collision_turn_dir( unsigned char f_sprite) __z88dk_fastcall;
 extern void          enemy_hit(void);
 extern void          enemy_flip_change_dir(unsigned char f_keep) __z88dk_fastcall;

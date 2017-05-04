@@ -97,10 +97,12 @@ unsigned char	zx_val_asm;
 unsigned char	attrib[4];
 unsigned char	attrib_hl[4];
 unsigned char	s_state;
+
 unsigned int	curr_time;
 unsigned int	entry_time;
 unsigned int	frame_time;
-unsigned int	osd_time;
+unsigned int	osd_update_time;
+unsigned int	osd_show_time;
 unsigned char	spr_count;
 unsigned char game_ugly_fix_cnt;
 
@@ -188,7 +190,7 @@ unsigned char screen_ink;
 //SCORES OSD
 unsigned char score_osd_lin[2];		//TO CLEAR POINTS ON SCREEN
 unsigned char score_osd_col[2];		//TO CLEAR POINTS ON SCREEN
-unsigned int  score_osd_time[2];	//TO CLEAR POINTS ON SCREEN
+unsigned int  score_osd_update_time[2];	//TO CLEAR POINTS ON SCREEN
 unsigned int  score_osd_tile[2];	//TO CLEAR POINTS ON SCREEN
 
 //###############################################################################################

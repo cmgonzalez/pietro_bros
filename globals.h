@@ -100,7 +100,6 @@
 #define PAPER                         000 /* Screen paper */
 #define GAME_LIN_FLOOR                152
 #define GAME_LIN_TOP_PLATFORM         48
-#define GAME_ENEMY_COL_CHECK_TIME     16
 
 #define ST_STAND_R                    0
 #define ST_STAND_L                    1
@@ -135,13 +134,15 @@
 #define SPRITE_RESTART_SPEED          8
 #define SPRITE_LIN_INC                2
 #define SPRITE_HEIGHT                 16
+#define SPRITE_VCOL_MARGIN            14 //VERTICAL COLLISION MARGIN
+
 /* Player */
 #define PLAYER_SLIDE_POW              3
 #define PLAYER_SLIDE_NORMAL           6
 #define PLAYER_SLIDE_ICE              12
 #define PLAYER_MAX_JUMP               10  /* Max Jump Time 10 frames */
 #define PLAYER_HIT_BRICK_TIME         4
-#define PLAYER_VCOL_MARGIN            14 //VERTICAL COLLISION MARGIN
+
 #define PLAYER_HCOL_MARGIN            2  //HORIZONTAL COLLISION MARGIN
 #define PLAYER_HCOL_MARGIN_INT        4  //HORIZONTAL COLLISION MARGIN INTERNAL (1 COL = 3 INT)
 #define PLAYER_SPEED                  2
@@ -163,10 +164,12 @@
 #define ENEMY_FIREBALL_START_TOP      16
 #define ENEMY_FIREBALL_START_MID      56
 #define ENEMY_FIREBALL_START_BOT      132
+#define ENEMY_FIGHTERFLY_STAND_TIME   40
 #define ENEMY_SCOL_R                  26
 #define ENEMY_SLIN_R                  16
 #define ENEMY_SCOL_L                  4
 #define ENEMY_SLIN_L                  16
+
 /* Game times */
 #define TIME_WATER_SPLASH             15
 #define TIME_EVENT                    100
@@ -178,6 +181,10 @@
 #define TIME_FLIPPED_B                250  //7  - ORIG 15 SECONDS (50HZ)
 #define GAME_EXTRA_LIFE               2000
 #define GAME_RANDOM_TYPE              2
+#define GAME_OSD_UPDATE_TIME          5
+#define GAME_OSD_SHOW_TIME            150
+
+
 /* Map tiles */
 #define GAME_MAP_PLATFORM             18
 #define GAME_MAP_PLATFORM_FREEZE      20
@@ -264,7 +271,8 @@ extern unsigned char	s_state;
 extern unsigned int		curr_time;
 extern unsigned int		entry_time;
 extern unsigned int		frame_time;
-extern unsigned int  	osd_time;
+extern unsigned int  	osd_update_time;
+extern unsigned int  	osd_show_time;
 extern unsigned char	spr_count;
 extern unsigned char	game_ugly_fix_cnt;
 
@@ -306,7 +314,7 @@ extern unsigned char phase_angry;
 extern unsigned char phase_bonus_total[2];
 extern unsigned char score_osd_lin[2];
 extern unsigned char score_osd_col[2];
-extern unsigned int  score_osd_time[2];
+extern unsigned int  score_osd_update_time[2];
 extern unsigned int  score_osd_tile[2];
 
 extern HOF_ENTRY hof[10];

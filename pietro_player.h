@@ -20,7 +20,6 @@
 extern void          player_init(unsigned char f_sprite, unsigned char f_lin, unsigned char f_col, unsigned char f_tile);
 extern void 		     player_calc_slide();
 extern unsigned char player_collision(void);
-/*extern unsigned char player_collision_check(void);*/
 extern unsigned char player_check_input(void);
 extern void          player_kill(void);
 extern void          player_restart(unsigned char f_sprite) __z88dk_fastcall;
@@ -34,7 +33,6 @@ extern void          player_score_add(unsigned int f_score) __z88dk_fastcall;
 extern unsigned char player_lost_life(void);
 extern void          player_hit_brick_clear(void);
 extern void          player_push(void);
-unsigned char        player_push_check(void);
 extern void          player_move_horizontal(void);
 extern void          player_set(unsigned char f_spr_curr,unsigned char  f_spr_other,unsigned char f_index, unsigned char f_offset_curr, unsigned char f_offset_other );
 

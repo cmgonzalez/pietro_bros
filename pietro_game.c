@@ -172,7 +172,8 @@ void game_phase_init(void) {
 	if (game_lives[1]) player_init(SPR_P2,GAME_LIN_FLOOR,20,TILE_P1_STANR +24+12);
 
 	game_osd = 1;
-	osd_time = zx_clock();
+	osd_update_time = zx_clock();
+	osd_show_time = osd_update_time;
 }
 
 void game_print_header(void) {
@@ -198,7 +199,7 @@ void game_phase_print(unsigned char f_row) __z88dk_fastcall {
 		if (game_type != GAME_RANDOM_TYPE) {
 			zx_print_str(f_row, 17, "HELL  ");
 		} else {
-			zx_print_str(f_row, 17, "INFITY");
+			zx_print_str(f_row, 17, "RAND  ");
 		}
 	}
 	//game_colour_message( f_row, 11, 24, 300 );
@@ -263,15 +264,15 @@ void game_loop(void) {
 		}
 
 		if (game_osd) {
-			if ( game_check_time(osd_time,5) ) {
+			if ( game_check_time(osd_update_time,GAME_OSD_UPDATE_TIME) ) {
 				/*PRINT PHASE MESSAGE*/
-				osd_time = zx_clock();
+				osd_update_time = zx_clock();
 				game_phase_print(12);
 				game_paint_attrib_lin_h( 11, 23 , (12<<3)+8);
 				game_rotate_attrib();
 			}
 
-			if (loop_count == 400) { /*TODO TIMER*/
+			if ( game_check_time(osd_show_time,GAME_OSD_SHOW_TIME) ) {
 				game_fill_row(12,32);
 				game_osd = 0;
 				if (!game_bonus) {
@@ -297,7 +298,7 @@ void game_loop(void) {
 				/*silence background sound*/
 				if (ay_is_playing() < AY_PLAYING_FOREGROUND) ay_reset();
 				/*sprites init*/
-				game_kill_all_sprites();
+				spr_kill_all();
 				/*bonus summary*/
 				if (game_bonus) game_bonus_summary();
 				/*increment phase*/
@@ -317,7 +318,7 @@ void game_loop(void) {
 		++loop_count;
     game_back_fix();
 	}
-  game_kill_all_sprites();
+  spr_kill_all();
 	z80_delay_ms(400);
 	NIRVANAP_halt();
 	spr_draw_back();
@@ -370,7 +371,7 @@ void game_score_osd(void) {
 
 			score_osd_col[index_player] = col[sprite];
 			score_osd_lin[index_player] = lin[sprite];
-			score_osd_time[index_player] = zx_clock();
+			score_osd_update_time[index_player] = zx_clock();
 			if (hit_count > 0) {
 				if ( hit_count < 2) {
 					score_osd_tile[index_player] = TILE_800;
@@ -389,7 +390,7 @@ void game_score_osd(void) {
 			score_osd_lin[index_player] = tmp;
 		}
 
-		if ( game_check_time( score_osd_time[index_player] , 50 ) ) {
+		if ( game_check_time( score_osd_update_time[index_player] , 50 ) ) {
 			NIRVANAP_fillT( PAPER, score_osd_lin[index_player], score_osd_col[index_player] );
 			//TODO BACKFIX CALL HERE!
 			s_lin0 = score_osd_lin[index_player];
@@ -423,7 +424,7 @@ void game_bonus_clock(void) {
 }
 
 void game_bonus_summary(void) {
-	game_kill_all_sprites();
+	spr_kill_all();
 	spr_draw_clear();
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
 //	game_phase_print_score_back(1);
@@ -490,11 +491,6 @@ void game_bonus_summary_player(unsigned char f_index) __z88dk_fastcall {
 }
 
 
-void game_kill_all_sprites(void) { //TODO MOVE TO PIETRO_SPRITE.C
-	for (sprite = 0; sprite < 8 ; ++sprite ) {
-		spr_destroy(sprite);
-	}
-}
 
 unsigned char game_check_maze(int f_index) __z88dk_fastcall {
   return  lvl_1[f_index] < VAL_COL && lvl_1[f_index + 1] < VAL_COL;
@@ -940,7 +936,7 @@ unsigned char game_menu_handle( unsigned char f_col, unsigned char f_inc, unsign
 
 void game_end(void) {
 	unsigned char f_p1, f_p2;
-	game_kill_all_sprites();
+	spr_kill_all();
 	spr_draw_clear();
 	ay_midi_play(pb_midi_title);
 	/* background */
@@ -949,11 +945,7 @@ void game_end(void) {
 		for (tmp0 = 4 ; tmp0 < 28 ; tmp0 = tmp0 + 2) NIRVANAP_drawT(TILE_GRASS,  tmp1, tmp0);
 		tmp1 = tmp1 + 16;
 	}
-	/*
-	for (tmp0 = 4 ; tmp0 < 28 ; tmp0 = tmp0 + 2) NIRVANAP_drawT(TILE_GRASS,  80, tmp0);
-	for (tmp0 = 4 ; tmp0 < 28 ; tmp0 = tmp0 + 2) NIRVANAP_drawT(TILE_GRASS,  96, tmp0);
-	for (tmp0 = 4 ; tmp0 < 28 ; tmp0 = tmp0 + 2) NIRVANAP_drawT(TILE_GRASS, 112, tmp0);
-  */
+
 	NIRVANAP_drawT(TILE_CASTLE      , 80, 24);
 
 	game_menu_e(  32, 1, 29, 156,   1);
@@ -1015,13 +1007,6 @@ void game_end(void) {
 	}
 	game_colour_message( 19, 1, 31, 200 );
 	zx_print_str(19, 1, "THANK YOU FOR PLAYING!, SEE YOU!");
-
-
-  /*
-  game_colour_message( 19, 1, 31, 200 );
-	zx_print_str(19, 1, "SEE YOU!              ");
-	game_colour_message( 19, 1, 31, 200 );
-	*/
 	spr_draw_clear();
 }
 

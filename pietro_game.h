@@ -32,7 +32,6 @@ extern void			     game_phase_print(unsigned char f_row) __z88dk_fastcall;
 extern void			     player_set1(void);
 extern void			     player_set2(void);
 extern void			     game_loop(void);
-extern void			     game_kill_all_sprites(void);
 extern unsigned char game_check_maze(int f_index) __z88dk_fastcall;
 extern unsigned char game_check_floor(int f_index) __z88dk_fastcall;
 extern unsigned char game_enemy_add(void);
