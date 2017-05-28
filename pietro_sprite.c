@@ -128,26 +128,36 @@ unsigned char spr_redraw( void ){
 	if ( (lin[sprite] !=  s_lin0) || (col[sprite] != s_col0) ) {
 		/* Column Movement */
 		if ( s_lin0 <= 16 ) {
-			NIRVANAP_fillT(PAPER, 8, s_col0);
+			intrinsic_di();
+			NIRVANAP_fillT_raw(PAPER, 8, s_col0);
+			intrinsic_ei();
 		}
+
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
 
-		if ( !spr_check_over() ) {
+		if( spr_check_over( (loop_count & 3) == 0 ) ) {
+				return 0;
+		}
+
+
+		if ( col[sprite] != s_col0 ) {
+
 
 			if ( BIT_CHK(state[sprite], STAT_JUMP) ) {
 				spr_back_fix(16);
+
 				return 0;
 			}
 			if ( BIT_CHK(state[sprite], STAT_FALL) ) {
 				spr_back_fix(0);
 				return 0;
 			}
-			spr_back_clr();
-		}
 
+		}
+   spr_back_clr();
 
 	} else if (  s_tile1 != s_tile0 ) {
-		/* Internal Movement */
+		/* Internal Movement, no clean needed */
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
 	}
 	return 0;
@@ -181,7 +191,6 @@ unsigned char spr_killed( unsigned char f_sprite) __z88dk_fastcall {
 void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 
 		if (lin[f_sprite] < GAME_LIN_FLOOR) {
-
 			/* Move sprite down screen n draw*/
 			s_col0 = col[f_sprite];
 			s_lin0 = lin[f_sprite];
@@ -190,9 +199,6 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 			NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], s_col0);
 			/* Sprite Falling */
 			spr_back_fix(0);
-
-
-
 		} else {
 			s_col1 = col[f_sprite];
 			spr_water_splash_draw(s_col1);
@@ -244,28 +250,28 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 	} else {
 		spr_destroy(f_sprite);
 	}
-
 }
 
 
-unsigned char spr_check_over( void ){
+unsigned char spr_check_over( unsigned char paint ){
+
 	if (s_lin0 >= 136) {
 		if( s_col0 < 4) {
-			spr_back_paint(0 + 15 * 32);
+			if (paint) spr_back_paint(0 + 15 * 32);
 			return 1;
 		}
 		if( s_col0 > 26) {
-			spr_back_paint(26 + 15 * 32);
+			if (paint) spr_back_paint(26 + 15 * 32);
 			return 1;
 		}
 	} else {
 		if (s_lin0 <= 40) {
 			if( s_col0 < 4) {
-				spr_back_paint(0);
+				if (paint) spr_back_paint(0);
 				return 1;
 			}
 			if( s_col0 > 26) {
-				spr_back_paint(26);
+				if (paint) spr_back_paint(26);
 				return 1;
 			}
 		}
@@ -286,7 +292,7 @@ void spr_destroy(unsigned char f_sprite) __z88dk_fastcall {
 	NIRVANAP_spriteT(f_sprite, TILE_EMPTY, 0,0);
 	NIRVANAP_halt();
 	NIRVANAP_fillT(PAPER, s_lin0, s_col0);
-	if (!game_over)	spr_check_over();
+	if (!game_over)	spr_check_over(1);
 }
 
 void spr_set_fall( void ) {
@@ -377,16 +383,20 @@ int spr_tile_dir( unsigned int f_tile, unsigned char f_sprite, unsigned char f_i
 	return TILE_EMPTY;
 }
 
-void spr_draw_back(void) {
+void spr_draw_background(void) {
 	spr_draw_row(6);
 	spr_draw_row(11);
 	spr_draw_row(12);
 	spr_draw_row(16);
+
+	spr_draw_pow();
+
 	spr_back_paint(0);
 	spr_back_paint(26);
 	spr_back_paint( 0 + ( 15 * 32) );
 	spr_back_paint(26 + ( 15 * 32) );
-	spr_draw_pow();
+
+//	NIRVANAP_fillT_raw(PAPER, 128, 17); /*Clear Garbage after pow*/
 	NIRVANAP_halt();
 	zx_print_ink(INK_YELLOW);
 	zx_print_paper(PAPER_RED);
@@ -411,58 +421,45 @@ void spr_draw_clear(void) {
 }
 
 void spr_draw_pow(void) {
-  s_tile1 = TILE_EMPTY;
-	switch(game_pow) {
-		case 1:
-			s_tile1 = TILE_POW1 + 24;
-			break;
-		case 2:
-			s_tile1 = TILE_POW1 + 12;
-			break;
-		case 3:
-			s_tile1 = TILE_POW1;
-			break;
+
+	if (game_pow) {
+		NIRVANAP_drawT( (TILE_POW1 + GAME_MAX_POW) - game_pow, 128, 15 );
+	} else {
+		intrinsic_di();
+		NIRVANAP_fillT_raw(PAPER, 128, 15);
+		intrinsic_ei();
 	}
-	NIRVANAP_drawT( s_tile1 , 128, 15 );
 }
 
-void spr_back_clr( void ) {
-	NIRVANAP_fillC(PAPER, s_lin0, s_col0);
-	NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);
-	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
-	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
-}
+
 
 void spr_back_fix( unsigned char f_inc ) __z88dk_fastcall {
+	  unsigned char t1;
+		unsigned char t2;
+		unsigned char v1;
+		unsigned char v2;
 		index1 = game_calc_index ( s_lin0 + f_inc , s_col0);
-		tmp  = lvl_1[index1] == GAME_MAP_PLATFORM || lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE;
-		tmp0 = lvl_1[index1+1] == GAME_MAP_PLATFORM || lvl_1[index1+1] == GAME_MAP_PLATFORM_FREEZE;
+		t1 = lvl_1[index1];
+		t2 = lvl_1[index1+1];
+		v1 = ( t1 <= TILE_BRICK_FREEZE );
+		v2 = ( t2 <= TILE_BRICK_FREEZE );
 		spr_back_clr();
-		if (tmp || tmp0) {
-
+		if (v1 || v2 ) {
 			/* Restore Platforms */
 			/* The platform is made of brick or ice */
 			s_col1 = s_col0;
-			s_tile1 = spr_idx[lvl_1[index1]];
 			s_lin1 = s_lin0 + f_inc;
 			/* Calculate the lin from the 8x8 lvl_1 screen map */
 			s_lin1 = s_lin1>>3; /* div 8 (2^3) */
 			s_lin1 = s_lin1<<3; /* mul 8 (2^3) */
 			/* Nirvana can't draw 8x8 :( */
-			if ( !tmp && tmp0 ) {
+			if ( !v1 && v2 ) {
 				s_col1 = s_col0 + 1;
-				s_tile1 = spr_idx[lvl_1[index1+1]];
 			}
-			/* Nirvana can't draw 8x8 :( */
-			if (tmp && !tmp0) {
+			if (v1 && !v2) {
 				s_col1 = s_col0 - 1;
-				s_tile1 = spr_idx[lvl_1[index1]];
 			}
-			NIRVANAP_drawT( s_tile1 , s_lin1, s_col1 );
-		}
-		/* Fix Pow */
-		if ( s_lin0 >= 112 && s_lin0 <= 144 && s_col0 >= 14 && s_col0 <= 16 ) {
-			spr_draw_pow();
+			NIRVANAP_drawT( game_brick_tile , s_lin1, s_col1 );
 		}
 }
 
@@ -482,12 +479,18 @@ void spr_back_paint(unsigned int f_inc) {
 }
 
 void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
+  unsigned char v1;
+  unsigned char v2;
+
+
 	tmp0 = TILE_EMPTY;
-	index2 = index1 + 1;
-	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM || lvl_1[ index2 ] == GAME_MAP_PLATFORM) {
+  v1 = lvl_1[ index1    ];
+  v2 = lvl_1[ index1 + 1 ];
+
+	if ( v1 == TILE_BRICK || v2 == TILE_BRICK ) {
 		tmp0 = game_brick_tile;
 	}
-	if (lvl_1[ index1 ] == GAME_MAP_PLATFORM_FREEZE || lvl_1[ index2 ] == GAME_MAP_PLATFORM_FREEZE ) {
+	if ( v1 == TILE_BRICK_FREEZE || v2 == TILE_BRICK_FREEZE ) {
 		tmp0 = TILE_BRICK_FREEZE;
 	}
 	if (f_hit) {
@@ -496,10 +499,10 @@ void spr_brick_anim(unsigned char f_hit) __z88dk_fastcall {
 		tmp = hit_lin[index_player]-8;
 	}
 	tmp_uc = 0;
-	if (lvl_1[index1] >= GAME_MAP_PLATFORM && lvl_1[index2] == 0) {
+	if (v1 <= TILE_BRICK_FREEZE && v2 == TILE_EMPTY) {
 		tmp_uc = hit_col[index_player] + 1;
 	}
-	if (lvl_1[index1] == 0 && lvl_1[index2] >= GAME_MAP_PLATFORM) {
+	if (v1 == TILE_EMPTY && v2 <= TILE_BRICK_FREEZE) {
 		tmp_uc = hit_col[index_player];
 	}
 	/* Draw Plaform */
@@ -568,7 +571,8 @@ void spr_draw_index(unsigned int f_index) {
 	s_col1 = f_index & 31; //OPTIMIZED % 32
 	s_lin1 = f_index >> 5; // div 32
 	s_lin1 = s_lin1 << 3;  // mod 32
-	NIRVANAP_drawT_raw(spr_idx[lvl_1[f_index]], s_lin1, s_col1);
+	//NIRVANAP_drawT_raw(spr_idx[lvl_1[f_index]], s_lin1, s_col1);
+	NIRVANAP_drawT_raw(lvl_1[f_index], s_lin1, s_col1);
 }
 
 void spr_draw_row(unsigned char f_row) {
@@ -576,8 +580,10 @@ void spr_draw_row(unsigned char f_row) {
   tmp = 0;
 	while (tmp < 32) {
 		index1 = (f_row << 5) + tmp;
-		if ( lvl_1[index1] >= GAME_MAP_PLATFORM ) {
-			spr_draw_index(index1);
+
+		if ( lvl_1[index1] <= TILE_BRICK_FREEZE ) {
+			NIRVANAP_drawT_raw(game_brick_tile,f_row << 3, tmp);
+
 		}
 		tmp = tmp + 2;
 	}
@@ -619,4 +625,53 @@ void spr_kill_all(void) {
 	for (sprite = 0; sprite < 8 ; ++sprite ) {
 		spr_destroy(sprite);
 	}
+}
+
+void spr_back_clr( void ) {
+/*
+	NIRVANAP_fillC(PAPER, s_lin0, s_col0);
+	NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);
+	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
+	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
+*/
+	//NIRVANAP_fillT(PAPER, s_lin0, s_col0);
+/*
+	if((game_hlt_cnt & 3) == 0) NIRVANAP_halt();//WARNING<----NO FLICKERING
+	++game_hlt_cnt;
+	intrinsic_di();
+	NIRVANAP_fillT_raw(PAPER, s_lin0, s_col0);
+	intrinsic_ei();
+	*/
+	test_func(0);
+}
+
+void spr_mapfix() {
+	unsigned int fix_1[] = {
+		                       //64,66,92,94,
+		                       //128,158,
+													 204,210,
+													 362,372,
+													 384,386,412,414,
+													 522,532,
+													 544,546,572,574,
+													 608,610,636,638
+												 };
+
+	index1 = fix_1[game_ugly_fix_cnt];
+	s_col1 = index1 & 31; // OPTIMIZED % 32
+	s_lin1 = index1 >> 5; // div 32
+	s_lin1 = s_lin1 << 3; // mod 32
+	s_tile0 = lvl_1[index1];
+
+	if (s_tile0 == TILE_BRICK || s_tile0 == TILE_BRICK) {
+		s_tile0 = game_brick_tile;
+	}
+	NIRVANAP_halt();
+	intrinsic_di();
+	//NIRVANAP_drawT_raw(spr_idx[lvl_1[index1]], s_lin1, s_col1);
+	NIRVANAP_drawT_raw(s_tile0, s_lin1, s_col1);
+	intrinsic_ei();
+	++game_ugly_fix_cnt;
+	if ( game_ugly_fix_cnt >= 18 ) game_ugly_fix_cnt = 0;
+
 }

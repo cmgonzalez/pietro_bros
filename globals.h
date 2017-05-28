@@ -53,17 +53,21 @@
 #define TILE_FIREBALL_GREEN           150
 #define TILE_COIN1                    180
 #define TILE_COIN2                    183
+
+/* Map foreground tiles */
+#define TILE_EMPTY                    169
 /* Screen tiles */
-#define TILE_BRICK0                   132
+#define TILE_BRICK                    132
 #define TILE_BRICK1                   135
 #define TILE_BRICK2                   136
 #define TILE_BRICK3                   137
 #define TILE_BRICK4                   138
-#define TILE_BRICK_FREEZE             139
 #define TILE_BRICK_RESTART            132
-#define TILE_BRICK_FILL               135
-#define TILE_PIPE1                    101
-#define TILE_PIPE2                    179
+#define TILE_BRICK_FREEZE             139
+#define TILE_POW1                     140
+/* Map background tiles */
+#define TILE_PIPE1                    101 //NO USE ON MAP
+#define TILE_PIPE2                    179 //NO USE ON MAP
 #define TILE_PIPE3                    167
 #define TILE_PIPE4                    177
 #define TILE_PIPE5                    165
@@ -75,6 +79,7 @@
 #define TILE_PIPE1B                   175
 #define TILE_PIPE2B                   176
 #define TILE_PIPE3B                   174
+
 /* Misc tiles */
 #define TILE_800_COIN                 186
 #define TILE_DOLLAR                   187
@@ -83,9 +88,8 @@
 #define TILE_EXTRA                    190
 #define TILE_PRINCESS                 202
 #define TILE_CASTLE                   214
-#define TILE_GRASS                    140
-#define TILE_POW1                     191
-#define TILE_EMPTY                    169
+#define TILE_GRASS                    143
+
 /* Player indexes */
 #define SPR_P1                        7
 #define SPR_P2                        6
@@ -105,7 +109,6 @@
 #define ST_STAND_L                    1
 #define ST_TURN_R                     10
 #define ST_TURN_L                     11
-#define VAL_COL                       16
 #define IDX_POW                       17
 #define POW_INDEX                     527
 /* Starting positions*/
@@ -183,11 +186,10 @@
 #define GAME_RANDOM_TYPE              2
 #define GAME_OSD_UPDATE_TIME          5
 #define GAME_OSD_SHOW_TIME            150
+#define GAME_MAX_POW                  3
 
 
-/* Map tiles */
-#define GAME_MAP_PLATFORM             18
-#define GAME_MAP_PLATFORM_FREEZE      20
+
 #define GAME_MAP_TOTAL_POS            672
 
 /* Sound Mode Variables */
@@ -301,7 +303,7 @@ extern unsigned char screen_paper, screen_ink;
 extern unsigned char sprite_speed[];
 extern unsigned char sprite_speed_alt[8];
 extern unsigned char lvl_1[];
-extern unsigned int  spr_idx[];
+//extern unsigned int  spr_idx[];
 extern unsigned char phases[];
 extern unsigned char phase_quota[3];
 extern unsigned char phase_left;
@@ -323,3 +325,4 @@ extern const unsigned char hall_valids[42];
 extern const JOYFUNC control_method[7];
 extern unsigned char initials[8];
 extern const char *joynames[];
+extern unsigned char game_hlt_cnt;

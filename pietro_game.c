@@ -101,7 +101,7 @@ unsigned char game_phase_calc(void) {
 	phase_quota[2]	= phases[tmp_uc+2];
 
 	game_brick_tile = phases[tmp_uc+3]; //PHASE TILE IS ON 4 ELEMENT
-  spr_idx[18]	= game_brick_tile; /* HACK */
+  //spr_idx[18]	= game_brick_tile; /* HACK */
 	if ( game_brick_tile == TILE_BRICK_FREEZE ) {
 		game_freeze_all();
 	} else {
@@ -154,7 +154,7 @@ void game_phase_init(void) {
 		phase_curr = 255;
 		game_unfreeze_all();
 		game_brick_tile = TILE_BRICK_RESTART;
-		spr_idx[18] = TILE_BRICK_RESTART;
+		//spr_idx[18] = TILE_BRICK_RESTART;
 	}
 
 	/* Phase Tune */
@@ -164,7 +164,7 @@ void game_phase_init(void) {
 	spr_draw_clear();
 	/*Draw Platforms*/
 	zx_paper_fill(INK_BLACK | PAPER_BLACK);
-	spr_draw_back();
+	spr_draw_background();
   game_print_header();
 	game_print_footer();
 	/* Player(s) init */
@@ -214,10 +214,10 @@ void game_loop(void) {
 	zx_print_str(22,7,"                  ");
 	ay_reset();
 	/*restore pow on map*/
-	lvl_1[POW_INDEX     ] = 17;
-	lvl_1[POW_INDEX +  1] = 17;
-	lvl_1[POW_INDEX + 32] = 17;
-	lvl_1[POW_INDEX + 33] = 17;
+	lvl_1[POW_INDEX     ] = TILE_POW1;
+	lvl_1[POW_INDEX +  1] = TILE_POW1;
+	lvl_1[POW_INDEX + 32] = TILE_POW1;
+	lvl_1[POW_INDEX + 33] = TILE_POW1;
 	game_lives[0] = 4;
 	if (game_two_player) {
 		game_lives[1] = 4;
@@ -239,7 +239,7 @@ void game_loop(void) {
 	}
 	/* screen init */
 	game_over = 0;
-	game_pow = 3;
+	game_pow = GAME_MAX_POW;
 	/* phase init */
 	phase_curr = game_start_phase;
 	game_phase_init();
@@ -286,7 +286,7 @@ void game_loop(void) {
 
 		/*each second aprox - update fps/score/phase left/phase advance*/
 		if (game_check_time(frame_time, TIME_EVENT)) {
-			spr_draw_pow();
+
 			frame_time = zx_clock();
 			/*add enemies*/
 			if ( !game_bonus ) {
@@ -316,12 +316,13 @@ void game_loop(void) {
 
 		}
 		++loop_count;
-    game_back_fix();
+		spr_mapfix();
+		if ((loop_count & 3) == 0) spr_draw_pow();
 	}
   spr_kill_all();
 	z80_delay_ms(400);
 	NIRVANAP_halt();
-	spr_draw_back();
+	spr_draw_background();
 	game_print_header();
 	game_print_footer();
 	game_print_phase();
@@ -336,30 +337,6 @@ void game_loop(void) {
 	game_joystick_set_menu();
 }
 
-void game_back_fix() {
-	unsigned int fix_1[] = {
-		                       //64,66,92,94,
-		                       //128,158,
-													 204,210,
-													 //362,372,
-													 384,386,412,414,
-													 //522,532,
-													 544,546,572,574,
-													 608,610,636,638
-												 };
-	if ( (loop_count & 3) == 0) {
-		index1 = fix_1[game_ugly_fix_cnt];
-		s_col1 = index1 & 31; // OPTIMIZED % 32
-		s_lin1 = index1 >> 5; // div 32
-		s_lin1 = s_lin1 << 3; // mod 32
-		NIRVANAP_halt();
-		intrinsic_di();
-		NIRVANAP_drawT_raw(spr_idx[lvl_1[index1]], s_lin1, s_col1);
-		intrinsic_ei();
-		++game_ugly_fix_cnt;
-		if ( game_ugly_fix_cnt >= 14 ) game_ugly_fix_cnt = 0;
-	}
-}
 
 void game_print_phase() {
 	zx_print_str(23, 11, "PHASE");
@@ -395,7 +372,7 @@ void game_score_osd(void) {
 			//TODO BACKFIX CALL HERE!
 			s_lin0 = score_osd_lin[index_player];
 			s_col0 = score_osd_col[index_player];
-			spr_check_over();
+			//spr_check_over(); TODO???
 			score_osd_col[index_player] = 255;
 		}
 	}
@@ -493,7 +470,7 @@ void game_bonus_summary_player(unsigned char f_index) __z88dk_fastcall {
 
 
 unsigned char game_check_maze(int f_index) __z88dk_fastcall {
-  return  lvl_1[f_index] < VAL_COL && lvl_1[f_index + 1] < VAL_COL;
+  return  lvl_1[f_index] > TILE_POW1 && lvl_1[f_index + 1] > TILE_POW1;
 }
 
 unsigned char game_check_floor(int f_index) __z88dk_fastcall {
@@ -504,9 +481,9 @@ unsigned char game_check_floor(int f_index) __z88dk_fastcall {
 	v2 = lvl_1[f_index + 1];
 
 	if (v1 == IDX_POW || v2 == IDX_POW) {
-		return (  lvl_1[f_index+32] < VAL_COL &&  lvl_1[f_index+33] < VAL_COL );
+		return (  lvl_1[f_index+32] > TILE_POW1 &&  lvl_1[f_index+33] > TILE_POW1 );
 	} else {
-		return ( v1 < VAL_COL && v2 < VAL_COL );
+		return ( v1 > TILE_POW1 && v2 > TILE_POW1 );
 	}
 }
 
@@ -597,7 +574,7 @@ unsigned char game_enemy_add1(unsigned char f_class) __z88dk_fastcall {
 		return 0;
 	}
 	//force for test an enemy
-	//f_class = SLIPICE;
+	f_class = FIREBALL_RED;
 	++phase_pop;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
@@ -663,8 +640,8 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 		tmp = 1;
 		index1 = game_calc_index ( f_lin, f_col );
 
-		if (lvl_1[index1] == GAME_MAP_PLATFORM ) {
-			lvl_1[index1] = GAME_MAP_PLATFORM_FREEZE;
+		if (lvl_1[index1] == TILE_BRICK ) {
+			lvl_1[index1] = TILE_BRICK_FREEZE;
 			NIRVANAP_halt(); // synchronize with interrupts
 			NIRVANAP_drawT( TILE_BRICK_FREEZE , f_lin , f_col );
 			if (lvl_1[index1+1] == 0) NIRVANAP_fillT(PAPER,f_lin,f_col+1);
@@ -676,16 +653,16 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 
 void game_unfreeze_all(void) {
 	for (index1 = 192; index1 <= 544; index1++ ) {
-		if (lvl_1[index1] == GAME_MAP_PLATFORM_FREEZE ) {
-			lvl_1[index1] = GAME_MAP_PLATFORM;
+		if (lvl_1[index1] == TILE_BRICK_FREEZE ) {
+			lvl_1[index1] = TILE_BRICK;
 		}
 	}
 }
 
 void game_freeze_all(void) {
 	for (index1 = 192; index1 <= 544; index1++ ) {
-		if (lvl_1[index1] == GAME_MAP_PLATFORM ) {
-			lvl_1[index1] = GAME_MAP_PLATFORM_FREEZE;
+		if (lvl_1[index1] == TILE_BRICK ) {
+			lvl_1[index1] = TILE_BRICK_FREEZE;
 		}
 	}
 }

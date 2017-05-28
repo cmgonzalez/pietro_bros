@@ -73,11 +73,11 @@ void player_calc_slide(  ) {
 	}
 
 	switch (v1) {
-		case GAME_MAP_PLATFORM:
+		case TILE_BRICK:
 		sliding[index_player] = PLAYER_SLIDE_NORMAL;
 		break;
 
-		case GAME_MAP_PLATFORM_FREEZE:
+		case TILE_BRICK_FREEZE:
 		sliding[index_player] = PLAYER_SLIDE_ICE;
 		break;
 
@@ -173,7 +173,7 @@ unsigned char player_lost_life(void){
 		/* Do not restart player */
 		return 0;
 	}
-	spr_check_over();
+	spr_check_over(1);
 	game_print_lives();
 	return 1;
 }
@@ -287,7 +287,7 @@ unsigned char player_move(void){
 		index_d = game_calc_index( lin[sprite] + 16 , col[sprite] );
 		if (s_lin0 == GAME_LIN_FLOOR) index_d = 0;
 
-		if ( index_d > 0 && lvl_1[index_d] < VAL_COL && lvl_1[index_d+1] < VAL_COL  ) {
+		if ( index_d > 0 && lvl_1[index_d] > TILE_POW1 && lvl_1[index_d+1] > TILE_POW1  ) {
 			sprite_speed_alt[sprite] = PLAYER_FALL_SPEED;
 			BIT_SET(s_state, STAT_FALL);
 		}
@@ -530,10 +530,10 @@ unsigned char player_hit_pow(void){
 		spr_draw_pow();
 		if (game_pow == 0) {
 			NIRVANAP_fillT(PAPER, 128,15);
-			lvl_1[POW_INDEX     ] = 0;
-			lvl_1[POW_INDEX +  1] = 0;
-			lvl_1[POW_INDEX + 32] = 0;
-			lvl_1[POW_INDEX + 33] = 0;
+			lvl_1[POW_INDEX     ] = TILE_EMPTY;
+			lvl_1[POW_INDEX +  1] = TILE_EMPTY;
+			lvl_1[POW_INDEX + 32] = TILE_EMPTY;
+			lvl_1[POW_INDEX + 33] = TILE_EMPTY;
 		}
 		zx_border(INK_BLACK);
 		BIT_SET( state_a[sprite] , STAT_HITBRICK );

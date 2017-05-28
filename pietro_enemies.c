@@ -156,14 +156,17 @@ void enemy_flip_change_dir( unsigned char f_keep ) __z88dk_fastcall {
 	if (col[sprite] > col[enemies]) {
 		BIT_SET(state[enemies], STAT_DIRL);
 		BIT_CLR(state[enemies], STAT_DIRR);
-	}
-	if (col[sprite] < col[enemies]) {
-		BIT_SET(state[enemies], STAT_DIRR);
-		BIT_CLR(state[enemies], STAT_DIRL);
-	}
-	if (!f_keep && col[sprite] == col[enemies]) {
-		BIT_CLR(state[enemies], STAT_DIRL);
-		BIT_CLR(state[enemies], STAT_DIRR);
+	} else {
+		if (col[sprite] < col[enemies]) {
+			BIT_SET(state[enemies], STAT_DIRR);
+			BIT_CLR(state[enemies], STAT_DIRL);
+		} else {
+			//col[sprite] == col[enemies]
+			if (!f_keep) {
+				BIT_CLR(state[enemies], STAT_DIRL);
+				BIT_CLR(state[enemies], STAT_DIRR);
+			}
+		}
 	}
 }
 
@@ -309,7 +312,7 @@ void enemy_slipice(void){
 
 				tmp_ui = rand();
 				index1 = game_calc_index ( lin[sprite]+16, col[sprite]  );
-				if (lvl_1[index1] == GAME_MAP_PLATFORM && tmp_ui < 13106) {
+				if (lvl_1[index1] == TILE_BRICK && tmp_ui < 13106) {
 					ay_fx_play(ay_effect_16);
 					BIT_SET(s_state, STAT_ANGRY);
 					spr_timer[sprite] = zx_clock();
@@ -341,17 +344,20 @@ void enemy_fireball_red(void){
 				BIT_SET(s_state, STAT_JUMP);
 			}
 		}
-		spr_move_horizontal();
 
-		if (BIT_CHK(s_state, STAT_DIRR)) {
-			index1 = index1 + 2;
-		} else {
-			index1 = index1 - 1;
+
+		if (s_col0 != col[sprite]) {
+			if (BIT_CHK(s_state, STAT_DIRR)) {
+				index1 = index1 + 2;
+			} else {
+				index1 = index1 - 1;
+			}
+			if ( lvl_1[index1] <= TILE_POW1 || col[sprite] < 2 || col[sprite] > 29) {
+				BIT_FLP(s_state, STAT_DIRR);
+				BIT_FLP(s_state, STAT_DIRL);
+			}
 		}
-		if ( lvl_1[index1] >= TILE_POW1 || col[sprite] < 2 || col[sprite] > 29) {
-			BIT_FLP(s_state, STAT_DIRR);
-			BIT_FLP(s_state, STAT_DIRL);
-		}
+    spr_move_horizontal();
 
 		if ( game_check_time( spr_timer[sprite], TIME_FIREBALL_RED) ) {
 			spr_timer[sprite] = zx_clock();
@@ -543,7 +549,7 @@ void enemy_walk(void){
 			sprite_speed_alt[sprite] = 0;
 		}
 		if ( !BIT_CHK(state_a[sprite], STAT_TURN) ) {
-			enemy_collision();
+			if ( (loop_count & 3) == 0 ) enemy_collision();
 			spr_move_horizontal();
 		} else {
 			spr_timer[sprite] = zx_clock();

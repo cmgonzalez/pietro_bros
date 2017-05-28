@@ -134,7 +134,18 @@ void debug_func(void) {
 
 }
 
-unsigned char test_func(void) {
+unsigned char test_func(unsigned char f_row) {
+//NIRVANAP_halt();
+//NIRVANAP_fillT(PAPER, s_lin0, s_col0);
+//intrinsic_di();
+//NIRVANAP_fillT_raw(PAPER, s_lin0, s_col0);
+//intrinsic_ei();
+
+  NIRVANAP_fillC(PAPER, s_lin0,   s_col0);
+  NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
+	NIRVANAP_fillC(PAPER, s_lin0,   s_col0+1);
+	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
+
 
 	return 0;
 }
