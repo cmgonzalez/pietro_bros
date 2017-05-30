@@ -63,7 +63,7 @@ void main(void) {
 
 	game_start_phase = 0;
 	game_god_mode = 0;
-	game_inmune = 0;
+	game_inmune = 1;
 	//INTERRUPTS ARE DISABLED
 
 	//RESET AY CHIP
@@ -134,18 +134,30 @@ void debug_func(void) {
 
 }
 
-unsigned char test_func(unsigned char f_row) {
-//NIRVANAP_halt();
-//NIRVANAP_fillT(PAPER, s_lin0, s_col0);
-//intrinsic_di();
-//NIRVANAP_fillT_raw(PAPER, s_lin0, s_col0);
-//intrinsic_ei();
-
-  NIRVANAP_fillC(PAPER, s_lin0,   s_col0);
-  NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
-	NIRVANAP_fillC(PAPER, s_lin0,   s_col0+1);
-	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
+unsigned char test_func(unsigned char paint) {
 
 
+
+	if (s_lin0 >= 136) {
+		if( s_col0 < 4) {
+			if (paint) spr_back_paint(0 + 15 * 32);
+			return 1;
+		}
+		if( s_col0 > 26) {
+			if (paint) spr_back_paint(26 + 15 * 32);
+			return 1;
+		}
+	} else {
+		if (s_lin0 <= 40) {
+			if( s_col0 < 4) {
+				if (paint) spr_back_paint(0);
+				return 1;
+			}
+			if( s_col0 > 26) {
+				if (paint) spr_back_paint(26);
+				return 1;
+			}
+		}
+	}
 	return 0;
 }

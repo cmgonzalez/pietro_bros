@@ -135,11 +135,11 @@ unsigned char spr_redraw( void ){
 
 		NIRVANAP_spriteT(sprite, s_tile1, lin[sprite], col[sprite]);
 
-		if( spr_check_over( (loop_count & 3) == 0 ) ) {
+		if( spr_check_over(1)) {//TODO print each n frames
 				return 0;
 		}
 
-
+/*
 		if ( col[sprite] != s_col0 ) {
 
 
@@ -154,6 +154,7 @@ unsigned char spr_redraw( void ){
 			}
 
 		}
+*/
    spr_back_clr();
 
 	} else if (  s_tile1 != s_tile0 ) {
@@ -254,7 +255,8 @@ void spr_anim_kill(unsigned char f_sprite, unsigned int f_tile) {
 
 
 unsigned char spr_check_over( unsigned char paint ){
-
+return test_func(paint);
+/*
 	if (s_lin0 >= 136) {
 		if( s_col0 < 4) {
 			if (paint) spr_back_paint(0 + 15 * 32);
@@ -277,6 +279,7 @@ unsigned char spr_check_over( unsigned char paint ){
 		}
 	}
 	return 0;
+	*/
 }
 
 void spr_destroy(unsigned char f_sprite) __z88dk_fastcall {
@@ -628,21 +631,10 @@ void spr_kill_all(void) {
 }
 
 void spr_back_clr( void ) {
-/*
-	NIRVANAP_fillC(PAPER, s_lin0, s_col0);
-	NIRVANAP_fillC(PAPER, s_lin0, s_col0+1);
-	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
+	NIRVANAP_fillC(PAPER, s_lin0,   s_col0);
+  NIRVANAP_fillC(PAPER, s_lin0+8, s_col0);
+	NIRVANAP_fillC(PAPER, s_lin0,   s_col0+1);
 	NIRVANAP_fillC(PAPER, s_lin0+8, s_col0+1);
-*/
-	//NIRVANAP_fillT(PAPER, s_lin0, s_col0);
-/*
-	if((game_hlt_cnt & 3) == 0) NIRVANAP_halt();//WARNING<----NO FLICKERING
-	++game_hlt_cnt;
-	intrinsic_di();
-	NIRVANAP_fillT_raw(PAPER, s_lin0, s_col0);
-	intrinsic_ei();
-	*/
-	test_func(0);
 }
 
 void spr_mapfix() {
@@ -653,8 +645,8 @@ void spr_mapfix() {
 													 362,372,
 													 384,386,412,414,
 													 522,532,
-													 544,546,572,574,
-													 608,610,636,638
+													 //544,546,572,574,
+													 //608,610,636,638
 												 };
 
 	index1 = fix_1[game_ugly_fix_cnt];
@@ -663,7 +655,10 @@ void spr_mapfix() {
 	s_lin1 = s_lin1 << 3; // mod 32
 	s_tile0 = lvl_1[index1];
 
-	if (s_tile0 == TILE_BRICK || s_tile0 == TILE_BRICK) {
+
+	if (s_tile0 == TILE_BRICK_FREEZE) {
+		s_tile0 = game_brick_tile;
+	} else {
 		s_tile0 = game_brick_tile;
 	}
 	NIRVANAP_halt();
@@ -672,6 +667,6 @@ void spr_mapfix() {
 	NIRVANAP_drawT_raw(s_tile0, s_lin1, s_col1);
 	intrinsic_ei();
 	++game_ugly_fix_cnt;
-	if ( game_ugly_fix_cnt >= 18 ) game_ugly_fix_cnt = 0;
+	if ( game_ugly_fix_cnt >= 10 ) game_ugly_fix_cnt = 0;
 
 }

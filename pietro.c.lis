@@ -818,7 +818,7 @@
 818   0005  21 00 00    	ld	hl,_game_god_mode
 819   0008  36 00       	ld	(hl),0x00
 820   000A  21 00 00    	ld	hl,_game_inmune
-821   000D  36 00       	ld	(hl),0x00
+821   000D  36 01       	ld	(hl),0x01
 822   000F  CD 00 00    	call	_ay_reset
 823   0012  21 47 46    	ld	hl,0x4647
 824   0015  22 00 00    	ld	(_attrib),hl
@@ -903,47 +903,83 @@
 903   00BD              ; ---------------------------------
 904   00BD              _test_func:
 905   00BD  CD 00 00    	call	___sdcc_enter_ix
-906   00C0  2A FF FF    	ld	hl,(_s_col0 - 1)
-907   00C3  3A 00 00    	ld	a,(_s_lin0)
-908   00C6  6F          	ld	l,a
-909   00C7  E5          	push	hl
-910   00C8  AF          	xor	a, a
-911   00C9  F5          	push	af
-912   00CA  33          	inc	sp
-913   00CB  CD 00 00    	call	_NIRVANAP_fillC_callee
-914   00CE  3A 00 00    	ld	a,(_s_lin0)
-915   00D1  C6 08       	add	a,0x08
-916   00D3  4F          	ld	c, a
-917   00D4  3A 00 00    	ld	a, (_s_col0)
-918   00D7  47          	ld	b,a
-919   00D8  C5          	push	bc
-920   00D9  AF          	xor	a, a
-921   00DA  F5          	push	af
-922   00DB  33          	inc	sp
-923   00DC  CD 00 00    	call	_NIRVANAP_fillC_callee
-924   00DF  21 00 00    	ld	hl,_s_col0
-925   00E2  46          	ld	b,(hl)
-926   00E3  04          	inc	b
-927   00E4  C5          	push	bc
-928   00E5  33          	inc	sp
-929   00E6  2A FF FF    	ld	hl,(_s_lin0 - 1)
-930   00E9  AF          	xor	a,a
-931   00EA  6F          	ld	l,a
-932   00EB  E5          	push	hl
-933   00EC  CD 00 00    	call	_NIRVANAP_fillC_callee
-934   00EF  21 00 00    	ld	hl,_s_col0
-935   00F2  56          	ld	d,(hl)
-936   00F3  14          	inc	d
-937   00F4  3A 00 00    	ld	a,(_s_lin0)
-938   00F7  C6 08       	add	a,0x08
-939   00F9  5F          	ld	e, a
-940   00FA  D5          	push	de
-941   00FB  AF          	xor	a, a
-942   00FC  F5          	push	af
-943   00FD  33          	inc	sp
-944   00FE  CD 00 00    	call	_NIRVANAP_fillC_callee
-945   0101  2E 00       	ld	l,0x00
-946   0103  DD E1       	pop	ix
-947   0105  C9          	ret
-948   0106              	SECTION IGNORE
-949   0000              
+906   00C0  21 00 00    	ld	hl,_s_col0
+907   00C3  7E          	ld	a,(hl)
+908   00C4  D6 04       	sub	a,0x04
+909   00C6  3E 00       	ld	a,0x00
+910   00C8  17          	rla
+911   00C9  4F          	ld	c,a
+912   00CA  3E 1A       	ld	a,0x1a
+913   00CC  96          	sub	a, (hl)
+914   00CD  3E 00       	ld	a,0x00
+915   00CF  17          	rla
+916   00D0  47          	ld	b,a
+917   00D1  3A 00 00    	ld	a,(_s_lin0)
+918   00D4  D6 88       	sub	a,0x88
+919   00D6  38 2C       	jr	C,l_test_func_00120
+920   00D8  79          	ld	a,c
+921   00D9  B7          	or	a, a
+922   00DA  28 12       	jr	Z,l_test_func_00104
+923   00DC  DD 7E 04    	ld	a,(ix+4)
+924   00DF  B7          	or	a, a
+925   00E0  28 08       	jr	Z,l_test_func_00102
+926   00E2  21 E0 01    	ld	hl,0x01e0
+927   00E5  E5          	push	hl
+928   00E6  CD 00 00    	call	_spr_back_paint
+929   00E9  F1          	pop	af
+930   00EA              l_test_func_00102:
+931   00EA  2E 01       	ld	l,0x01
+932   00EC  18 4C       	jr	l_test_func_00122
+933   00EE              l_test_func_00104:
+934   00EE  78          	ld	a,b
+935   00EF  B7          	or	a, a
+936   00F0  28 46       	jr	Z,l_test_func_00121
+937   00F2  DD 7E 04    	ld	a,(ix+4)
+938   00F5  B7          	or	a, a
+939   00F6  28 08       	jr	Z,l_test_func_00106
+940   00F8  21 FA 01    	ld	hl,0x01fa
+941   00FB  E5          	push	hl
+942   00FC  CD 00 00    	call	_spr_back_paint
+943   00FF  F1          	pop	af
+944   0100              l_test_func_00106:
+945   0100  2E 01       	ld	l,0x01
+946   0102  18 36       	jr	l_test_func_00122
+947   0104              l_test_func_00120:
+948   0104  3E 28       	ld	a,0x28
+949   0106  21 00 00    	ld	hl,_s_lin0
+950   0109  96          	sub	a, (hl)
+951   010A  38 2C       	jr	C,l_test_func_00121
+952   010C  79          	ld	a,c
+953   010D  B7          	or	a, a
+954   010E  28 12       	jr	Z,l_test_func_00112
+955   0110  DD 7E 04    	ld	a,(ix+4)
+956   0113  B7          	or	a, a
+957   0114  28 08       	jr	Z,l_test_func_00110
+958   0116  21 00 00    	ld	hl,0x0000
+959   0119  E5          	push	hl
+960   011A  CD 00 00    	call	_spr_back_paint
+961   011D  F1          	pop	af
+962   011E              l_test_func_00110:
+963   011E  2E 01       	ld	l,0x01
+964   0120  18 18       	jr	l_test_func_00122
+965   0122              l_test_func_00112:
+966   0122  78          	ld	a,b
+967   0123  B7          	or	a, a
+968   0124  28 12       	jr	Z,l_test_func_00121
+969   0126  DD 7E 04    	ld	a,(ix+4)
+970   0129  B7          	or	a, a
+971   012A  28 08       	jr	Z,l_test_func_00114
+972   012C  21 1A 00    	ld	hl,0x001a
+973   012F  E5          	push	hl
+974   0130  CD 00 00    	call	_spr_back_paint
+975   0133  F1          	pop	af
+976   0134              l_test_func_00114:
+977   0134  2E 01       	ld	l,0x01
+978   0136  18 02       	jr	l_test_func_00122
+979   0138              l_test_func_00121:
+980   0138  2E 00       	ld	l,0x00
+981   013A              l_test_func_00122:
+982   013A  DD E1       	pop	ix
+983   013C  C9          	ret
+984   013D              	SECTION IGNORE
+985   0000              

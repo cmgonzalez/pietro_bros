@@ -317,6 +317,7 @@ void game_loop(void) {
 		}
 		++loop_count;
 		spr_mapfix();
+		//spr_mapfix();
 		if ((loop_count & 3) == 0) spr_draw_pow();
 	}
   spr_kill_all();
@@ -574,7 +575,7 @@ unsigned char game_enemy_add1(unsigned char f_class) __z88dk_fastcall {
 		return 0;
 	}
 	//force for test an enemy
-	f_class = FIREBALL_RED;
+	//f_class = FIREBALL_RED;
 	++phase_pop;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);

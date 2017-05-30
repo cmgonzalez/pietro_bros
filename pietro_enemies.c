@@ -336,15 +336,6 @@ void enemy_fireball_red(void){
 	//BOUNCE EVERYWHERE
 	if ( phase_left > 0) {
 
-		if ( BIT_CHK(s_state, STAT_JUMP)) {
-			if ( spr_move_up() ) spr_set_fall();
-		} else {
-			if (spr_move_down()){
-				BIT_CLR(s_state, STAT_FALL);
-				BIT_SET(s_state, STAT_JUMP);
-			}
-		}
-
 
 		if (s_col0 != col[sprite]) {
 			if (BIT_CHK(s_state, STAT_DIRR)) {
@@ -357,7 +348,20 @@ void enemy_fireball_red(void){
 				BIT_FLP(s_state, STAT_DIRL);
 			}
 		}
+
     spr_move_horizontal();
+
+
+
+		if ( BIT_CHK(s_state, STAT_JUMP)) {
+			if ( spr_move_up() ) spr_set_fall();
+		} else {
+			if (spr_move_down()){
+				BIT_CLR(s_state, STAT_FALL);
+				BIT_SET(s_state, STAT_JUMP);
+			}
+		}
+
 
 		if ( game_check_time( spr_timer[sprite], TIME_FIREBALL_RED) ) {
 			spr_timer[sprite] = zx_clock();
