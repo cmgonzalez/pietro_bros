@@ -61,8 +61,8 @@
 void main(void) {
 	unsigned int counter;
 
-	game_start_phase = 0;
-	game_god_mode = 0;
+	game_start_phase = 31;
+	game_god_mode = 1;
 	game_inmune = 1;
 	//INTERRUPTS ARE DISABLED
 
@@ -125,6 +125,7 @@ void main(void) {
 	//INIT NIRVANA
 	NIRVANAP_tiles(_btiles);
 	NIRVANAP_start();
+
 	frame_time = zx_clock();
 	//GAME MENU
 	game_menu();
@@ -135,29 +136,5 @@ void debug_func(void) {
 }
 
 unsigned char test_func(unsigned char paint) {
-
-
-
-	if (s_lin0 >= 136) {
-		if( s_col0 < 4) {
-			if (paint) spr_back_paint(0 + 15 * 32);
-			return 1;
-		}
-		if( s_col0 > 26) {
-			if (paint) spr_back_paint(26 + 15 * 32);
-			return 1;
-		}
-	} else {
-		if (s_lin0 <= 40) {
-			if( s_col0 < 4) {
-				if (paint) spr_back_paint(0);
-				return 1;
-			}
-			if( s_col0 > 26) {
-				if (paint) spr_back_paint(26);
-				return 1;
-			}
-		}
-	}
 	return 0;
 }

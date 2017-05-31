@@ -27,7 +27,7 @@ extern unsigned char    spr_killed( unsigned char f_sprite) __z88dk_fastcall;
 extern void             spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall;
 extern void             spr_anim_kill( unsigned char f_sprite, unsigned int f_tile);
 extern int              spr_tile_dir(unsigned int f_tile, unsigned char f_sprite, unsigned char f_inc);
-extern unsigned char    spr_check_over(unsigned char);
+extern unsigned char    spr_check_over();
 extern void             spr_destroy(unsigned char f_sprite) __z88dk_fastcall;
 extern void             spr_set_fall(void);
 extern int              spr_tile(unsigned char f_sprite) __z88dk_fastcall;

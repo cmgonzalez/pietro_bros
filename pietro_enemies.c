@@ -295,7 +295,7 @@ void enemy_slipice(void){
 		if (BIT_CHK(state[sprite], STAT_ANGRY) ) {
 			//ANGRY OR FREEZING
 			NIRVANAP_halt(); // synchronize with interrupts
-			NIRVANAP_drawT(TILE_SLIPICE + 18 + colint[sprite],lin[sprite]+8, col[sprite]);
+			NIRVANAP_drawT(TILE_RAY + colint[sprite],lin[sprite]+8, col[sprite]);
 			++colint[sprite];
 			if (colint[sprite] > 2) colint[sprite] = 0;
 			if ( game_check_time(spr_timer[sprite],40) ) {

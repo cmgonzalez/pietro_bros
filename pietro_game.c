@@ -645,7 +645,7 @@ void game_freeze(unsigned char f_lin, unsigned char f_col ) {
 			lvl_1[index1] = TILE_BRICK_FREEZE;
 			NIRVANAP_halt(); // synchronize with interrupts
 			NIRVANAP_drawT( TILE_BRICK_FREEZE , f_lin , f_col );
-			if (lvl_1[index1+1] == 0) NIRVANAP_fillT(PAPER,f_lin,f_col+1);
+			if (lvl_1[index1+1] == TILE_EMPTY) NIRVANAP_fillT(PAPER,f_lin,f_col+1);
 			game_freeze(f_lin, f_col + 1);
 			game_freeze(f_lin, f_col - 1);
 		}

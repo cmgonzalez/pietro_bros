@@ -84,11 +84,12 @@
 #define TILE_800_COIN                 186
 #define TILE_DOLLAR                   187
 #define TILE_800                      188
-#define TILE_NICE                     189
-#define TILE_EXTRA                    190
+#define TILE_NICE                     215
+#define TILE_EXTRA                    203
 #define TILE_PRINCESS                 202
 #define TILE_CASTLE                   214
 #define TILE_GRASS                    143
+#define TILE_RAY											189
 
 /* Player indexes */
 #define SPR_P1                        7

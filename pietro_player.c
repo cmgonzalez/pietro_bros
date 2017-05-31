@@ -173,7 +173,7 @@ unsigned char player_lost_life(void){
 		/* Do not restart player */
 		return 0;
 	}
-	spr_check_over(1);
+	spr_check_over();
 	game_print_lives();
 	return 1;
 }
@@ -513,7 +513,7 @@ void player_hit_brick_clear(void){
 unsigned char player_hit_pow(void){
 	if ( index1 > 512 && index1 > 576 ) return 0;
 	index2 = index1  + 1;
-	if ( game_pow != 0 && ( lvl_1[ index1 ] == IDX_POW || lvl_1[ index2 ] == IDX_POW ) ) {
+	if ( game_pow != 0 && ( lvl_1[ index1 ] == TILE_POW1 || lvl_1[ index2 ] == TILE_POW1 ) ) {
 		game_pow--;
 
 		for (enemies = 0; enemies < 6 ; ++enemies){
