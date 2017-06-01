@@ -206,8 +206,8 @@ void game_phase_print(unsigned char f_row) __z88dk_fastcall {
 }
 
 void game_loop(void) {
-	zx_print_str(22,7,"   THANKS ALVIN   ");
-	zx_print_str(23,7,"    AND  EINAR    ");
+	zx_print_str(22,3,"       THANKS ALVIN       ");
+	zx_print_str(23,3,"        AND  EINAR        ");
 	ay_fx_play(ay_effect_10);
 	sound_coin();
 	z80_delay_ms(200);
@@ -248,6 +248,14 @@ void game_loop(void) {
 	dirs = 0x00;
 	game_joystick_set();
 	while (!game_over) {
+		spr_mapfix();
+		//spr_mapfix();
+		if ((loop_count & 3) == 0) {
+			spr_draw_pow();
+			game_score_osd(0);
+			game_score_osd(1);
+		}
+
 		/*player 1 turn*/
 		player_set(SPR_P1,SPR_P2,0,0,24);
 		player_turn();
@@ -316,9 +324,7 @@ void game_loop(void) {
 
 		}
 		++loop_count;
-		spr_mapfix();
-		//spr_mapfix();
-		if ((loop_count & 3) == 0) spr_draw_pow();
+
 	}
   spr_kill_all();
 	z80_delay_ms(400);
@@ -343,38 +349,22 @@ void game_print_phase() {
 	zx_print_str(23, 11, "PHASE");
 	zx_print_chr(23, 18, phase_curr+1);
 }
-void game_score_osd(void) {
-	if (score_osd_col[index_player] == 255 ) {
-		if ( hit_count > 0 ) {
 
-			score_osd_col[index_player] = col[sprite];
-			score_osd_lin[index_player] = lin[sprite];
-			score_osd_update_time[index_player] = zx_clock();
-			if (hit_count > 0) {
-				if ( hit_count < 2) {
-					score_osd_tile[index_player] = TILE_800;
-				} else { //	if ( hit_count < 8) {
-					score_osd_tile[index_player] = TILE_NICE;
-				}
-			}
+void game_score_osd(unsigned char f_index_player) {
 
-		}
-	} else {
-		tmp = score_osd_lin[index_player] - 2;
-		index1 = game_calc_index( tmp , score_osd_col[index_player]  );
-		if ( tmp > 8 && index1 > 0 && lvl_1[index1] == 0 && lvl_1[index1+1] == 0   ) {
+	if (score_osd_col[f_index_player] != 255 ) {
+		tmp = score_osd_lin[f_index_player] - 2;
+
+		index1 = game_calc_index( tmp , score_osd_col[f_index_player]  );
+		if ( lvl_1[index1] == TILE_EMPTY && lvl_1[index1+1] == TILE_EMPTY   ) {
 			NIRVANAP_halt(); // synchronize with interrupts
-			NIRVANAP_drawT( score_osd_tile[index_player], score_osd_lin[index_player], score_osd_col[index_player] );
+			NIRVANAP_drawT( score_osd_tile[f_index_player], score_osd_lin[f_index_player], score_osd_col[f_index_player] );
 			score_osd_lin[index_player] = tmp;
 		}
 
-		if ( game_check_time( score_osd_update_time[index_player] , 50 ) ) {
-			NIRVANAP_fillT( PAPER, score_osd_lin[index_player], score_osd_col[index_player] );
-			//TODO BACKFIX CALL HERE!
-			s_lin0 = score_osd_lin[index_player];
-			s_col0 = score_osd_col[index_player];
-			//spr_check_over(); TODO???
-			score_osd_col[index_player] = 255;
+		if ( game_check_time( score_osd_update_time[f_index_player] , 60 ) ) {
+			NIRVANAP_fillT( PAPER, score_osd_lin[f_index_player], score_osd_col[f_index_player] );
+			score_osd_col[f_index_player] = 255;
 		}
 	}
 }
@@ -847,9 +837,10 @@ void game_menu_paint(void) {
 	game_fill_row(17,32);
 	zx_print_str(18,10, "   CONFIG    ");
 	game_fill_row(19,32);
+	zx_print_ink(INK_WHITE);
+	zx_print_str(22,7, "SELECT:6789 START:0");
 	zx_print_ink(INK_BLUE);
-	zx_print_str(22,7, "CODED BY CGONZALEZ");
-	zx_print_str(23,7, "   VERSION  1.4  ");
+	zx_print_str(23,3, "CODED BY CGONZALEZ VER 1.4  ");
 	tmp_uc = 0; //fix menu return
 	game_paint_attrib(11);
 }
@@ -984,7 +975,8 @@ void game_end(void) {
 		NIRVANAP_drawT(TILE_EXTRA      , 80, 14);
 	}
 	game_colour_message( 19, 1, 31, 200 );
-	zx_print_str(19, 1, "THANK YOU FOR PLAYING!, SEE YOU!");
+	zx_print_str(19, 1, "THANK YOU FOR PLAYING!, SEE U!");
+	game_colour_message( 19, 1, 31, 200 );
 	spr_draw_clear();
 }
 

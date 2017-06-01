@@ -61,9 +61,9 @@
 void main(void) {
 	unsigned int counter;
 
-	game_start_phase = 31;
-	game_god_mode = 1;
-	game_inmune = 1;
+	game_start_phase = 0;
+	game_god_mode = 0;
+	game_inmune = 0;
 	//INTERRUPTS ARE DISABLED
 
 	//RESET AY CHIP
@@ -129,12 +129,4 @@ void main(void) {
 	frame_time = zx_clock();
 	//GAME MENU
 	game_menu();
-}
-
-void debug_func(void) {
-
-}
-
-unsigned char test_func(unsigned char paint) {
-	return 0;
 }

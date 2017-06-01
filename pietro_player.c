@@ -119,7 +119,16 @@ unsigned char player_collision(void) {
 			}
 		}
 	}
-	game_score_osd();
+
+  //UPDATE SCORE OSD
+	if ( hit_count > 0 && lin[sprite] > 24) {
+		score_osd_col[index_player] = col[sprite];
+		score_osd_lin[index_player] = lin[sprite] - 6;
+		score_osd_update_time[index_player] = zx_clock();
+    score_osd_tile[index_player] = TILE_800;
+		if ( hit_count  >   1) score_osd_tile[index_player] = TILE_NICE;
+	  if ( hit_count == 255) score_osd_tile[index_player] = TILE_EXTRA;
+	}
 	return 0;
 }
 
@@ -576,11 +585,31 @@ void player_score_add(unsigned int f_score) __z88dk_fastcall {
 	if ( player_score[index_player] > player_next_extra[index_player] ) {
 		player_next_extra[index_player] += GAME_EXTRA_LIFE;
 		++game_lives[index_player];
+		//GAME_EXTRA_LIFE
+		hit_count = 255;
 		if(!game_bonus) game_print_lives();
+
+		for (tmp0 = 0; tmp0 < 6 ; ++tmp0){
+			if (index_player == 0) {
+				zx_border(INK_BLUE);
+			} else {
+		    zx_border(INK_WHITE);
+			}
+			z80_delay_ms(5);
+			if (index_player == 0) {
+				zx_border(INK_RED);
+			} else {
+			  zx_border(INK_GREEN);
+			}
+			z80_delay_ms(5);
+		}
+
 		sound_coin();
 		sound_coin();
 		sound_coin();
-		sound_coin();
+	  sound_coin();
+		zx_border(INK_BLACK);
+
 		hit_count = 8; //IMPOSIBLE WE HAVE 6 ENEMIES
 	}
 	game_print_score();

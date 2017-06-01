@@ -198,7 +198,7 @@ void spr_anim_fall( unsigned char f_sprite) __z88dk_fastcall {
 			//enemy_ugly_fix();
 			lin[f_sprite] = s_lin0 + (SPRITE_LIN_INC << 1);
 			NIRVANAP_spriteT(f_sprite, tile[f_sprite], lin[f_sprite], s_col0);
-			if (s_lin0 == 54 ) {
+			if (s_lin0 == 54 || s_lin0 == 56 ) {
 				if( s_col0 < 4) {
 					spr_back_paint(0);
 				}

@@ -60,7 +60,7 @@ extern void          game_bonus_summary(void);
 extern void          game_bonus_summary_player(unsigned char f_index) __z88dk_fastcall;
 extern void          game_bonus_clock(void);
 extern void          game_phase_print_score_back(void);
-extern void          game_score_osd(void);
+extern void          game_score_osd(unsigned char);
 extern void          game_hall_of_fame(void);
 extern void          game_hall_enter(void);
 extern void          game_end(void);

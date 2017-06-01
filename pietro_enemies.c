@@ -612,8 +612,9 @@ void enemy_kill(unsigned char f_sprite) __z88dk_fastcall {
 
 	sprite_speed_alt[f_sprite] = ENEMY_KILLED_SPEED;
 
-	player_score_add(80 << hit_count); //BONUS!
 	++hit_count;
+	player_score_add(80 << hit_count); //BONUS!
+
 	spr_timer[f_sprite] = zx_clock();
 	jump_lin[f_sprite] = lin[f_sprite];
 	if ( class[f_sprite] <= SIDESTEPPER_MAGENTA && game_type != GAME_RANDOM_TYPE) {

@@ -23,5 +23,3 @@
 #endif
 
 #include "globals.h"
-unsigned char test_func(unsigned char f_row);
-void debug_func(void);
