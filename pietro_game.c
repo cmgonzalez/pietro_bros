@@ -840,7 +840,7 @@ void game_menu_paint(void) {
 	zx_print_ink(INK_WHITE);
 	zx_print_str(22,7, "SELECT:6789 START:0");
 	zx_print_ink(INK_BLUE);
-	zx_print_str(23,3, "CODED BY CGONZALEZ VER 1.4  ");
+	zx_print_str(23,3, "CODED BY CGONZALEZ VER 1.9  ");
 	tmp_uc = 0; //fix menu return
 	game_paint_attrib(11);
 }

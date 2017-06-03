@@ -126,8 +126,8 @@ unsigned char player_collision(void) {
 		score_osd_lin[index_player] = lin[sprite] - 6;
 		score_osd_update_time[index_player] = zx_clock();
     score_osd_tile[index_player] = TILE_800;
-		if ( hit_count  >   1) score_osd_tile[index_player] = TILE_NICE;
-	  if ( hit_count == 255) score_osd_tile[index_player] = TILE_EXTRA;
+		if ( hit_count > 1) score_osd_tile[index_player] = TILE_NICE;
+	  if ( hit_count > 6) score_osd_tile[index_player] = TILE_EXTRA;
 	}
 	return 0;
 }
@@ -586,7 +586,7 @@ void player_score_add(unsigned int f_score) __z88dk_fastcall {
 		player_next_extra[index_player] += GAME_EXTRA_LIFE;
 		++game_lives[index_player];
 		//GAME_EXTRA_LIFE
-		hit_count = 255;
+		hit_count = 16;
 		if(!game_bonus) game_print_lives();
 
 		for (tmp0 = 0; tmp0 < 6 ; ++tmp0){
