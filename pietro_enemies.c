@@ -145,6 +145,9 @@ void enemy_hit(void){
 }
 void enemy_flip_change_dir( unsigned char f_keep ) __z88dk_fastcall {
 
+  unsigned char x_player;
+	unsigned char x_enemy;
+
 	if (BIT_CHK(state[enemies], STAT_DIRR)) {
 		BIT_SET(state_a[enemies], STAT_LDIRR);
 		BIT_CLR(state_a[enemies], STAT_LDIRL);
@@ -153,7 +156,10 @@ void enemy_flip_change_dir( unsigned char f_keep ) __z88dk_fastcall {
 		BIT_CLR(state_a[enemies], STAT_LDIRL);
 	}
 
-	if (col[sprite] > col[enemies]) {
+  x_player = spr_calc_hor(sprite);
+	x_enemy = spr_calc_hor(enemies);
+
+	if (x_player  > x_enemy ) {
 		BIT_SET(state[enemies], STAT_DIRL);
 		BIT_CLR(state[enemies], STAT_DIRR);
 	} else {
@@ -168,6 +174,7 @@ void enemy_flip_change_dir( unsigned char f_keep ) __z88dk_fastcall {
 			}
 		}
 	}
+	colint[enemies] = 0;
 }
 
 void enemy_flip(unsigned int f_tile) __z88dk_fastcall {

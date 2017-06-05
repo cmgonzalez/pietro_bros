@@ -122,6 +122,9 @@ unsigned char player_collision(void) {
 
   //UPDATE SCORE OSD
 	if ( hit_count > 0 && lin[sprite] > 24) {
+		if (score_osd_col[index_player] != 0xFF) {
+		  NIRVANAP_drawT(  TILE_EMPTY , score_osd_lin[index_player] , score_osd_col[index_player]  );
+		}
 		score_osd_col[index_player] = col[sprite];
 		score_osd_lin[index_player] = lin[sprite] - 6;
 		score_osd_update_time[index_player] = zx_clock();

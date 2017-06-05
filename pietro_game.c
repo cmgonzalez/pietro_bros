@@ -206,12 +206,15 @@ void game_phase_print(unsigned char f_row) __z88dk_fastcall {
 }
 
 void game_loop(void) {
-	zx_print_str(22,3,"       THANKS ALVIN       ");
-	zx_print_str(23,3,"        AND  EINAR        ");
+	game_fill_row(21,32);
+	game_fill_row(22,32);
+	game_fill_row(23,32);
+  zx_print_ink(INK_MAGENTA);
+	zx_print_str(22,6,"THANKS ALVIN N EINAR");
 	ay_fx_play(ay_effect_10);
 	sound_coin();
 	z80_delay_ms(200);
-	zx_print_str(22,7,"                  ");
+	game_fill_row(22,32);
 	ay_reset();
 	/*restore pow on map*/
 	lvl_1[POW_INDEX     ] = TILE_POW1;
@@ -326,6 +329,12 @@ void game_loop(void) {
 		++loop_count;
 
 	}
+	if (score_osd_col[0] != 0xFF) {
+		NIRVANAP_drawT(  TILE_EMPTY , score_osd_lin[0] , score_osd_col[0]  );
+	}
+	if (score_osd_col[1] != 0xFF) {
+		NIRVANAP_drawT(  TILE_EMPTY , score_osd_lin[1] , score_osd_col[1]  );
+	}
   spr_kill_all();
 	z80_delay_ms(400);
 	NIRVANAP_halt();
@@ -352,7 +361,7 @@ void game_print_phase() {
 
 void game_score_osd(unsigned char f_index_player) {
 
-	if (score_osd_col[f_index_player] != 255 ) {
+	if (score_osd_col[f_index_player] != 0xFF ) {
 		tmp = score_osd_lin[f_index_player] - 2;
 
 		index1 = game_calc_index( tmp , score_osd_col[f_index_player]  );
@@ -838,7 +847,7 @@ void game_menu_paint(void) {
 	zx_print_str(18,10, "   CONFIG    ");
 	game_fill_row(19,32);
 	zx_print_ink(INK_WHITE);
-	zx_print_str(22,7, "SELECT:6789 START:0");
+	zx_print_str(21,7, "SELECT:6789 START:0");
 	zx_print_ink(INK_BLUE);
 	zx_print_str(23,3, "CODED BY CGONZALEZ VER 1.9  ");
 	tmp_uc = 0; //fix menu return

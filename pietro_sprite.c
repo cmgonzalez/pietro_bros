@@ -604,6 +604,7 @@ void spr_draw_row(unsigned char f_row) {
 }
 
 unsigned char spr_calc_hor(unsigned char f_sprite) {
+	/*
 	unsigned char val;
 	val = col[f_sprite] * 3;
 	if (!BIT_CHK(state_a[f_sprite], STAT_TURN) ) {
@@ -614,8 +615,13 @@ unsigned char spr_calc_hor(unsigned char f_sprite) {
 			val = val + colint[f_sprite];
 		}
 	}
-
 	return val;
+ */
+	 if (class[f_sprite] != COIN_2) {
+		 return col[f_sprite] * 3 + colint[f_sprite];
+	 } else {
+		 return col[f_sprite] * 3;
+	 }
 }
 
 unsigned char spr_collision_check(unsigned char f_sprite1, unsigned char f_sprite2, unsigned char f_vert_diff) {
