@@ -159,6 +159,13 @@ void player_kill(void) {
 }
 
 void player_restart(unsigned char f_sprite) __z88dk_fastcall {
+	if( col[f_sprite] < 4) {
+		spr_back_paint(0 + 15 * 32);
+	}
+	if( col[f_sprite] > 26) {
+		spr_back_paint(26 + 15 * 32);
+	}
+
 	ay_fx_play(ay_effect_15);
 	if (f_sprite == SPR_P1) {
 		player_init( SPR_P1,0,14,TILE_P1_STANR);
@@ -515,7 +522,6 @@ void player_hit_brick_clear(void){
 	//CLEAR HITTED BRICKS N MAKES THE PLAYER FALL
 	if ( hit_lin[index_player] > 0 ) {
 		index1 = game_calc_index( hit_lin[index_player] - 8 , hit_col[index_player] );
-		index2 = index1 + 1;
 		spr_brick_anim(0);
 		hit_lin[index_player] = 0;
 		hit_col[index_player] = 0;
@@ -524,8 +530,7 @@ void player_hit_brick_clear(void){
 
 unsigned char player_hit_pow(void){
 	if ( index1 > 512 && index1 > 576 ) return 0;
-	index2 = index1  + 1;
-	if ( game_pow != 0 && ( lvl_1[ index1 ] == TILE_POW1 || lvl_1[ index2 ] == TILE_POW1 ) ) {
+	if ( game_pow != 0 && ( lvl_1[ index1 ] == TILE_POW1 || lvl_1[ index1 + 1] == TILE_POW1 ) ) {
 		game_pow--;
 
 		for (enemies = 0; enemies < 6 ; ++enemies){

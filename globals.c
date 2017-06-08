@@ -83,9 +83,6 @@ unsigned char	s_col1;
 unsigned char	sprite_lin_inc_mul;
 unsigned int	loop_count;
 unsigned int	index1;
-unsigned int	index2;
-unsigned int	index3;
-//unsigned int	index_d;
 unsigned char	tmp;
 unsigned char	tmp0;
 unsigned char	tmp1;
@@ -104,6 +101,7 @@ unsigned int	frame_time;
 unsigned int	osd_update_time;
 unsigned int	osd_show_time;
 unsigned char	spr_count;
+unsigned char game_ugly_back;
 unsigned char game_ugly_fix_cnt;
 
 
@@ -186,7 +184,6 @@ unsigned char phase_angry;
 unsigned char phase_bonus_total[2];
 unsigned char screen_paper;
 unsigned char screen_ink;
-unsigned char game_hlt_cnt;
 //SCORES OSD
 unsigned char score_osd_lin[2];		//TO CLEAR POINTS ON SCREEN
 unsigned char score_osd_col[2];		//TO CLEAR POINTS ON SCREEN
@@ -279,3 +276,15 @@ HOF_ENTRY hof[10] = {
 
 const unsigned char hall_valids[42] = "\x01" "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.~ {";
 unsigned char initials[8] = "AAA\0AAA";
+
+const unsigned int fix_1[10] = {
+                         //64,66,92,94,
+                         //128,158,
+                         204,210,
+                         362,372,
+                         384,386,
+                         412,414,
+                         522,532,
+                         //544,546,572,574,
+                         //608,610,636,638
+                       };

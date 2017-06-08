@@ -177,7 +177,7 @@ void enemy_flip_change_dir( unsigned char f_keep ) __z88dk_fastcall {
 	colint[enemies] = 0;
 }
 
-void enemy_flip(unsigned int f_tile) __z88dk_fastcall {
+void enemy_flip(unsigned char f_tile) __z88dk_fastcall {
 
 	spr_timer[enemies] = zx_clock();
 	BIT_SET(state[enemies], STAT_JUMP);
@@ -206,7 +206,7 @@ void enemy_flip(unsigned int f_tile) __z88dk_fastcall {
 	}
 }
 
-void enemy_flip_sidestepper(unsigned int f_tile) __z88dk_fastcall {
+void enemy_flip_sidestepper(unsigned char f_tile) __z88dk_fastcall {
 	if ( BIT_CHK(state[enemies], STAT_ANGRY) ) {
 		enemy_flip(f_tile);
 	} else {
@@ -344,21 +344,24 @@ void enemy_fireball_red(void){
 	if ( phase_left > 0) {
 
 
+    spr_move_horizontal();
 		if (s_col0 != col[sprite]) {
+			index1 = game_calc_index(s_lin0,s_col0);
 			if (BIT_CHK(s_state, STAT_DIRR)) {
 				index1 = index1 + 2;
+
 			} else {
 				index1 = index1 - 1;
 			}
-			if ( lvl_1[index1] <= TILE_POW1 || col[sprite] < 2 || col[sprite] > 29) {
+
+			if ( BIT_CHK(s_state, STAT_FALL)) {
+			 index1 = index1 + 32;
+		  }
+			if ( lvl_1[index1] <= TILE_POW1  || col[sprite] < 1 || col[sprite] > 29 ) {
 				BIT_FLP(s_state, STAT_DIRR);
 				BIT_FLP(s_state, STAT_DIRL);
 			}
 		}
-
-    spr_move_horizontal();
-
-
 
 		if ( BIT_CHK(s_state, STAT_JUMP)) {
 			if ( spr_move_up() ) spr_set_fall();
@@ -516,7 +519,7 @@ void enemy_evolve(unsigned char f_enemy) __z88dk_fastcall{
 	}
 }
 
-void enemy_upgrade(unsigned char f_enemy, unsigned char f_class, unsigned int f_tile){
+void enemy_upgrade(unsigned char f_enemy, unsigned char f_class, unsigned char f_tile){
 	tile[f_enemy] = f_tile + 6;
   class[f_enemy] = f_class;
 }

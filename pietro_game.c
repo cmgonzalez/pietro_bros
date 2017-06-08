@@ -327,6 +327,7 @@ void game_loop(void) {
 
 		}
 		++loop_count;
+		game_ugly_back = 0;
 
 	}
 	if (score_osd_col[0] != 0xFF) {
@@ -368,7 +369,7 @@ void game_score_osd(unsigned char f_index_player) {
 		if ( lvl_1[index1] == TILE_EMPTY && lvl_1[index1+1] == TILE_EMPTY   ) {
 			NIRVANAP_halt(); // synchronize with interrupts
 			NIRVANAP_drawT( score_osd_tile[f_index_player], score_osd_lin[f_index_player], score_osd_col[f_index_player] );
-			score_osd_lin[index_player] = tmp;
+			score_osd_lin[f_index_player] = tmp;
 		}
 
 		if ( game_check_time( score_osd_update_time[f_index_player] , 60 ) ) {
@@ -574,7 +575,7 @@ unsigned char game_enemy_add1(unsigned char f_class) __z88dk_fastcall {
 		return 0;
 	}
 	//force for test an enemy
-	//f_class = FIREBALL_RED;
+	//f_class = SHELLCREEPER_BLUE;
 	++phase_pop;
 	sound_enter_enemy();
 	tmp = game_enemy_add_get_index(0);
@@ -849,7 +850,7 @@ void game_menu_paint(void) {
 	zx_print_ink(INK_WHITE);
 	zx_print_str(21,7, "SELECT:6789 START:0");
 	zx_print_ink(INK_BLUE);
-	zx_print_str(23,3, "CODED BY CGONZALEZ VER 1.9  ");
+	zx_print_str(23,3, "CODED BY CGONZALEZ VER 1.9");
 	tmp_uc = 0; //fix menu return
 	game_paint_attrib(11);
 }
@@ -1103,66 +1104,51 @@ void game_menu_back(unsigned char f_start) __z88dk_fastcall
 	entry_time = zx_clock();
 }
 
-void game_hall_enter_phs(unsigned char p) __z88dk_fastcall
-{
-	if (p == 0)
-	{
-		game_menu_e((HOF_ROW<<3)-48, HOF_P1_COL-4, HOF_P1_COL+6, 156,   1);
-		game_menu_e((HOF_ROW<<3)+28, HOF_P1_COL-4, HOF_P1_COL+6, 159, 255);
-		zx_print_str(HOF_ROW-5, HOF_P1_COL-1, "HIGH");
-		zx_print_str(HOF_ROW-4, HOF_P1_COL-1, " SCORE");
-	}
-	else
-	{
-		game_menu_e((HOF_ROW<<3)-48, HOF_P2_COL-4, HOF_P2_COL+6, 156,   1);
-		game_menu_e((HOF_ROW<<3)+28, HOF_P2_COL-4, HOF_P2_COL+6, 159, 255);
-		zx_print_str(HOF_ROW-5, HOF_P2_COL-1, "HIGH");
-		zx_print_str(HOF_ROW-4, HOF_P2_COL-1, " SCORE");
+void game_hall_enter_prt(unsigned char col) __z88dk_fastcall {
+	game_menu_e((HOF_ROW<<3)-48, col-4, col+6, 156,   1);
+	game_menu_e((HOF_ROW<<3)+28, col-4, col+6, 159, 255);
+	zx_print_str(HOF_ROW-5, col-1, "HIGH");
+	zx_print_str(HOF_ROW-4, col-1, " SCORE");
+}
+
+void game_hall_enter_phs(unsigned char p) __z88dk_fastcall {
+	if (p == 0) {
+		game_hall_enter_prt(HOF_P1_COL);
+	}	else {
+		game_hall_enter_prt(HOF_P2_COL);
 	}
 }
 
-void game_hall_print_p(unsigned char index, unsigned char frame)
-{
-	if (index < 5)
+void game_hall_print_p2(unsigned char index, char col, unsigned char frame){
+	zx_print_str(HOF_ROW+1, col, &initials[0]);
+	game_paint_attrib_lin_h(col - 1 + index, col + index, ((HOF_ROW + 1)<<3)+8);
+
+  intrinsic_di();
+	if (frame)
 	{
+		NIRVANAP_drawT_raw(TILE_EMPTY, ((HOF_ROW+1)<<3)-16-2, col);
+		NIRVANAP_drawT_raw(3         , ((HOF_ROW+1)<<3)-16  , col);
+	}
+	else
+	{
+		NIRVANAP_drawT_raw(TILE_EMPTY, ((HOF_ROW+1)<<3)-16  , col);
+		NIRVANAP_drawT_raw(22        , ((HOF_ROW+1)<<3)-16-2, col);
+	}
+	intrinsic_ei();
+}
+
+
+void game_hall_print_p(unsigned char index, unsigned char frame) {
+	if (index < 5) {
 		// player 1
-		zx_print_str(HOF_ROW+1, HOF_P1_COL, &initials[0]);
-		game_paint_attrib_lin_h(HOF_P1_COL-1+index, HOF_P1_COL+index, ((HOF_ROW+1)<<3)+8);
-
-		NIRVANAP_halt();
-		if (frame)
-		{
-			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16-2, HOF_P1_COL);
-			NIRVANAP_drawT(3         , ((HOF_ROW+1)<<3)-16  , HOF_P1_COL);
-		}
-		else
-		{
-			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16  , HOF_P1_COL);
-			NIRVANAP_drawT(22        , ((HOF_ROW+1)<<3)-16-2, HOF_P1_COL);
-		}
-	}
-	else
-	{
+		game_hall_print_p2(index, HOF_P1_COL,frame);
+	}	else	{
 		// player 2
-		zx_print_str(HOF_ROW+1, HOF_P2_COL, &initials[4]);
-		game_paint_attrib_lin_h(HOF_P2_COL-5+index, HOF_P2_COL-4+index, ((HOF_ROW+1)<<3)+8);
-
-		NIRVANAP_halt();
-		if (frame)
-		{
-			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16-2, HOF_P2_COL+1);
-			NIRVANAP_drawT(39        , ((HOF_ROW+1)<<3)-16  , HOF_P2_COL+1);
-		}
-		else
-		{
-			NIRVANAP_drawT(TILE_EMPTY, ((HOF_ROW+1)<<3)-16  , HOF_P2_COL+1);
-			NIRVANAP_drawT(46        , ((HOF_ROW+1)<<3)-16-2, HOF_P2_COL+1);
-		}
+		game_hall_print_p2(index, HOF_P2_COL,frame);
 	}
 }
 
-unsigned char game_hall_edit_p(unsigned char index) __z88dk_fastcall
-{
+unsigned char game_hall_edit_p(unsigned char index) __z88dk_fastcall {
 	--index;
 
 	if (dirs & IN_STICK_FIRE)

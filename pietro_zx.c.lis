@@ -2,7 +2,7 @@
 2     0000              
 3     0000              ;--------------------------------------------------------
 4     0000              ; File Created by SDCC : free open source ANSI-C Compiler
-5     0000              ; Version 3.6.5 #9880 (Mac OS X i386)
+5     0000              ; Version 3.6.5 #9917 (Mac OS X i386)
 6     0000              ;--------------------------------------------------------
 7     0000              ; Processed by Z88DK
 8     0000              ;--------------------------------------------------------
@@ -182,180 +182,180 @@
 182   0000              ;--------------------------------------------------------
 183   0000              ; Externals used
 184   0000              ;--------------------------------------------------------
-185   0000              	GLOBAL _control_method
-186   0000              	GLOBAL _hall_valids
-187   0000              	GLOBAL _debug3
-188   0000              	GLOBAL _debug2
-189   0000              	GLOBAL _debug
-190   0000              	GLOBAL _zx_print_str
-191   0000              	GLOBAL _zx_print_int
-192   0000              	GLOBAL _zx_print_chr
-193   0000              	GLOBAL _zx_print_bonus_time
-194   0000              	GLOBAL _zx_isr
-195   0000              	GLOBAL _z80_otdr_callee
-196   0000              	GLOBAL _z80_otdr
-197   0000              	GLOBAL _z80_otir_callee
-198   0000              	GLOBAL _z80_otir
-199   0000              	GLOBAL _z80_outp_callee
-200   0000              	GLOBAL _z80_outp
-201   0000              	GLOBAL _z80_indr_callee
-202   0000              	GLOBAL _z80_indr
-203   0000              	GLOBAL _z80_inir_callee
-204   0000              	GLOBAL _z80_inir
-205   0000              	GLOBAL _z80_inp_fastcall
-206   0000              	GLOBAL _z80_inp
-207   0000              	GLOBAL _z80_set_int_state_fastcall
-208   0000              	GLOBAL _z80_set_int_state
-209   0000              	GLOBAL _z80_get_int_state
-210   0000              	GLOBAL _z80_delay_tstate_fastcall
-211   0000              	GLOBAL _z80_delay_tstate
-212   0000              	GLOBAL _z80_delay_ms_fastcall
-213   0000              	GLOBAL _z80_delay_ms
-214   0000              	GLOBAL _im2_remove_generic_callback_callee
-215   0000              	GLOBAL _im2_remove_generic_callback
-216   0000              	GLOBAL _im2_prepend_generic_callback_callee
-217   0000              	GLOBAL _im2_prepend_generic_callback
-218   0000              	GLOBAL _im2_append_generic_callback_callee
-219   0000              	GLOBAL _im2_append_generic_callback
-220   0000              	GLOBAL _im2_create_generic_isr_8080_callee
-221   0000              	GLOBAL _im2_create_generic_isr_8080
-222   0000              	GLOBAL _im2_create_generic_isr_callee
-223   0000              	GLOBAL _im2_create_generic_isr
-224   0000              	GLOBAL _im2_install_isr_callee
-225   0000              	GLOBAL _im2_install_isr
-226   0000              	GLOBAL _im2_init_fastcall
-227   0000              	GLOBAL _im2_init
-228   0000              	GLOBAL _intrinsic_swap_word_32_fastcall
-229   0000              	GLOBAL _intrinsic_swap_word_32
-230   0000              	GLOBAL _intrinsic_swap_endian_32_fastcall
-231   0000              	GLOBAL _intrinsic_swap_endian_32
-232   0000              	GLOBAL _intrinsic_swap_endian_16_fastcall
-233   0000              	GLOBAL _intrinsic_swap_endian_16
-234   0000              	GLOBAL _intrinsic_return_de
-235   0000              	GLOBAL _intrinsic_return_bc
-236   0000              	GLOBAL _intrinsic_exx
-237   0000              	GLOBAL _intrinsic_ex_de_hl
-238   0000              	GLOBAL _intrinsic_nop
-239   0000              	GLOBAL _intrinsic_im_2
-240   0000              	GLOBAL _intrinsic_im_1
-241   0000              	GLOBAL _intrinsic_im_0
-242   0000              	GLOBAL _intrinsic_retn
-243   0000              	GLOBAL _intrinsic_reti
-244   0000              	GLOBAL _intrinsic_halt
-245   0000              	GLOBAL _intrinsic_ei
-246   0000              	GLOBAL _intrinsic_di
-247   0000              	GLOBAL _intrinsic_stub
-248   0000              	GLOBAL _in_mouse_kempston_wheel_delta
-249   0000              	GLOBAL _in_mouse_kempston_wheel
-250   0000              	GLOBAL _in_mouse_kempston_callee
-251   0000              	GLOBAL _in_mouse_kempston
-252   0000              	GLOBAL _in_mouse_kempston_setpos_callee
-253   0000              	GLOBAL _in_mouse_kempston_setpos
-254   0000              	GLOBAL _in_mouse_kempston_reset
-255   0000              	GLOBAL _in_mouse_kempston_init
-256   0000              	GLOBAL _in_mouse_amx_wheel_delta
-257   0000              	GLOBAL _in_mouse_amx_wheel
-258   0000              	GLOBAL _in_mouse_amx_callee
-259   0000              	GLOBAL _in_mouse_amx
-260   0000              	GLOBAL _in_mouse_amx_setpos_callee
-261   0000              	GLOBAL _in_mouse_amx_setpos
-262   0000              	GLOBAL _in_mouse_amx_reset
-263   0000              	GLOBAL _in_mouse_amx_init_callee
-264   0000              	GLOBAL _in_mouse_amx_init
-265   0000              	GLOBAL _in_stick_sinclair2
-266   0000              	GLOBAL _in_stick_sinclair1
-267   0000              	GLOBAL _in_stick_kempston
-268   0000              	GLOBAL _in_stick_fuller
-269   0000              	GLOBAL _in_stick_cursor
-270   0000              	GLOBAL _in_stick_keyboard_fastcall
-271   0000              	GLOBAL _in_stick_keyboard
-272   0000              	GLOBAL _in_wait_nokey
-273   0000              	GLOBAL _in_wait_key
-274   0000              	GLOBAL _in_test_key
-275   0000              	GLOBAL _in_pause_fastcall
-276   0000              	GLOBAL _in_pause
-277   0000              	GLOBAL _in_key_scancode_fastcall
-278   0000              	GLOBAL _in_key_scancode
-279   0000              	GLOBAL _in_key_pressed_fastcall
-280   0000              	GLOBAL _in_key_pressed
-281   0000              	GLOBAL _in_inkey
-282   0000              	GLOBAL _zx_pattern_fill_callee
-283   0000              	GLOBAL _zx_pattern_fill
-284   0000              	GLOBAL _zx_saddrpup_fastcall
-285   0000              	GLOBAL _zx_saddrpup
-286   0000              	GLOBAL _zx_saddrpright_callee
-287   0000              	GLOBAL _zx_saddrpright
-288   0000              	GLOBAL _zx_saddrpleft_callee
-289   0000              	GLOBAL _zx_saddrpleft
-290   0000              	GLOBAL _zx_saddrpdown_fastcall
-291   0000              	GLOBAL _zx_saddrpdown
-292   0000              	GLOBAL _zx_saddrcup_fastcall
-293   0000              	GLOBAL _zx_saddrcup
-294   0000              	GLOBAL _zx_saddrcright_fastcall
-295   0000              	GLOBAL _zx_saddrcright
-296   0000              	GLOBAL _zx_saddrcleft_fastcall
-297   0000              	GLOBAL _zx_saddrcleft
-298   0000              	GLOBAL _zx_saddrcdown_fastcall
-299   0000              	GLOBAL _zx_saddrcdown
-300   0000              	GLOBAL _zx_saddr2py_fastcall
-301   0000              	GLOBAL _zx_saddr2py
-302   0000              	GLOBAL _zx_saddr2px_fastcall
-303   0000              	GLOBAL _zx_saddr2px
-304   0000              	GLOBAL _zx_saddr2cy_fastcall
-305   0000              	GLOBAL _zx_saddr2cy
-306   0000              	GLOBAL _zx_saddr2cx_fastcall
-307   0000              	GLOBAL _zx_saddr2cx
-308   0000              	GLOBAL _zx_saddr2aaddr_fastcall
-309   0000              	GLOBAL _zx_saddr2aaddr
-310   0000              	GLOBAL _zx_py2saddr_fastcall
-311   0000              	GLOBAL _zx_py2saddr
-312   0000              	GLOBAL _zx_py2aaddr_fastcall
-313   0000              	GLOBAL _zx_py2aaddr
-314   0000              	GLOBAL _zx_pxy2saddr_callee
-315   0000              	GLOBAL _zx_pxy2saddr
-316   0000              	GLOBAL _zx_pxy2aaddr_callee
-317   0000              	GLOBAL _zx_pxy2aaddr
-318   0000              	GLOBAL _zx_px2bitmask_fastcall
-319   0000              	GLOBAL _zx_px2bitmask
-320   0000              	GLOBAL _zx_cyx2saddr_callee
-321   0000              	GLOBAL _zx_cyx2saddr
-322   0000              	GLOBAL _zx_cyx2aaddr_callee
-323   0000              	GLOBAL _zx_cyx2aaddr
-324   0000              	GLOBAL _zx_cy2saddr_fastcall
-325   0000              	GLOBAL _zx_cy2saddr
-326   0000              	GLOBAL _zx_cy2aaddr_fastcall
-327   0000              	GLOBAL _zx_cy2aaddr
-328   0000              	GLOBAL _zx_bitmask2px_fastcall
-329   0000              	GLOBAL _zx_bitmask2px
-330   0000              	GLOBAL _zx_aaddrcup_fastcall
-331   0000              	GLOBAL _zx_aaddrcup
-332   0000              	GLOBAL _zx_aaddrcright_fastcall
-333   0000              	GLOBAL _zx_aaddrcright
-334   0000              	GLOBAL _zx_aaddrcleft_fastcall
-335   0000              	GLOBAL _zx_aaddrcleft
-336   0000              	GLOBAL _zx_aaddrcdown_fastcall
-337   0000              	GLOBAL _zx_aaddrcdown
-338   0000              	GLOBAL _zx_aaddr2saddr_fastcall
-339   0000              	GLOBAL _zx_aaddr2saddr
-340   0000              	GLOBAL _zx_aaddr2py_fastcall
-341   0000              	GLOBAL _zx_aaddr2py
-342   0000              	GLOBAL _zx_aaddr2px_fastcall
-343   0000              	GLOBAL _zx_aaddr2px
-344   0000              	GLOBAL _zx_aaddr2cy_fastcall
-345   0000              	GLOBAL _zx_aaddr2cy
-346   0000              	GLOBAL _zx_aaddr2cx_fastcall
-347   0000              	GLOBAL _zx_aaddr2cx
-348   0000              	GLOBAL _zx_scroll_wc_up_callee
-349   0000              	GLOBAL _zx_scroll_wc_up
-350   0000              	GLOBAL _zx_scroll_up_callee
-351   0000              	GLOBAL _zx_scroll_up
-352   0000              	GLOBAL _zx_cls_wc_callee
-353   0000              	GLOBAL _zx_cls_wc
-354   0000              	GLOBAL _zx_cls_fastcall
-355   0000              	GLOBAL _zx_cls
-356   0000              	GLOBAL _zx_border_fastcall
-357   0000              	GLOBAL _zx_border
-358   0000              	GLOBAL _game_hlt_cnt
+185   0000              	GLOBAL _fix_1
+186   0000              	GLOBAL _control_method
+187   0000              	GLOBAL _hall_valids
+188   0000              	GLOBAL _debug3
+189   0000              	GLOBAL _debug2
+190   0000              	GLOBAL _debug
+191   0000              	GLOBAL _zx_print_str
+192   0000              	GLOBAL _zx_print_int
+193   0000              	GLOBAL _zx_print_chr
+194   0000              	GLOBAL _zx_print_bonus_time
+195   0000              	GLOBAL _zx_isr
+196   0000              	GLOBAL _z80_otdr_callee
+197   0000              	GLOBAL _z80_otdr
+198   0000              	GLOBAL _z80_otir_callee
+199   0000              	GLOBAL _z80_otir
+200   0000              	GLOBAL _z80_outp_callee
+201   0000              	GLOBAL _z80_outp
+202   0000              	GLOBAL _z80_indr_callee
+203   0000              	GLOBAL _z80_indr
+204   0000              	GLOBAL _z80_inir_callee
+205   0000              	GLOBAL _z80_inir
+206   0000              	GLOBAL _z80_inp_fastcall
+207   0000              	GLOBAL _z80_inp
+208   0000              	GLOBAL _z80_set_int_state_fastcall
+209   0000              	GLOBAL _z80_set_int_state
+210   0000              	GLOBAL _z80_get_int_state
+211   0000              	GLOBAL _z80_delay_tstate_fastcall
+212   0000              	GLOBAL _z80_delay_tstate
+213   0000              	GLOBAL _z80_delay_ms_fastcall
+214   0000              	GLOBAL _z80_delay_ms
+215   0000              	GLOBAL _im2_remove_generic_callback_callee
+216   0000              	GLOBAL _im2_remove_generic_callback
+217   0000              	GLOBAL _im2_prepend_generic_callback_callee
+218   0000              	GLOBAL _im2_prepend_generic_callback
+219   0000              	GLOBAL _im2_append_generic_callback_callee
+220   0000              	GLOBAL _im2_append_generic_callback
+221   0000              	GLOBAL _im2_create_generic_isr_8080_callee
+222   0000              	GLOBAL _im2_create_generic_isr_8080
+223   0000              	GLOBAL _im2_create_generic_isr_callee
+224   0000              	GLOBAL _im2_create_generic_isr
+225   0000              	GLOBAL _im2_install_isr_callee
+226   0000              	GLOBAL _im2_install_isr
+227   0000              	GLOBAL _im2_init_fastcall
+228   0000              	GLOBAL _im2_init
+229   0000              	GLOBAL _intrinsic_swap_word_32_fastcall
+230   0000              	GLOBAL _intrinsic_swap_word_32
+231   0000              	GLOBAL _intrinsic_swap_endian_32_fastcall
+232   0000              	GLOBAL _intrinsic_swap_endian_32
+233   0000              	GLOBAL _intrinsic_swap_endian_16_fastcall
+234   0000              	GLOBAL _intrinsic_swap_endian_16
+235   0000              	GLOBAL _intrinsic_return_de
+236   0000              	GLOBAL _intrinsic_return_bc
+237   0000              	GLOBAL _intrinsic_exx
+238   0000              	GLOBAL _intrinsic_ex_de_hl
+239   0000              	GLOBAL _intrinsic_nop
+240   0000              	GLOBAL _intrinsic_im_2
+241   0000              	GLOBAL _intrinsic_im_1
+242   0000              	GLOBAL _intrinsic_im_0
+243   0000              	GLOBAL _intrinsic_retn
+244   0000              	GLOBAL _intrinsic_reti
+245   0000              	GLOBAL _intrinsic_halt
+246   0000              	GLOBAL _intrinsic_ei
+247   0000              	GLOBAL _intrinsic_di
+248   0000              	GLOBAL _intrinsic_stub
+249   0000              	GLOBAL _in_mouse_kempston_wheel_delta
+250   0000              	GLOBAL _in_mouse_kempston_wheel
+251   0000              	GLOBAL _in_mouse_kempston_callee
+252   0000              	GLOBAL _in_mouse_kempston
+253   0000              	GLOBAL _in_mouse_kempston_setpos_callee
+254   0000              	GLOBAL _in_mouse_kempston_setpos
+255   0000              	GLOBAL _in_mouse_kempston_reset
+256   0000              	GLOBAL _in_mouse_kempston_init
+257   0000              	GLOBAL _in_mouse_amx_wheel_delta
+258   0000              	GLOBAL _in_mouse_amx_wheel
+259   0000              	GLOBAL _in_mouse_amx_callee
+260   0000              	GLOBAL _in_mouse_amx
+261   0000              	GLOBAL _in_mouse_amx_setpos_callee
+262   0000              	GLOBAL _in_mouse_amx_setpos
+263   0000              	GLOBAL _in_mouse_amx_reset
+264   0000              	GLOBAL _in_mouse_amx_init_callee
+265   0000              	GLOBAL _in_mouse_amx_init
+266   0000              	GLOBAL _in_stick_sinclair2
+267   0000              	GLOBAL _in_stick_sinclair1
+268   0000              	GLOBAL _in_stick_kempston
+269   0000              	GLOBAL _in_stick_fuller
+270   0000              	GLOBAL _in_stick_cursor
+271   0000              	GLOBAL _in_stick_keyboard_fastcall
+272   0000              	GLOBAL _in_stick_keyboard
+273   0000              	GLOBAL _in_wait_nokey
+274   0000              	GLOBAL _in_wait_key
+275   0000              	GLOBAL _in_test_key
+276   0000              	GLOBAL _in_pause_fastcall
+277   0000              	GLOBAL _in_pause
+278   0000              	GLOBAL _in_key_scancode_fastcall
+279   0000              	GLOBAL _in_key_scancode
+280   0000              	GLOBAL _in_key_pressed_fastcall
+281   0000              	GLOBAL _in_key_pressed
+282   0000              	GLOBAL _in_inkey
+283   0000              	GLOBAL _zx_pattern_fill_callee
+284   0000              	GLOBAL _zx_pattern_fill
+285   0000              	GLOBAL _zx_saddrpup_fastcall
+286   0000              	GLOBAL _zx_saddrpup
+287   0000              	GLOBAL _zx_saddrpright_callee
+288   0000              	GLOBAL _zx_saddrpright
+289   0000              	GLOBAL _zx_saddrpleft_callee
+290   0000              	GLOBAL _zx_saddrpleft
+291   0000              	GLOBAL _zx_saddrpdown_fastcall
+292   0000              	GLOBAL _zx_saddrpdown
+293   0000              	GLOBAL _zx_saddrcup_fastcall
+294   0000              	GLOBAL _zx_saddrcup
+295   0000              	GLOBAL _zx_saddrcright_fastcall
+296   0000              	GLOBAL _zx_saddrcright
+297   0000              	GLOBAL _zx_saddrcleft_fastcall
+298   0000              	GLOBAL _zx_saddrcleft
+299   0000              	GLOBAL _zx_saddrcdown_fastcall
+300   0000              	GLOBAL _zx_saddrcdown
+301   0000              	GLOBAL _zx_saddr2py_fastcall
+302   0000              	GLOBAL _zx_saddr2py
+303   0000              	GLOBAL _zx_saddr2px_fastcall
+304   0000              	GLOBAL _zx_saddr2px
+305   0000              	GLOBAL _zx_saddr2cy_fastcall
+306   0000              	GLOBAL _zx_saddr2cy
+307   0000              	GLOBAL _zx_saddr2cx_fastcall
+308   0000              	GLOBAL _zx_saddr2cx
+309   0000              	GLOBAL _zx_saddr2aaddr_fastcall
+310   0000              	GLOBAL _zx_saddr2aaddr
+311   0000              	GLOBAL _zx_py2saddr_fastcall
+312   0000              	GLOBAL _zx_py2saddr
+313   0000              	GLOBAL _zx_py2aaddr_fastcall
+314   0000              	GLOBAL _zx_py2aaddr
+315   0000              	GLOBAL _zx_pxy2saddr_callee
+316   0000              	GLOBAL _zx_pxy2saddr
+317   0000              	GLOBAL _zx_pxy2aaddr_callee
+318   0000              	GLOBAL _zx_pxy2aaddr
+319   0000              	GLOBAL _zx_px2bitmask_fastcall
+320   0000              	GLOBAL _zx_px2bitmask
+321   0000              	GLOBAL _zx_cy2saddr_fastcall
+322   0000              	GLOBAL _zx_cy2saddr
+323   0000              	GLOBAL _zx_cy2aaddr_fastcall
+324   0000              	GLOBAL _zx_cy2aaddr
+325   0000              	GLOBAL _zx_cxy2saddr_callee
+326   0000              	GLOBAL _zx_cxy2saddr
+327   0000              	GLOBAL _zx_cxy2aaddr_callee
+328   0000              	GLOBAL _zx_cxy2aaddr
+329   0000              	GLOBAL _zx_bitmask2px_fastcall
+330   0000              	GLOBAL _zx_bitmask2px
+331   0000              	GLOBAL _zx_aaddrcup_fastcall
+332   0000              	GLOBAL _zx_aaddrcup
+333   0000              	GLOBAL _zx_aaddrcright_fastcall
+334   0000              	GLOBAL _zx_aaddrcright
+335   0000              	GLOBAL _zx_aaddrcleft_fastcall
+336   0000              	GLOBAL _zx_aaddrcleft
+337   0000              	GLOBAL _zx_aaddrcdown_fastcall
+338   0000              	GLOBAL _zx_aaddrcdown
+339   0000              	GLOBAL _zx_aaddr2saddr_fastcall
+340   0000              	GLOBAL _zx_aaddr2saddr
+341   0000              	GLOBAL _zx_aaddr2py_fastcall
+342   0000              	GLOBAL _zx_aaddr2py
+343   0000              	GLOBAL _zx_aaddr2px_fastcall
+344   0000              	GLOBAL _zx_aaddr2px
+345   0000              	GLOBAL _zx_aaddr2cy_fastcall
+346   0000              	GLOBAL _zx_aaddr2cy
+347   0000              	GLOBAL _zx_aaddr2cx_fastcall
+348   0000              	GLOBAL _zx_aaddr2cx
+349   0000              	GLOBAL _zx_scroll_wc_up_callee
+350   0000              	GLOBAL _zx_scroll_wc_up
+351   0000              	GLOBAL _zx_scroll_up_callee
+352   0000              	GLOBAL _zx_scroll_up
+353   0000              	GLOBAL _zx_cls_wc_callee
+354   0000              	GLOBAL _zx_cls_wc
+355   0000              	GLOBAL _zx_cls_fastcall
+356   0000              	GLOBAL _zx_cls
+357   0000              	GLOBAL _zx_border_fastcall
+358   0000              	GLOBAL _zx_border
 359   0000              	GLOBAL _joynames
 360   0000              	GLOBAL _initials
 361   0000              	GLOBAL _hof
@@ -397,103 +397,102 @@
 397   0000              	GLOBAL _game_brick_tile
 398   0000              	GLOBAL _game_pow
 399   0000              	GLOBAL _game_ugly_fix_cnt
-400   0000              	GLOBAL _spr_count
-401   0000              	GLOBAL _osd_show_time
-402   0000              	GLOBAL _osd_update_time
-403   0000              	GLOBAL _frame_time
-404   0000              	GLOBAL _entry_time
-405   0000              	GLOBAL _curr_time
-406   0000              	GLOBAL _s_state
-407   0000              	GLOBAL _attrib_hl
-408   0000              	GLOBAL _attrib
-409   0000              	GLOBAL _zx_val_asm
-410   0000              	GLOBAL _enemies
-411   0000              	GLOBAL _tmp_ui
-412   0000              	GLOBAL _tmp_sc
-413   0000              	GLOBAL _tmp_uc
-414   0000              	GLOBAL _tmp1
-415   0000              	GLOBAL _tmp0
-416   0000              	GLOBAL _tmp
-417   0000              	GLOBAL _index3
-418   0000              	GLOBAL _index2
-419   0000              	GLOBAL _index1
-420   0000              	GLOBAL _loop_count
-421   0000              	GLOBAL _sprite_lin_inc_mul
-422   0000              	GLOBAL _s_col1
-423   0000              	GLOBAL _s_col0
-424   0000              	GLOBAL _s_lin1
-425   0000              	GLOBAL _s_lin0
-426   0000              	GLOBAL _s_tile1
-427   0000              	GLOBAL _s_tile0
-428   0000              	GLOBAL _hit_count
-429   0000              	GLOBAL _tile_offset_other_player
-430   0000              	GLOBAL _tile_offset
-431   0000              	GLOBAL _index_player
-432   0000              	GLOBAL _sprite_other_player
-433   0000              	GLOBAL _sprite
-434   0000              	GLOBAL _player_joy
-435   0000              	GLOBAL _player_next_extra
-436   0000              	GLOBAL _player_score
-437   0000              	GLOBAL _last_time
-438   0000              	GLOBAL _sliding
-439   0000              	GLOBAL _spr_timer
-440   0000              	GLOBAL _jump_lin
-441   0000              	GLOBAL _player_jump_c
-442   0000              	GLOBAL _hit_col
-443   0000              	GLOBAL _hit_lin
-444   0000              	GLOBAL _colint
-445   0000              	GLOBAL _col
-446   0000              	GLOBAL _lin
-447   0000              	GLOBAL _tile
-448   0000              	GLOBAL _state_a
-449   0000              	GLOBAL _state
-450   0000              	GLOBAL _class
-451   0000              	GLOBAL _tbuffer
-452   0000              	GLOBAL _dirs
-453   0000              	GLOBAL _k2
-454   0000              	GLOBAL _k1
-455   0000              	GLOBAL _joyfunc2
-456   0000              	GLOBAL _joyfunc1
-457   0000              	GLOBAL _btiles
-458   0000              	GLOBAL _spec128
-459   0000              	GLOBAL _GLOBAL_ZX_PORT_7FFD
-460   0000              	GLOBAL _GLOBAL_ZX_PORT_1FFD
-461   0000              	GLOBAL _GLOBAL_ZX_PORT_FE
-462   0000              ;--------------------------------------------------------
-463   0000              ; special function registers
-464   0000              ;--------------------------------------------------------
-465   0000              defc _IO_FE	=	0x00fe
-466   0000              defc _IO_1FFD	=	0x1ffd
-467   0000              defc _IO_7FFD	=	0x7ffd
-468   0000              ;--------------------------------------------------------
-469   0000              ; ram data
-470   0000              ;--------------------------------------------------------
-471   0000              	SECTION bss_compiler
-472   0000              ;--------------------------------------------------------
-473   0000              ; ram data
-474   0000              ;--------------------------------------------------------
-475   0000              
-476   0000              IF 0
-477   0000              
-478   0000              ; .area _INITIALIZED removed by z88dk
+400   0000              	GLOBAL _game_ugly_back
+401   0000              	GLOBAL _spr_count
+402   0000              	GLOBAL _osd_show_time
+403   0000              	GLOBAL _osd_update_time
+404   0000              	GLOBAL _frame_time
+405   0000              	GLOBAL _entry_time
+406   0000              	GLOBAL _curr_time
+407   0000              	GLOBAL _s_state
+408   0000              	GLOBAL _attrib_hl
+409   0000              	GLOBAL _attrib
+410   0000              	GLOBAL _zx_val_asm
+411   0000              	GLOBAL _enemies
+412   0000              	GLOBAL _tmp_ui
+413   0000              	GLOBAL _tmp_sc
+414   0000              	GLOBAL _tmp_uc
+415   0000              	GLOBAL _tmp1
+416   0000              	GLOBAL _tmp0
+417   0000              	GLOBAL _tmp
+418   0000              	GLOBAL _index1
+419   0000              	GLOBAL _loop_count
+420   0000              	GLOBAL _sprite_lin_inc_mul
+421   0000              	GLOBAL _s_col1
+422   0000              	GLOBAL _s_col0
+423   0000              	GLOBAL _s_lin1
+424   0000              	GLOBAL _s_lin0
+425   0000              	GLOBAL _s_tile1
+426   0000              	GLOBAL _s_tile0
+427   0000              	GLOBAL _hit_count
+428   0000              	GLOBAL _tile_offset_other_player
+429   0000              	GLOBAL _tile_offset
+430   0000              	GLOBAL _index_player
+431   0000              	GLOBAL _sprite_other_player
+432   0000              	GLOBAL _sprite
+433   0000              	GLOBAL _player_joy
+434   0000              	GLOBAL _player_next_extra
+435   0000              	GLOBAL _player_score
+436   0000              	GLOBAL _last_time
+437   0000              	GLOBAL _sliding
+438   0000              	GLOBAL _spr_timer
+439   0000              	GLOBAL _jump_lin
+440   0000              	GLOBAL _player_jump_c
+441   0000              	GLOBAL _hit_col
+442   0000              	GLOBAL _hit_lin
+443   0000              	GLOBAL _colint
+444   0000              	GLOBAL _col
+445   0000              	GLOBAL _lin
+446   0000              	GLOBAL _tile
+447   0000              	GLOBAL _state_a
+448   0000              	GLOBAL _state
+449   0000              	GLOBAL _class
+450   0000              	GLOBAL _tbuffer
+451   0000              	GLOBAL _dirs
+452   0000              	GLOBAL _k2
+453   0000              	GLOBAL _k1
+454   0000              	GLOBAL _joyfunc2
+455   0000              	GLOBAL _joyfunc1
+456   0000              	GLOBAL _btiles
+457   0000              	GLOBAL _spec128
+458   0000              	GLOBAL _GLOBAL_ZX_PORT_7FFD
+459   0000              	GLOBAL _GLOBAL_ZX_PORT_1FFD
+460   0000              	GLOBAL _GLOBAL_ZX_PORT_FE
+461   0000              ;--------------------------------------------------------
+462   0000              ; special function registers
+463   0000              ;--------------------------------------------------------
+464   0000              defc _IO_FE	=	0x00fe
+465   0000              defc _IO_1FFD	=	0x1ffd
+466   0000              defc _IO_7FFD	=	0x7ffd
+467   0000              ;--------------------------------------------------------
+468   0000              ; ram data
+469   0000              ;--------------------------------------------------------
+470   0000              	SECTION bss_compiler
+471   0000              ;--------------------------------------------------------
+472   0000              ; ram data
+473   0000              ;--------------------------------------------------------
+474   0000              
+475   0000              IF 0
+476   0000              
+477   0000              ; .area _INITIALIZED removed by z88dk
+478   0000              
 479   0000              
-480   0000              
-481   0000              ENDIF
-482   0000              
-483   0000              ;--------------------------------------------------------
-484   0000              ; absolute external ram data
-485   0000              ;--------------------------------------------------------
-486   0000              	SECTION IGNORE
-487   0000              ;--------------------------------------------------------
-488   0000              ; global & static initialisations
-489   0000              ;--------------------------------------------------------
-490   0000              	SECTION code_crt_init
-491   0000              ;--------------------------------------------------------
-492   0000              ; Home
-493   0000              ;--------------------------------------------------------
-494   0000              	SECTION IGNORE
-495   0000              ;--------------------------------------------------------
-496   0000              ; code
-497   0000              ;--------------------------------------------------------
-498   0000              	SECTION IGNORE
-499   0000              
+480   0000              ENDIF
+481   0000              
+482   0000              ;--------------------------------------------------------
+483   0000              ; absolute external ram data
+484   0000              ;--------------------------------------------------------
+485   0000              	SECTION IGNORE
+486   0000              ;--------------------------------------------------------
+487   0000              ; global & static initialisations
+488   0000              ;--------------------------------------------------------
+489   0000              	SECTION code_crt_init
+490   0000              ;--------------------------------------------------------
+491   0000              ; Home
+492   0000              ;--------------------------------------------------------
+493   0000              	SECTION IGNORE
+494   0000              ;--------------------------------------------------------
+495   0000              ; code
+496   0000              ;--------------------------------------------------------
+497   0000              	SECTION IGNORE
+498   0000              
