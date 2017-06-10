@@ -6,7 +6,7 @@ SECTION code_user
 PUBLIC _game_fill_row
 
 EXTERN _pietro_font, _screen_ink, _screen_paper
-EXTERN asm_zx_saddr2aaddr, asm_zx_cyx2saddr
+EXTERN asm_zx_saddr2aaddr, asm_zx_cxy2saddr
 
 _game_fill_row:
 
@@ -40,7 +40,7 @@ game_fill_row:
    ;  h = row
    ;  l = 0
    
-   call asm_zx_cyx2saddr       ; z88dk function: character y,x to screen address
+   call asm_zx_cxy2saddr       ; z88dk function: character y,x to screen address
    ex de,hl
    
    add hl,hl

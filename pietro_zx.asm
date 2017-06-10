@@ -109,7 +109,7 @@ SECTION code_user
 
 PUBLIC _zx_print_str
 
-EXTERN asm_zx_cyx2saddr, asm_zx_saddr2aaddr
+EXTERN asm_zx_cxy2saddr, asm_zx_saddr2aaddr
 EXTERN _pietro_font, _screen_ink, _screen_paper
 
 _zx_print_str:
@@ -145,7 +145,7 @@ zx_print_str:
    ;  l = x coord
    ; de = char *s
 
-   call asm_zx_cyx2saddr       ; z88dk function: character y,x to screen address
+   call asm_zx_cxy2saddr       ; z88dk function: character y,x to screen address
    ex de,hl
 
 zps_sloop:

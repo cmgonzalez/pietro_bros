@@ -815,9 +815,9 @@
 815   0000  21 00 00    	ld	hl,_game_start_phase
 816   0003  36 00       	ld	(hl),0x00
 817   0005  21 00 00    	ld	hl,_game_god_mode
-818   0008  36 01       	ld	(hl),0x01
+818   0008  36 00       	ld	(hl),0x00
 819   000A  21 00 00    	ld	hl,_game_inmune
-820   000D  36 01       	ld	(hl),0x01
+820   000D  36 00       	ld	(hl),0x00
 821   000F  CD 00 00    	call	_ay_reset
 822   0012  21 47 46    	ld	hl,0x4647
 823   0015  22 00 00    	ld	(_attrib),hl

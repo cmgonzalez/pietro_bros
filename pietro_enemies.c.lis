@@ -1264,7 +1264,7 @@
 1264  02E5              _enemy_flip_change_dir:
 1265  02E5  CD 00 00    	call	___sdcc_enter_ix
 1266  02E8  F5          	push	af
-1267  02E9  DD 75 FF    	ld	(ix-1),l
+1267  02E9  DD 75 FE    	ld	(ix-2),l
 1268  02EC  2A 00 00    	ld	hl,(_enemies)
 1269  02EF  26 00       	ld	h,0x00
 1270  02F1  01 00 00    	ld	bc,_state
@@ -1354,14 +1354,14 @@
 1354  0370  11 00 00    	ld	de,_col
 1355  0373  19          	add	hl,de
 1356  0374  7E          	ld	a,(hl)
-1357  0375  DD 77 FE    	ld	(ix-2),a
+1357  0375  DD 77 FF    	ld	(ix-1),a
 1358  0378  2A 00 00    	ld	hl,(_enemies)
 1359  037B  26 00       	ld	h,0x00
 1360  037D  11 00 00    	ld	de,_col
 1361  0380  19          	add	hl,de
 1362  0381  5E          	ld	e, (hl)
 1363  0382  21 00 00    	ld	hl,_enemies
-1364  0385  DD 7E FE    	ld	a,(ix-2)
+1364  0385  DD 7E FF    	ld	a,(ix-1)
 1365  0388  93          	sub	a, e
 1366  0389  30 13       	jr	NC,l_enemy_flip_change_dir_00107
 1367  038B  0A          	ld	a, (bc)
@@ -1378,7 +1378,7 @@
 1378  039B  02          	ld	(bc), a
 1379  039C  18 17       	jr	l_enemy_flip_change_dir_00111
 1380  039E              l_enemy_flip_change_dir_00107:
-1381  039E  DD 7E FF    	ld	a,(ix-1)
+1381  039E  DD 7E FE    	ld	a,(ix-2)
 1382  03A1  B7          	or	a, a
 1383  03A2  20 11       	jr	NZ,l_enemy_flip_change_dir_00111
 1384  03A4  0A          	ld	a, (bc)
