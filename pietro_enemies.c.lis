@@ -1408,7 +1408,7 @@
 1408  03C4              _enemy_flip:
 1409  03C4  CD 00 00    	call	___sdcc_enter_ix
 1410  03C7  F5          	push	af
-1411  03C8  DD 75 FE    	ld	(ix-2),l
+1411  03C8  DD 75 FF    	ld	(ix-1),l
 1412  03CB  01 00 00    	ld	bc,_spr_timer+0
 1413  03CE  2A 00 00    	ld	hl,(_enemies)
 1414  03D1  26 00       	ld	h,0x00
@@ -1462,7 +1462,7 @@
 1462  0429  01 00 00    	ld	bc,_state
 1463  042C  09          	add	hl,bc
 1464  042D  7E          	ld	a,(hl)
-1465  042E  DD 77 FF    	ld	(ix-1),a
+1465  042E  DD 77 FE    	ld	(ix-2),a
 1466  0431  CB 67       	bit	4,a
 1467  0433  4D          	ld	c,l
 1468  0434  44          	ld	b,h
@@ -1475,7 +1475,7 @@
 1475  0445  26 00       	ld	h,0x00
 1476  0447  01 00 00    	ld	bc,_tile
 1477  044A  09          	add	hl,bc
-1478  044B  DD 7E FE    	ld	a,(ix-2)
+1478  044B  DD 7E FF    	ld	a,(ix-1)
 1479  044E  C6 06       	add	a,0x06
 1480  0450  77          	ld	(hl),a
 1481  0451  21 01 00    	ld	hl,0x0001
@@ -1487,7 +1487,7 @@
 1487  045E  11 00 00    	ld	de,_state_a
 1488  0461  19          	add	hl,de
 1489  0462  5E          	ld	e, (hl)
-1490  0463  DD 7E FF    	ld	a,(ix-1)
+1490  0463  DD 7E FE    	ld	a,(ix-2)
 1491  0466  F6 04       	or	a,0x04
 1492  0468  CB 63       	bit	4, e
 1493  046A  28 10       	jr	Z,l_enemy_flip_00102

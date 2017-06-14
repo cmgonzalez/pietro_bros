@@ -1249,7 +1249,7 @@
 1249  028D  7D          	ld	a, l
 1250  028E  B7          	or	a, a
 1251  028F  20 21       	jr	NZ,l_spr_redraw_00109
-1252  0291  CD 5B 0C    	call	_spr_back_clr
+1252  0291  CD 5F 0C    	call	_spr_back_clr
 1253  0294  18 1C       	jr	l_spr_redraw_00109
 1254  0296              l_spr_redraw_00108:
 1255  0296  3A 00 00    	ld	a,(_s_tile1)
@@ -2157,7 +2157,7 @@
 2157  0802  57          	ld	d, a
 2158  0803  C5          	push	bc
 2159  0804  D5          	push	de
-2160  0805  CD 5B 0C    	call	_spr_back_clr
+2160  0805  CD 5F 0C    	call	_spr_back_clr
 2161  0808  D1          	pop	de
 2162  0809  C1          	pop	bc
 2163  080A  7B          	ld	a, e
@@ -2774,7 +2774,7 @@
 2774  0BD3  28 04       	jr	Z,l_spr_collision_check_00102
 2775  0BD5              l_spr_collision_check_00101:
 2776  0BD5  2E 00       	ld	l,0x00
-2777  0BD7  18 69       	jr	l_spr_collision_check_00109
+2777  0BD7  18 6D       	jr	l_spr_collision_check_00109
 2778  0BD9              l_spr_collision_check_00102:
 2779  0BD9  01 00 00    	ld	bc,_lin+0
 2780  0BDC  79          	ld	a, c
@@ -2810,7 +2810,7 @@
 2810  0C0B  9E          	sbc	a, (hl)
 2811  0C0C  30 04       	jr	NC,l_spr_collision_check_00105
 2812  0C0E  2E 00       	ld	l,0x00
-2813  0C10  18 30       	jr	l_spr_collision_check_00109
+2813  0C10  18 34       	jr	l_spr_collision_check_00109
 2814  0C12              l_spr_collision_check_00105:
 2815  0C12  DD 7E 04    	ld	a,(ix+4)
 2816  0C15  F5          	push	af
@@ -2833,145 +2833,147 @@
 2833  0C2C  ED 52       	sbc	hl,de
 2834  0C2E  CD 00 00    	call	_abs_fastcall
 2835  0C31  22 00 00    	ld	(_tmp_ui),hl
-2836  0C34  7D          	ld	a,l
-2837  0C35  D6 06       	sub	a,0x06
-2838  0C37  7C          	ld	a,h
-2839  0C38  DE 00       	sbc	a,0x00
-2840  0C3A  38 04       	jr	C,l_spr_collision_check_00107
-2841  0C3C  2E 00       	ld	l,0x00
-2842  0C3E  18 02       	jr	l_spr_collision_check_00109
-2843  0C40              l_spr_collision_check_00107:
-2844  0C40  2E 01       	ld	l,0x01
-2845  0C42              l_spr_collision_check_00109:
-2846  0C42  DD E1       	pop	ix
-2847  0C44  C9          	ret
-2848  0C45              	SECTION code_compiler
-2849  0C45              ;	---------------------------------
-2850  0C45              ; Function spr_kill_all
-2851  0C45              ; ---------------------------------
-2852  0C45              _spr_kill_all:
-2853  0C45  21 00 00    	ld	hl,_sprite
-2854  0C48  36 00       	ld	(hl),0x00
-2855  0C4A              l_spr_kill_all_00102:
-2856  0C4A  2A 00 00    	ld	hl,(_sprite)
-2857  0C4D  CD 37 05    	call	_spr_destroy
-2858  0C50  21 00 00    	ld	hl,_sprite
-2859  0C53  7E          	ld	a,(hl)
-2860  0C54  3C          	inc	a
-2861  0C55  77          	ld	(hl),a
-2862  0C56  D6 08       	sub	a,0x08
-2863  0C58  38 F0       	jr	C,l_spr_kill_all_00102
-2864  0C5A  C9          	ret
-2865  0C5B              	SECTION code_compiler
-2866  0C5B              ;	---------------------------------
-2867  0C5B              ; Function spr_back_clr
-2868  0C5B              ; ---------------------------------
-2869  0C5B              _spr_back_clr:
-2870  0C5B  2A FF FF    	ld	hl,(_s_col0 - 1)
-2871  0C5E  3A 00 00    	ld	a,(_s_lin0)
-2872  0C61  6F          	ld	l,a
-2873  0C62  E5          	push	hl
-2874  0C63  AF          	xor	a, a
-2875  0C64  F5          	push	af
-2876  0C65  33          	inc	sp
-2877  0C66  CD 00 00    	call	_NIRVANAP_fillC_callee
-2878  0C69  3A 00 00    	ld	a,(_s_lin0)
-2879  0C6C  C6 08       	add	a,0x08
-2880  0C6E  4F          	ld	c, a
-2881  0C6F  3A 00 00    	ld	a, (_s_col0)
-2882  0C72  47          	ld	b,a
-2883  0C73  C5          	push	bc
-2884  0C74  AF          	xor	a, a
-2885  0C75  F5          	push	af
-2886  0C76  33          	inc	sp
-2887  0C77  CD 00 00    	call	_NIRVANAP_fillC_callee
-2888  0C7A  21 00 00    	ld	hl,_s_col0
-2889  0C7D  46          	ld	b, (hl)
-2890  0C7E  04          	inc	b
-2891  0C7F  C5          	push	bc
-2892  0C80  33          	inc	sp
-2893  0C81  2A FF FF    	ld	hl,(_s_lin0 - 1)
-2894  0C84  AF          	xor	a,a
-2895  0C85  6F          	ld	l,a
-2896  0C86  E5          	push	hl
-2897  0C87  CD 00 00    	call	_NIRVANAP_fillC_callee
-2898  0C8A  21 00 00    	ld	hl,_s_col0
-2899  0C8D  56          	ld	d, (hl)
-2900  0C8E  14          	inc	d
-2901  0C8F  3A 00 00    	ld	a,(_s_lin0)
-2902  0C92  C6 08       	add	a,0x08
-2903  0C94  5F          	ld	e, a
-2904  0C95  D5          	push	de
-2905  0C96  AF          	xor	a, a
-2906  0C97  F5          	push	af
-2907  0C98  33          	inc	sp
-2908  0C99  CD 00 00    	call	_NIRVANAP_fillC_callee
-2909  0C9C  C9          	ret
-2910  0C9D              	SECTION code_compiler
-2911  0C9D              ;	---------------------------------
-2912  0C9D              ; Function spr_mapfix
-2913  0C9D              ; ---------------------------------
-2914  0C9D              _spr_mapfix:
-2915  0C9D  2A 00 00    	ld	hl,(_game_ugly_fix_cnt)
-2916  0CA0  26 00       	ld	h,0x00
-2917  0CA2  29          	add	hl, hl
-2918  0CA3  11 00 00    	ld	de,_fix_1
-2919  0CA6  19          	add	hl, de
-2920  0CA7  11 00 00    	ld	de,_index1
-2921  0CAA  ED A0       	ldi
-2922  0CAC  7E          	ld	a,(hl)
-2923  0CAD  12          	ld	(de),a
-2924  0CAE  3A 00 00    	ld	a,(_index1)
-2925  0CB1  E6 1F       	and	a,0x1f
-2926  0CB3  32 00 00    	ld	(_s_col1),a
-2927  0CB6  2A 00 00    	ld	hl,(_index1)
-2928  0CB9  4D          	ld	c,l
-2929  0CBA  5C          	ld	e,h
-2930  0CBB  06 05       	ld	b,0x05
-2931  0CBD  79          	ld	a,c
-2932  0CBE              l_spr_mapfix_00116:
-2933  0CBE  CB 3B       	srl	e
-2934  0CC0  1F          	rra
-2935  0CC1  10 FB       	djnz	l_spr_mapfix_00116
-2936  0CC3  21 00 00    	ld	hl,_s_lin1
-2937  0CC6  77          	ld	(hl),a
-2938  0CC7  07          	rlca
-2939  0CC8  07          	rlca
-2940  0CC9  07          	rlca
-2941  0CCA  E6 F8       	and	a,0xf8
-2942  0CCC  77          	ld	(hl), a
-2943  0CCD  01 00 00    	ld	bc,_lvl_1
-2944  0CD0  2A 00 00    	ld	hl,(_index1)
-2945  0CD3  09          	add	hl,bc
-2946  0CD4  7E          	ld	a,(hl)
-2947  0CD5  32 00 00    	ld	(_s_tile0),a
-2948  0CD8  D6 8B       	sub	a,0x8b
-2949  0CDA  20 07       	jr	NZ,l_spr_mapfix_00102
-2950  0CDC  21 00 00    	ld	hl,_s_tile0
-2951  0CDF  36 8B       	ld	(hl),0x8b
-2952  0CE1  18 06       	jr	l_spr_mapfix_00103
-2953  0CE3              l_spr_mapfix_00102:
-2954  0CE3  3A 00 00    	ld	a,(_game_brick_tile)
-2955  0CE6  32 00 00    	ld	(_s_tile0),a
-2956  0CE9              l_spr_mapfix_00103:
-2957  0CE9  76          	halt
-2958  0CEA  F3          	di
-2959  0CEB  2A FF FF    	ld	hl,(_s_col1 - 1)
-2960  0CEE  3A 00 00    	ld	a,(_s_lin1)
-2961  0CF1  6F          	ld	l,a
-2962  0CF2  3A 00 00    	ld	a,(_s_tile0)
-2963  0CF5  E5          	push	hl
-2964  0CF6  F5          	push	af
-2965  0CF7  33          	inc	sp
-2966  0CF8  CD 00 00    	call	_NIRVANAP_drawT_raw_callee
-2967  0CFB  FB          	ei
-2968  0CFC  21 00 00    	ld	hl,_game_ugly_fix_cnt
-2969  0CFF  7E          	ld	a,(hl)
-2970  0D00  3C          	inc	a
-2971  0D01  77          	ld	(hl),a
-2972  0D02  D6 0A       	sub	a,0x0a
-2973  0D04  D8          	ret	C
-2974  0D05  36 00       	ld	(hl),0x00
-2975  0D07  C9          	ret
-2976  0D08              	SECTION IGNORE
-2977  0000              
+2836  0C34  3E 03       	ld	a,0x03
+2837  0C36  21 00 00    	ld	hl,_tmp_ui
+2838  0C39  BE          	cp	a, (hl)
+2839  0C3A  3E 00       	ld	a,0x00
+2840  0C3C  23          	inc	hl
+2841  0C3D  9E          	sbc	a, (hl)
+2842  0C3E  30 04       	jr	NC,l_spr_collision_check_00107
+2843  0C40  2E 00       	ld	l,0x00
+2844  0C42  18 02       	jr	l_spr_collision_check_00109
+2845  0C44              l_spr_collision_check_00107:
+2846  0C44  2E 01       	ld	l,0x01
+2847  0C46              l_spr_collision_check_00109:
+2848  0C46  DD E1       	pop	ix
+2849  0C48  C9          	ret
+2850  0C49              	SECTION code_compiler
+2851  0C49              ;	---------------------------------
+2852  0C49              ; Function spr_kill_all
+2853  0C49              ; ---------------------------------
+2854  0C49              _spr_kill_all:
+2855  0C49  21 00 00    	ld	hl,_sprite
+2856  0C4C  36 00       	ld	(hl),0x00
+2857  0C4E              l_spr_kill_all_00102:
+2858  0C4E  2A 00 00    	ld	hl,(_sprite)
+2859  0C51  CD 37 05    	call	_spr_destroy
+2860  0C54  21 00 00    	ld	hl,_sprite
+2861  0C57  7E          	ld	a,(hl)
+2862  0C58  3C          	inc	a
+2863  0C59  77          	ld	(hl),a
+2864  0C5A  D6 08       	sub	a,0x08
+2865  0C5C  38 F0       	jr	C,l_spr_kill_all_00102
+2866  0C5E  C9          	ret
+2867  0C5F              	SECTION code_compiler
+2868  0C5F              ;	---------------------------------
+2869  0C5F              ; Function spr_back_clr
+2870  0C5F              ; ---------------------------------
+2871  0C5F              _spr_back_clr:
+2872  0C5F  2A FF FF    	ld	hl,(_s_col0 - 1)
+2873  0C62  3A 00 00    	ld	a,(_s_lin0)
+2874  0C65  6F          	ld	l,a
+2875  0C66  E5          	push	hl
+2876  0C67  AF          	xor	a, a
+2877  0C68  F5          	push	af
+2878  0C69  33          	inc	sp
+2879  0C6A  CD 00 00    	call	_NIRVANAP_fillC_callee
+2880  0C6D  3A 00 00    	ld	a,(_s_lin0)
+2881  0C70  C6 08       	add	a,0x08
+2882  0C72  4F          	ld	c, a
+2883  0C73  3A 00 00    	ld	a, (_s_col0)
+2884  0C76  47          	ld	b,a
+2885  0C77  C5          	push	bc
+2886  0C78  AF          	xor	a, a
+2887  0C79  F5          	push	af
+2888  0C7A  33          	inc	sp
+2889  0C7B  CD 00 00    	call	_NIRVANAP_fillC_callee
+2890  0C7E  21 00 00    	ld	hl,_s_col0
+2891  0C81  46          	ld	b, (hl)
+2892  0C82  04          	inc	b
+2893  0C83  C5          	push	bc
+2894  0C84  33          	inc	sp
+2895  0C85  2A FF FF    	ld	hl,(_s_lin0 - 1)
+2896  0C88  AF          	xor	a,a
+2897  0C89  6F          	ld	l,a
+2898  0C8A  E5          	push	hl
+2899  0C8B  CD 00 00    	call	_NIRVANAP_fillC_callee
+2900  0C8E  21 00 00    	ld	hl,_s_col0
+2901  0C91  56          	ld	d, (hl)
+2902  0C92  14          	inc	d
+2903  0C93  3A 00 00    	ld	a,(_s_lin0)
+2904  0C96  C6 08       	add	a,0x08
+2905  0C98  5F          	ld	e, a
+2906  0C99  D5          	push	de
+2907  0C9A  AF          	xor	a, a
+2908  0C9B  F5          	push	af
+2909  0C9C  33          	inc	sp
+2910  0C9D  CD 00 00    	call	_NIRVANAP_fillC_callee
+2911  0CA0  C9          	ret
+2912  0CA1              	SECTION code_compiler
+2913  0CA1              ;	---------------------------------
+2914  0CA1              ; Function spr_mapfix
+2915  0CA1              ; ---------------------------------
+2916  0CA1              _spr_mapfix:
+2917  0CA1  2A 00 00    	ld	hl,(_game_ugly_fix_cnt)
+2918  0CA4  26 00       	ld	h,0x00
+2919  0CA6  29          	add	hl, hl
+2920  0CA7  11 00 00    	ld	de,_fix_1
+2921  0CAA  19          	add	hl, de
+2922  0CAB  11 00 00    	ld	de,_index1
+2923  0CAE  ED A0       	ldi
+2924  0CB0  7E          	ld	a,(hl)
+2925  0CB1  12          	ld	(de),a
+2926  0CB2  3A 00 00    	ld	a,(_index1)
+2927  0CB5  E6 1F       	and	a,0x1f
+2928  0CB7  32 00 00    	ld	(_s_col1),a
+2929  0CBA  2A 00 00    	ld	hl,(_index1)
+2930  0CBD  4D          	ld	c,l
+2931  0CBE  5C          	ld	e,h
+2932  0CBF  06 05       	ld	b,0x05
+2933  0CC1  79          	ld	a,c
+2934  0CC2              l_spr_mapfix_00116:
+2935  0CC2  CB 3B       	srl	e
+2936  0CC4  1F          	rra
+2937  0CC5  10 FB       	djnz	l_spr_mapfix_00116
+2938  0CC7  21 00 00    	ld	hl,_s_lin1
+2939  0CCA  77          	ld	(hl),a
+2940  0CCB  07          	rlca
+2941  0CCC  07          	rlca
+2942  0CCD  07          	rlca
+2943  0CCE  E6 F8       	and	a,0xf8
+2944  0CD0  77          	ld	(hl), a
+2945  0CD1  01 00 00    	ld	bc,_lvl_1
+2946  0CD4  2A 00 00    	ld	hl,(_index1)
+2947  0CD7  09          	add	hl,bc
+2948  0CD8  7E          	ld	a,(hl)
+2949  0CD9  32 00 00    	ld	(_s_tile0),a
+2950  0CDC  D6 8B       	sub	a,0x8b
+2951  0CDE  20 07       	jr	NZ,l_spr_mapfix_00102
+2952  0CE0  21 00 00    	ld	hl,_s_tile0
+2953  0CE3  36 8B       	ld	(hl),0x8b
+2954  0CE5  18 06       	jr	l_spr_mapfix_00103
+2955  0CE7              l_spr_mapfix_00102:
+2956  0CE7  3A 00 00    	ld	a,(_game_brick_tile)
+2957  0CEA  32 00 00    	ld	(_s_tile0),a
+2958  0CED              l_spr_mapfix_00103:
+2959  0CED  76          	halt
+2960  0CEE  F3          	di
+2961  0CEF  2A FF FF    	ld	hl,(_s_col1 - 1)
+2962  0CF2  3A 00 00    	ld	a,(_s_lin1)
+2963  0CF5  6F          	ld	l,a
+2964  0CF6  3A 00 00    	ld	a,(_s_tile0)
+2965  0CF9  E5          	push	hl
+2966  0CFA  F5          	push	af
+2967  0CFB  33          	inc	sp
+2968  0CFC  CD 00 00    	call	_NIRVANAP_drawT_raw_callee
+2969  0CFF  FB          	ei
+2970  0D00  21 00 00    	ld	hl,_game_ugly_fix_cnt
+2971  0D03  7E          	ld	a,(hl)
+2972  0D04  3C          	inc	a
+2973  0D05  77          	ld	(hl),a
+2974  0D06  D6 0A       	sub	a,0x0a
+2975  0D08  D8          	ret	C
+2976  0D09  36 00       	ld	(hl),0x00
+2977  0D0B  C9          	ret
+2978  0D0C              	SECTION IGNORE
+2979  0000              

@@ -1940,19 +1940,19 @@
 1932  066D              _game_bonus_clock:
 1933  066D  2A 00 00    	ld	hl,(_curr_time)
 1934  0670  29          	add	hl,hl
-1935  0671  3E 40       	ld	a,0x40
+1935  0671  3E D0       	ld	a,0xd0
 1936  0673  95          	sub	a,l
 1937  0674  44          	ld	b,h
 1938  0675  21 00 00    	ld	hl,_tmp_ui
 1939  0678  77          	ld	(hl), a
-1940  0679  3E 06       	ld	a,0x06
+1940  0679  3E 07       	ld	a,0x07
 1941  067B  98          	sbc	a, b
 1942  067C  23          	inc	hl
 1943  067D  77          	ld	(hl), a
-1944  067E  3E 40       	ld	a,0x40
+1944  067E  3E D0       	ld	a,0xd0
 1945  0680  2B          	dec	hl
 1946  0681  BE          	cp	a, (hl)
-1947  0682  3E 06       	ld	a,0x06
+1947  0682  3E 07       	ld	a,0x07
 1948  0684  23          	inc	hl
 1949  0685  9E          	sbc	a, (hl)
 1950  0686  30 25       	jr	NC,l_game_bonus_clock_00108
@@ -3971,7 +3971,7 @@
 3946  1319              l_game_end_00210:
 3947  1319  AF          	xor	a,a
 3948  131A              l_game_end_00211:
-3949  131A  DD 77 FE    	ld	(ix-2),a
+3949  131A  DD 77 FF    	ld	(ix-1),a
 3950  131D  B7          	or	a, a
 3951  131E  28 1C       	jr	Z,l_game_end_00113
 3952  1320  DD 7E FC    	ld	a,(ix-4)
@@ -3997,11 +3997,11 @@
 3972  1346              l_game_end_00212:
 3973  1346  AF          	xor	a,a
 3974  1347              l_game_end_00213:
-3975  1347  DD 77 FF    	ld	(ix-1),a
+3975  1347  DD 77 FE    	ld	(ix-2),a
 3976  134A  DD 7E FD    	ld	a,(ix-3)
 3977  134D  B7          	or	a, a
 3978  134E  20 1C       	jr	NZ,l_game_end_00116
-3979  1350  DD 7E FF    	ld	a,(ix-1)
+3979  1350  DD 7E FE    	ld	a,(ix-2)
 3980  1353  B7          	or	a, a
 3981  1354  28 16       	jr	Z,l_game_end_00116
 3982  1356  21 5A 01    	ld	hl,___str_40
@@ -4016,10 +4016,10 @@
 3991  1368  33          	inc	sp
 3992  1369  CD 00 00    	call	_NIRVANAP_drawT_callee
 3993  136C              l_game_end_00116:
-3994  136C  DD 7E FE    	ld	a,(ix-2)
+3994  136C  DD 7E FF    	ld	a,(ix-1)
 3995  136F  B7          	or	a, a
 3996  1370  28 27       	jr	Z,l_game_end_00119
-3997  1372  DD 7E FF    	ld	a,(ix-1)
+3997  1372  DD 7E FE    	ld	a,(ix-2)
 3998  1375  B7          	or	a, a
 3999  1376  28 21       	jr	Z,l_game_end_00119
 4000  1378  21 63 01    	ld	hl,___str_41
@@ -4051,7 +4051,7 @@
 4026  13A8  F1          	pop	af
 4027  13A9  F1          	pop	af
 4028  13AA  33          	inc	sp
-4029  13AB  DD 7E FE    	ld	a,(ix-2)
+4029  13AB  DD 7E FF    	ld	a,(ix-1)
 4030  13AE  B7          	or	a, a
 4031  13AF  28 32       	jr	Z,l_game_end_00122
 4032  13B1  DD 7E FC    	ld	a,(ix-4)
@@ -4084,7 +4084,7 @@
 4059  13E3  DD 7E FD    	ld	a,(ix-3)
 4060  13E6  B7          	or	a, a
 4061  13E7  20 32       	jr	NZ,l_game_end_00125
-4062  13E9  DD 7E FF    	ld	a,(ix-1)
+4062  13E9  DD 7E FE    	ld	a,(ix-2)
 4063  13EC  B7          	or	a, a
 4064  13ED  28 2C       	jr	Z,l_game_end_00125
 4065  13EF  21 50 12    	ld	hl,0x1250
@@ -4111,10 +4111,10 @@
 4086  1417  33          	inc	sp
 4087  1418  CD 00 00    	call	_NIRVANAP_drawT_callee
 4088  141B              l_game_end_00125:
-4089  141B  DD 7E FE    	ld	a,(ix-2)
+4089  141B  DD 7E FF    	ld	a,(ix-1)
 4090  141E  B7          	or	a, a
 4091  141F  28 53       	jr	Z,l_game_end_00128
-4092  1421  DD 7E FF    	ld	a,(ix-1)
+4092  1421  DD 7E FE    	ld	a,(ix-2)
 4093  1424  B7          	or	a, a
 4094  1425  28 4D       	jr	Z,l_game_end_00128
 4095  1427  21 8B 01    	ld	hl,___str_43
@@ -4336,15 +4336,15 @@
 4305  1556  CA A4 16    	jp	Z, l_game_hall_enter_00126
 4306  1559              l_game_hall_enter_00125:
 4307  1559  3E 00       	ld	a,0x00
-4308  155B  DD 77 FA    	ld	(ix-6),a
-4309  155E  DD 77 F9    	ld	(ix-7),a
-4310  1561  DD 77 F8    	ld	(ix-8),a
-4311  1564  DD 77 F7    	ld	(ix-9),a
-4312  1567  DD 36 FB 00 	ld	(ix-5),0x00
+4308  155B  DD 77 FB    	ld	(ix-5),a
+4309  155E  DD 77 FA    	ld	(ix-6),a
+4310  1561  DD 77 F9    	ld	(ix-7),a
+4311  1564  DD 77 F8    	ld	(ix-8),a
+4312  1567  DD 36 F7 00 	ld	(ix-9),0x00
 4313  156B  78          	ld	a, b
 4314  156C  B1          	or	a,c
 4315  156D  28 0D       	jr	Z,l_game_hall_enter_00105
-4316  156F  DD 36 F7 01 	ld	(ix-9),0x01
+4316  156F  DD 36 F8 01 	ld	(ix-8),0x01
 4317  1573  C5          	push	bc
 4318  1574  D5          	push	de
 4319  1575  2E 00       	ld	l,0x00
@@ -4355,7 +4355,7 @@
 4324  157C  7A          	ld	a, d
 4325  157D  B3          	or	a,e
 4326  157E  28 0D       	jr	Z,l_game_hall_enter_00107
-4327  1580  DD 36 FB 05 	ld	(ix-5),0x05
+4327  1580  DD 36 F7 05 	ld	(ix-9),0x05
 4328  1584  C5          	push	bc
 4329  1585  D5          	push	de
 4330  1586  2E 01       	ld	l,0x01
@@ -4387,8 +4387,8 @@
 4356  15B8  DD 73 FC    	ld	(ix-4),e
 4357  15BB  DD 72 FD    	ld	(ix-3),d
 4358  15BE              l_game_hall_enter_00122:
-4359  15BE  DD 7E F7    	ld	a,(ix-9)
-4360  15C1  DD 86 FB    	add	a,(ix-5)
+4359  15BE  DD 7E F8    	ld	a,(ix-8)
+4360  15C1  DD 86 F7    	add	a,(ix-9)
 4361  15C4  B7          	or	a, a
 4362  15C5  CA 8C 16    	jp	Z, l_game_hall_enter_00124
 4363  15C8  21 05 00    	ld	hl,0x0005
@@ -4401,25 +4401,25 @@
 4370  15D5  7D          	ld	a, l
 4371  15D6  B7          	or	a, a
 4372  15D7  28 36       	jr	Z,l_game_hall_enter_00113
-4373  15D9  DD 7E F8    	ld	a,(ix-8)
+4373  15D9  DD 7E F9    	ld	a,(ix-7)
 4374  15DC  D6 01       	sub	a,0x01
 4375  15DE  3E 00       	ld	a,0x00
 4376  15E0  17          	rla
-4377  15E1  DD 77 F8    	ld	(ix-8),a
-4378  15E4  DD 7E F7    	ld	a,(ix-9)
+4377  15E1  DD 77 F9    	ld	(ix-7),a
+4378  15E4  DD 7E F8    	ld	a,(ix-8)
 4379  15E7  B7          	or	a, a
 4380  15E8  28 0B       	jr	Z,l_game_hall_enter_00109
-4381  15EA  DD 66 F8    	ld	h,(ix-8)
-4382  15ED  DD 6E F7    	ld	l,(ix-9)
+4381  15EA  DD 66 F9    	ld	h,(ix-7)
+4382  15ED  DD 6E F8    	ld	l,(ix-8)
 4383  15F0  E5          	push	hl
 4384  15F1  CD 8D 17    	call	_game_hall_print_p
 4385  15F4  F1          	pop	af
 4386  15F5              l_game_hall_enter_00109:
-4387  15F5  DD 7E FB    	ld	a,(ix-5)
+4387  15F5  DD 7E F7    	ld	a,(ix-9)
 4388  15F8  B7          	or	a, a
 4389  15F9  28 0B       	jr	Z,l_game_hall_enter_00111
-4390  15FB  DD 66 F8    	ld	h,(ix-8)
-4391  15FE  DD 6E FB    	ld	l,(ix-5)
+4390  15FB  DD 66 F9    	ld	h,(ix-7)
+4391  15FE  DD 6E F7    	ld	l,(ix-9)
 4392  1601  E5          	push	hl
 4393  1602  CD 8D 17    	call	_game_hall_print_p
 4394  1605  F1          	pop	af
@@ -4435,15 +4435,15 @@
 4404  1619  F1          	pop	af
 4405  161A  7D          	ld	a,l
 4406  161B  32 00 00    	ld	(_dirs),a
-4407  161E  DD 7E FA    	ld	a,(ix-6)
+4407  161E  DD 7E FB    	ld	a,(ix-5)
 4408  1621  B7          	or	a, a
 4409  1622  20 22       	jr	NZ,l_game_hall_enter_00115
-4410  1624  DD 7E F7    	ld	a,(ix-9)
+4410  1624  DD 7E F8    	ld	a,(ix-8)
 4411  1627  B7          	or	a, a
 4412  1628  28 1C       	jr	Z,l_game_hall_enter_00115
-4413  162A  DD 6E F7    	ld	l,(ix-9)
+4413  162A  DD 6E F8    	ld	l,(ix-8)
 4414  162D  CD BC 17    	call	_game_hall_edit_p
-4415  1630  DD 75 F7    	ld	(ix-9),l
+4415  1630  DD 75 F8    	ld	(ix-8),l
 4416  1633  7D          	ld	a,l
 4417  1634  B7          	or	a, a
 4418  1635  20 0F       	jr	NZ,l_game_hall_enter_00115
@@ -4457,7 +4457,7 @@
 4426  1644  20 FB       	jr	NZ, l_game_hall_enter_00190
 4427  1646              l_game_hall_enter_00115:
 4428  1646  3A 00 00    	ld	a,(_dirs)
-4429  1649  DD 77 FA    	ld	(ix-6),a
+4429  1649  DD 77 FB    	ld	(ix-5),a
 4430  164C  21 00 00    	ld	hl,_k2
 4431  164F  E5          	push	hl
 4432  1650  2A 00 00    	ld	hl,(_joyfunc2)
@@ -4465,15 +4465,15 @@
 4434  1656  F1          	pop	af
 4435  1657  7D          	ld	a,l
 4436  1658  32 00 00    	ld	(_dirs),a
-4437  165B  DD 7E F9    	ld	a,(ix-7)
+4437  165B  DD 7E FA    	ld	a,(ix-6)
 4438  165E  B7          	or	a, a
 4439  165F  20 22       	jr	NZ,l_game_hall_enter_00119
-4440  1661  DD 7E FB    	ld	a,(ix-5)
+4440  1661  DD 7E F7    	ld	a,(ix-9)
 4441  1664  B7          	or	a, a
 4442  1665  28 1C       	jr	Z,l_game_hall_enter_00119
-4443  1667  DD 6E FB    	ld	l,(ix-5)
+4443  1667  DD 6E F7    	ld	l,(ix-9)
 4444  166A  CD BC 17    	call	_game_hall_edit_p
-4445  166D  DD 75 FB    	ld	(ix-5),l
+4445  166D  DD 75 F7    	ld	(ix-9),l
 4446  1670  7D          	ld	a,l
 4447  1671  B7          	or	a, a
 4448  1672  20 0F       	jr	NZ,l_game_hall_enter_00119
@@ -4487,7 +4487,7 @@
 4456  1681  20 FB       	jr	NZ, l_game_hall_enter_00191
 4457  1683              l_game_hall_enter_00119:
 4458  1683  3A 00 00    	ld	a,(_dirs)
-4459  1686  DD 77 F9    	ld	(ix-7),a
+4459  1686  DD 77 FA    	ld	(ix-6),a
 4460  1689  C3 BE 15    	jp	l_game_hall_enter_00122
 4461  168C              l_game_hall_enter_00124:
 4462  168C  CD 00 00    	call	_ay_reset

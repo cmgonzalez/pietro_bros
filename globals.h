@@ -177,7 +177,7 @@
 /* Game times */
 #define TIME_WATER_SPLASH             15
 #define TIME_EVENT                    100
-#define TIME_BONUS                    1600   //15 SECONDS IN HUNDREDTHS (ORIG IS 30, TO EASY 4 PIETRO)
+#define TIME_BONUS                    2000 //15 SECONDS IN HUNDREDTHS (ORIG IS 30, TO EASY 4 PIETRO)
 #define TIME_FIREBALL_RED             1500 //30 SECONDS (50HZ)
 #define TIME_FIREBALL_A               2000 //40 - ORIG 80 SECONDS (50HZ)
 #define TIME_FIREBALL_B               500  //15 - ORIG 60 SECONDS (50HZ)

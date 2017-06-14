@@ -619,7 +619,7 @@ unsigned char spr_collision_check(unsigned char f_sprite1, unsigned char f_sprit
   v1 = spr_calc_hor(f_sprite1);
 	v2 = spr_calc_hor(f_sprite2);
 	tmp_ui = abs( v1 - v2 );
-	if ( tmp_ui >= 6 ) {
+	if ( tmp_ui > 3 ) {
 		return 0;
 	} else {
 		return 1;
