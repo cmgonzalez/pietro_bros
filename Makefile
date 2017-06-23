@@ -16,12 +16,12 @@ CFLAGS = -SO3 --max-allocs-per-node200000 --opt-code-size
 default: loader.tap pietro_scr.bin pietro.font $(OUT)
 	-ls -l *.bin
 	-rm -f *.bin *.tap *.font *.zx7 pietro_bros zcc_proj.lst zcc_opt.def
-	grep __size pietro_bros.map
+	grep code_compiler_size pietro_bros.map
 
 zx7: loader.tap pietro_scr.bin pietro.font $(OUTC)
 	-ls -l *.bin
 	-rm -f *.bin *.tap *.font *.zx7 pietro_bros zcc_proj.lst zcc_opt.def
-	grep __size pietro_bros.map
+	grep code_compiler_size pietro_bros.map
 
 loader.tap: src_tap/loader.bas
 	src_tap/bas2tap -sPietro -a10 src_tap/loader.bas loader.tap > /dev/null
@@ -43,7 +43,7 @@ $(OUT): $(OBJS) $(ASRC) mmap.inc
 	appmake +zx -b pietro_bros_CODE.bin -o pietro.tap --org 23552 --noloader --noheader
 	appmake +zx -b pietro_bros_BANK_06.bin -o pietro_ay.tap --org 49152 --noloader --noheader
 	cat loader.tap mcload.tap mcloader.tap pietro_scr.tap nirvanap.tap pietro.tap pietro_ay.tap > $(OUT)
-	grep __size pietro_bros.map
+	grep code_compiler_size pietro_bros.map
 
 $(OUTC): $(OBJS) $(ASRC) mmap.inc
 	-rm -f $(OUTC)
@@ -66,7 +66,7 @@ $(OUTC): $(OBJS) $(ASRC) mmap.inc
 	appmake +zx -b pietro_bros_CODE.bin.zx7 -o pietro.tap --org 23552 --noloader --noheader
 	appmake +zx -b pietro_bros_BANK_06.bin.zx7 -o pietro_ay.tap --org 49152 --noloader --noheader
 	cat loader.tap mcload.tap mcloader.tap pietro_scr.tap nirvanap.tap pietro.tap pietro_ay.tap > $(OUTC)
-	grep __size pietro_bros.map
+	grep code_compiler_size pietro_bros.map
 
 .c.o:
 	zcc +zx -vn --list -c -clib=sdcc_iy $(CFLAGS) --fsigned-char $<
