@@ -64,6 +64,7 @@ void main(void) {
 	game_start_phase = 0;
 	game_god_mode = 0;
 	game_inmune = 0;
+	game_debug = 0;
 	//INTERRUPTS ARE DISABLED
 
 	//RESET AY CHIP
@@ -92,8 +93,7 @@ void main(void) {
 
 	game_type = 0;
 
-	player_joy[0] = 0; /* SJ1 */
-	player_joy[1] = 1; /* SJ2 */
+
 
 	//Keyboard Handling
 
@@ -109,7 +109,9 @@ void main(void) {
 	k2.up    = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise up is always true
 	k2.down  = IN_KEY_SCANCODE_DISABLE;   // must be defined otherwise down is always true
 
-	game_joystick_set_menu();
+	player_joy[0] = 0; /* SJ1 */
+	player_joy[1] = 1; /* SJ2 */
+	game_joystick_set();
 
 	zx_border(INK_BLACK);
 
@@ -128,5 +130,8 @@ void main(void) {
 
 	frame_time = zx_clock();
 	//GAME MENU
-	game_menu();
+	while (1) {
+		game_menu();
+		game_loop();
+	}
 }

@@ -206,7 +206,7 @@ void player_turn(void) {
 			if (sprite == SPR_P1) {
 				dirs = (joyfunc1) (&k1);
 			} else {
-				dirs = (joyfunc2) (&k1);
+				dirs = (joyfunc2) (&k2);
 			}
 			player_move();
 			player_collision();
@@ -534,7 +534,7 @@ unsigned char player_hit_pow(void){
 		game_pow--;
 
 		for (enemies = 0; enemies < 6 ; ++enemies){
-			if ( !game_check_maze( game_calc_index( lin[enemies] + 16, col[enemies] ) ) ){
+			if ( !game_check_map( game_calc_index( lin[enemies] + 16, col[enemies] ) ) ){
 				enemy_hit();
 			}
 			zx_border(INK_WHITE);
@@ -584,42 +584,52 @@ void player_coin(unsigned char f_enemies, unsigned char f_score) {
 
 
 void player_score_add(unsigned int f_score) __z88dk_fastcall {
-	player_score[index_player] = player_score[index_player] + f_score;
-	//CHECK FOR TOP SCORE
-	if ( player_score[index_player] > game_score_top ) {
-		game_score_top = player_score[index_player];
-	}
-	//CHECK FOR EXTRA LIFE
-	if ( player_score[index_player] > player_next_extra[index_player] ) {
-		player_next_extra[index_player] += GAME_EXTRA_LIFE;
-		++game_lives[index_player];
-		//GAME_EXTRA_LIFE
-		hit_count = 16;
-		if(!game_bonus) game_print_lives();
+ tmp_ui = 65535 - player_score[index_player];
+  if ( f_score < tmp_ui  ) {
+    player_score[index_player] = player_score[index_player] + f_score;
+    //CHECK FOR TOP SCORE
+    if ( player_score[index_player] > game_score_top ) {
+      game_score_top = player_score[index_player];
+    }
+    //CHECK FOR EXTRA LIFE
+    if ( player_score[index_player] > player_next_extra[index_player] ) {
+      player_next_extra[index_player] += GAME_EXTRA_LIFE;
+      if (game_lives[index_player] < 100) {
+        ++game_lives[index_player];
+      }
 
-		for (tmp0 = 0; tmp0 < 6 ; ++tmp0){
-			if (index_player == 0) {
-				zx_border(INK_BLUE);
-			} else {
-		    zx_border(INK_WHITE);
-			}
-			z80_delay_ms(5);
-			if (index_player == 0) {
-				zx_border(INK_RED);
-			} else {
-			  zx_border(INK_GREEN);
-			}
-			z80_delay_ms(5);
-		}
+      //GAME_EXTRA_LIFE
+      hit_count = 16;
+      if(!game_bonus) game_print_lives();
 
-		sound_coin();
-		sound_coin();
-		sound_coin();
-	  sound_coin();
-		zx_border(INK_BLACK);
+      for (tmp0 = 0; tmp0 < 6 ; ++tmp0){
+        if (index_player == 0) {
+          zx_border(INK_BLUE);
+        } else {
+          zx_border(INK_WHITE);
+        }
+        z80_delay_ms(5);
+        if (index_player == 0) {
+          zx_border(INK_RED);
+        } else {
+          zx_border(INK_GREEN);
+        }
+        z80_delay_ms(5);
+      }
 
-		hit_count = 8; //IMPOSIBLE WE HAVE 6 ENEMIES
-	}
+      sound_coin();
+      sound_coin();
+      sound_coin();
+      sound_coin();
+      zx_border(INK_BLACK);
+
+      hit_count = 8; //IMPOSIBLE WE HAVE 6 ENEMIES
+    }
+  } else {
+    player_score[index_player] = 65535;
+    game_score_top = 65535;
+  }
+
 	game_print_score();
 }
 

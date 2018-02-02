@@ -63,7 +63,9 @@ unsigned char hit_lin[2];				//HIT BRICK LINE
 unsigned char hit_col[2];				//HIT BRICK COL
 unsigned char player_jump_c[2];			//JUMP CNT TIME y = a*t^2 + b*t + c https://www.wired.com/2016/12/lets-go-physics-jumping-super-mario-run/
 unsigned char sliding[2];				//SLIDING COUNTER
+
 unsigned int  player_score[2];			//SCORE ARRAYS
+
 unsigned int  player_next_extra[2];		//SCORE ARRAYS
 unsigned int  player_joy[2];			//JOYSTICK ARRAYS
 
@@ -116,6 +118,7 @@ unsigned char game_two_player;
 unsigned char game_start_phase;
 unsigned char game_god_mode;
 unsigned char game_inmune;
+unsigned char	game_debug;
 
 unsigned char	game_sound;
 unsigned char	game_over;

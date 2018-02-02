@@ -257,12 +257,14 @@ void enemy_turn(void){
 					enemy_slipice();
 				break;
 				case COIN_1:
+					enemy_collision();
 					enemy_coin1();
 				break;
 				case COIN_2:
 					enemy_coin2();
 				break;
 				default:
+					enemy_collision();
 					enemy_standard();
 				break;
 			}
@@ -530,10 +532,10 @@ void enemy_walk(void){
 			//index_d = 0;
 			tmp = 0;
 		} else {
-			tmp = game_check_maze(game_calc_index(lin[sprite] + 16,col[sprite]));
+			tmp = game_check_map(game_calc_index(lin[sprite] + 16, col[sprite]));
 		}
 	} else {
-		tmp = game_check_maze( game_calc_index( lin[sprite] + 16 , col[sprite] ) );
+		tmp = game_check_map( game_calc_index( lin[sprite] + 16 , col[sprite] ) );
 	}
 
 	if ( tmp ) {
@@ -551,8 +553,8 @@ void enemy_walk(void){
 		}
 		sprite_speed_alt[sprite] = ENEMY_FALL_SPEED;
 		tmp = 1;
-		tmp0 = game_check_maze( game_calc_index( lin[sprite]+16, col[sprite] + 1 ) );
-		tmp1 = game_check_maze( game_calc_index( lin[sprite]+16, col[sprite] - 1 ) );
+		tmp0 = game_check_map( game_calc_index( lin[sprite]+16, col[sprite] + 1 ) );
+		tmp1 = game_check_map( game_calc_index( lin[sprite]+16, col[sprite] - 1 ) );
 		tmp = !tmp0 && !tmp1;
 		if ( tmp && ( lin[sprite] - jump_lin[sprite] <= 8 ) ) spr_move_horizontal();
 	} else {
@@ -563,7 +565,8 @@ void enemy_walk(void){
 			sprite_speed_alt[sprite] = 0;
 		}
 		if ( !BIT_CHK(state_a[sprite], STAT_TURN) ) {
-			if ( (loop_count & 3) == 0 ) enemy_collision();
+			//if ( (loop_count & 3) == 0 )
+			 //Slow but better look
 			spr_move_horizontal();
 		} else {
 			spr_timer[sprite] = zx_clock();

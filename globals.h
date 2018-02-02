@@ -211,7 +211,7 @@ typedef struct {
 	unsigned int  score;
 } HOF_ENTRY;
 
-typedef uint16_t (*JOYFUNC)(udk_t *);
+//typedef uint16_t (*JOYFUNC)(udk_t *);
 #endif
 
 
@@ -284,6 +284,7 @@ extern unsigned char  game_start_phase;
 extern unsigned char  game_god_mode;
 extern unsigned char  game_inmune;
 extern unsigned char	game_sound;
+extern unsigned char	game_debug;
 
 extern unsigned char	game_over;
 extern unsigned char	game_lives[2];

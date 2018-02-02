@@ -30,7 +30,7 @@ extern unsigned char game_phase_calc(void);
 extern void			     game_phase_init(void);
 extern void			     game_phase_print(unsigned char f_row) __z88dk_fastcall;
 extern void			     game_loop(void);
-extern unsigned char game_check_maze(int f_index) __z88dk_fastcall;
+extern unsigned char game_check_map(int f_index) __z88dk_fastcall;
 extern unsigned char game_check_floor(int f_index) __z88dk_fastcall;
 extern unsigned char game_enemy_add(void);
 extern unsigned char game_enemy_rnd(void);
@@ -71,7 +71,6 @@ extern void          game_hall_print_p(unsigned char index, unsigned char frame)
 extern void          game_hall_print_p2(unsigned char index, char col, unsigned char frame);
 extern void          game_joystick_change(unsigned char f_player_index) __z88dk_fastcall;
 extern void          game_joystick_set(void);
-extern void          game_joystick_set_menu(void);
 
 
 #endif

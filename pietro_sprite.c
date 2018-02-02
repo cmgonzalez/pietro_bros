@@ -48,7 +48,7 @@ unsigned char spr_move_up( void ){
 	tmp1 = lin[sprite] - (SPRITE_LIN_INC << sprite_lin_inc_mul); /* x << k == x multiplied by 2 to the power of k */
 	if ( class[sprite] == PLAYER || class[sprite] == FIREBALL_RED) {
 			index1 = game_calc_index( tmp1 , col[sprite]);
-			if ( !game_check_maze( index1 ) ) {
+			if ( !game_check_map( index1 ) ) {
 				/* Only Players can hit objects */
 				if (sprite >= SPR_P2 && !BIT_CHK( state_a[sprite] , STAT_HITBRICK ) ) {
 					if (  !player_hit_pow() ) {
