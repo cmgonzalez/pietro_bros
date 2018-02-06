@@ -96,3 +96,8 @@ RUNTIME MEMORY MAP:
 49152 - 55587     AY Music, Sound Effects and Players
 
 ==============================================================================
+
+Version 1.92
+-Fix enemies flip, they we're staying on air.
+-Menu selects with any key
+-Slide is back

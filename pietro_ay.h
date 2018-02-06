@@ -42,11 +42,11 @@ extern unsigned char pb_midi_phase_1[];               // phase 1 preamble
 extern unsigned char ay_effect_01[]; //SLIDE
 extern unsigned char ay_effect_02[]; //FLIP ENEMY
 extern unsigned char ay_effect_03[]; //JUMP
-extern unsigned char ay_effect_04[]; //ENEMY ENTER
-extern unsigned char ay_effect_05[];
+extern unsigned char ay_effect_04[]; //SHELLCREPPER ENTER
+extern unsigned char ay_effect_05[]; //SIDESTEPPER ENTER
 extern unsigned char ay_effect_06[]; //HIT POW
 extern unsigned char ay_effect_07[]; //COIN ENTER
-extern unsigned char ay_effect_08[];
+extern unsigned char ay_effect_08[]; //WATER SPLASH
 extern unsigned char ay_effect_09[]; //COIN ON BONUS
 extern unsigned char ay_effect_10[]; //HIT COIN
 extern unsigned char ay_effect_11[]; //ENEMY KILL

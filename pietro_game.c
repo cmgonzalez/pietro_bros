@@ -107,7 +107,7 @@ unsigned char game_phase_calc(void) {
 }
 
 void game_phase_init(void) {
-
+  ay_reset();
   /*PHASE INIT*/
   loop_count = 0;
   phase_end = 0;
@@ -152,7 +152,7 @@ void game_phase_init(void) {
   }
 
   /* Phase Tune */
-  ay_reset();
+
   if (game_bonus == 0)
     ay_midi_play(pb_midi_phase_1);
   /* Phase Draw Start */
@@ -171,7 +171,6 @@ void game_phase_init(void) {
   game_osd = 1;
   osd_update_time = zx_clock();
   osd_show_time = osd_update_time;
-
 }
 
 void game_print_header(void) {
@@ -333,7 +332,7 @@ void game_loop(void) {
       }
     }
     ++loop_count;
-		++l_fps;
+    ++l_fps;
     game_ugly_back = 0;
   }
   if (score_osd_col[0] != 0xFF) {
@@ -398,9 +397,9 @@ void game_bonus_clock(void) {
   } else {
     if (phase_left > 0) {
       if (game_check_time(frame_time, 10)) {
-				zx_print_bonus_time(23, 14, tmp_ui);
+        zx_print_bonus_time(23, 14, tmp_ui);
         frame_time = zx_clock();
-        //game_paint_attrib_lin(14, 14 + 6, 2 * 8 + 8);
+        // game_paint_attrib_lin(14, 14 + 6, 2 * 8 + 8);
       }
     }
     /* end bonus! */
@@ -634,17 +633,32 @@ unsigned char game_enemy_add1(unsigned char f_class) __z88dk_fastcall {
     }
     s_col0 = s_col1;
   }
-  if (ay_is_playing() < AY_PLAYING_FOREGROUND) {
-    if (f_class != COIN_1) {
-      ay_fx_play(ay_effect_04);
-    } else {
-      ay_fx_play(ay_effect_07);
-    }
-  }
+
+  game_enter_sound(f_class);
+
   entry_time = zx_clock();
   enemy_init(tmp, s_lin0 + tmp_uc, s_col0, f_class, tmp1);
 
   return 0;
+}
+
+void game_enter_sound(unsigned char f_class) __z88dk_fastcall {
+  if (ay_is_playing() < AY_PLAYING_FOREGROUND) {
+    if (f_class == COIN_1) {
+      ay_fx_play(ay_effect_07);
+    }
+    if (f_class == SHELLCREEPER_GREEN || f_class == SHELLCREEPER_BLUE ||
+        f_class == SHELLCREEPER_RED) {
+      ay_fx_play(ay_effect_04);
+    }
+    if (f_class == SIDESTEPPER_GREEN || f_class == SIDESTEPPER_MAGENTA ||
+        f_class == SIDESTEPPER_RED) {
+      ay_fx_play(ay_effect_07);
+    }
+    if (f_class == FIGHTERFLY) {
+      ay_fx_play(ay_effect_13);
+    }
+  }
 }
 
 unsigned char
@@ -965,11 +979,12 @@ unsigned char game_menu_handle(unsigned char f_col, unsigned char f_inc,
 }
 
 void game_end(void) {
+
   unsigned char f_p1, f_p2;
   spr_kill_all();
   spr_draw_clear();
   ay_midi_play(pb_midi_title);
-  /* background */
+  // background
   tmp1 = 80;
   while (tmp1 <= 112) {
     for (tmp0 = 4; tmp0 < 28; tmp0 = tmp0 + 2)
@@ -993,38 +1008,38 @@ void game_end(void) {
     f_p1 = 1;
   }
 
-  /*pietro*/
+  // pietro
   if (f_p1 == 1 && f_p2 == 0) {
     zx_print_str(19, 1, "PIETRO...");
     NIRVANAP_drawT(TILE_P1_STANR, 80, 12);
   }
-  /*luizo*/
+  // luizo
   if (f_p1 == 0 && f_p2 == 1) {
     zx_print_str(19, 1, "LUIZO...");
     NIRVANAP_drawT(TILE_P1_STANR + 24, 96, 14);
   }
-  /* pietro and luizo */
+  // pietro and luizo
   if (f_p1 == 1 && f_p2 == 1) {
     zx_print_str(19, 1, "PIETRO AND LUIZO...");
     NIRVANAP_drawT(TILE_P1_STANR, 80, 12);
     NIRVANAP_drawT(TILE_P1_STANR + 24, 96, 14);
   }
   game_colour_message(19, 1, 31, 200);
-  /* pietro */
+  // pietro
   if (f_p1 == 1 && f_p2 == 0) {
     NIRVANAP_drawT(TILE_EXTRA, 64, 18);
     NIRVANAP_drawT(TILE_PRINCESS, 80, 18);
     zx_print_str(19, 1, "FOUND THE PRINCESS!");
     NIRVANAP_drawT(TILE_EXTRA, 64, 12);
   }
-  /* luizo */
+  // luizo
   if (f_p1 == 0 && f_p2 == 1) {
     NIRVANAP_drawT(TILE_EXTRA, 80, 18);
     NIRVANAP_drawT(TILE_PRINCESS, 96, 18);
     zx_print_str(19, 1, "FOUND THE PRINCESS!");
     NIRVANAP_drawT(TILE_EXTRA, 80, 14);
   }
-  /* pietro and luizo */
+  // pietro and luizo
   if (f_p1 == 1 && f_p2 == 1) {
     zx_print_str(19, 1, "FOUND THE PRINCESSES!");
     NIRVANAP_drawT(TILE_EXTRA, 64, 18);

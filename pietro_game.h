@@ -71,6 +71,8 @@ extern void          game_hall_print_p(unsigned char index, unsigned char frame)
 extern void          game_hall_print_p2(unsigned char index, char col, unsigned char frame);
 extern void          game_joystick_change(unsigned char f_player_index) __z88dk_fastcall;
 extern void          game_joystick_set(void);
+extern void          game_enter_sound(unsigned char f_class) __z88dk_fastcall;
+
 
 
 #endif

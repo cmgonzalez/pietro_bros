@@ -548,6 +548,7 @@ void spr_water_splash_draw( unsigned char f_col) __z88dk_fastcall {
 		spr_water_clear = f_col;
 		spr_water_time = zx_clock();
 		zx_print_paper(PAPER_BLACK);
+		if (phase_left > 0) ay_fx_play(ay_effect_08);
 	}
 }
 
